@@ -1,0 +1,17 @@
+Use Case: ArrangeShips 
+Scope: BattleShip
+Primary Actor: User
+Intention: Move ships to a position pleasing the User in preparation for the game.
+Level: Subfunction
+Multiplicity: One user moves one set of ships.
+Main Success Scenario:
+  1. System displays all the ships the User can place.
+  2. User selects a ship and clicks on the gamemap where it should go.
+  3. System verifies the position is valid.
+  4. System moves the ship to the indicated position and displays
+     this to the User.
+  5. System removes the ship from the list of ships to be placed.
+     If ships remain, Use Case continues at step 2.
+Extensions:
+  4a. System determines the position to be invalid.
+      Use Case continues at step 2.

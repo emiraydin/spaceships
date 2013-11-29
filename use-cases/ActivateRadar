@@ -1,0 +1,19 @@
+Use Case: ActivateRadar
+Scope: BattleShip
+Primary Actor: User
+Intention: The User wants to activate a radar ship's extended radar.
+Level: Subfunction
+Multiplicity: The User can only extend once per
+              turn per game.
+Main Success Scenario:
+  1. User selects a ship and informs System.
+  2. System highlights selected ship and displays menu of actions.
+  3. User selects "activate radar" from menu.
+     Use Case ends in success.
+Extensions:
+  1-5a. User informs System he would like to make a different move.
+        Use Case ends in success.
+  3-5. User informs System he would like to select a different ship.
+       Use Case continues at step 1.
+  3a. User selects "deactivate radar" from menu.
+      Use Case ends in success.
