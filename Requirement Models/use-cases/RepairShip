@@ -1,0 +1,24 @@
+Use Case: RepairShip
+Scope: BattleShip
+Primary Actor: User
+Intention: The User wants to repair a damaged ship.
+Level: Subfunction
+Multiplicity: The User can only repair a ship once per
+              turn per game.
+Main Success Scenario:
+  1. User selects a ship and informs System.
+  2. System highlights selected ship and displays menu of actions.
+  3. User selects "repair ship" from menu.
+  6. System verifies the ship is touching the base and is damaged.
+     Use Case ends in success.
+Extensions:
+  1-5a. User informs System he would like to make a different move.
+        Use Case ends in success.
+  3-5. User informs System he would like to select a different ship.
+       Use Case continues at step 1.
+  6a. System informs User he cannot repair this ship because it is
+      not touching his base.
+      Use Case continues at step 3.
+  6a. System informs User he cannot repair this ship because it is
+      not damaged.
+      Use Case continues at step 3.
