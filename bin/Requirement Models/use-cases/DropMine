@@ -1,0 +1,22 @@
+Use Case: DropMine
+Scope: BattleShip
+Primary Actor: User
+Intention: The User wants to drop a mine from a ship.
+Level: Subfunction
+Multiplicity: The User can only drop a mine once per
+              turn per game.
+Main Success Scenario:
+  1. User selects a ship and informs System.
+  2. System highlights selected ship and displays menu of actions.
+  3. User selects "drop mine" from menu.
+  4. System highlights valid mine drop squares.
+  5. User informs the System of his selection of target square.
+  6. System verifies the target is valid.
+     Use Case ends in success.
+Extensions:
+  1-5a. User informs System he would like to make a different move.
+        Use Case ends in success.
+  3-5. User informs System he would like to select a different ship.
+       Use Case continues at step 1.
+  6a. System informs User he made an invalid choice.
+      Use Case continues at step 5.
