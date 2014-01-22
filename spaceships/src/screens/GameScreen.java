@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.GL10;
 /**
  * The main gameplay screen. 
  * Where the actual gameplay occurs and the goal of winning the game takes place. 
- * @author vikramsundaram
  */
 public class GameScreen implements Screen 
 {

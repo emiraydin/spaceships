@@ -2,8 +2,6 @@ package gameLogic;
 
 /**
  * Class that contains all the constants that are integral in various portions of the project. 
- * @author vikramsundaram
- *
  */
 public class Constants
 {

@@ -15,8 +15,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  * Splash Screen for the Game. 
  * Initial Screen that the player sees when logging into the game. 
  * TODO: Develop an image file for the Splash Screen. 
- * @author vikramsundaram
- *
  */
 public class SplashScreen extends InputAdapter implements Screen 
 {

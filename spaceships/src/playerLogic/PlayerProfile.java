@@ -3,8 +3,6 @@ package playerLogic;
 /**
  * Encapsulates all the logic associated with the Player Object. 
  * Allows for convenient access to Profile, Name, Wins, Losses, Etc. 
- * @author vikramsundaram
- *
  */
 public class PlayerProfile
 {

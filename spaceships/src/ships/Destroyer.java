@@ -4,8 +4,6 @@ import java.util.LinkedList;
 
 /**
  * The Destroyer ship class. TODO: Come up with more badass names. 
- * @author vikramsundaram
- *
  */
 public class Destroyer extends AbstractShip
 {
@@ -20,6 +18,6 @@ public class Destroyer extends AbstractShip
 		this.shipArmor = shipArmorTypes.Light; 
 		this.shipWeapons = new LinkedList<shipWeaponTypes>(); 
 		this.shipWeapons.add(shipWeaponTypes.LightCannon);
-		this.shipWeapons.add(shipWeaponTypes.Torpedoe); 
+		this.shipWeapons.add(shipWeaponTypes.Torpedo); 
 	}
 }

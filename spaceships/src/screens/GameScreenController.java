@@ -11,8 +11,6 @@ import com.badlogic.gdx.math.MathUtils;
 
 /**
  * Handles Logical Control for the Game Screen. 
- * @author vikramsundaram
- *
  */
 public class GameScreenController extends InputAdapter
 {

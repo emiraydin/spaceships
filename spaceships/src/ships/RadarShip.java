@@ -4,8 +4,6 @@ import java.util.LinkedList;
 
 /**
  * Class for the RadarShip type. 
- * @author vikramsundaram
- *
  */
 public class RadarShip extends AbstractShip
 {

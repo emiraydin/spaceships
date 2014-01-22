@@ -4,8 +4,6 @@ import java.util.LinkedList;
 
 /**
  * The Cruiser Class Ship. TODO: Come up with a cooler name. 
- * @author vikramsundaram
- *
  */
 public class Cruiser extends AbstractShip
 {

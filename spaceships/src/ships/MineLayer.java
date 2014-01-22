@@ -4,8 +4,6 @@ import java.util.LinkedList;
 
 /**
  * Class for the MineLayer Class ship. 
- * @author vikramsundaram
- *
  */
 public class MineLayer extends AbstractShip
 {

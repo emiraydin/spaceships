@@ -7,8 +7,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
  * Handles Rendering for the Game Screen. 
- * @author vikramsundaram
- *
  */
 public class GameScreenRenderer
 {
@@ -16,7 +14,6 @@ public class GameScreenRenderer
 	private GameScreenController controller; 
 	private SpriteBatch batch; 
 	
-	// Das Camera
 	private OrthographicCamera camera; 
 	
 	public GameScreenRenderer(GameScreenController controller)

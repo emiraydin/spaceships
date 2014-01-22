@@ -3,9 +3,7 @@ package ships;
 import java.util.LinkedList;
 
 /**
- * The Class for the Torpedoe Ship type vessel. 
- * @author vikramsundaram
- *
+ * The Class for the Torpedo Ship type vessel. 
  */
 public class TorpedoeShip extends AbstractShip
 {
@@ -21,6 +19,6 @@ public class TorpedoeShip extends AbstractShip
 		this.shipArmor = shipArmorTypes.Light; 
 		this.shipWeapons = new LinkedList<shipWeaponTypes>(); 
 		this.shipWeapons.add(shipWeaponTypes.LightCannon);
-		this.shipWeapons.add(shipWeaponTypes.Torpedoe); 
+		this.shipWeapons.add(shipWeaponTypes.Torpedo); 
 	}
 }

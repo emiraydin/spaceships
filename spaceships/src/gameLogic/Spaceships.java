@@ -14,8 +14,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
  * Main Class, However action is delegated to various screens. 
- * @author vikramsundaram
- *
  */
 public class Spaceships extends Game implements ApplicationListener 
 {
