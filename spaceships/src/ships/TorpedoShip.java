@@ -5,14 +5,14 @@ import java.util.LinkedList;
 /**
  * The Class for the Torpedo Ship type vessel. 
  */
-public class TorpedoeShip extends AbstractShip
+public class TorpedoShip extends AbstractShip
 {
 
 	/**
 	 * Default constructor. 
 	 * Sets the basic properties for the Destroyer ship. 
 	 */
-	public TorpedoeShip()
+	public TorpedoShip()
 	{
 		this.shipSize = 3; 
 		this.shipSpeed = 9; 
