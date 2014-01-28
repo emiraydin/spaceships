@@ -1,4 +1,4 @@
-package gameLogic.graphics;
+package view;
 
 //import renderer.ObjectController;
 

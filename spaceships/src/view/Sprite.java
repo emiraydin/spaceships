@@ -1,9 +1,9 @@
-package gameLogic.graphics;
+package view;
+
+import view.ImageController;
 
 import com.badlogic.gdx.graphics.Texture;
 
-import gameLogic.graphics.ImageController;
-//import renderer.ObjectController;
 
 public class Sprite extends Graphic {
 

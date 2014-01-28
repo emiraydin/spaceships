@@ -1,4 +1,4 @@
-package gameLogic.graphics;
+package view;
 
 import com.badlogic.gdx.math.Vector2;
 
