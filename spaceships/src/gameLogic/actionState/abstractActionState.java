@@ -3,14 +3,14 @@ package gameLogic.actionState;
 /**
  * An abstract class to define an action state.  Ex: Moving ship, moving torpedo, etc.
  */
-public abstract class abstractActionState {
+public abstract class AbstractActionState {
     private Object actor = null;
 
     /**
      * Specify the actor.
      * @param pActor The actor whose state this is.
      */
-    public abstractActionState(Object pActor) {
+    public AbstractActionState(Object pActor) {
         this.actor = pActor;
     }
 
