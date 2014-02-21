@@ -89,15 +89,42 @@
         </void>
         <void method="addChild">
          <object class="com.horstmann.violet.CallNode" id="ActivationBarNode5">
+          <void method="addChild">
+           <object class="com.horstmann.violet.CallNode" id="ActivationBarNode6">
+            <void property="implicitParameter">
+             <object idref="LifelineNode2"/>
+            </void>
+           </object>
+          </void>
           <void property="implicitParameter">
            <object idref="LifelineNode2"/>
           </void>
          </object>
         </void>
         <void method="addChild">
-         <object class="com.horstmann.violet.CallNode" id="ActivationBarNode6">
+         <object class="com.horstmann.violet.CallNode" id="ActivationBarNode7">
           <void property="implicitParameter">
            <object class="com.horstmann.violet.ImplicitParameterNode" id="LifelineNode3">
+            <void property="name">
+             <void property="text">
+              <string>ship : AbstractShip</string>
+             </void>
+            </void>
+           </object>
+          </void>
+         </object>
+        </void>
+        <void method="addChild">
+         <object class="com.horstmann.violet.CallNode" id="ActivationBarNode8">
+          <void property="implicitParameter">
+           <object idref="LifelineNode3"/>
+          </void>
+         </object>
+        </void>
+        <void method="addChild">
+         <object class="com.horstmann.violet.CallNode" id="ActivationBarNode9">
+          <void property="implicitParameter">
+           <object class="com.horstmann.violet.ImplicitParameterNode" id="LifelineNode4">
             <void property="name">
              <void property="text">
               <string>global : GameBoard</string>
@@ -108,7 +135,7 @@
          </object>
         </void>
         <void method="addChild">
-         <object class="com.horstmann.violet.CallNode" id="ActivationBarNode7">
+         <object class="com.horstmann.violet.CallNode" id="ActivationBarNode10">
           <void property="implicitParameter">
            <object idref="LifelineNode2"/>
           </void>
@@ -219,17 +246,17 @@
    </object>
   </void>
   <void method="addNode">
-   <object idref="LifelineNode3"/>
+   <object idref="LifelineNode4"/>
    <object class="java.awt.geom.Point2D$Double" id="Point2D$Double7">
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double7"/>
-      <double>1123.0</double>
+      <double>1346.0</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>1123.0</double>
+     <double>1346.0</double>
      <double>0.0</double>
     </void>
    </object>
@@ -258,60 +285,53 @@
    </object>
   </void>
   <void method="addNode">
-   <object idref="ActivationBarNode6"/>
+   <object idref="ActivationBarNode9"/>
    <object class="java.awt.geom.Point2D$Double" id="Point2D$Double9">
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double9"/>
-      <double>1155.0</double>
+      <double>1378.0</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double9"/>
-      <double>323.0</double>
+      <double>477.0</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>1155.0</double>
-     <double>323.0</double>
+     <double>1378.0</double>
+     <double>477.0</double>
     </void>
    </object>
   </void>
   <void method="addNode">
-   <object class="com.horstmann.violet.NoteNode" id="NoteNode0">
-    <void property="text">
-     <void property="text">
-      <string>loop for each position 
-in oldOccupiedTiles </string>
-     </void>
-    </void>
-   </object>
+   <object idref="ActivationBarNode4"/>
    <object class="java.awt.geom.Point2D$Double" id="Point2D$Double10">
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double10"/>
-      <double>648.0</double>
+      <double>840.0</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double10"/>
-      <double>308.0</double>
+      <double>212.0</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>648.0</double>
-     <double>308.0</double>
+     <double>840.0</double>
+     <double>212.0</double>
     </void>
    </object>
   </void>
   <void method="addNode">
-   <object idref="ActivationBarNode4"/>
+   <object idref="ActivationBarNode10"/>
    <object class="java.awt.geom.Point2D$Double" id="Point2D$Double11">
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>x</string>
@@ -324,73 +344,50 @@ in oldOccupiedTiles </string>
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double11"/>
-      <double>212.0</double>
+      <double>535.0</double>
      </void>
     </void>
     <void method="setLocation">
      <double>840.0</double>
-     <double>212.0</double>
+     <double>535.0</double>
     </void>
    </object>
   </void>
   <void method="addNode">
-   <object idref="ActivationBarNode7"/>
-   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double12">
-    <void class="java.awt.geom.Point2D$Double" method="getField">
-     <string>x</string>
-     <void method="set">
-      <object idref="Point2D$Double12"/>
-      <double>840.0</double>
-     </void>
-    </void>
-    <void class="java.awt.geom.Point2D$Double" method="getField">
-     <string>y</string>
-     <void method="set">
-      <object idref="Point2D$Double12"/>
-      <double>381.0</double>
-     </void>
-    </void>
-    <void method="setLocation">
-     <double>840.0</double>
-     <double>381.0</double>
-    </void>
-   </object>
-  </void>
-  <void method="addNode">
-   <object class="com.horstmann.violet.NoteNode" id="NoteNode1">
+   <object class="com.horstmann.violet.NoteNode" id="NoteNode0">
     <void property="text">
      <void property="text">
       <string>if valid</string>
      </void>
     </void>
    </object>
-   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double13">
+   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double12">
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>x</string>
      <void method="set">
-      <object idref="Point2D$Double13"/>
-      <double>519.0</double>
+      <object idref="Point2D$Double12"/>
+      <double>501.0</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
-      <object idref="Point2D$Double13"/>
-      <double>329.0</double>
+      <object idref="Point2D$Double12"/>
+      <double>280.0</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>519.0</double>
-     <double>329.0</double>
+     <double>501.0</double>
+     <double>280.0</double>
     </void>
    </object>
   </void>
   <void method="addNode">
-   <object class="com.horstmann.violet.PointNode" id="PointNode0">
+   <object class="com.horstmann.violet.PointNode">
     <void id="Rectangle2D$Double0" property="bounds">
      <void method="setRect">
-      <double>826.0</double>
-      <double>359.0</double>
+      <double>829.0</double>
+      <double>475.0</double>
       <double>0.0</double>
       <double>0.0</double>
      </void>
@@ -399,33 +396,33 @@ in oldOccupiedTiles </string>
      <object idref="Rectangle2D$Double0"/>
     </void>
    </object>
-   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double14">
+   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double13">
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>x</string>
      <void method="set">
-      <object idref="Point2D$Double14"/>
-      <double>826.0</double>
+      <object idref="Point2D$Double13"/>
+      <double>829.0</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
-      <object idref="Point2D$Double14"/>
-      <double>359.0</double>
+      <object idref="Point2D$Double13"/>
+      <double>475.0</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>826.0</double>
-     <double>359.0</double>
+     <double>829.0</double>
+     <double>475.0</double>
     </void>
    </object>
   </void>
   <void method="addNode">
-   <object class="com.horstmann.violet.PointNode" id="PointNode1">
+   <object class="com.horstmann.violet.PointNode">
     <void id="Rectangle2D$Double1" property="bounds">
      <void method="setRect">
-      <double>824.0</double>
-      <double>312.0</double>
+      <double>833.0</double>
+      <double>352.0</double>
       <double>0.0</double>
       <double>0.0</double>
      </void>
@@ -434,33 +431,33 @@ in oldOccupiedTiles </string>
      <object idref="Rectangle2D$Double1"/>
     </void>
    </object>
-   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double15">
+   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double14">
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>x</string>
      <void method="set">
-      <object idref="Point2D$Double15"/>
-      <double>824.0</double>
+      <object idref="Point2D$Double14"/>
+      <double>833.0</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
-      <object idref="Point2D$Double15"/>
-      <double>312.0</double>
+      <object idref="Point2D$Double14"/>
+      <double>352.0</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>824.0</double>
-     <double>312.0</double>
+     <double>833.0</double>
+     <double>352.0</double>
     </void>
    </object>
   </void>
   <void method="addNode">
-   <object class="com.horstmann.violet.PointNode" id="PointNode2">
+   <object class="com.horstmann.violet.PointNode" id="PointNode0">
     <void id="Rectangle2D$Double2" property="bounds">
      <void method="setRect">
-      <double>820.0</double>
-      <double>302.0</double>
+      <double>834.0</double>
+      <double>343.0</double>
       <double>0.0</double>
       <double>0.0</double>
      </void>
@@ -469,33 +466,33 @@ in oldOccupiedTiles </string>
      <object idref="Rectangle2D$Double2"/>
     </void>
    </object>
-   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double16">
+   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double15">
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>x</string>
      <void method="set">
-      <object idref="Point2D$Double16"/>
-      <double>820.0</double>
+      <object idref="Point2D$Double15"/>
+      <double>834.0</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
-      <object idref="Point2D$Double16"/>
-      <double>302.0</double>
+      <object idref="Point2D$Double15"/>
+      <double>343.0</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>820.0</double>
-     <double>302.0</double>
+     <double>834.0</double>
+     <double>343.0</double>
     </void>
    </object>
   </void>
   <void method="addNode">
-   <object class="com.horstmann.violet.PointNode" id="PointNode3">
+   <object class="com.horstmann.violet.PointNode" id="PointNode1">
     <void id="Rectangle2D$Double3" property="bounds">
      <void method="setRect">
-      <double>818.0</double>
-      <double>422.0</double>
+      <double>831.0</double>
+      <double>480.0</double>
       <double>0.0</double>
       <double>0.0</double>
      </void>
@@ -504,24 +501,220 @@ in oldOccupiedTiles </string>
      <object idref="Rectangle2D$Double3"/>
     </void>
    </object>
+   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double16">
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>x</string>
+     <void method="set">
+      <object idref="Point2D$Double16"/>
+      <double>831.0</double>
+     </void>
+    </void>
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>y</string>
+     <void method="set">
+      <object idref="Point2D$Double16"/>
+      <double>480.0</double>
+     </void>
+    </void>
+    <void method="setLocation">
+     <double>831.0</double>
+     <double>480.0</double>
+    </void>
+   </object>
+  </void>
+  <void method="addNode">
+   <object idref="ActivationBarNode6"/>
    <object class="java.awt.geom.Point2D$Double" id="Point2D$Double17">
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double17"/>
-      <double>818.0</double>
+      <double>848.0</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double17"/>
-      <double>422.0</double>
+      <double>298.0</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>818.0</double>
-     <double>422.0</double>
+     <double>848.0</double>
+     <double>298.0</double>
+    </void>
+   </object>
+  </void>
+  <void method="addNode">
+   <object idref="LifelineNode3"/>
+   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double18">
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>x</string>
+     <void method="set">
+      <object idref="Point2D$Double18"/>
+      <double>1218.0</double>
+     </void>
+    </void>
+    <void method="setLocation">
+     <double>1218.0</double>
+     <double>0.0</double>
+    </void>
+   </object>
+  </void>
+  <void method="addNode">
+   <object idref="ActivationBarNode7"/>
+   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double19">
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>x</string>
+     <void method="set">
+      <object idref="Point2D$Double19"/>
+      <double>1250.0</double>
+     </void>
+    </void>
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>y</string>
+     <void method="set">
+      <object idref="Point2D$Double19"/>
+      <double>371.0</double>
+     </void>
+    </void>
+    <void method="setLocation">
+     <double>1250.0</double>
+     <double>371.0</double>
+    </void>
+   </object>
+  </void>
+  <void method="addNode">
+   <object idref="ActivationBarNode8"/>
+   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double20">
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>x</string>
+     <void method="set">
+      <object idref="Point2D$Double20"/>
+      <double>1250.0</double>
+     </void>
+    </void>
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>y</string>
+     <void method="set">
+      <object idref="Point2D$Double20"/>
+      <double>424.0</double>
+     </void>
+    </void>
+    <void method="setLocation">
+     <double>1250.0</double>
+     <double>424.0</double>
+    </void>
+   </object>
+  </void>
+  <void method="addNode">
+   <object class="com.horstmann.violet.NoteNode" id="NoteNode1">
+    <void property="color">
+     <object class="java.awt.Color">
+      <int>255</int>
+      <int>239</int>
+      <int>213</int>
+      <int>255</int>
+     </object>
+    </void>
+    <void property="text">
+     <void property="text">
+      <string>Calculate internally
+which tiles this ship
+occupies. (using length and orientation)
+Loop for each of these tiles
+</string>
+     </void>
+    </void>
+   </object>
+   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double21">
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>x</string>
+     <void method="set">
+      <object idref="Point2D$Double21"/>
+      <double>512.0</double>
+     </void>
+    </void>
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>y</string>
+     <void method="set">
+      <object idref="Point2D$Double21"/>
+      <double>459.0</double>
+     </void>
+    </void>
+    <void method="setLocation">
+     <double>512.0</double>
+     <double>459.0</double>
+    </void>
+   </object>
+  </void>
+  <void method="addNode">
+   <object class="com.horstmann.violet.PointNode" id="PointNode2">
+    <void id="Rectangle2D$Double4" property="bounds">
+     <void method="setRect">
+      <double>858.0</double>
+      <double>478.0</double>
+      <double>0.0</double>
+      <double>0.0</double>
+     </void>
+    </void>
+    <void property="bounds">
+     <object idref="Rectangle2D$Double4"/>
+    </void>
+   </object>
+   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double22">
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>x</string>
+     <void method="set">
+      <object idref="Point2D$Double22"/>
+      <double>858.0</double>
+     </void>
+    </void>
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>y</string>
+     <void method="set">
+      <object idref="Point2D$Double22"/>
+      <double>478.0</double>
+     </void>
+    </void>
+    <void method="setLocation">
+     <double>858.0</double>
+     <double>478.0</double>
+    </void>
+   </object>
+  </void>
+  <void method="addNode">
+   <object class="com.horstmann.violet.PointNode" id="PointNode3">
+    <void id="Rectangle2D$Double5" property="bounds">
+     <void method="setRect">
+      <double>844.0</double>
+      <double>507.0</double>
+      <double>0.0</double>
+      <double>0.0</double>
+     </void>
+    </void>
+    <void property="bounds">
+     <object idref="Rectangle2D$Double5"/>
+    </void>
+   </object>
+   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double23">
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>x</string>
+     <void method="set">
+      <object idref="Point2D$Double23"/>
+      <double>844.0</double>
+     </void>
+    </void>
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>y</string>
+     <void method="set">
+      <object idref="Point2D$Double23"/>
+      <double>507.0</double>
+     </void>
+    </void>
+    <void method="setLocation">
+     <double>844.0</double>
+     <double>507.0</double>
     </void>
    </object>
   </void>
@@ -555,7 +748,7 @@ in oldOccupiedTiles </string>
   <void method="connect">
    <object class="com.horstmann.violet.CallEdge">
     <void property="middleLabel">
-     <string>isValidPlacement(int x, int y, AbstractShip ship)</string>
+     <string>isValidPlacement(int x, int y, AbstractShip ship) : Boolean isValid</string>
     </void>
    </object>
    <object idref="ActivationBarNode3"/>
@@ -568,17 +761,17 @@ in oldOccupiedTiles </string>
     </void>
    </object>
    <object idref="ActivationBarNode3"/>
-   <object idref="ActivationBarNode6"/>
+   <object idref="ActivationBarNode9"/>
   </void>
   <void method="connect">
    <object class="com.horstmann.violet.ReturnEdge"/>
-   <object idref="ActivationBarNode6"/>
+   <object idref="ActivationBarNode9"/>
    <object idref="ActivationBarNode3"/>
   </void>
   <void method="connect">
    <object class="com.horstmann.violet.CallEdge">
     <void property="middleLabel">
-     <string>getShip(int shipID)</string>
+     <string>getShip(int shipID) : AbstractShip ship</string>
     </void>
    </object>
    <object idref="ActivationBarNode3"/>
@@ -591,7 +784,7 @@ in oldOccupiedTiles </string>
     </void>
    </object>
    <object idref="ActivationBarNode3"/>
-   <object idref="ActivationBarNode7"/>
+   <object idref="ActivationBarNode10"/>
   </void>
   <void method="connect">
    <object class="com.horstmann.violet.NoteEdge"/>
@@ -604,16 +797,6 @@ in oldOccupiedTiles </string>
    <object idref="PointNode1"/>
   </void>
   <void method="connect">
-   <object class="com.horstmann.violet.NoteEdge"/>
-   <object idref="NoteNode1"/>
-   <object idref="PointNode2"/>
-  </void>
-  <void method="connect">
-   <object class="com.horstmann.violet.NoteEdge"/>
-   <object idref="NoteNode1"/>
-   <object idref="PointNode3"/>
-  </void>
-  <void method="connect">
    <object class="com.horstmann.violet.ReturnEdge"/>
    <object idref="ActivationBarNode3"/>
    <object idref="ActivationBarNode1"/>
@@ -622,6 +805,63 @@ in oldOccupiedTiles </string>
    <object class="com.horstmann.violet.ReturnEdge"/>
    <object idref="ActivationBarNode1"/>
    <object idref="ActivationBarNode0"/>
+  </void>
+  <void method="connect">
+   <object class="com.horstmann.violet.CallEdge">
+    <void property="middleLabel">
+     <string>Check if (x,y) is within one tile of a Base Tile</string>
+    </void>
+   </object>
+   <object idref="ActivationBarNode5"/>
+   <object idref="ActivationBarNode6"/>
+  </void>
+  <void method="connect">
+   <object class="com.horstmann.violet.CallEdge">
+    <void property="middleLabel">
+     <string>getLength() : int</string>
+    </void>
+   </object>
+   <object idref="ActivationBarNode3"/>
+   <object idref="ActivationBarNode7"/>
+  </void>
+  <void method="connect">
+   <object class="com.horstmann.violet.ReturnEdge"/>
+   <object idref="ActivationBarNode7"/>
+   <object idref="ActivationBarNode3"/>
+  </void>
+  <void method="connect">
+   <object class="com.horstmann.violet.ReturnEdge"/>
+   <object idref="ActivationBarNode3"/>
+   <object idref="ActivationBarNode1"/>
+  </void>
+  <void method="connect">
+   <object class="com.horstmann.violet.ReturnEdge"/>
+   <object idref="ActivationBarNode3"/>
+   <object idref="ActivationBarNode1"/>
+  </void>
+  <void method="connect">
+   <object class="com.horstmann.violet.CallEdge">
+    <void property="middleLabel">
+     <string>getOrientation() : OrientationType</string>
+    </void>
+   </object>
+   <object idref="ActivationBarNode3"/>
+   <object idref="ActivationBarNode8"/>
+  </void>
+  <void method="connect">
+   <object class="com.horstmann.violet.ReturnEdge"/>
+   <object idref="ActivationBarNode8"/>
+   <object idref="ActivationBarNode3"/>
+  </void>
+  <void method="connect">
+   <object class="com.horstmann.violet.NoteEdge"/>
+   <object idref="NoteNode1"/>
+   <object idref="PointNode2"/>
+  </void>
+  <void method="connect">
+   <object class="com.horstmann.violet.NoteEdge"/>
+   <object idref="NoteNode1"/>
+   <object idref="PointNode3"/>
   </void>
  </object>
 </java>

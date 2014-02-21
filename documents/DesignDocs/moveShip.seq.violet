@@ -1218,6 +1218,35 @@ newOccupiedTiles</string>
     </void>
    </object>
   </void>
+  <void method="addNode">
+   <object class="com.horstmann.violet.NoteNode">
+    <void property="text">
+     <void property="text">
+      <string>See checkShipDeaths() sequence</string>
+     </void>
+    </void>
+   </object>
+   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double40">
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>x</string>
+     <void method="set">
+      <object idref="Point2D$Double40"/>
+      <double>411.0</double>
+     </void>
+    </void>
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>y</string>
+     <void method="set">
+      <object idref="Point2D$Double40"/>
+      <double>996.0</double>
+     </void>
+    </void>
+    <void method="setLocation">
+     <double>411.0</double>
+     <double>996.0</double>
+    </void>
+   </object>
+  </void>
   <void method="connect">
    <object class="com.horstmann.violet.CallEdge">
     <void property="middleLabel">

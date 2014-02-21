@@ -66,6 +66,13 @@
       </void>
       <void method="addChild">
        <object class="com.horstmann.violet.CallNode" id="ActivationBarNode7">
+        <void method="addChild">
+         <object class="com.horstmann.violet.CallNode" id="ActivationBarNode8">
+          <void property="implicitParameter">
+           <object idref="LifelineNode1"/>
+          </void>
+         </object>
+        </void>
         <void property="implicitParameter">
          <object idref="LifelineNode1"/>
         </void>
@@ -371,7 +378,7 @@ range</string>
    </object>
   </void>
   <void method="addNode">
-   <object class="com.horstmann.violet.NoteNode" id="NoteNode2">
+   <object class="com.horstmann.violet.NoteNode">
     <void property="text">
      <void property="text">
       <string>Mine is added 
@@ -384,19 +391,19 @@ to mine list</string>
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double12"/>
-      <double>880.0</double>
+      <double>901.0</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double12"/>
-      <double>394.0</double>
+      <double>432.0</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>880.0</double>
-     <double>394.0</double>
+     <double>901.0</double>
+     <double>432.0</double>
     </void>
    </object>
   </void>
@@ -404,8 +411,8 @@ to mine list</string>
    <object class="com.horstmann.violet.PointNode" id="PointNode2">
     <void id="Rectangle2D$Double2" property="bounds">
      <void method="setRect">
-      <double>836.0</double>
-      <double>411.0</double>
+      <double>502.0</double>
+      <double>229.0</double>
       <double>0.0</double>
       <double>0.0</double>
      </void>
@@ -419,19 +426,19 @@ to mine list</string>
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double13"/>
-      <double>836.0</double>
+      <double>502.0</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double13"/>
-      <double>411.0</double>
+      <double>229.0</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>836.0</double>
-     <double>411.0</double>
+     <double>502.0</double>
+     <double>229.0</double>
     </void>
    </object>
   </void>
@@ -440,7 +447,7 @@ to mine list</string>
     <void id="Rectangle2D$Double3" property="bounds">
      <void method="setRect">
       <double>502.0</double>
-      <double>229.0</double>
+      <double>428.0</double>
       <double>0.0</double>
       <double>0.0</double>
      </void>
@@ -461,41 +468,6 @@ to mine list</string>
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double14"/>
-      <double>229.0</double>
-     </void>
-    </void>
-    <void method="setLocation">
-     <double>502.0</double>
-     <double>229.0</double>
-    </void>
-   </object>
-  </void>
-  <void method="addNode">
-   <object class="com.horstmann.violet.PointNode" id="PointNode4">
-    <void id="Rectangle2D$Double4" property="bounds">
-     <void method="setRect">
-      <double>502.0</double>
-      <double>428.0</double>
-      <double>0.0</double>
-      <double>0.0</double>
-     </void>
-    </void>
-    <void property="bounds">
-     <object idref="Rectangle2D$Double4"/>
-    </void>
-   </object>
-   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double15">
-    <void class="java.awt.geom.Point2D$Double" method="getField">
-     <string>x</string>
-     <void method="set">
-      <object idref="Point2D$Double15"/>
-      <double>502.0</double>
-     </void>
-    </void>
-    <void class="java.awt.geom.Point2D$Double" method="getField">
-     <string>y</string>
-     <void method="set">
-      <object idref="Point2D$Double15"/>
       <double>428.0</double>
      </void>
     </void>
@@ -507,11 +479,11 @@ to mine list</string>
   </void>
   <void method="addNode">
    <object idref="LifelineNode3"/>
-   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double16">
+   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double15">
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>x</string>
      <void method="set">
-      <object idref="Point2D$Double16"/>
+      <object idref="Point2D$Double15"/>
       <double>1130.0</double>
      </void>
     </void>
@@ -523,6 +495,29 @@ to mine list</string>
   </void>
   <void method="addNode">
    <object idref="ActivationBarNode5"/>
+   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double16">
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>x</string>
+     <void method="set">
+      <object idref="Point2D$Double16"/>
+      <double>1162.0</double>
+     </void>
+    </void>
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>y</string>
+     <void method="set">
+      <object idref="Point2D$Double16"/>
+      <double>290.0</double>
+     </void>
+    </void>
+    <void method="setLocation">
+     <double>1162.0</double>
+     <double>290.0</double>
+    </void>
+   </object>
+  </void>
+  <void method="addNode">
+   <object idref="ActivationBarNode6"/>
    <object class="java.awt.geom.Point2D$Double" id="Point2D$Double17">
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>x</string>
@@ -535,29 +530,6 @@ to mine list</string>
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double17"/>
-      <double>290.0</double>
-     </void>
-    </void>
-    <void method="setLocation">
-     <double>1162.0</double>
-     <double>290.0</double>
-    </void>
-   </object>
-  </void>
-  <void method="addNode">
-   <object idref="ActivationBarNode6"/>
-   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double18">
-    <void class="java.awt.geom.Point2D$Double" method="getField">
-     <string>x</string>
-     <void method="set">
-      <object idref="Point2D$Double18"/>
-      <double>1162.0</double>
-     </void>
-    </void>
-    <void class="java.awt.geom.Point2D$Double" method="getField">
-     <string>y</string>
-     <void method="set">
-      <object idref="Point2D$Double18"/>
       <double>343.0</double>
      </void>
     </void>
@@ -569,24 +541,47 @@ to mine list</string>
   </void>
   <void method="addNode">
    <object idref="ActivationBarNode4"/>
-   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double19">
+   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double18">
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>x</string>
      <void method="set">
-      <object idref="Point2D$Double19"/>
+      <object idref="Point2D$Double18"/>
       <double>133.0</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
-      <object idref="Point2D$Double19"/>
+      <object idref="Point2D$Double18"/>
       <double>237.0</double>
      </void>
     </void>
     <void method="setLocation">
      <double>133.0</double>
      <double>237.0</double>
+    </void>
+   </object>
+  </void>
+  <void method="addNode">
+   <object idref="ActivationBarNode8"/>
+   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double19">
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>x</string>
+     <void method="set">
+      <object idref="Point2D$Double19"/>
+      <double>835.0</double>
+     </void>
+    </void>
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>y</string>
+     <void method="set">
+      <object idref="Point2D$Double19"/>
+      <double>424.0</double>
+     </void>
+    </void>
+    <void method="setLocation">
+     <double>835.0</double>
+     <double>424.0</double>
     </void>
    </object>
   </void>
@@ -657,18 +652,13 @@ to mine list</string>
   </void>
   <void method="connect">
    <object class="com.horstmann.violet.NoteEdge"/>
-   <object idref="NoteNode2"/>
+   <object idref="NoteNode1"/>
    <object idref="PointNode2"/>
   </void>
   <void method="connect">
    <object class="com.horstmann.violet.NoteEdge"/>
    <object idref="NoteNode1"/>
    <object idref="PointNode3"/>
-  </void>
-  <void method="connect">
-   <object class="com.horstmann.violet.NoteEdge"/>
-   <object idref="NoteNode1"/>
-   <object idref="PointNode4"/>
   </void>
   <void method="connect">
    <object class="com.horstmann.violet.CallEdge">
@@ -715,6 +705,15 @@ to mine list</string>
    </object>
    <object idref="ActivationBarNode4"/>
    <object idref="ActivationBarNode1"/>
+  </void>
+  <void method="connect">
+   <object class="com.horstmann.violet.CallEdge">
+    <void property="middleLabel">
+     <string>addMine(mine)</string>
+    </void>
+   </object>
+   <object idref="ActivationBarNode7"/>
+   <object idref="ActivationBarNode8"/>
   </void>
  </object>
 </java>

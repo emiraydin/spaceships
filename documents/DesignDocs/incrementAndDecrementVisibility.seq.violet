@@ -93,7 +93,7 @@
       <void method="addChild">
        <object class="com.horstmann.violet.CallNode" id="ActivationBarNode7">
         <void property="implicitParameter">
-         <object idref="LifelineNode2"/>
+         <object idref="LifelineNode1"/>
         </void>
        </object>
       </void>
@@ -101,6 +101,20 @@
        <object class="com.horstmann.violet.CallNode" id="ActivationBarNode8">
         <void property="implicitParameter">
          <object idref="LifelineNode2"/>
+        </void>
+       </object>
+      </void>
+      <void method="addChild">
+       <object class="com.horstmann.violet.CallNode" id="ActivationBarNode9">
+        <void property="implicitParameter">
+         <object idref="LifelineNode2"/>
+        </void>
+       </object>
+      </void>
+      <void method="addChild">
+       <object class="com.horstmann.violet.CallNode" id="ActivationBarNode10">
+        <void property="implicitParameter">
+         <object idref="LifelineNode1"/>
         </void>
        </object>
       </void>
@@ -159,6 +173,14 @@
   </void>
   <void method="addNode">
    <object class="com.horstmann.violet.NoteNode">
+    <void property="color">
+     <object class="java.awt.Color">
+      <int>127</int>
+      <int>255</int>
+      <int>212</int>
+      <int>255</int>
+     </object>
+    </void>
     <void property="text">
      <void property="text">
       <string>decrementVisiblity is the same,
@@ -171,7 +193,7 @@ except the number is subtracted</string>
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double4"/>
-      <double>875.0</double>
+      <double>942.0</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
@@ -182,7 +204,7 @@ except the number is subtracted</string>
      </void>
     </void>
     <void method="setLocation">
-     <double>875.0</double>
+     <double>942.0</double>
      <double>25.0</double>
     </void>
    </object>
@@ -194,11 +216,11 @@ except the number is subtracted</string>
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double5"/>
-      <double>784.0</double>
+      <double>783.0</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>784.0</double>
+     <double>783.0</double>
      <double>0.0</double>
     </void>
    </object>
@@ -210,7 +232,7 @@ except the number is subtracted</string>
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double6"/>
-      <double>816.0</double>
+      <double>815.0</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
@@ -221,7 +243,7 @@ except the number is subtracted</string>
      </void>
     </void>
     <void method="setLocation">
-     <double>816.0</double>
+     <double>815.0</double>
      <double>285.0</double>
     </void>
    </object>
@@ -233,7 +255,7 @@ except the number is subtracted</string>
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double7"/>
-      <double>816.0</double>
+      <double>815.0</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
@@ -244,54 +266,54 @@ except the number is subtracted</string>
      </void>
     </void>
     <void method="setLocation">
-     <double>816.0</double>
+     <double>815.0</double>
      <double>338.0</double>
     </void>
    </object>
   </void>
   <void method="addNode">
-   <object idref="ActivationBarNode7"/>
+   <object idref="ActivationBarNode8"/>
    <object class="java.awt.geom.Point2D$Double" id="Point2D$Double8">
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double8"/>
-      <double>816.0</double>
+      <double>815.0</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double8"/>
-      <double>391.0</double>
+      <double>449.0</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>816.0</double>
-     <double>391.0</double>
+     <double>815.0</double>
+     <double>449.0</double>
     </void>
    </object>
   </void>
   <void method="addNode">
-   <object idref="ActivationBarNode8"/>
+   <object idref="ActivationBarNode9"/>
    <object class="java.awt.geom.Point2D$Double" id="Point2D$Double9">
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double9"/>
-      <double>816.0</double>
+      <double>815.0</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double9"/>
-      <double>444.0</double>
+      <double>502.0</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>816.0</double>
-     <double>444.0</double>
+     <double>815.0</double>
+     <double>502.0</double>
     </void>
    </object>
   </void>
@@ -364,7 +386,7 @@ are in the range of radar</string>
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double12"/>
-      <double>816.0</double>
+      <double>815.0</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
@@ -375,7 +397,7 @@ are in the range of radar</string>
      </void>
     </void>
     <void method="setLocation">
-     <double>816.0</double>
+     <double>815.0</double>
      <double>126.0</double>
     </void>
    </object>
@@ -387,7 +409,7 @@ are in the range of radar</string>
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double13"/>
-      <double>816.0</double>
+      <double>815.0</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
@@ -398,7 +420,7 @@ are in the range of radar</string>
      </void>
     </void>
     <void method="setLocation">
-     <double>816.0</double>
+     <double>815.0</double>
      <double>179.0</double>
     </void>
    </object>
@@ -410,7 +432,7 @@ are in the range of radar</string>
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double14"/>
-      <double>816.0</double>
+      <double>815.0</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
@@ -421,7 +443,7 @@ are in the range of radar</string>
      </void>
     </void>
     <void method="setLocation">
-     <double>816.0</double>
+     <double>815.0</double>
      <double>232.0</double>
     </void>
    </object>
@@ -430,8 +452,8 @@ are in the range of radar</string>
    <object class="com.horstmann.violet.PointNode" id="PointNode0">
     <void id="Rectangle2D$Double0" property="bounds">
      <void method="setRect">
-      <double>570.0</double>
-      <double>378.0</double>
+      <double>572.0</double>
+      <double>388.0</double>
       <double>0.0</double>
       <double>0.0</double>
      </void>
@@ -445,19 +467,19 @@ are in the range of radar</string>
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double15"/>
-      <double>570.0</double>
+      <double>572.0</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double15"/>
-      <double>378.0</double>
+      <double>388.0</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>570.0</double>
-     <double>378.0</double>
+     <double>572.0</double>
+     <double>388.0</double>
     </void>
    </object>
   </void>
@@ -465,8 +487,8 @@ are in the range of radar</string>
    <object class="com.horstmann.violet.PointNode" id="PointNode1">
     <void id="Rectangle2D$Double1" property="bounds">
      <void method="setRect">
-      <double>568.0</double>
-      <double>487.0</double>
+      <double>562.0</double>
+      <double>588.0</double>
       <double>0.0</double>
       <double>0.0</double>
      </void>
@@ -480,19 +502,65 @@ are in the range of radar</string>
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double16"/>
-      <double>568.0</double>
+      <double>562.0</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double16"/>
-      <double>487.0</double>
+      <double>588.0</double>
+     </void>
+    </void>
+    <void method="setLocation">
+     <double>562.0</double>
+     <double>588.0</double>
+    </void>
+   </object>
+  </void>
+  <void method="addNode">
+   <object idref="ActivationBarNode7"/>
+   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double17">
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>x</string>
+     <void method="set">
+      <object idref="Point2D$Double17"/>
+      <double>568.0</double>
+     </void>
+    </void>
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>y</string>
+     <void method="set">
+      <object idref="Point2D$Double17"/>
+      <double>396.0</double>
      </void>
     </void>
     <void method="setLocation">
      <double>568.0</double>
-     <double>487.0</double>
+     <double>396.0</double>
+    </void>
+   </object>
+  </void>
+  <void method="addNode">
+   <object idref="ActivationBarNode10"/>
+   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double18">
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>x</string>
+     <void method="set">
+      <object idref="Point2D$Double18"/>
+      <double>568.0</double>
+     </void>
+    </void>
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>y</string>
+     <void method="set">
+      <object idref="Point2D$Double18"/>
+      <double>560.0</double>
+     </void>
+    </void>
+    <void method="setLocation">
+     <double>568.0</double>
+     <double>560.0</double>
     </void>
    </object>
   </void>
@@ -530,7 +598,7 @@ are in the range of radar</string>
     </void>
    </object>
    <object idref="ActivationBarNode1"/>
-   <object idref="ActivationBarNode7"/>
+   <object idref="ActivationBarNode8"/>
   </void>
   <void method="connect">
    <object class="com.horstmann.violet.CallEdge">
@@ -539,7 +607,7 @@ are in the range of radar</string>
     </void>
    </object>
    <object idref="ActivationBarNode1"/>
-   <object idref="ActivationBarNode8"/>
+   <object idref="ActivationBarNode9"/>
   </void>
   <void method="connect">
    <object class="com.horstmann.violet.ReturnEdge">
@@ -565,7 +633,7 @@ are in the range of radar</string>
      <string>rWidth</string>
     </void>
    </object>
-   <object idref="ActivationBarNode7"/>
+   <object idref="ActivationBarNode8"/>
    <object idref="ActivationBarNode1"/>
   </void>
   <void method="connect">
@@ -574,7 +642,7 @@ are in the range of radar</string>
      <string>rHeight</string>
     </void>
    </object>
-   <object idref="ActivationBarNode8"/>
+   <object idref="ActivationBarNode9"/>
    <object idref="ActivationBarNode1"/>
   </void>
   <void method="connect">
@@ -645,6 +713,24 @@ are in the range of radar</string>
    </object>
    <object idref="ActivationBarNode4"/>
    <object idref="ActivationBarNode1"/>
+  </void>
+  <void method="connect">
+   <object class="com.horstmann.violet.CallEdge">
+    <void property="middleLabel">
+     <string>for each tile in area of rectangle bounded by (sWidth,sHeight) increment sonarVisibility array</string>
+    </void>
+   </object>
+   <object idref="ActivationBarNode1"/>
+   <object idref="ActivationBarNode7"/>
+  </void>
+  <void method="connect">
+   <object class="com.horstmann.violet.CallEdge">
+    <void property="middleLabel">
+     <string>for each tile in area of rectangle bounded by (rWidth, rHeight) increment sonar visibility array</string>
+    </void>
+   </object>
+   <object idref="ActivationBarNode1"/>
+   <object idref="ActivationBarNode10"/>
   </void>
  </object>
 </java>
