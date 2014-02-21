@@ -57,6 +57,13 @@
       <void method="addChild">
        <object class="com.horstmann.violet.CallNode" id="ActivationBarNode5">
         <void property="implicitParameter">
+         <object idref="LifelineNode1"/>
+        </void>
+       </object>
+      </void>
+      <void method="addChild">
+       <object class="com.horstmann.violet.CallNode" id="ActivationBarNode6">
+        <void property="implicitParameter">
          <object class="com.horstmann.violet.ImplicitParameterNode" id="LifelineNode2">
           <void property="name">
            <void property="text">
@@ -67,14 +74,21 @@
         </void>
        </object>
       </void>
-      <void property="implicitParameter">
-       <object class="com.horstmann.violet.ImplicitParameterNode" id="LifelineNode3">
-        <void property="name">
-         <void property="text">
-          <string>player : FleetCommander</string>
-         </void>
+      <void method="addChild">
+       <object class="com.horstmann.violet.CallNode" id="ActivationBarNode7">
+        <void property="implicitParameter">
+         <object class="com.horstmann.violet.ImplicitParameterNode" id="LifelineNode3">
+          <void property="name">
+           <void property="text">
+            <string>player : FleetCommander</string>
+           </void>
+          </void>
+         </object>
         </void>
        </object>
+      </void>
+      <void property="implicitParameter">
+       <object idref="LifelineNode3"/>
       </void>
      </object>
     </void>
@@ -157,19 +171,19 @@ aggregation</string>
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double4"/>
-      <double>17.0</double>
+      <double>61.0</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double4"/>
-      <double>137.0</double>
+      <double>138.0</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>17.0</double>
-     <double>137.0</double>
+     <double>61.0</double>
+     <double>138.0</double>
     </void>
    </object>
   </void>
@@ -222,19 +236,19 @@ ship in Player Fleet</string>
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double6"/>
-      <double>268.0</double>
+      <double>238.0</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double6"/>
-      <double>133.0</double>
+      <double>241.0</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>268.0</double>
-     <double>133.0</double>
+     <double>238.0</double>
+     <double>241.0</double>
     </void>
    </object>
   </void>
@@ -316,8 +330,8 @@ ship in Player Fleet</string>
    <object class="com.horstmann.violet.PointNode" id="PointNode2">
     <void id="Rectangle2D$Double2" property="bounds">
      <void method="setRect">
-      <double>683.0</double>
-      <double>332.0</double>
+      <double>684.0</double>
+      <double>447.0</double>
       <double>0.0</double>
       <double>0.0</double>
      </void>
@@ -331,19 +345,19 @@ ship in Player Fleet</string>
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double10"/>
-      <double>683.0</double>
+      <double>684.0</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double10"/>
-      <double>332.0</double>
+      <double>447.0</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>683.0</double>
-     <double>332.0</double>
+     <double>684.0</double>
+     <double>447.0</double>
     </void>
    </object>
   </void>
@@ -399,19 +413,19 @@ ship in Player Fleet</string>
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double13"/>
-      <double>466.0</double>
+      <double>380.0</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double13"/>
-      <double>149.0</double>
+      <double>239.0</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>466.0</double>
-     <double>149.0</double>
+     <double>380.0</double>
+     <double>239.0</double>
     </void>
    </object>
   </void>
@@ -474,7 +488,7 @@ ship in Player Fleet</string>
    </object>
   </void>
   <void method="addNode">
-   <object idref="ActivationBarNode5"/>
+   <object idref="ActivationBarNode6"/>
    <object class="java.awt.geom.Point2D$Double" id="Point2D$Double16">
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>x</string>
@@ -487,12 +501,12 @@ ship in Player Fleet</string>
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double16"/>
-      <double>285.0</double>
+      <double>338.0</double>
      </void>
     </void>
     <void method="setLocation">
      <double>1196.0</double>
-     <double>285.0</double>
+     <double>338.0</double>
     </void>
    </object>
   </void>
@@ -500,8 +514,8 @@ ship in Player Fleet</string>
    <object class="com.horstmann.violet.PointNode" id="PointNode4">
     <void id="Rectangle2D$Double4" property="bounds">
      <void method="setRect">
-      <double>684.0</double>
-      <double>334.0</double>
+      <double>683.0</double>
+      <double>443.0</double>
       <double>0.0</double>
       <double>0.0</double>
      </void>
@@ -515,19 +529,19 @@ ship in Player Fleet</string>
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double17"/>
-      <double>684.0</double>
+      <double>683.0</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double17"/>
-      <double>334.0</double>
+      <double>443.0</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>684.0</double>
-     <double>334.0</double>
+     <double>683.0</double>
+     <double>443.0</double>
     </void>
    </object>
   </void>
@@ -545,19 +559,19 @@ ship in Player Fleet</string>
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double18"/>
-      <double>323.0</double>
+      <double>316.0</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double18"/>
-      <double>265.0</double>
+      <double>377.0</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>323.0</double>
-     <double>265.0</double>
+     <double>316.0</double>
+     <double>377.0</double>
     </void>
    </object>
   </void>
@@ -565,8 +579,8 @@ ship in Player Fleet</string>
    <object class="com.horstmann.violet.PointNode" id="PointNode5">
     <void id="Rectangle2D$Double5" property="bounds">
      <void method="setRect">
-      <double>685.0</double>
-      <double>333.0</double>
+      <double>210.0</double>
+      <double>355.0</double>
       <double>0.0</double>
       <double>0.0</double>
      </void>
@@ -580,19 +594,65 @@ ship in Player Fleet</string>
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double19"/>
-      <double>685.0</double>
+      <double>210.0</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double19"/>
-      <double>333.0</double>
+      <double>355.0</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>685.0</double>
-     <double>333.0</double>
+     <double>210.0</double>
+     <double>355.0</double>
+    </void>
+   </object>
+  </void>
+  <void method="addNode">
+   <object idref="ActivationBarNode7"/>
+   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double20">
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>x</string>
+     <void method="set">
+      <object idref="Point2D$Double20"/>
+      <double>691.0</double>
+     </void>
+    </void>
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>y</string>
+     <void method="set">
+      <object idref="Point2D$Double20"/>
+      <double>396.0</double>
+     </void>
+    </void>
+    <void method="setLocation">
+     <double>691.0</double>
+     <double>396.0</double>
+    </void>
+   </object>
+  </void>
+  <void method="addNode">
+   <object idref="ActivationBarNode5"/>
+   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double21">
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>x</string>
+     <void method="set">
+      <object idref="Point2D$Double21"/>
+      <double>1040.0</double>
+     </void>
+    </void>
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>y</string>
+     <void method="set">
+      <object idref="Point2D$Double21"/>
+      <double>285.0</double>
+     </void>
+    </void>
+    <void method="setLocation">
+     <double>1040.0</double>
+     <double>285.0</double>
     </void>
    </object>
   </void>
@@ -600,8 +660,8 @@ ship in Player Fleet</string>
    <object class="com.horstmann.violet.PointNode" id="PointNode6">
     <void id="Rectangle2D$Double6" property="bounds">
      <void method="setRect">
-      <double>210.0</double>
-      <double>355.0</double>
+      <double>684.0</double>
+      <double>445.0</double>
       <double>0.0</double>
       <double>0.0</double>
      </void>
@@ -610,24 +670,94 @@ ship in Player Fleet</string>
      <object idref="Rectangle2D$Double6"/>
     </void>
    </object>
-   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double20">
+   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double22">
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>x</string>
      <void method="set">
-      <object idref="Point2D$Double20"/>
-      <double>210.0</double>
+      <object idref="Point2D$Double22"/>
+      <double>684.0</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
-      <object idref="Point2D$Double20"/>
-      <double>355.0</double>
+      <object idref="Point2D$Double22"/>
+      <double>445.0</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>210.0</double>
-     <double>355.0</double>
+     <double>684.0</double>
+     <double>445.0</double>
+    </void>
+   </object>
+  </void>
+  <void method="addNode">
+   <object class="com.horstmann.violet.PointNode">
+    <void id="Rectangle2D$Double7" property="bounds">
+     <void method="setRect">
+      <double>693.0</double>
+      <double>387.0</double>
+      <double>0.0</double>
+      <double>0.0</double>
+     </void>
+    </void>
+    <void property="bounds">
+     <object idref="Rectangle2D$Double7"/>
+    </void>
+   </object>
+   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double23">
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>x</string>
+     <void method="set">
+      <object idref="Point2D$Double23"/>
+      <double>693.0</double>
+     </void>
+    </void>
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>y</string>
+     <void method="set">
+      <object idref="Point2D$Double23"/>
+      <double>387.0</double>
+     </void>
+    </void>
+    <void method="setLocation">
+     <double>693.0</double>
+     <double>387.0</double>
+    </void>
+   </object>
+  </void>
+  <void method="addNode">
+   <object class="com.horstmann.violet.PointNode">
+    <void id="Rectangle2D$Double8" property="bounds">
+     <void method="setRect">
+      <double>696.0</double>
+      <double>427.0</double>
+      <double>0.0</double>
+      <double>0.0</double>
+     </void>
+    </void>
+    <void property="bounds">
+     <object idref="Rectangle2D$Double8"/>
+    </void>
+   </object>
+   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double24">
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>x</string>
+     <void method="set">
+      <object idref="Point2D$Double24"/>
+      <double>696.0</double>
+     </void>
+    </void>
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>y</string>
+     <void method="set">
+      <object idref="Point2D$Double24"/>
+      <double>427.0</double>
+     </void>
+    </void>
+    <void method="setLocation">
+     <double>696.0</double>
+     <double>427.0</double>
     </void>
    </object>
   </void>
@@ -721,11 +851,11 @@ ship in Player Fleet</string>
     </void>
    </object>
    <object idref="ActivationBarNode1"/>
-   <object idref="ActivationBarNode5"/>
+   <object idref="ActivationBarNode6"/>
   </void>
   <void method="connect">
    <object class="com.horstmann.violet.ReturnEdge"/>
-   <object idref="ActivationBarNode5"/>
+   <object idref="ActivationBarNode6"/>
    <object idref="ActivationBarNode1"/>
   </void>
   <void method="connect">
@@ -740,12 +870,35 @@ ship in Player Fleet</string>
   </void>
   <void method="connect">
    <object class="com.horstmann.violet.NoteEdge"/>
-   <object idref="NoteNode3"/>
+   <object idref="NoteNode0"/>
    <object idref="PointNode5"/>
   </void>
   <void method="connect">
+   <object class="com.horstmann.violet.CallEdge">
+    <void property="middleLabel">
+     <string>decrementVisibility(AbstractShip ship) : void</string>
+    </void>
+   </object>
+   <object idref="ActivationBarNode1"/>
+   <object idref="ActivationBarNode7"/>
+  </void>
+  <void method="connect">
+   <object class="com.horstmann.violet.CallEdge">
+    <void property="middleLabel">
+     <string>getOrientation() : OrientationType</string>
+    </void>
+   </object>
+   <object idref="ActivationBarNode1"/>
+   <object idref="ActivationBarNode5"/>
+  </void>
+  <void method="connect">
+   <object class="com.horstmann.violet.ReturnEdge"/>
+   <object idref="ActivationBarNode5"/>
+   <object idref="ActivationBarNode1"/>
+  </void>
+  <void method="connect">
    <object class="com.horstmann.violet.NoteEdge"/>
-   <object idref="NoteNode0"/>
+   <object idref="NoteNode3"/>
    <object idref="PointNode6"/>
   </void>
  </object>
