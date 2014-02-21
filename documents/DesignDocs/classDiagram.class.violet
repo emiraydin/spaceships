@@ -93,6 +93,7 @@
      <void property="text">
       <string>+ boolean useWeapon(WeaponType wType, shipID, int x, int y)
 + int moveShip(int shipID, int x, int y)
++ void placeShip(int x, int y)
 + boolean turnShip(int shipID, OrientationType oType)
 + void checkFleetDeaths()
 - void incrementVisibility(AbstractShip ship, int x, int y)
@@ -101,7 +102,8 @@
 - void doMove(AbstractShip ship, int x, int y)
 - boolean validateTurn(AbstractShip ship, OrientationType oType)
 - void doTurn(AbstractShip ship, OrientationType oType)
-- isVisible(int x, int y)</string>
+- isVisible(int x, int y)
+- boolean isValidPlacement(int x, int y, AbstractShip ship)</string>
      </void>
     </void>
     <void property="name">
@@ -344,6 +346,7 @@ WeaponType</string>
     <void property="attributes">
      <void property="text">
       <string>Move
+Place
 FireCannon
 FireTorpedo
 DropMine
