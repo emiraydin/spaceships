@@ -1,0 +1,44 @@
+Explanation File
+#################
+
+	- The System is Client Server, so the entire game state is stored in the Server.
+	- The GameHandler allows us to hide the imlementation details to the Client by 
+		only taking in Actions and returning Results.  
+	- A lot of the work, however, is done through the Fleet Commander. 
+
+New Game
+*********
+	- GameHandler controls the majority of the creation. 
+	- We use GameHandle as the 'head' of the state of the project. 
+	- GameHandler gets from the Client two playerId's that it uses to reference the different players. 
+	- The individual players create their ships and stores them internally.
+	- The ships create their individual weapons and store Arsenals internally.  
+	- The GameHandler then creates and stores a Gameboard (Which initializes itself with bases and 'asteroids'). 
+	- This operation requires only the playerId's which will determined from the Client and Networking Interface. 
+	- They can be encoded as Strings or Ints and easily passed from the client. 	
+
+Place Ship 
+**********
+	- The client typically interfaces with the Server by asking it to, "do some action," 
+		where the actions are enumeration types.
+	- In Place Ship, the client must encode and pass the Enumeration(Place Ship), the ship Id number to be
+		placed, the player who wishes to place the ship, and the coordinate to place it at. 	
+	- This information can easily be encoded and passed as a String, and decoded in the network interface. 
+	- *please note * the Network Interface is not shown in this document for it does not play a role in 
+		state changes in the project. Merely an interface between Client and Service. 
+	- The Fleet Commanders act as the main controller. 
+	- The Fleet Commanders can then easily query their base tiles to determine appropriate spacing and tell the GameBoard
+		where the ships are placed. 
+	- Fleet commanders must have intimate knowledge of where their ships are placed and what direction they are placed in. 
+	- As such, they should control the placement and validation of ships. 
+
+Move Ship
+*********
+	- Again, the Client queries the Server to do a 'Move' action. It passes the typical information : ShipiD, playerid, x , y, etc.
+	- This information can easily be encoded as a String. 
+	- The GameHandler tells the Flight Commander to handle and control the move. 
+	- As discussed above, the Flight Commander must have intimate knowledge of where the ships are and what are valid moves, 
+		as such they control the ships movements.
+	- However, they must talk closely with the GameBoard to make sure the moves are valid, so they query the GameBoard to
+		get valid moves and distances. 
+		
