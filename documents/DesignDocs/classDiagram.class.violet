@@ -101,7 +101,7 @@
 - void doMove(AbstractShip ship, int x, int y)
 - boolean validateTurn(AbstractShip ship, OrientationType oType)
 - void doTurn(AbstractShip ship, OrientationType oType)
-</string>
+- isVisible(int x, int y)</string>
      </void>
     </void>
     <void property="name">
@@ -115,19 +115,19 @@
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double2"/>
-      <double>771.5391052434009</double>
+      <double>692.5391052434009</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double2"/>
-      <double>242.41421356237316</double>
+      <double>157.41421356237316</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>771.5391052434009</double>
-     <double>242.41421356237316</double>
+     <double>692.5391052434009</double>
+     <double>157.41421356237316</double>
     </void>
    </object>
   </void>
@@ -141,7 +141,11 @@
 - OrientationType orientation
 - int cannonWidth
 - int cannonHeight
-- int cannonXOffset</string>
+- int cannonXOffset
+- int sonarVisibilityWidth
+- int sonarVisibilityHeight
+- int radarVisibilityWidth
+- int radarVisibilityHeight</string>
      </void>
     </void>
     <void property="methods">
@@ -158,7 +162,11 @@
 + boolean isDead()
 + int getCannonWidth()
 + int getCannonHeight()
-+ int getCannonXOffset()</string>
++ int getCannonXOffset()
+- int getSonarVisibilityWidth()
+- int getSonarVisibilityHeight()
+- int getRadarVisibilityWidth()
+- int getRadarVisibilityHeight()</string>
      </void>
     </void>
     <void property="name">
@@ -172,19 +180,19 @@
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double3"/>
-      <double>730.7867965644036</double>
+      <double>710.7867965644036</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double3"/>
-      <double>496.4041122946064</double>
+      <double>464.4041122946064</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>730.7867965644036</double>
-     <double>496.4041122946064</double>
+     <double>710.7867965644036</double>
+     <double>464.4041122946064</double>
     </void>
    </object>
   </void>
@@ -315,19 +323,19 @@ WeaponType</string>
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double7"/>
-      <double>1405.7776031669423</double>
+      <double>1136.7776031669423</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double7"/>
-      <double>46.435531555580894</double>
+      <double>32.435531555580894</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>1405.7776031669423</double>
-     <double>46.435531555580894</double>
+     <double>1136.7776031669423</double>
+     <double>32.435531555580894</double>
     </void>
    </object>
   </void>
@@ -358,19 +366,19 @@ ActionType</string>
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double8"/>
-      <double>1414.5036590312986</double>
+      <double>1418.5036590312986</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double8"/>
-      <double>287.84226479277174</double>
+      <double>18.842264792771743</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>1414.5036590312986</double>
-     <double>287.84226479277174</double>
+     <double>1418.5036590312986</double>
+     <double>18.842264792771743</double>
     </void>
    </object>
   </void>
@@ -405,12 +413,12 @@ ActionType</string>
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double9"/>
-      <double>852.6422262910671</double>
+      <double>886.6422262910671</double>
      </void>
     </void>
     <void method="setLocation">
      <double>386.7283518824229</double>
-     <double>852.6422262910671</double>
+     <double>886.6422262910671</double>
     </void>
    </object>
   </void>
@@ -436,19 +444,19 @@ OrientationType</string>
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double10"/>
-      <double>1393.819635285445</double>
+      <double>1261.819635285445</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double10"/>
-      <double>163.57389794549397</double>
+      <double>154.57389794549397</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>1393.819635285445</double>
-     <double>163.57389794549397</double>
+     <double>1261.819635285445</double>
+     <double>154.57389794549397</double>
     </void>
    </object>
   </void>
@@ -608,12 +616,12 @@ OrientationType</string>
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double15"/>
-      <double>640.4488425579152</double>
+      <double>684.4488425579152</double>
      </void>
     </void>
     <void method="setLocation">
      <double>1352.1250548996527</double>
-     <double>640.4488425579152</double>
+     <double>684.4488425579152</double>
     </void>
    </object>
   </void>
@@ -630,19 +638,19 @@ OrientationType</string>
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double16"/>
-      <double>1349.8587572237163</double>
+      <double>1348.8587572237163</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double16"/>
-      <double>937.1989508465778</double>
+      <double>992.1989508465778</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>1349.8587572237163</double>
-     <double>937.1989508465778</double>
+     <double>1348.8587572237163</double>
+     <double>992.1989508465778</double>
     </void>
    </object>
   </void>
@@ -672,12 +680,12 @@ OrientationType</string>
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double17"/>
-      <double>854.1475592489797</double>
+      <double>898.1475592489797</double>
      </void>
     </void>
     <void method="setLocation">
      <double>1352.1250548996532</double>
-     <double>854.1475592489797</double>
+     <double>898.1475592489797</double>
     </void>
    </object>
   </void>
@@ -701,12 +709,12 @@ OrientationType</string>
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double18"/>
-      <double>780.0436537397811</double>
+      <double>824.0436537397811</double>
      </void>
     </void>
     <void method="setLocation">
      <double>1351.1411650608413</double>
-     <double>780.0436537397811</double>
+     <double>824.0436537397811</double>
     </void>
    </object>
   </void>
@@ -730,12 +738,12 @@ OrientationType</string>
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double19"/>
-      <double>715.7419551821159</double>
+      <double>759.7419551821159</double>
      </void>
     </void>
     <void method="setLocation">
      <double>1353.2500871365046</double>
-     <double>715.7419551821159</double>
+     <double>759.7419551821159</double>
     </void>
    </object>
   </void>
@@ -779,6 +787,44 @@ OrientationType</string>
     <void method="setLocation">
      <double>154.07257440191034</double>
      <double>620.6190337813966</double>
+    </void>
+   </object>
+  </void>
+  <void method="addNode">
+   <object class="com.horstmann.violet.ClassNode">
+    <void property="attributes">
+     <void property="text">
+      <string>None
+Sonar
+Radar
+Both</string>
+     </void>
+    </void>
+    <void property="name">
+     <void property="text">
+      <string>«enumeration»
+VisibilityType</string>
+     </void>
+    </void>
+   </object>
+   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double21">
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>x</string>
+     <void method="set">
+      <object idref="Point2D$Double21"/>
+      <double>1279.819635285445</double>
+     </void>
+    </void>
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>y</string>
+     <void method="set">
+      <object idref="Point2D$Double21"/>
+      <double>24.573897945493968</double>
+     </void>
+    </void>
+    <void method="setLocation">
+     <double>1279.819635285445</double>
+     <double>24.573897945493968</double>
     </void>
    </object>
   </void>
@@ -1085,7 +1131,7 @@ OrientationType</string>
      <object class="com.horstmann.violet.ArrowHead" field="DIAMOND"/>
     </void>
     <void property="startLabel">
-     <string>0..*</string>
+     <string>1</string>
     </void>
    </object>
    <object idref="ClassNode4"/>
@@ -1108,6 +1154,21 @@ OrientationType</string>
    </object>
    <object idref="ClassNode14"/>
    <object idref="ClassNode7"/>
+  </void>
+  <void method="connect">
+   <object class="com.horstmann.violet.ClassRelationshipEdge">
+    <void property="endLabel">
+     <string>1</string>
+    </void>
+    <void property="startArrowHead">
+     <object class="com.horstmann.violet.ArrowHead" field="DIAMOND"/>
+    </void>
+    <void property="startLabel">
+     <string>0..10</string>
+    </void>
+   </object>
+   <object idref="ClassNode6"/>
+   <object idref="ClassNode2"/>
   </void>
  </object>
 </java>
