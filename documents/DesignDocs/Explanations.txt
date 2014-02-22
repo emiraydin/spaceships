@@ -3,7 +3,7 @@ Explanation File
 
 	- The System is Client-Server, so the entire game state is stored in the Server.
 	- The GameHandler allows us to hide the implementation details to the Client by 
-		only taking in Actions and returning Results.  
+		only taking in Actions and returning results.  
 	- A lot of the work, however, is done through the FleetCommander. 
 
 New Game
@@ -14,27 +14,27 @@ New Game
 	- The individual players create their ships and stores them internally.
 	- The ships create their individual weapons and store Arsenals internally.  
 	- The GameHandler then creates and stores a Gameboard (Which initializes itself with bases and 'asteroids'). 
-	- This operation requires only the playerId's which will determined from the Client and Networking Interface. 
+	- This operation requires only the playerId's which will determined from the Client and networking interface. 
 	- They can be encoded as Strings or Ints and easily passed from the client. 	
 
 Place Ship 
 **********
 	- The client typically interfaces with the Server by asking it to, "do some action," 
 		where the actions are enumeration types.
-	- In Place Ship, the client must encode and pass the Enumeration(Place Ship), the ship Id number to be
+	- In Place Ship, the client must encode and pass the Enumeration (Place Ship), the ship id number to be
 		placed, the player who wishes to place the ship, and the coordinate to place it at. 	
 	- This information can easily be encoded and passed as a String, and decoded in the network interface. 
-	- *please note* the Network Interface is not shown in this document for it does not play a role in 
-		state changes in the project. Merely an interface between Client and Service. 
+	- *please note* the network interface is not shown in this document for it does not play a role in 
+		state changes in the project. Merely an interface between Client and Server. 
 	- The FleetCommanders act as the main controller. 
 	- The FleetCommanders can then easily query their base tiles to determine appropriate spacing and tell the GameBoard
 		where the ships are placed. 
-	- FleetCommanders must have intimate knowledge of where their ships are placed and what direction they are placed in. 
-	- As such, they should control the placement and validation of ships. 
+	- FleetCommanders must have knowledge of where their ships are placed and what direction they are placed in. 
+	As such, they should control the placement and validation of ships. 
 
 Move Ship
 *********
-	- Again, the Client queries the Server to do a 'Move' action. It passes the typical information : ShipiD, playerid, x , y, etc.
+	- Again, the Client queries the Server to do a 'Move' action. It passes the typical information : shipID, playerID, x , y, etc.
 	- This information can easily be encoded as a String. 
 	- The GameHandler tells the FleetCommander to handle and control the move. 
 	- As discussed above, the FleetCommander must have intimate knowledge of where the ships are and what are valid moves, 
@@ -48,6 +48,37 @@ Turn Ship
 	- GameHandler converts the ActionType to an OrientationType which is passed to the FleetCommander.
 	In this case, the x and y coordinates passed to the GameHandler are ignored and are simply there to make the operations consistent.
 
+	
+Use Weapon
+**********
+	- Since the weapon types are handled using polymorphism, the ships contain very little information about their weapons.
+	- Like all user actions, Use Weapon is an operation that is controlled by the FleetCommander after a call from GameHandler.
+	- After fire(int x, int y) is called on a weapon, please refer to the individual weapon for the result.
+	
+	- The parameters are encoded as a position on which to fire and an actiontype that specifies the weapon to be used.
+	GameHandler converts this ActionType to a WeaponType to be passed on to 
+	
+Fire Cannon
+***********
+	- When firing the cannon, the target (int x, int y) is passed as a parameter.
+	- Cannon checks if the target is valid using the cannon range specified in the instance of ship.
+	- The Cannon (Or HeavyCannon) class controls this aspect of the operation as it has information about cannon logic.
+	- If the operation is successful and a ship is struck, damage is dealt.
+		
+Fire Torpedo
+************
+	- When launching a torpedo, the target (int x, int y) is passed as a parameter.
+	- TorpedoLaucher checks if the target is in range of the ship and sees if the torpedo will hit anything before its destination.
+	- The TorpedoLauncher class controls this aspect of the operation as it has information about torpedo logic.
+	- If the operation is successful and a ship is struck, damage is dealt.
+	
+		
+Drop Mine
+*********
+	- When dropping a mine, the target (int x, int y) is passed as a parameter.
+	- MineLayer checks if the target is a valid location to drop a mine.
+	- The MineLayer class controls this aspect of the operation as it has information about mine logic.
+	- If the operation is successful, the mine is added to the map.
 
 Visibility
 **********
