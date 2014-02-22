@@ -1,16 +1,16 @@
 Explanation File
 #################
 
-	- The System is Client Server, so the entire game state is stored in the Server.
-	- The GameHandler allows us to hide the imlementation details to the Client by 
+	- The System is Client-Server, so the entire game state is stored in the Server.
+	- The GameHandler allows us to hide the implementation details to the Client by 
 		only taking in Actions and returning Results.  
-	- A lot of the work, however, is done through the Fleet Commander. 
+	- A lot of the work, however, is done through the FleetCommander. 
 
 New Game
 *********
 	- GameHandler controls the majority of the creation. 
 	- We use GameHandle as the 'head' of the state of the project. 
-	- GameHandler gets from the Client two playerId's that it uses to reference the different players. 
+	- GameHandler gets from the Client two playerIDs that it uses to reference the different players. 
 	- The individual players create their ships and stores them internally.
 	- The ships create their individual weapons and store Arsenals internally.  
 	- The GameHandler then creates and stores a Gameboard (Which initializes itself with bases and 'asteroids'). 
@@ -24,21 +24,36 @@ Place Ship
 	- In Place Ship, the client must encode and pass the Enumeration(Place Ship), the ship Id number to be
 		placed, the player who wishes to place the ship, and the coordinate to place it at. 	
 	- This information can easily be encoded and passed as a String, and decoded in the network interface. 
-	- *please note * the Network Interface is not shown in this document for it does not play a role in 
+	- *please note* the Network Interface is not shown in this document for it does not play a role in 
 		state changes in the project. Merely an interface between Client and Service. 
-	- The Fleet Commanders act as the main controller. 
-	- The Fleet Commanders can then easily query their base tiles to determine appropriate spacing and tell the GameBoard
+	- The FleetCommanders act as the main controller. 
+	- The FleetCommanders can then easily query their base tiles to determine appropriate spacing and tell the GameBoard
 		where the ships are placed. 
-	- Fleet commanders must have intimate knowledge of where their ships are placed and what direction they are placed in. 
+	- FleetCommanders must have intimate knowledge of where their ships are placed and what direction they are placed in. 
 	- As such, they should control the placement and validation of ships. 
 
 Move Ship
 *********
 	- Again, the Client queries the Server to do a 'Move' action. It passes the typical information : ShipiD, playerid, x , y, etc.
 	- This information can easily be encoded as a String. 
-	- The GameHandler tells the Flight Commander to handle and control the move. 
-	- As discussed above, the Flight Commander must have intimate knowledge of where the ships are and what are valid moves, 
+	- The GameHandler tells the FleetCommander to handle and control the move. 
+	- As discussed above, the FleetCommander must have intimate knowledge of where the ships are and what are valid moves, 
 		as such they control the ships movements.
 	- However, they must talk closely with the GameBoard to make sure the moves are valid, so they query the GameBoard to
 		get valid moves and distances. 
 		
+Turn Ship
+*********
+	- The main controller of this operation is the FleetCommander, which starts working after a call from GameHandler.
+	- GameHandler converts the ActionType to an OrientationType which is passed to the FleetCommander.
+	In this case, the x and y coordinates passed to the GameHandler are ignored and are simply there to make the operations consistent.
+
+
+Visibility
+**********
+	- The isVisible(int x, int y) is a very simple operation as it depends heavily on incrementVisibility and decrementVisibility.
+	These methods maintain arrays that track how many ships can see each tile using radar and using sonar.
+	As a result, we are able to simply check that the tile in question has a value greater than zero.
+	- The isVisible(x, y) method returns an enumeration type that can be Radar, Sonar, None, or Both.
+	- This operation is controlled by the FleetCommander, as each person playing the game has different visiblity
+	For this reason, it makes sense that the FleetCommander stores visibility data.
