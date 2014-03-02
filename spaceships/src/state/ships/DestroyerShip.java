@@ -13,11 +13,11 @@ public class DestroyerShip extends AbstractShip
 	 */
 	public DestroyerShip()
 	{
-		this.shipSize = 4; 
-		this.shipSpeed = 8; 
-		this.shipArmor = shipArmorTypes.Light; 
-		this.shipWeapons = new LinkedList<shipWeaponTypes>(); 
-		this.shipWeapons.add(shipWeaponTypes.LightCannon);
-		this.shipWeapons.add(shipWeaponTypes.Torpedo); 
+//		this.shipSize = 4; 
+//		this.shipSpeed = 8; 
+//		this.shipArmor = shipArmorTypes.Light; 
+//		this.shipWeapons = new LinkedList<shipWeaponTypes>(); 
+//		this.shipWeapons.add(shipWeaponTypes.LightCannon);
+//		this.shipWeapons.add(shipWeaponTypes.Torpedo); 
 	}
 }

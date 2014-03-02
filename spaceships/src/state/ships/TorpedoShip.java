@@ -14,11 +14,11 @@ public class TorpedoShip extends AbstractShip
 	 */
 	public TorpedoShip()
 	{
-		this.shipSize = 3; 
-		this.shipSpeed = 9; 
-		this.shipArmor = shipArmorTypes.Light; 
-		this.shipWeapons = new LinkedList<shipWeaponTypes>(); 
-		this.shipWeapons.add(shipWeaponTypes.LightCannon);
-		this.shipWeapons.add(shipWeaponTypes.Torpedo); 
+//		this.shipSize = 3; 
+//		this.shipSpeed = 9; 
+//		this.shipArmor = shipArmorTypes.Light; 
+//		this.shipWeapons = new LinkedList<shipWeaponTypes>(); 
+//		this.shipWeapons.add(shipWeaponTypes.LightCannon);
+//		this.shipWeapons.add(shipWeaponTypes.Torpedo); 
 	}
 }

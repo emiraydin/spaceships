@@ -13,10 +13,10 @@ public class CruiserShip extends AbstractShip
 	 */
 	public CruiserShip()
 	{
-		this.shipSize = 5; 
-		this.shipSpeed = 10; 
-		this.shipArmor = shipArmorTypes.Heavy; 
-		this.shipWeapons = new LinkedList<shipWeaponTypes>(); 
-		this.shipWeapons.add(shipWeaponTypes.HeavyCannon); 
+//		this.shipSize = 5; 
+//		this.shipSpeed = 10; 
+//		this.shipArmor = shipArmorTypes.Heavy; 
+//		this.shipWeapons = new LinkedList<shipWeaponTypes>(); 
+//		this.shipWeapons.add(shipWeaponTypes.HeavyCannon); 
 	}
 }
