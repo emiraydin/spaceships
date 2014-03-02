@@ -11,7 +11,7 @@ public class GameBoard {
 	/**
 	 * LiveObjects are the *things* flying around in space.
 	 */
-	private ArrayList<SpaceThing> liveObjects = null;
+	private ArrayList<SpaceThing> spaceThings = null;
 	/**
 	 * Gametiles are just empty space.
 	 */
@@ -20,8 +20,9 @@ public class GameBoard {
 	public GameBoard() {
 		// Create the game board
 		this.gameTiles = new BaseTile[BOARD_WIDTH][BOARD_HEIGHT];
-		this.liveObjects = new ArrayList<SpaceThing>();
+		this.spaceThings = new ArrayList<SpaceThing>();
 	}
+	
 	
 	/**
 	 * Get a specific tile.
