@@ -1,8 +1,11 @@
 package state.ships;
 
+import gameLogic.Constants.*;
+
 import java.util.LinkedList;
 
 import state.SpaceThing;
+import state.weapons.AbstractWeapon;
 
 /**
  * All ships will be instances of AbstractShips. Tie together the majority of the Game Logic. 
@@ -11,54 +14,96 @@ import state.SpaceThing;
  */
 public class AbstractShip extends SpaceThing
 {
-	// Basic Ships Properties
-	public static enum shipArmorTypes {Light, Heavy}; // The types of Armor a Ship can Have
-	public static enum shipWeaponTypes {LightCannon, HeavyCannon, Torpedo, Mine}; // The types of Weapons a ship can have. 
-	protected shipArmorTypes shipArmor; 
-	protected LinkedList<shipWeaponTypes> shipWeapons; 
-	protected int shipSpeed; // Speed -> The number of tiles the front of the ship can move in one turn. 
-	protected int shipSize; // Size -> Number of squares it occupies. 
+
+	/*
+	 * Properties
+	 */
+	
+	// Basic facts
+	int speed;
+	int length;
+	int[] sectionHealth;
+	//OrientationType orientation;
+	
+	// Cannon properties
+	int cannonWidth;
+	int cannonHeight;
+	int cannonXOffset;
+	
+	// Sonar Properties
+	int sonarVisibilityWidth;
+	int sonarVisibilityHeight;
+	
+	// Radar Properties
+	int radarVisibilityWidth;
+	int radarVisibilityHeight;
+	
+	// Weapons
+	LinkedList<AbstractWeapon> weapons;	
+	
+	
+	
+	/*
+	 * Methods
+	 */
+	
+	public void useWeapon(WeaponType wType, int x, int y) {
 		
-	/**
-	 * Getter for the Ship Speed. 
-	 * @return Int representing the Number of places a ship can move in one turn. 
-	 */
-	public int getShipSpeed()
-	{
-		return this.shipSpeed; 
 	}
 	
-	/**
-	 * Getter for the Ship Size. 
-	 * @return Int representing the number of places a ship occupies. 
-	 */
-	public int getShipSize()
-	{
-		return this.shipSize; 
+	public OrientationType getOrientation() {
+		return null;
 	}
 	
-	/**
-	 * returns the Armor type of the ship. 
-	 * @return Object of shipArmorTypes.t where t is the type of armor a ship has. 
-	 */
-	public shipArmorTypes getShipArmor()
-	{
-		return this.shipArmor; 
+	public void setOrientation(OrientationType oType) {
+		
 	}
 	
-	/**
-	 * Returns the List of Weapons this ship has. 
+	
+	/*
+	 * Basic Getters...
 	 */
-	public LinkedList<shipWeaponTypes> getShipWeapons()
-	{
-		return this.shipWeapons; 
+	
+	public ActionType[] getPossibleActions() {
+		return null;
 	}
-
-	// Here follows the Logic for Ship Game Logic Manipulation. 
-	// TODO: Write this.. 
+	public int getSectionAt(int x, int y) {
+		return 0;
+	}	
+	public int getSpeed() {
+		return this.speed;
+	}	
+	public int getLength() {
+		return this.length;
+	}	
+	public int getCannonWidth() {
+		return this.cannonWidth;
+	}	
+	public int getCannonHeight() {
+		return this.cannonHeight;
+	}	
+	public int getCannonXOffset() {
+		return this.cannonXOffset;
+	}	
+	public int getSonarVisibilityWidth() {
+		return this.sonarVisibilityWidth;
+	}	
+	public int getSonarVisibilityHeight() {
+		return this.sonarVisibilityHeight;
+	}	
+	public int getRadarVisibilityWidth() {
+		return this.radarVisibilityWidth;
+	}	
+	public int getRadarVisibilityHeight() {
+		return this.radarVisibilityHeight;
+	}
+	
+	// Methods that aren't in the client:
+	// incrementSectionHealth()
+	// decrementSEctionHealth()
+	// isDead()
 	
 	
-
-
+ 
 
 }

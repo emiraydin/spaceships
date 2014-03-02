@@ -13,11 +13,11 @@ public class RadarBoatShip extends AbstractShip
 	 */
 	public RadarBoatShip()
 	{
-		this.shipSize = 2; 
-		this.shipSpeed = 6; 
-		this.shipArmor = shipArmorTypes.Heavy; 
-		this.shipWeapons = new LinkedList<shipWeaponTypes>(); 
-		this.shipWeapons.add(shipWeaponTypes.LightCannon);
-		this.shipWeapons.add(shipWeaponTypes.Mine); 
+//		this.shipSize = 2; 
+//		this.shipSpeed = 6; 
+//		this.shipArmor = shipArmorTypes.Heavy; 
+//		this.shipWeapons = new LinkedList<shipWeaponTypes>(); 
+//		this.shipWeapons.add(shipWeaponTypes.LightCannon);
+//		this.shipWeapons.add(shipWeaponTypes.Mine); 
 	}
 }
