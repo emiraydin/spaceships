@@ -24,6 +24,7 @@ public class CameraController
 	public CameraController(OrthographicCamera camera)
 	{
 		this.camera = camera; 
+		camera.zoom = 5; 
 	}
 
 	/**
@@ -51,7 +52,7 @@ public class CameraController
 	 */
 	public void updateCamera(float delta) 
 	{
-		float camMoveSpeed = 5 * delta; 
+		float camMoveSpeed = 7 * delta; 
 		float acceleration = 5f; 
 		
 		if(Gdx.input.isKeyPressed(Keys.SHIFT_LEFT))

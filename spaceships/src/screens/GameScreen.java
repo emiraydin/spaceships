@@ -4,6 +4,7 @@ import actors.Tile;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
@@ -20,7 +21,8 @@ public class GameScreen implements Screen
 	 * Instance Variables 
 	 */
 	private GameScreenController controller; 
-	private GameScreenRenderer 	 renderer ; 	
+	private GameScreenRenderer 	 renderer ; 
+	private FPSLogger fpsLog = new FPSLogger(); 
 
 	@Override
 	public void render(float delta) 
@@ -30,7 +32,11 @@ public class GameScreen implements Screen
 		
 		// Update and Render the Game World. 
 		controller.update(delta); 
+
 		renderer.render();
+		
+		// Display the current FPS.
+		fpsLog.log(); 
 	}
 
 	@Override
@@ -48,6 +54,8 @@ public class GameScreen implements Screen
 		
 		// Create and Initialize GameScreenRenderer. 
 		renderer = new GameScreenRenderer(controller);
+		
+
 		
 		
 	}

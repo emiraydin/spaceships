@@ -4,61 +4,49 @@ import gameLogic.Constants;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 /**
- * The basic representation of Tiles in the GameBoard. 
- * Rendering is handled through the Actor / Stage motive.
+ * One Ship Tile.
+ * Pretty much a testing class at the moment, since we dont have actually assets. 
  * @author Vikram
  *
  */
-public class Tile extends Image 
+public class ShipTile extends Image
 {
-	// Pixel Width and Height
-	private final int WIDTH = Constants.PIXEL_WIDTH, HEIGHT = Constants.PIXEL_HEIGHT; 
 	
-	// Sprite that is drawn on Screen
-	private Sprite SPRITE;  
-	
-	// Position on the GameScreen
-	private final Vector2 POSITION; 
-	
-	/**
-	 * Constructor for Tile Object.
-	 * Requires an x, y position
-	 */
-	public Tile(int x, int y)
+	private Sprite SPRITE; 
+	private final int WIDTH = Constants.PIXEL_WIDTH, HEIGHT = Constants.PIXEL_HEIGHT;
+
+	public ShipTile(int x, int y) 
 	{
-		POSITION = new Vector2(x,y); 
-		Texture texture = generateStandardTile(); 
-		SPRITE = new Sprite(texture);
+		SPRITE = new Sprite(generateShipTexture());
 		setPosition(x,y);
+		System.out.println(x + " " + getX()); 
 		setWidth(1);
 		setHeight(1);
 	}
 	
-	/**
-	 * Generates a basic Texture that is Square
-	 * with blue border. 
-	 * @return : A texture with blue border. 
-	 */
-	private Texture generateStandardTile() 
+	
+	
+	
+	private Texture generateShipTexture() 
 	{
 		Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
 		// Draw a cyan-colored border around square
 		pixmap.setColor(0, 1, 1, 1);
-		pixmap.drawRectangle(0, 0, WIDTH, HEIGHT);
+		pixmap.fill(); 
 		Texture newTexture = new Texture(pixmap);
 		
 		return newTexture;
 	}
 
-	
+
+
 	@Override
 	public void draw(Batch batch, float parentAlpha)
 	{
@@ -66,4 +54,5 @@ public class Tile extends Image
         batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
         batch.draw(SPRITE, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
 	}
+	
 }

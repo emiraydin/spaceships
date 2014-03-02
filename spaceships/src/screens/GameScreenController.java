@@ -1,10 +1,8 @@
 package screens;
 
 import gameLogic.Constants;
-import actors.Tile;
+import actors.Gameboard;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
@@ -19,7 +17,7 @@ public class GameScreenController
 	/*
 	 * Instance variables 
 	 */
-	private Tile[][] GAMEBOARD = new Tile[30][30];					// TODO: Make this its own Object? 
+	Gameboard BOARD; 												// The Game Board Actor
 	private OrthographicCamera CAMERA; 								// The Game Camera
 	private CameraController CAMCONTROLLER; 						// Handles changing Camera views. 
 	public Stage STAGE; 											// The Stage. 
@@ -44,15 +42,8 @@ public class GameScreenController
 	
 	private void initGameBoard() 
 	{
-		for(int i = 0; i < GAMEBOARD.length; i++)
-		{
-			for(int k = 0; k < GAMEBOARD[0].length; k++)
-			{
-				Tile t = new Tile(i,k); 
-				STAGE.addActor(t);
-				System.out.println(t);
-			}
-		}
+		BOARD = new Gameboard(); 
+		BOARD.initStage(STAGE); 
 	}
 
 	private void initCamera() 
@@ -75,6 +66,7 @@ public class GameScreenController
 	public void update(float delta) 
 	{
 		CAMCONTROLLER.updateCamera(delta); 
+		BOARD.update(delta); 
 		STAGE.act(); 
 	}
 
