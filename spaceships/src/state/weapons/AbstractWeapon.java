@@ -1,6 +1,6 @@
 package state.weapons;
 
-public class AbstractWeapon {
+public abstract class AbstractWeapon {
 	int damage;
 	
 	public void fire(int x, int y) {

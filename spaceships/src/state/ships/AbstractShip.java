@@ -12,7 +12,7 @@ import state.weapons.AbstractWeapon;
  * Allows easy creation of new ships. 
  *
  */
-public class AbstractShip extends SpaceThing
+public abstract class AbstractShip extends SpaceThing
 {
 
 	/*
@@ -20,33 +20,72 @@ public class AbstractShip extends SpaceThing
 	 */
 	
 	// Basic facts
-	int speed;
-	int length;
-	int[] sectionHealth;
-	//OrientationType orientation;
+	protected int speed;
+	protected int length;
+	protected ArmourType armour;
+	protected int[] sectionHealth;
+	OrientationType orientation;
 	
 	// Cannon properties
-	int cannonWidth;
-	int cannonHeight;
-	int cannonXOffset;
+	protected int cannonWidth;
+	protected int cannonHeight;
+	protected int cannonXOffset;
 	
 	// Sonar Properties
-	int sonarVisibilityWidth;
-	int sonarVisibilityHeight;
+	protected int sonarVisibilityWidth;
+	protected int sonarVisibilityHeight;
 	
 	// Radar Properties
-	int radarVisibilityWidth;
-	int radarVisibilityHeight;
+	protected int radarVisibilityWidth;
+	protected int radarVisibilityHeight;
 	
 	// Weapons
-	LinkedList<AbstractWeapon> weapons;	
+	protected LinkedList<AbstractWeapon> weapons;	
+	
+	/**
+	 * Constructor requires length and health for each tile.
+	 * 
+	 * @param length length of the ship
+	 * @param health how many health points each tile has
+	 */
+	public AbstractShip(int length,
+			ArmourType armour,
+			int speed,
+			int cannonWidth,
+			int cannonHeight,
+			int cannonXOffset,
+//			int sonarVisibilityWidth,
+//			int sonarVisibilityHeight,
+			int radarVisibilityWidth,
+			int radarVisibilityHeight) {
+		
+		// Build the weapons list
+		this.weapons = new LinkedList<AbstractWeapon>();
+		
+		// We need the length to construct the sectionHealth;
+		this.length = length;
+		this.armour = armour;
+		this.sectionHealth = new int[length];
+		for (int i = 0; i < length; i++) {
+			this.sectionHealth[i] = armour.ordinal() + 1;
+		}
+		
+		// Build the standard properties
+		this.speed = speed;
+		this.cannonWidth = cannonWidth;
+		this.cannonHeight = cannonHeight;
+		this.cannonXOffset = cannonXOffset;
+//		this.sonarVisibilityWidth = sonarVisibilityWidth;
+//		this.sonarVisibilityHeight = sonarVisibilityHeight;
+		this.radarVisibilityWidth = radarVisibilityWidth;
+		this.radarVisibilityHeight = radarVisibilityHeight;
+	}
 	
 	
 	
 	/*
 	 * Methods
 	 */
-	
 	public void useWeapon(WeaponType wType, int x, int y) {
 		
 	}
