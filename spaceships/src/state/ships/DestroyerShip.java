@@ -1,17 +1,17 @@
-package ships;
+package state.ships;
 
 import java.util.LinkedList;
 
 /**
  * The Destroyer ship class. TODO: Come up with more badass names. 
  */
-public class Destroyer extends AbstractShip
+public class DestroyerShip extends AbstractShip
 {
 	/**
 	 * Default constructor. 
 	 * Sets the basic properties for the Destroyer ship. 
 	 */
-	public Destroyer()
+	public DestroyerShip()
 	{
 		this.shipSize = 4; 
 		this.shipSpeed = 8; 

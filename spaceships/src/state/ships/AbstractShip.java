@@ -1,13 +1,15 @@
-package ships;
+package state.ships;
 
 import java.util.LinkedList;
+
+import state.SpaceThing;
 
 /**
  * All ships will be instances of AbstractShips. Tie together the majority of the Game Logic. 
  * Allows easy creation of new ships. 
  *
  */
-public class AbstractShip
+public class AbstractShip extends SpaceThing
 {
 	// Basic Ships Properties
 	public static enum shipArmorTypes {Light, Heavy}; // The types of Armor a Ship can Have

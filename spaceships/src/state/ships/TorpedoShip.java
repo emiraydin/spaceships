@@ -1,4 +1,4 @@
-package ships;
+package state.ships;
 
 import java.util.LinkedList;
 

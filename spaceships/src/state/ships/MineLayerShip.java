@@ -1,17 +1,18 @@
-package ships;
+package state.ships;
 
 import java.util.LinkedList;
 
 /**
- * Class for the RadarShip type. 
+ * Class for the MineLayer Class ship. 
  */
-public class RadarShip extends AbstractShip
+public class MineLayerShip extends AbstractShip
 {
+	
 	/**
 	 * Default constructor. 
 	 * Sets the basic properties for the Destroyer ship. 
 	 */
-	public RadarShip()
+	public MineLayerShip()
 	{
 		this.shipSize = 2; 
 		this.shipSpeed = 6; 

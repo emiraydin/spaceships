@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/spaceships/spaceships.iml" filepath="$PROJECT_DIR$/spaceships/spaceships.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spaceships-android/spaceships-android.iml" filepath="$PROJECT_DIR$/spaceships-android/spaceships-android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spaceships-desktop/spaceships-desktop.iml" filepath="$PROJECT_DIR$/spaceships-desktop/spaceships-desktop.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spaceships-html/spaceships-html.iml" filepath="$PROJECT_DIR$/spaceships-html/spaceships-html.iml" />
+    </modules>
+  </component>
+</project>
+
