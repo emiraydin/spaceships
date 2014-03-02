@@ -1,39 +1,33 @@
 package screens;
 
-import gameLogic.Constants;
-
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
 /**
- * Handles Rendering for the Game Screen. 
+ * Handles the rendering logic of the GameScreen 
+ * @author Vikram
+ *
  */
 public class GameScreenRenderer
 {
-	// Used to get access GameLogic shit. 
+	/*
+	 * Instance Variables
+	 */
 	private GameScreenController controller; 
-	private SpriteBatch batch; 
-	
-	private OrthographicCamera camera; 
-	
-	public GameScreenRenderer(GameScreenController controller)
+
+	/**
+	 * Constructor
+	 * @param c : Requires a GameScreenController to handle logical changes in the game. 
+	 */
+	public GameScreenRenderer(GameScreenController c)
 	{
-		this.controller = controller; 
-		batch = new SpriteBatch(); 
-		camera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT); 
-		camera.position.set(0,0,0); 
-		camera.update(); 
+		this.controller = c; 
 	}
 	
+	/**
+	 * The render method. 
+	 * Uses the GameScreenController to determine the placement of ships and various other actions 
+	 */
 	public void render()
 	{
-		
-		controller.cameraHelper.applyTo(camera); 
-		batch.setProjectionMatrix(camera.combined); 
-		
-		batch.begin(); 
-		controller.sprite.draw(batch); 
-		batch.end(); 
+		controller.STAGE.draw(); 
 	}
 	
 }

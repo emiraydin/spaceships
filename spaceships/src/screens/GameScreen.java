@@ -1,104 +1,83 @@
 package screens;
 
-import gameLogic.Assets;
-import gameLogic.Spaceships;
+import actors.Tile;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 
 /**
- * The main gameplay screen. 
- * Where the actual gameplay occurs and the goal of winning the game takes place. 
+ * The Basic Game Screen. 
+ * @author Vikram
+ *
  */
 public class GameScreen implements Screen 
 {
-	//  Used for Logging purposes. 
-	private final String TAG = GameScreen.class.getSimpleName();  
-	
-	// The Controller and Renderer for the Gamescreen
-	private GameScreenRenderer renderer; 
+	/*
+	 * Instance Variables 
+	 */
 	private GameScreenController controller; 
-	
-	// The Game instance
-	private Spaceships game; 
-	
-	
-	public GameScreen(Spaceships game)
-	{
-		this.game = game; 
-	}
-	
+	private GameScreenRenderer 	 renderer ; 	
+
 	@Override
-	public void render(float delta)
+	public void render(float delta) 
 	{
+		//Gdx.gl.glClearColor(0x64/255.0f, 0x95/255.0f, 0xed/255.0f, 0xff/255.0f);
+		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		
+		// Update and Render the Game World. 
 		controller.update(delta); 
+		renderer.render();
+	}
+
+	@Override
+	public void resize(int width, int height) 
+	{
+		 //stage.setViewport(width, height, true);
+
+	}
+
+	@Override
+	public void show() 
+	{
+		// Create and Initialize GameScreenController. 
+		controller = new GameScreenController();
 		
-		// Sets the Clear Screen Color as Cornflower Blue
-		Gdx.gl.glClearColor(0x0/255.0f, 0x0/255.0f, 0x0/255.0f, 0x0/255.0f);
-				
-		// Actually clears the Screen
-		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT); 
+		// Create and Initialize GameScreenRenderer. 
+		renderer = new GameScreenRenderer(controller);
 		
-		renderer.render(); 
 		
 	}
 
 	@Override
-	public void resize(int width, int height)
+	public void hide() 
 	{
 		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void show()
-	{
-		
-		controller = new GameScreenController(); 
-		renderer = new GameScreenRenderer(controller); 
-		// Load Assets
-		try
-		{
-			Assets.INSTANCE.init(new AssetManager()); 
-		}
-		catch(NullPointerException e)
-		{
-			
-		}
-		
-		
-	}
-
-	@Override
-	public void hide()
-	{
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void pause()
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public void resume()
+	public void resume() 
 	{
-		// Load and cache sprites again. 
-		Assets.INSTANCE.init(new AssetManager()); 
-		
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
-	public void dispose()
+	public void dispose() 
 	{
-		// Dispose Assets
-		Assets.INSTANCE.dispose(); 
-		
+		// TODO Auto-generated method stub
+
 	}
-	
+
 }
