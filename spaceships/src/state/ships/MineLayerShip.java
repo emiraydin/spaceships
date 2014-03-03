@@ -5,6 +5,8 @@ import gameLogic.Constants.ArmourType;
 import java.util.LinkedList;
 
 import state.Mine;
+import state.weapons.Cannon;
+import state.weapons.MineLayer;
 
 /**
  * Class for the MineLayer Class ship. 
@@ -34,11 +36,8 @@ public class MineLayerShip extends AbstractShip
 		
 		mines = new LinkedList<Mine>();
 		
-		
-//		this.shipArmor = shipArmorTypes.Heavy; 
-//		this.shipWeapons = new LinkedList<shipWeaponTypes>(); 
-//		this.shipWeapons.add(shipWeaponTypes.LightCannon);
-//		this.shipWeapons.add(shipWeaponTypes.Mine); 
+		this.addWeapon(new Cannon());
+		this.addWeapon(new MineLayer());
 	}
 	
 	public int getSonarVisibilityWidth() {

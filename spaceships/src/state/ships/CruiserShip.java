@@ -1,5 +1,6 @@
 package state.ships;
 
+import state.weapons.HeavyCannon;
 import gameLogic.Constants.ArmourType;
 
 /**
@@ -14,7 +15,8 @@ public class CruiserShip extends AbstractShip
 	public CruiserShip()
 	{
 		super(5, ArmourType.Heavy, 10, 11, 15, 0, 3, 10);
-//		this.shipWeapons = new LinkedList<shipWeaponTypes>(); 
-//		this.shipWeapons.add(shipWeaponTypes.HeavyCannon); 
+		
+		// Cruiser gets a heavy cannon
+		this.addWeapon(new HeavyCannon());
 	}
 }

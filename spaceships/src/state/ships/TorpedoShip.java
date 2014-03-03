@@ -1,5 +1,7 @@
 package state.ships;
 
+import state.weapons.Cannon;
+import state.weapons.TorpedoLauncher;
 import gameLogic.Constants.ArmourType;
 
 /**
@@ -8,15 +10,15 @@ import gameLogic.Constants.ArmourType;
 public class TorpedoShip extends AbstractShip
 {
 
-	/**
+	/** 
 	 * Default constructor. 
 	 * Sets the basic properties for the Destroyer ship. 
 	 */
 	public TorpedoShip()
 	{
-		super(3, ArmourType.Normal, 9, 5, 5, 1, 3, 6);
-//		this.shipWeapons = new LinkedList<shipWeaponTypes>(); 
-//		this.shipWeapons.add(shipWeaponTypes.LightCannon);
-//		this.shipWeapons.add(shipWeaponTypes.Torpedo); 
+		super(3, ArmourType.Normal, 9, 5, 5, 0, 3, 6);
+
+		this.addWeapon(new Cannon());
+		this.addWeapon(new TorpedoLauncher());
 	}
 }

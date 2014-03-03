@@ -96,12 +96,20 @@ public abstract class AbstractShip extends SpaceThing
 		
 	}
 	
+	/**
+	 * Add a weapon to the ship.
+	 * 
+	 * @param input the weapon to add
+	 */
+	public void addWeapon(AbstractWeapon input) {
+		this.weapons.add(input);
+	}
+	
 	
 	/*
 	 * Basic Getters...
 	 */
-	
-	public ActionType[] getPossibleActions() {
+ 	public ActionType[] getPossibleActions() {
 		return null;
 	}
 	public int getSectionAt(int x, int y) {
