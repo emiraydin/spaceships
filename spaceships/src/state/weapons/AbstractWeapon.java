@@ -1,7 +1,12 @@
 package state.weapons;
 
+import state.ships.AbstractShip;
+
 public abstract class AbstractWeapon {
+	
 	int damage;
+	AbstractShip ownerShip;
+	
 	
 	/**
 	 * Fire the weapon.
