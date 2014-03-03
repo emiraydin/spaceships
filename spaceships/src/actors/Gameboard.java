@@ -52,9 +52,22 @@ public class Gameboard
 			{
 				stage.addActor(TILE_LAYER[i][k]); 
 			}
-		}	
+		}
 		
-		ShipTile t = new ShipTile(0,0);
+		for(int i = 0; i < 20; i ++)
+		{
+			int randomX = 10 + (int)(Math.random() * ((20 - 10) + 1));
+			int randomY = 10 + (int)(Math.random() * ((20 - 10) + 1));
+			if(OBJECT_LAYER[randomX][randomY] == null)
+			{
+				OBJECT_LAYER[randomX][randomY] = new Asteroid(randomX, randomY); 
+				stage.addActor(OBJECT_LAYER[randomX][randomY]);
+			}
+			System.out.println(randomX + " " + randomY);
+		}
+		
+		
+		Ship t = new Ship(0,0);
 		stage.addActor(t); 
 		OBJECT_LAYER[0][0] = t; 
 	}
@@ -65,7 +78,7 @@ public class Gameboard
 	 */
 	public void update(float delta)
 	{
-		moveTo(OBJECT_LAYER[0][0], 5, 0, delta);
+		moveTo(OBJECT_LAYER[0][0], 5, 5, delta);
 	}
 	
 	/**
@@ -76,6 +89,11 @@ public class Gameboard
 		if (actor.getX() < x)
 		{
 			actor.moveBy(delta, 0);
+			System.out.println(actor.getX()); 
+		}
+		if(actor.getX() >= x && actor.getY() < y)
+		{
+			actor.moveBy(0, delta);
 		}
 	}
 }
