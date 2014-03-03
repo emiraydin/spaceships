@@ -22,7 +22,7 @@ public class GameStateBuildMessage extends AbstractMessage
 	@Override
 	public void execute()
 	{
-		// TODO Auto-generated method stub
+		// Create a new spaceThing and tie it to its unique id.
 		
 	}
 	

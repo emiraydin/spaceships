@@ -30,8 +30,7 @@ public class ActionMessage extends AbstractMessage
 	@Override
 	public void execute()
 	{
-		// TODO Auto-generated method stub
-		
+		// Play some sprite animation.
 	}
 	
 

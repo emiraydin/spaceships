@@ -24,7 +24,7 @@ public class GameStateUpdateMessage extends AbstractMessage
 	@Override
 	public void execute()
 	{
-		// TODO Auto-generated method stub
+		// Fine some spaceThing based on its unique ID number and run updateProperties() on it.
 		
 	}
 	

@@ -43,7 +43,7 @@ public class VisibilityMessage extends AbstractMessage
 	@Override
 	public void execute()
 	{
-		// TODO Auto-generated method stub
+		// Update the player's visible tiles.
 		
 	}
 }
