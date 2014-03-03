@@ -27,5 +27,6 @@ public class Constants
 	public static enum WeaponType { Cannon, Torpedo, Mine }
 	public static enum VisibilityType { None, Sonar, Radar, Both}
 	public static enum ActionType { Move, Place, FireCannon, FireTorpedo, DropMine, PickupMine, TurnLeft, TurnRight, Turn180, Repair }
+	public static enum ArmourType { Normal, Heavy }
 	
 }

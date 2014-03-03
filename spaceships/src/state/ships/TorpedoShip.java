@@ -1,6 +1,8 @@
 package state.ships;
 
-import java.util.LinkedList;
+import state.weapons.Cannon;
+import state.weapons.TorpedoLauncher;
+import gameLogic.Constants.ArmourType;
 
 /**
  * The Class for the Torpedo Ship type vessel. 
@@ -8,17 +10,15 @@ import java.util.LinkedList;
 public class TorpedoShip extends AbstractShip
 {
 
-	/**
+	/** 
 	 * Default constructor. 
 	 * Sets the basic properties for the Destroyer ship. 
 	 */
 	public TorpedoShip()
 	{
-//		this.shipSize = 3; 
-//		this.shipSpeed = 9; 
-//		this.shipArmor = shipArmorTypes.Light; 
-//		this.shipWeapons = new LinkedList<shipWeaponTypes>(); 
-//		this.shipWeapons.add(shipWeaponTypes.LightCannon);
-//		this.shipWeapons.add(shipWeaponTypes.Torpedo); 
+		super(3, ArmourType.Normal, 9, 5, 5, 0, 3, 6);
+
+		this.addWeapon(new Cannon());
+		this.addWeapon(new TorpedoLauncher());
 	}
 }

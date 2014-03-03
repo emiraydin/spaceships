@@ -12,7 +12,7 @@ import state.weapons.AbstractWeapon;
  * Allows easy creation of new ships. 
  *
  */
-public class AbstractShip extends SpaceThing
+public abstract class AbstractShip extends SpaceThing
 {
 
 	/*
@@ -20,33 +20,70 @@ public class AbstractShip extends SpaceThing
 	 */
 	
 	// Basic facts
-	int speed;
-	int length;
-	int[] sectionHealth;
-	//OrientationType orientation;
+	protected int speed;
+	protected int length;
+	protected ArmourType armour;
+	protected int[] sectionHealth;
+	OrientationType orientation;
 	
 	// Cannon properties
-	int cannonWidth;
-	int cannonHeight;
-	int cannonXOffset;
-	
-	// Sonar Properties
-	int sonarVisibilityWidth;
-	int sonarVisibilityHeight;
+	protected int cannonWidth;
+	protected int cannonLength;
+	protected int cannonXOffset;
 	
 	// Radar Properties
-	int radarVisibilityWidth;
-	int radarVisibilityHeight;
+	protected int radarVisibilityWidth;
+	protected int radarVisibilityLength;
 	
 	// Weapons
-	LinkedList<AbstractWeapon> weapons;	
+	protected LinkedList<AbstractWeapon> weapons;	
+	
+	/**
+	 * Construct the abstract ship.
+	 * 
+	 * @param length
+	 * @param armour
+	 * @param speed
+	 * @param cannonWidth
+	 * @param cannonLength
+	 * @param cannonXOffset
+	 * @param radarVisibilityWidth
+	 * @param radarVisibilityLength
+	 */
+	public AbstractShip(int length,
+			ArmourType armour,
+			int speed,
+			int cannonWidth,
+			int cannonLength,
+			int cannonXOffset,
+			int radarVisibilityWidth,
+			int radarVisibilityLength) {
+		
+		// Build the weapons list
+		this.weapons = new LinkedList<AbstractWeapon>();
+		
+		// We need the length to construct the sectionHealth;
+		this.length = length;
+		this.armour = armour;
+		this.sectionHealth = new int[length];
+		for (int i = 0; i < length; i++) {
+			this.sectionHealth[i] = armour.ordinal() + 1;
+		}
+		
+		// Build the standard properties
+		this.speed = speed;
+		this.cannonWidth = cannonWidth;
+		this.cannonLength = cannonLength;
+		this.cannonXOffset = cannonXOffset;
+		this.radarVisibilityWidth = radarVisibilityWidth;
+		this.radarVisibilityLength = radarVisibilityLength;
+	}
 	
 	
 	
 	/*
 	 * Methods
 	 */
-	
 	public void useWeapon(WeaponType wType, int x, int y) {
 		
 	}
@@ -59,12 +96,20 @@ public class AbstractShip extends SpaceThing
 		
 	}
 	
+	/**
+	 * Add a weapon to the ship.
+	 * 
+	 * @param input the weapon to add
+	 */
+	public void addWeapon(AbstractWeapon input) {
+		this.weapons.add(input);
+	}
+	
 	
 	/*
 	 * Basic Getters...
 	 */
-	
-	public ActionType[] getPossibleActions() {
+ 	public ActionType[] getPossibleActions() {
 		return null;
 	}
 	public int getSectionAt(int x, int y) {
@@ -79,23 +124,17 @@ public class AbstractShip extends SpaceThing
 	public int getCannonWidth() {
 		return this.cannonWidth;
 	}	
-	public int getCannonHeight() {
-		return this.cannonHeight;
+	public int getCannonLength() {
+		return this.cannonLength;
 	}	
 	public int getCannonXOffset() {
 		return this.cannonXOffset;
 	}	
-	public int getSonarVisibilityWidth() {
-		return this.sonarVisibilityWidth;
-	}	
-	public int getSonarVisibilityHeight() {
-		return this.sonarVisibilityHeight;
-	}	
 	public int getRadarVisibilityWidth() {
 		return this.radarVisibilityWidth;
 	}	
-	public int getRadarVisibilityHeight() {
-		return this.radarVisibilityHeight;
+	public int getRadarVisibilityL() {
+		return this.radarVisibilityLength;
 	}
 	
 	// Methods that aren't in the client:

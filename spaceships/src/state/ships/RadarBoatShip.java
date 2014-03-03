@@ -1,6 +1,10 @@
 package state.ships;
 
+import gameLogic.Constants.ArmourType;
+
 import java.util.LinkedList;
+
+import state.weapons.Cannon;
 
 /**
  * Class for the RadarShip type. 
@@ -13,11 +17,8 @@ public class RadarBoatShip extends AbstractShip
 	 */
 	public RadarBoatShip()
 	{
-//		this.shipSize = 2; 
-//		this.shipSpeed = 6; 
-//		this.shipArmor = shipArmorTypes.Heavy; 
-//		this.shipWeapons = new LinkedList<shipWeaponTypes>(); 
-//		this.shipWeapons.add(shipWeaponTypes.LightCannon);
-//		this.shipWeapons.add(shipWeaponTypes.Mine); 
+		super(3, ArmourType.Normal, 3, 3, 5, 0, 3, 6);
+		
+		this.addWeapon(new Cannon());
 	}
 }

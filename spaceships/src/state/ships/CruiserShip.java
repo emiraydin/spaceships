@@ -1,6 +1,7 @@
 package state.ships;
 
-import java.util.LinkedList;
+import state.weapons.HeavyCannon;
+import gameLogic.Constants.ArmourType;
 
 /**
  * The Cruiser Class Ship. TODO: Come up with a cooler name. 
@@ -13,10 +14,9 @@ public class CruiserShip extends AbstractShip
 	 */
 	public CruiserShip()
 	{
-//		this.shipSize = 5; 
-//		this.shipSpeed = 10; 
-//		this.shipArmor = shipArmorTypes.Heavy; 
-//		this.shipWeapons = new LinkedList<shipWeaponTypes>(); 
-//		this.shipWeapons.add(shipWeaponTypes.HeavyCannon); 
+		super(5, ArmourType.Heavy, 10, 11, 15, 0, 3, 10);
+		
+		// Cruiser gets a heavy cannon
+		this.addWeapon(new HeavyCannon());
 	}
 }
