@@ -1,6 +1,6 @@
 package state.ships;
 
-import java.util.LinkedList;
+import gameLogic.Constants.ArmourType;
 
 /**
  * The Destroyer ship class. TODO: Come up with more badass names. 
@@ -13,9 +13,7 @@ public class DestroyerShip extends AbstractShip
 	 */
 	public DestroyerShip()
 	{
-//		this.shipSize = 4; 
-//		this.shipSpeed = 8; 
-//		this.shipArmor = shipArmorTypes.Light; 
+		super(4, ArmourType.Normal, 8, 9, 12, 0, 3, 8);
 //		this.shipWeapons = new LinkedList<shipWeaponTypes>(); 
 //		this.shipWeapons.add(shipWeaponTypes.LightCannon);
 //		this.shipWeapons.add(shipWeaponTypes.Torpedo); 

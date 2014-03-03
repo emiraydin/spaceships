@@ -28,36 +28,36 @@ public abstract class AbstractShip extends SpaceThing
 	
 	// Cannon properties
 	protected int cannonWidth;
-	protected int cannonHeight;
+	protected int cannonLength;
 	protected int cannonXOffset;
-	
-	// Sonar Properties
-	protected int sonarVisibilityWidth;
-	protected int sonarVisibilityHeight;
 	
 	// Radar Properties
 	protected int radarVisibilityWidth;
-	protected int radarVisibilityHeight;
+	protected int radarVisibilityLength;
 	
 	// Weapons
 	protected LinkedList<AbstractWeapon> weapons;	
 	
 	/**
-	 * Constructor requires length and health for each tile.
+	 * Construct the abstract ship.
 	 * 
-	 * @param length length of the ship
-	 * @param health how many health points each tile has
+	 * @param length
+	 * @param armour
+	 * @param speed
+	 * @param cannonWidth
+	 * @param cannonLength
+	 * @param cannonXOffset
+	 * @param radarVisibilityWidth
+	 * @param radarVisibilityLength
 	 */
 	public AbstractShip(int length,
 			ArmourType armour,
 			int speed,
 			int cannonWidth,
-			int cannonHeight,
+			int cannonLength,
 			int cannonXOffset,
-//			int sonarVisibilityWidth,
-//			int sonarVisibilityHeight,
 			int radarVisibilityWidth,
-			int radarVisibilityHeight) {
+			int radarVisibilityLength) {
 		
 		// Build the weapons list
 		this.weapons = new LinkedList<AbstractWeapon>();
@@ -73,12 +73,10 @@ public abstract class AbstractShip extends SpaceThing
 		// Build the standard properties
 		this.speed = speed;
 		this.cannonWidth = cannonWidth;
-		this.cannonHeight = cannonHeight;
+		this.cannonLength = cannonLength;
 		this.cannonXOffset = cannonXOffset;
-//		this.sonarVisibilityWidth = sonarVisibilityWidth;
-//		this.sonarVisibilityHeight = sonarVisibilityHeight;
 		this.radarVisibilityWidth = radarVisibilityWidth;
-		this.radarVisibilityHeight = radarVisibilityHeight;
+		this.radarVisibilityLength = radarVisibilityLength;
 	}
 	
 	
@@ -118,23 +116,17 @@ public abstract class AbstractShip extends SpaceThing
 	public int getCannonWidth() {
 		return this.cannonWidth;
 	}	
-	public int getCannonHeight() {
-		return this.cannonHeight;
+	public int getCannonLength() {
+		return this.cannonLength;
 	}	
 	public int getCannonXOffset() {
 		return this.cannonXOffset;
 	}	
-	public int getSonarVisibilityWidth() {
-		return this.sonarVisibilityWidth;
-	}	
-	public int getSonarVisibilityHeight() {
-		return this.sonarVisibilityHeight;
-	}	
 	public int getRadarVisibilityWidth() {
 		return this.radarVisibilityWidth;
 	}	
-	public int getRadarVisibilityHeight() {
-		return this.radarVisibilityHeight;
+	public int getRadarVisibilityL() {
+		return this.radarVisibilityLength;
 	}
 	
 	// Methods that aren't in the client:

@@ -1,5 +1,7 @@
 package state.ships;
 
+import gameLogic.Constants.ArmourType;
+
 import java.util.LinkedList;
 
 /**
@@ -13,6 +15,7 @@ public class RadarBoatShip extends AbstractShip
 	 */
 	public RadarBoatShip()
 	{
+		super(3, ArmourType.Normal, 3, 3, 5, 0, 3, 6);
 //		this.shipSize = 2; 
 //		this.shipSpeed = 6; 
 //		this.shipArmor = shipArmorTypes.Heavy; 
