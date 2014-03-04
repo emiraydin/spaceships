@@ -57,7 +57,37 @@ public class Tile extends Image
 		
 		return newTexture;
 	}
+	
+	/**
+	 * Generates a basic Texture that is Square
+	 * with a red fill. 
+	 * @return : A red Texture. 
+	 */
+	private Texture generateStandardRedTile() 
+	{
+		Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
+		// Draw a cyan-colored border around square
+		pixmap.setColor(1, 0, 0, 0.5f);
+		pixmap.fill(); 
+		//pixmap.drawRectangle(0, 0, WIDTH, HEIGHT);
+		pixmap.setColor(0, 1, 1, 1);
+		pixmap.drawRectangle(0, 0, WIDTH, HEIGHT);
+		Texture newTexture = new Texture(pixmap);
+		
+		return newTexture;
+	}
 
+	public void drawAsRed()
+	{
+		SPRITE.getTexture().dispose(); 
+		SPRITE = new Sprite(generateStandardRedTile()); 
+	}
+	
+	public void drawAsBlue()
+	{
+		SPRITE.getTexture().dispose(); 
+		SPRITE = new Sprite(generateStandardTile()); 
+	}
 	
 	@Override
 	public void draw(Batch batch, float parentAlpha)

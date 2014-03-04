@@ -1,9 +1,7 @@
 package state.ships;
 
 import gameLogic.Constants.*;
-
 import java.util.LinkedList;
-
 import state.SpaceThing;
 import state.weapons.AbstractWeapon;
 
@@ -50,7 +48,9 @@ public abstract class AbstractShip extends SpaceThing
 	 * @param radarVisibilityWidth
 	 * @param radarVisibilityLength
 	 */
-	public AbstractShip(int length,
+	public AbstractShip(int id,
+			PlayerNumber owner,
+			int length,
 			ArmourType armour,
 			int speed,
 			int cannonWidth,
@@ -58,6 +58,9 @@ public abstract class AbstractShip extends SpaceThing
 			int cannonXOffset,
 			int radarVisibilityWidth,
 			int radarVisibilityLength) {
+		
+		// Unique id
+		super(id, owner);
 		
 		// Build the weapons list
 		this.weapons = new LinkedList<AbstractWeapon>();
@@ -80,20 +83,51 @@ public abstract class AbstractShip extends SpaceThing
 	}
 	
 	
-	
 	/*
 	 * Methods
+	 */	
+	
+	/**
+	 * Update the ships properties after a turn.
+	 *  
+	 * @param posX new x position on map
+	 * @param posY new y position on map
+	 * @param orientation new orientation
+	 * @param sectionHealth new sectionHealth array
+	 */
+	public void updateProperties(int posX, int posY, OrientationType orientation, int[] sectionHealth) {
+		this.setX(posX);
+		this.setY(posY);
+		this.setOrientation(orientation);
+		this.sectionHealth = sectionHealth.clone();
+	}
+	
+	/**
+	 * Do we need this function on the client?
+	 * 	
+	 * @param wType
+	 * @param x
+	 * @param y
 	 */
 	public void useWeapon(WeaponType wType, int x, int y) {
 		
 	}
 	
+	/**
+	 * Get the ship orientation.
+	 * 
+	 * @return
+	 */
 	public OrientationType getOrientation() {
-		return null;
+		return this.orientation;
 	}
-	
+	/**
+	 * Set the ship orientation.
+	 * 
+	 * @param oType
+	 */
 	public void setOrientation(OrientationType oType) {
-		
+		this.orientation = oType;
 	}
 	
 	/**

@@ -6,3 +6,5 @@
 /state
 /util
 /view
+/messagehandlers
+/messageprotocol

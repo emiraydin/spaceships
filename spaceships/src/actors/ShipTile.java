@@ -27,7 +27,6 @@ public class ShipTile extends Image
 	{
 		SPRITE = new Sprite(generateShipTexture());
 		setPosition(x,y);
-		System.out.println(x + " " + getX()); 
 		setWidth(1);
 		setHeight(1);
 	}
