@@ -33,7 +33,7 @@ public class MineLayerShip extends AbstractShip
 	public MineLayerShip(int id, PlayerNumber owner)
 	{
 		// Length is 2 and health points are 1?
-		super(id, owner, 2, ArmourType.Heavy, 6, 1, 1, 1, 1, 1);		
+		super(id, owner, 2, ArmourType.Heavy, 6, 3, 5, 1, 1, 1);		
 		
 		mines = new LinkedList<Mine>();
 		

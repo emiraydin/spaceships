@@ -9,6 +9,7 @@ import state.ships.CruiserShip;
 import state.ships.DestroyerShip;
 import state.ships.MineLayerShip;
 import state.ships.RadarBoatShip;
+import state.ships.TorpedoShip;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
@@ -26,7 +27,7 @@ public class ActorState
 	 * Instance variables.
 	 * These are the various objects to which we are interested. 
 	 */
-	private static int			boardHeight = 30, boardWidth = 30;					// The gameBoard Height and Width. 	
+	public static int			boardHeight = 30, boardWidth = 30;					// The gameBoard Height and Width. 	
 	private static int			maxAsteroids = 24; 									// The Maximum number of Asteroids available. 
 	public static Tile[][] 		boardTiles = new Tile[boardHeight][boardWidth];		 // The game Tiles. 
 	public static BaseTile[][] 	playerOneBase = new BaseTile[boardHeight][boardWidth]; 	// The current players base Tiles. 
@@ -132,6 +133,8 @@ public class ActorState
 		MineLayerShip layerA = new MineLayerShip(5, PlayerNumber.PlayerOne); 
 		MineLayerShip layerB = new MineLayerShip(6, PlayerNumber.PlayerOne); 
 		RadarBoatShip radarA = new RadarBoatShip(7, PlayerNumber.PlayerOne); 
+		TorpedoShip torpedoA = new TorpedoShip(8, PlayerNumber.PlayerOne); 
+		TorpedoShip torpedoB = new TorpedoShip(9, PlayerNumber.PlayerOne); 
 		
 		// Setup all the orientation. 
 		cruiserA.setOrientation(OrientationType.East);
@@ -142,17 +145,19 @@ public class ActorState
 		layerA.setOrientation(OrientationType.East);
 		layerB.setOrientation(OrientationType.East);
 		radarA.setOrientation(OrientationType.East);
+		torpedoA.setOrientation(OrientationType.East);
+		torpedoB.setOrientation(OrientationType.East);
 		
 		// Set the starting x and y positions. 
 		cruiserA.setX(10);
 		cruiserA.setY(10);
-		cruiserB.setX(1);
+		cruiserB.setX(5);
 		cruiserB.setY(11);
-		destroyerA.setX(1);
+		destroyerA.setX(8);
 		destroyerA.setY(12);
-		destroyerB.setX(1);
+		destroyerB.setX(3);
 		destroyerB.setY(13);
-		destroyerC.setX(1);
+		destroyerC.setX(19);
 		destroyerC.setY(14);
 		layerA.setX(1);
 		layerA.setY(15);
@@ -160,6 +165,10 @@ public class ActorState
 		layerB.setY(16);
 		radarA.setX(1);
 		radarA.setY(17);
+		torpedoA.setX(1);
+		torpedoA.setY(18); 
+		torpedoB.setX(1);
+		torpedoB.setY(19);
 
 		// Create the basic ship actors. 
 		Ship playerCruiserOne = new Ship(1,10,cruiserA);
@@ -170,6 +179,8 @@ public class ActorState
 		Ship playerLayerOne = new Ship(1,15,layerA);
 		Ship playerLayerTwo = new Ship(1,16,layerB);
 		Ship playerRadarOne = new Ship(1,17,radarA);
+		Ship playerTorpedoOne = new Ship(1,18,torpedoA); 
+		Ship playerTorpedoTwo = new Ship(1,19,torpedoB); 
 
 		// Add all the Actors to the FleetList.
 		shipList.add(0, playerCruiserOne); 
@@ -180,6 +191,8 @@ public class ActorState
 		shipList.add(5, playerLayerOne); 
 		shipList.add(6, playerLayerTwo); 
 		shipList.add(7, playerRadarOne); 
+		shipList.add(8, playerTorpedoOne); 
+		shipList.add(9, playerTorpedoTwo);
 		
 		// Add all the ship tiles to the tile list. 
 		addFleetTiles(shipList); 

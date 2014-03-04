@@ -67,7 +67,45 @@ public class Tile extends Image
 	{
 		Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
 		// Draw a cyan-colored border around square
-		pixmap.setColor(1, 0, 0, 0.5f);
+		pixmap.setColor(1, 0, 0, 0.25f);
+		pixmap.fill(); 
+		//pixmap.drawRectangle(0, 0, WIDTH, HEIGHT);
+		pixmap.setColor(0, 1, 1, 1);
+		pixmap.drawRectangle(0, 0, WIDTH, HEIGHT);
+		Texture newTexture = new Texture(pixmap);
+		
+		return newTexture;
+	}
+	
+	/**
+	 * Generates a basic Texture that is Square
+	 * with a red border
+	 * @return : A red Texture. 
+	 */
+	private Texture generateStandardRedBorderTile() 
+	{
+		Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
+		// Draw a cyan-colored border around square
+		pixmap.setColor(1, 0, 0, 1f);
+		//pixmap.fill(); 
+		pixmap.drawRectangle(0, 0, WIDTH, HEIGHT);
+		//pixmap.setColor(0, 1, 1, 1);
+		//pixmap.drawRectangle(0, 0, WIDTH, HEIGHT);
+		Texture newTexture = new Texture(pixmap);
+		
+		return newTexture;
+	}
+	
+	/**
+	 * Generates a basic Texture that is Square
+	 * with a red fill. 
+	 * @return : A red Texture. 
+	 */
+	private Texture generateStandardGreenTile() 
+	{
+		Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
+		// Draw a cyan-colored border around square
+		pixmap.setColor(0, 1, 0, 0.25f);
 		pixmap.fill(); 
 		//pixmap.drawRectangle(0, 0, WIDTH, HEIGHT);
 		pixmap.setColor(0, 1, 1, 1);
@@ -83,10 +121,22 @@ public class Tile extends Image
 		SPRITE = new Sprite(generateStandardRedTile()); 
 	}
 	
+	public void drawAsRedBorder() {
+		SPRITE.getTexture().dispose();
+		SPRITE = new Sprite(generateStandardRedBorderTile()); 
+		
+	}
+	
 	public void drawAsBlue()
 	{
 		SPRITE.getTexture().dispose(); 
 		SPRITE = new Sprite(generateStandardTile()); 
+	}
+	
+	public void drawAsGreen()
+	{
+		SPRITE.getTexture().dispose();
+		SPRITE = new Sprite(generateStandardGreenTile()); 
 	}
 	
 	@Override
@@ -96,4 +146,6 @@ public class Tile extends Image
         batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
         batch.draw(SPRITE, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
 	}
+
+
 }

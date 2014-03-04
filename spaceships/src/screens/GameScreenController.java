@@ -1,7 +1,9 @@
 package screens;
 
 import gameLogic.Constants;
+import gameLogic.Constants.OrientationType;
 import state.ships.AbstractShip;
+import state.ships.TorpedoShip;
 import actors.ActorState;
 import actors.Asteroid;
 import actors.BaseTile;
@@ -11,6 +13,7 @@ import actors.ShipTile;
 import actors.Tile;
 
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -34,7 +37,8 @@ public class GameScreenController implements InputProcessor
 	private OrthographicCamera CAMERA; 								// The Game Camera
 	private CameraController CAMCONTROLLER; 						// Handles changing Camera views. 
 	public Stage STAGE; 											// The Stage. 
-	private int CURRENT_SELECTION = -1; 								// The currently selected ship
+	private int CURRENT_SELECTION = -1; 							// The currently selected ship
+	private boolean CURRENT_SELECTION_UPDATED_AND_NOT_DRAWN = false; // Helper Variable. Keeps track of whether the current selection was updated but not drawn. 
 	
 	
 	/**
@@ -144,34 +148,24 @@ public class GameScreenController implements InputProcessor
 	 */
 	private void drawShipBoundaries()
 	{
-		for(Ship theShip : ActorState.shipList)
-		{
-			if(theShip.getIsCurrent())
-			{
-				AbstractShip ship = theShip.ship; 
-				int shipSpeed = ship.getSpeed(); 
-				int xPosition = ship.getX(); 
-				int yPosition = ship.getY(); 
-				
-				for(int i = xPosition; i < xPosition + shipSpeed; i++)
-				{
-					ActorState.boardTiles[i][yPosition].drawAsRed();
-				}
-			}
-			else
-			{
-				AbstractShip ship = theShip.ship; 
-				int shipSpeed = ship.getSpeed(); 
-				int xPosition = ship.getX(); 
-				int yPosition = ship.getY(); 
-				
-				for(int i = xPosition; i < xPosition + shipSpeed; i++)
-				{
-					ActorState.boardTiles[i][yPosition].drawAsBlue();
-				}
-			}
-		}
 	}
+
+
+	/**
+	 * Draws the entire gameBoard as blue tiles. 
+	 */
+	private void resetGameBoardBlue() 
+	{
+		// Reset all the game tiles to blue. 
+		for(int i = 0; i < ActorState.boardHeight; i ++)
+		{
+			for(int k = 0; k < ActorState.boardWidth; k++)
+			{
+				ActorState.boardTiles[i][k].drawAsBlue(); 
+			}
+		}	
+	}
+	
 
 
 	/**
@@ -238,13 +232,14 @@ public class GameScreenController implements InputProcessor
 	}
 	
 	
-	
 	/*********************************************************************************
 	 * Initializing methods.
 	 *********************************************************************************/
+	
 	/**
 	 * Initialize the camera with the appropriate settings. 
 	 */
+	
 	private void initCamera() 
 	{
 		CAMERA = new OrthographicCamera(); 
@@ -329,9 +324,174 @@ public class GameScreenController implements InputProcessor
 	 *********************************************************************************/
 	
 	@Override
-	public boolean keyDown(int keycode) {
-		// TODO Auto-generated method stub
+	public boolean keyDown(int keycode) 
+	{
+		if(keycode == Keys.H)
+		{
+			if(CURRENT_SELECTION != -1)
+			{
+				Ship actorShip = ActorState.shipList.get(CURRENT_SELECTION);
+				AbstractShip modelShip = actorShip.ship; 
+				
+				// Draw the movement Range
+				drawMovementRange(actorShip, modelShip); 
+			}
+		}
+		
+		if (keycode == Keys.J)
+		{
+			if(CURRENT_SELECTION != -1)
+			{
+				Ship actorShip = ActorState.shipList.get(CURRENT_SELECTION);
+				AbstractShip modelShip = actorShip.ship; 
+				
+				// Draw the fire range.
+				drawCannonRange(actorShip, modelShip); 
+			}
+		}
 		return false;
+	}
+	
+	/**
+	 * Helper method that draws the movement range. 
+	 * @param actorShip
+	 * @param modelShip
+	 */
+	private void drawCannonRange(Ship actorShip, AbstractShip modelShip) 
+	{
+		// Get the actor and model ships, and draw their appropriate rectangles. 
+		int length = modelShip.getLength(); 
+		int speed = modelShip.getSpeed(); 
+		int cannonLength = modelShip.getCannonLength(); 
+		int cannonWidth = modelShip.getCannonWidth(); 
+		int xPos = modelShip.getX(); 
+		int yPos = modelShip.getY(); 
+		OrientationType orientation = modelShip.getOrientation(); 
+		int shipBack = xPos; 
+		
+		// The drawing is different depending on the orientation. 
+		switch(orientation)
+		{
+			case East:
+			{
+				if(modelShip instanceof TorpedoShip)
+				{
+					for(int i = xPos; i <= cannonLength; i++)
+					{
+						for(int k = yPos - 2; k <= yPos + 2; k++)
+						{
+							if((i >= 0 && i < ActorState.boardWidth) && (k >= 0 && k <= ActorState.boardHeight))
+							{
+								ActorState.boardTiles[i][k].drawAsRed(); 
+							}
+							
+						}
+					}
+				}
+				else
+				{
+					// Get the front of the ship. 
+					int shipFront = xPos + length - 1; 
+					
+					// Get the middle Tile. 
+					int middleTile = (shipBack + shipFront) / 2; 
+					
+					for(int i = middleTile - (cannonLength / 2); i < middleTile + (cannonLength/2 + 1); i++)
+					{
+						for(int k = yPos - (cannonWidth / 2); k < yPos + (cannonWidth / 2 + 1); k++)
+						{
+							if((i >= 0 && i < ActorState.boardWidth) && (k >= 0 && k <= ActorState.boardHeight))
+							{
+								ActorState.boardTiles[i][k].drawAsRed(); 
+							}
+						}
+						
+					}
+				}
+			}
+			
+			case West:
+			{
+
+
+			}
+			
+			case North:
+			{
+				
+			}
+			
+			case South:
+			{
+				
+			}
+		
+		}
+	}
+
+
+	/**
+	 * Helper method that draws all the movement range. 
+	 */
+	private void drawMovementRange(Ship actor, AbstractShip model)
+	{
+		// Get the actor and model ships, and draw their appropriate rectangles. 
+		Ship actorShip = ActorState.shipList.get(CURRENT_SELECTION); 
+		AbstractShip modelShip = actorShip.ship; 
+		int length = modelShip.getLength(); 
+		int speed = modelShip.getSpeed(); 
+		int cannonLength = modelShip.getCannonLength(); 
+		int cannonWidth = modelShip.getCannonWidth(); 
+		int xPos = modelShip.getX(); 
+		int yPos = modelShip.getY(); 
+		OrientationType orientation = modelShip.getOrientation(); 
+		int shipBack = xPos; 
+		
+		// The drawing is different depending on the orientation. 
+		switch(orientation)
+		{
+			case East:
+			{
+				// Get the front of the ship. 
+				int shipFront = xPos + length - 1; 
+				
+				// Draw the movement range. 
+				for(int i = xPos - 1; i < shipFront + speed; i++)
+				{
+					if(i >= shipBack && i <= shipFront)
+					{
+						for(int k = yPos - 1; k <= yPos + 1; k++)
+						{
+							if((i >= 0 && i < ActorState.boardWidth) && (k >= 0 && k <= ActorState.boardHeight))
+							{
+								ActorState.boardTiles[i][k].drawAsGreen(); 
+							}
+						}
+					}
+					if((i >= 0 && i < ActorState.boardWidth))
+					{
+						ActorState.boardTiles[i][yPos].drawAsGreen(); 
+					}
+				}
+			}
+			
+			case West:
+			{
+
+
+			}
+			
+			case North:
+			{
+				
+			}
+			
+			case South:
+			{
+				
+			}
+		
+		}
 	}
 
 
@@ -341,15 +501,21 @@ public class GameScreenController implements InputProcessor
 		// Cycle through current Ships 
 		if(Keys.SPACE == keycode)
 		{
-			if(CURRENT_SELECTION < 7)
+			if(CURRENT_SELECTION < 9)
 			{
 				CURRENT_SELECTION ++;
-				System.out.println(CURRENT_SELECTION);
+				CURRENT_SELECTION_UPDATED_AND_NOT_DRAWN = true; 
 			}
 			else
 			{
 				CURRENT_SELECTION = 0; 
+				CURRENT_SELECTION_UPDATED_AND_NOT_DRAWN = true; 
 			}
+		}
+		
+		if(Keys.H == keycode || Keys.J == keycode || Keys.K == keycode)
+		{
+			resetGameBoardBlue(); 
 		}
 		
 		// Display no ship borders
