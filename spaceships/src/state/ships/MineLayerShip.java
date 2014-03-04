@@ -1,6 +1,7 @@
 package state.ships;
 
 import gameLogic.Constants.ArmourType;
+import gameLogic.Constants.PlayerNumber;
 
 import java.util.LinkedList;
 
@@ -29,10 +30,10 @@ public class MineLayerShip extends AbstractShip
 	 * Default constructor. 
 	 * Sets the basic properties for the Destroyer ship. 
 	 */
-	public MineLayerShip()
+	public MineLayerShip(int id, PlayerNumber owner)
 	{
 		// Length is 2 and health points are 1?
-		super(2, ArmourType.Heavy, 6, 1, 1, 1, 1, 1);		
+		super(id, owner, 2, ArmourType.Heavy, 6, 1, 1, 1, 1, 1);		
 		
 		mines = new LinkedList<Mine>();
 		

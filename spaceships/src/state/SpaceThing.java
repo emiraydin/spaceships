@@ -1,8 +1,22 @@
 package state;
 
+import gameLogic.Constants.PlayerNumber;
+
 public class SpaceThing {
-	int x;
-	int y;
+	
+	protected int uniqueId;
+	protected PlayerNumber owner;
+	protected int x;
+	protected int y;
+	
+	public SpaceThing(int id, PlayerNumber owner) {
+		this.uniqueId = id;
+		this.owner = owner;
+	}
+	
+	public void setOwner(PlayerNumber owner) {
+		this.owner = owner;
+	}
 	
 	public int getX() {
 		return this.x;

@@ -48,7 +48,9 @@ public abstract class AbstractShip extends SpaceThing
 	 * @param radarVisibilityWidth
 	 * @param radarVisibilityLength
 	 */
-	public AbstractShip(int length,
+	public AbstractShip(int id,
+			PlayerNumber owner,
+			int length,
 			ArmourType armour,
 			int speed,
 			int cannonWidth,
@@ -56,6 +58,9 @@ public abstract class AbstractShip extends SpaceThing
 			int cannonXOffset,
 			int radarVisibilityWidth,
 			int radarVisibilityLength) {
+		
+		// Unique id
+		super(id, owner);
 		
 		// Build the weapons list
 		this.weapons = new LinkedList<AbstractWeapon>();

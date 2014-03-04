@@ -3,12 +3,12 @@ package state;
 import gameLogic.Constants.PlayerNumber;
 
 
-public class Mine {
+public class Mine extends SpaceThing {
 	
-	PlayerNumber owner;
 	int damage;
 	
-	public Mine(PlayerNumber owner) {
+	public Mine(int id, PlayerNumber owner) {
+		super(id, owner);
 		this.owner = owner;
 	}
 	
