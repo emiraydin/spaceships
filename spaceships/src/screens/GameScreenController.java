@@ -1,16 +1,20 @@
 package screens;
 
 import gameLogic.Constants;
+import state.ships.AbstractShip;
 import actors.ActorState;
 import actors.Asteroid;
 import actors.BaseTile;
 import actors.Gameboard;
+import actors.Ship;
+import actors.ShipTile;
 import actors.Tile;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 /**
@@ -19,7 +23,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
  * @author Vikram
  *
  */
-public class GameScreenController 
+public class GameScreenController implements InputProcessor
 {
 	/******************************************************************************
 	 * ****************************************************************************
@@ -30,7 +34,7 @@ public class GameScreenController
 	private OrthographicCamera CAMERA; 								// The Game Camera
 	private CameraController CAMCONTROLLER; 						// Handles changing Camera views. 
 	public Stage STAGE; 											// The Stage. 
-	
+	private int CURRENT_SELECTION = -1; 								// The currently selected ship
 	
 	
 	/**
@@ -60,7 +64,7 @@ public class GameScreenController
 	public void update(float delta) 
 	{
 		// If a ship is selected, display the movement and fire range. 
-		updateMovementAndFire(); 
+		updateMovementAndFire(delta); 
 		
 		// Get player action Selection
 		checkPlayerAction(); 
@@ -89,7 +93,6 @@ public class GameScreenController
 	 */
 	private void updateVisibility() 
 	{
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -109,17 +112,101 @@ public class GameScreenController
 	 */
 	private void checkPlayerAction()
 	{
-		
-		
+		// Display the movement and fire range for a ship. 
+		if(CURRENT_SELECTION != -1)
+		{
+			Ship currentShip = ActorState.shipList.get(CURRENT_SELECTION); 
+			currentShip.setCurrentShip(true); 
+			
+			for(Ship ship : ActorState.shipList)
+			{
+				if(ship == currentShip) continue; 
+				else ship.setCurrentShip(false);
+			}
+			
+			drawShipBoundaries(); 
+			
+		}
+		else if (CURRENT_SELECTION == -1)
+		{
+			for(Ship ship : ActorState.shipList)
+			{
+				ship.setCurrentShip(false);
+			}
+			
+			drawShipBoundaries(); 
+		}
+	}
+	
+	/**
+	 * Method that draws the appropriate selectable boundaries. 
+	 * Uses the information stored in the MODEL so as to not display incorrect information. 
+	 */
+	private void drawShipBoundaries()
+	{
+		for(Ship theShip : ActorState.shipList)
+		{
+			if(theShip.getIsCurrent())
+			{
+				AbstractShip ship = theShip.ship; 
+				int shipSpeed = ship.getSpeed(); 
+				int xPosition = ship.getX(); 
+				int yPosition = ship.getY(); 
+				
+				for(int i = xPosition; i < xPosition + shipSpeed; i++)
+				{
+					ActorState.boardTiles[i][yPosition].drawAsRed();
+				}
+			}
+			else
+			{
+				AbstractShip ship = theShip.ship; 
+				int shipSpeed = ship.getSpeed(); 
+				int xPosition = ship.getX(); 
+				int yPosition = ship.getY(); 
+				
+				for(int i = xPosition; i < xPosition + shipSpeed; i++)
+				{
+					ActorState.boardTiles[i][yPosition].drawAsBlue();
+				}
+			}
+		}
 	}
 
 
 	/**
-	 * Method that dictates what objects should be drawn and what objects that are left out. 
+	 * This method compares the ACTOR ship with the MODEL ship.
+	 * It determines if the two are in the same location, and if not,
+	 * it moves them to the proper place. 
 	 */
-	private void updateMovementAndFire() 
+	private void updateMovementAndFire(float delta) 
 	{
-		// TODO Auto-generated method stub
+		// Update all the ships Based on location. 
+		for(Ship currentShip : ActorState.shipList)
+		{
+			
+			// Turning the ship. 
+			// TODO: Figure this shit out... 
+			
+			// Moving forward or backward. 
+			if(currentShip.getX() < (float) currentShip.ship.getX())
+			{
+				currentShip.moveBy(delta, 0);
+			}
+			else if(currentShip.getX() > (float) currentShip.ship.getX())
+			{
+				currentShip.moveBy(-delta, 0);
+			}
+			else if(currentShip.getY() < (float) currentShip.ship.getY())
+			{
+				currentShip.moveBy(0, delta);
+			}
+			else if(currentShip.getY() > (float) currentShip.ship.getY())
+			{
+				currentShip.moveBy(0, -delta);
+			}
+
+		}
 		
 	}
 
@@ -170,6 +257,9 @@ public class GameScreenController
 	 */
 	private void initStage()
 	{
+		Group bg = new Group(); 
+		Group fg = new Group(); 
+		
 		STAGE = new Stage(); 
 		STAGE.setCamera(CAMERA);
 		STAGE.setViewport(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT, true);
@@ -183,7 +273,7 @@ public class GameScreenController
 		{
 			for(Tile tile : xArray)
 			{
-				STAGE.addActor(tile);
+				fg.addActor(tile);
 			}
 		}
 		
@@ -195,7 +285,7 @@ public class GameScreenController
 		{
 			for(Asteroid asteroid : xArray)
 			{
-				if(asteroid != null) STAGE.addActor(asteroid);
+				if(asteroid != null) bg.addActor(asteroid);
 			}
 		}
 		
@@ -206,7 +296,7 @@ public class GameScreenController
 		{
 			for(BaseTile base : xArray)
 			{
-				if(base != null) STAGE.addActor(base);
+				if(base != null) bg.addActor(base);
 			}
 		}
 		
@@ -214,8 +304,102 @@ public class GameScreenController
 		{
 			for(BaseTile base : xArray)
 			{
-				if(base != null) STAGE.addActor(base);
+				if(base != null) bg.addActor(base);
 			}
 		}
+		
+		// Add the ships. 
+		ActorState.initializeShipDefault(); 
+		
+		for(ShipTile[] xArray : ActorState.playerOneFleet)
+		{
+			for(ShipTile ship : xArray)
+			{
+				if(ship != null) bg.addActor(ship);
+			}
+		}
+		
+		STAGE.addActor(bg); 
+		STAGE.addActor(fg); 
+	}
+
+	
+	/*********************************************************************************
+	 * Controller Methods
+	 *********************************************************************************/
+	
+	@Override
+	public boolean keyDown(int keycode) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public boolean keyUp(int keycode) 
+	{
+		// Cycle through current Ships 
+		if(Keys.SPACE == keycode)
+		{
+			if(CURRENT_SELECTION < 7)
+			{
+				CURRENT_SELECTION ++;
+				System.out.println(CURRENT_SELECTION);
+			}
+			else
+			{
+				CURRENT_SELECTION = 0; 
+			}
+		}
+		
+		// Display no ship borders
+		if(Keys.ALT_RIGHT == keycode)
+		{
+			CURRENT_SELECTION = -1; 
+		}
+		
+		return false;
+	}
+
+
+	@Override
+	public boolean keyTyped(char character) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public boolean mouseMoved(int screenX, int screenY) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public boolean scrolled(int amount) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

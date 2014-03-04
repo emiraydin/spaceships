@@ -1,10 +1,10 @@
 package actors;
 
+import state.ships.AbstractShip;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 /**
  * Actor that aggregates ship tiles. 
@@ -13,10 +13,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
  */
 public class Ship extends Group 
 {
-	private ShipTile[] tiles = new ShipTile[4];
+	private ShipTile[] tiles;
+	public AbstractShip ship; 
+	private boolean isCurrent = false; 
 	
-	public Ship(int x, int y)
+	public Ship(int x, int y, AbstractShip ship)
 	{
+		
+		tiles = new ShipTile[ship.getLength()]; 
+		this.ship = ship;
 		// Create a new Ship with the tiles in the appropriate places
 		initShip(x, y);
 	}
@@ -45,6 +50,12 @@ public class Ship extends Group
 		return tiles[0].getX();
 	}
 	
+	public float getY()
+	{
+		return tiles[0].getY();
+	}
+	
+	
 	@Override
 	public void draw(Batch batch, float parentAlpha)
 	{
@@ -53,5 +64,15 @@ public class Ship extends Group
         
         // Draw the individual ship tiles. 
         drawChildren(batch,parentAlpha);
+	}
+
+	public void setCurrentShip(boolean b) 
+	{
+		this.isCurrent = b; 
+	}
+	
+	public boolean getIsCurrent()
+	{
+		return this.isCurrent; 
 	}
 }
