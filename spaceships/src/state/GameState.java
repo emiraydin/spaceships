@@ -3,6 +3,7 @@ package state;
 import gameLogic.Constants.*;
 
 import java.util.HashMap;
+import java.util.Set;
 
 import state.ships.*;
 
@@ -106,4 +107,17 @@ public class GameState
 		
 		things.put(spaceThingId, newShip);		
 	}
+	
+	/**
+	 * The number of SpaceThings currently instantiated.
+	 * @return the number of SpaceThings
+	 */
+	public static int getNumSpaceThings() {
+		return things.size();
+	}
+	
+	public static Set<Integer> getIdSet() {
+		return things.keySet();
+	}
+		
 }

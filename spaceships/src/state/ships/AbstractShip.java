@@ -167,7 +167,7 @@ public abstract class AbstractShip extends SpaceThing
 	public int getRadarVisibilityWidth() {
 		return this.radarVisibilityWidth;
 	}	
-	public int getRadarVisibilityL() {
+	public int getRadarVisibilityLength() {
 		return this.radarVisibilityLength;
 	}
 	
@@ -176,7 +176,24 @@ public abstract class AbstractShip extends SpaceThing
 	// decrementSEctionHealth()
 	// isDead()
 	
-	
+	public String toString() {
+		return
+				"===================\n"
+				+ "Printing Ship Schematics:"
+				+ "\n    ID: " + uniqueId
+				+ "\n    Owner:" + this.getOwner()
+				+ "\n    x: " + this.getX()
+				+ "\n    y: " + this.getY()
+				+ "\n    Speed: " + this.getSpeed()
+				+ "\n    Length: " + this.getLength()
+				+ "\n    Armour: " + armour
+				+ "\n    Orientation:" + this.getOrientation()
+				+ "\n    CannonWidth: " + this.getCannonWidth()
+				+ "\n    CannonLength: " + this.getCannonLength()
+				+ "\n    CannonXOffset: " + this.getCannonXOffset()
+				+ "\n    RadarVisibilityWidth: " + this.getRadarVisibilityWidth()
+				+ "\n    RadarVisibilityLength: " + this.getRadarVisibilityLength();
+	}
  
 
 }
