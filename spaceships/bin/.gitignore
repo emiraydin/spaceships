@@ -1,4 +1,8 @@
-/screens
 /actors
+/com
 /gameLogic
+/playerLogic
+/screens
 /state
+/util
+/view
