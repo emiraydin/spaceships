@@ -14,6 +14,16 @@ public class GameStateBuildMessage extends AbstractMessage
 	int posY;
 	OrientationType orientation;
 	
+	/**
+	 * Construct the GameStateBuildMessage.
+	 * 
+	 * @param spaceThingId
+	 * @param owner
+	 * @param type
+	 * @param posX
+	 * @param posY
+	 * @param orientation
+	 */
 	public GameStateBuildMessage(int spaceThingId, PlayerNumber owner, SpaceThingType type, int posX, int posY, OrientationType orientation) {
 		this.spaceThingId = spaceThingId;
 		this.owner = owner;

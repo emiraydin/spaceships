@@ -18,6 +18,10 @@ public class SpaceThing {
 		this.owner = owner;
 	}
 	
+	public PlayerNumber getOwner() {
+		return this.owner;
+	}
+	
 	public int getX() {
 		return this.x;
 	}

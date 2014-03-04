@@ -1,6 +1,6 @@
 package messagehandlers;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import messageprotocol.AbstractMessage;
 
@@ -12,7 +12,7 @@ public class ServerMessageHandler
 	 * 
 	 * @param messages
 	 */
-	public static void handleMessages(ArrayList<AbstractMessage> messages) {
+	public static void handleMessages(List<AbstractMessage> messages) {
 		for (AbstractMessage current : messages) {
 			current.execute();
 		}
