@@ -84,8 +84,8 @@ public class TestGameState
 			AbstractShip ship = (AbstractShip) GameState.getSpaceThing(0);
 			Asteroid aster = (Asteroid) GameState.getSpaceThing(1);
 			
-			//System.out.println(ship);
-			//System.out.println(aster);
+			System.out.println(ship);
+			System.out.println(aster);
 		}
 		catch (Exception e)
 		{
