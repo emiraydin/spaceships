@@ -3,6 +3,7 @@ package screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector3;
 
 /**
  * Helps abstract a lot of the Camera Control logic out of the GameScreenController. 
@@ -24,6 +25,7 @@ public class CameraController
 	public CameraController(OrthographicCamera camera)
 	{
 		this.camera = camera; 
+
 		camera.zoom = 5; 
 	}
 
@@ -35,7 +37,9 @@ public class CameraController
 	 */
 	public void translate(float x, float y, float delta) 
 	{
-		camera.translate(x,y);
+		//camera.translate(x,y);
+		//camera.position.set(28.633818f,14.433249f,0.0f);
+		System.out.println(camera.position); 
 	}
 
 	/**
@@ -52,10 +56,16 @@ public class CameraController
 	 */
 	public void updateCamera(float delta) 
 	{
+		
 		float camMoveSpeed = 7 * delta; 
 		float acceleration = 5f; 
 		
-		if(Gdx.input.isKeyPressed(Keys.SHIFT_LEFT))
+		camera.position.set(28.633818f,14.433249f,0.0f);
+		camera.zoom = 6.864741f; 
+		camera.update();
+		
+		
+		/*if(Gdx.input.isKeyPressed(Keys.SHIFT_LEFT))
 		{
 			camMoveSpeed *= acceleration; 
 		}
@@ -82,7 +92,7 @@ public class CameraController
 		if(Gdx.input.isKeyPressed(Keys.A))
 		{
 			translate(-camMoveSpeed,0,delta);
-		}
+		}*/
 	}
 	
 

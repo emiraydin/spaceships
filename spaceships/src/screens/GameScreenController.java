@@ -6,6 +6,7 @@ import state.ships.AbstractShip;
 import state.ships.TorpedoShip;
 import actors.ActorState;
 import actors.Asteroid;
+import actors.Background;
 import actors.BaseTile;
 import actors.Gameboard;
 import actors.Ship;
@@ -17,9 +18,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 /**
  * This class handles all the game logic changes in the Game Screen. 
@@ -35,7 +34,7 @@ public class GameScreenController implements InputProcessor
 	 * ****************************************************************************
 	 ******************************************************************************/
 	Gameboard BOARD; 												// The Game Board Actor, handles position of all objects. 
-	private OrthographicCamera CAMERA; 								// The Game Camera
+	public OrthographicCamera CAMERA; 								// The Game Camera
 	private CameraController CAMCONTROLLER; 						// Handles changing Camera views. 
 	public Stage STAGE; 											// The Stage. 
 	private int CURRENT_SELECTION = -1; 							// The currently selected ship
@@ -68,6 +67,7 @@ public class GameScreenController implements InputProcessor
 	 */
 	public void update(float delta) 
 	{
+		
 		// If a ship is selected, display the movement and fire range. 
 		updateMovementAndFire(delta); 
 		
@@ -136,9 +136,6 @@ public class GameScreenController implements InputProcessor
 					ship.setCurrentShip(false);
 				}
 			}
-			
-			drawShipBoundaries(); 
-			
 		}
 		else if (CURRENT_SELECTION == -1)
 		{
@@ -147,19 +144,9 @@ public class GameScreenController implements InputProcessor
 				ship.drawAsWhite(); 
 				ship.setCurrentShip(false);
 			}
-			
-			drawShipBoundaries(); 
 		}
 	}
 	
-	/**
-	 * Method that draws the appropriate selectable boundaries. 
-	 * Uses the information stored in the MODEL so as to not display incorrect information. 
-	 */
-	private void drawShipBoundaries()
-	{
-	}
-
 
 	/**
 	 * Draws the entire gameBoard as blue tiles. 
@@ -259,6 +246,7 @@ public class GameScreenController implements InputProcessor
 	 */
 	private void initStage()
 	{
+		Group backDrop = new Group(); 
 		Group bg = new Group(); 
 		Group fg = new Group(); 
 		
@@ -266,6 +254,7 @@ public class GameScreenController implements InputProcessor
 		STAGE.setCamera(CAMERA);
 		STAGE.setViewport(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT, true);
 		
+		backDrop.addActor(new Background());
 		
 		// Initialize the GameTiles 
 		ActorState.initializeBoardTiles(); 
@@ -321,6 +310,7 @@ public class GameScreenController implements InputProcessor
 			}
 		}
 		
+		STAGE.addActor(backDrop);
 		STAGE.addActor(bg); 
 		STAGE.addActor(fg); 
 	}
@@ -511,10 +501,12 @@ public class GameScreenController implements InputProcessor
 			if(CURRENT_SELECTION < ActorState.shipList.size() - 1)
 			{
 				CURRENT_SELECTION ++;
+				ActorState.currentSelection = CURRENT_SELECTION; 
 			}
 			else
 			{
 				CURRENT_SELECTION = 0; 
+				ActorState.currentSelection = CURRENT_SELECTION; 
 			}
 		}
 		
@@ -527,6 +519,7 @@ public class GameScreenController implements InputProcessor
 		if(Keys.ALT_RIGHT == keycode)
 		{
 			CURRENT_SELECTION = -1; 
+			ActorState.currentSelection = CURRENT_SELECTION; 
 		}
 		
 		return false;

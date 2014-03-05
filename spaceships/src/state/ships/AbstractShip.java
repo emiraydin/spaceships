@@ -203,6 +203,11 @@ public abstract class AbstractShip extends SpaceThing
 				+ "\n    RadarVisibilityWidth: " + this.getRadarVisibilityWidth()
 				+ "\n    RadarVisibilityLength: " + this.getRadarVisibilityLength();
 	}
+	
+	public LinkedList getWeapons()
+	{
+		return this.weapons; 
+	}
  
 
 }
