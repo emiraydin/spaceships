@@ -104,15 +104,21 @@ public class TestGameState
 		ServerMessageHandler.handleMessages(messages);
 		
 		ArrayList<AbstractMessage> moreMessages = new ArrayList<AbstractMessage>();
-		moreMessages.add(new GameStateUpdateMessage(0, 42, 43, OrientationType.South, null));
+		int[] firstArray = {9,9,9,9,9};
+		moreMessages.add(new GameStateUpdateMessage(0, 42, 43, OrientationType.South, firstArray));
 		ServerMessageHandler.handleMessages(moreMessages);
 		
 		try
 		{
 			AbstractShip theShip = (AbstractShip) GameState.getSpaceThing(0);
+			int[] testArray = {9,9,9,9,9};
 			assertEquals(42, theShip.getX());
 			assertEquals(43, theShip.getY());
 			assertEquals(OrientationType.South, theShip.getOrientation());
+			int[] testArray2 = theShip.getSectionHealth();
+			for (int i = 0; i < testArray2.length; i++) {
+				assertEquals(testArray[i], testArray2[i]);
+			}
 			System.out.println(theShip);
 			
 		}

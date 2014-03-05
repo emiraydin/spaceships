@@ -149,6 +149,9 @@ public abstract class AbstractShip extends SpaceThing
 	/*
 	 * Basic Getters...
 	 */
+	public int[] getSectionHealth() {
+		return this.sectionHealth.clone();
+	}
  	public ActionType[] getPossibleActions() {
 		return null;
 	}
