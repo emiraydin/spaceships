@@ -13,9 +13,12 @@ public class ServerMessageHandler
 	 * @param messages
 	 */
 	public static void handleMessages(List<AbstractMessage> messages) {
-		for (AbstractMessage current : messages) {
-			current.execute();
+		try {
+			for (AbstractMessage current : messages) {
+				current.execute();
+			}			
+		} catch (Exception e) {
+			System.out.println("Not sure what to do here...");
 		}
 	}
-
 }

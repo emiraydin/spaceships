@@ -1,5 +1,10 @@
 package messageprotocol;
 
+import java.lang.reflect.Method;
+
+import state.GameState;
+import state.SpaceThing;
+import state.ships.AbstractShip;
 import gameLogic.Constants.OrientationType;
 
 public class GameStateUpdateMessage extends AbstractMessage
@@ -15,17 +20,40 @@ public class GameStateUpdateMessage extends AbstractMessage
 		this.posX = posX;
 		this.posY = posY;
 		this.orientation = orientation;
-		this.sectionHealth = sectionHealth.clone();
+		if (sectionHealth == null) {
+			this.sectionHealth = null;
+		} else {
+			this.sectionHealth = sectionHealth.clone();			
+		}
 	}
 
 	/**
 	 * When a GameStateUpdateMessage is executed, it updates the properties of some spaceThing.
+	 * @throws Exception 
 	 */
 	@Override
-	public void execute()
+	public void execute() throws Exception
 	{
-		// Fine some spaceThing based on its unique ID number and run updateProperties() on it.
-		
+		// Doing some serious Reflection here...
+		try
+		{
+			// Get the spacething and figure out if it has an "updateProperties" method, and run it if it can
+			SpaceThing thing = GameState.getSpaceThing(spaceThingId);
+			
+			Class<? extends SpaceThing> thingClass = thing.getClass();
+			
+			// If it has the method then run it
+			for (Method current : thingClass.getMethods()) {
+				if (current.getName().equals("updateProperties")) {
+					current.invoke(thing, this.posX, this.posY, this.orientation, this.sectionHealth);
+					break;
+				}
+			}
+		}
+		catch (Exception e)
+		{
+			throw new Exception("Could not update GameState for thing: " + spaceThingId);
+		}
 	}
 	
 

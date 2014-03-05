@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import messagehandlers.ServerMessageHandler;
 import messageprotocol.AbstractMessage;
 import messageprotocol.GameStateBuildMessage;
+import messageprotocol.GameStateUpdateMessage;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -84,13 +85,43 @@ public class TestGameState
 			AbstractShip ship = (AbstractShip) GameState.getSpaceThing(0);
 			Asteroid aster = (Asteroid) GameState.getSpaceThing(1);
 			
-			System.out.println(ship);
+			System.out.println(ship);		
 			System.out.println(aster);
+			
 		}
 		catch (Exception e)
 		{
 			fail("Exception thrown getting spacethings...");
 		}
+		
+	}
+	
+	/**
+	 * Test that updating a ship state works...
+	 */
+	@Test
+	public void testUpdateShip() {
+		ServerMessageHandler.handleMessages(messages);
+		
+		ArrayList<AbstractMessage> moreMessages = new ArrayList<AbstractMessage>();
+		moreMessages.add(new GameStateUpdateMessage(0, 42, 43, OrientationType.South, null));
+		ServerMessageHandler.handleMessages(moreMessages);
+		
+		try
+		{
+			AbstractShip theShip = (AbstractShip) GameState.getSpaceThing(0);
+			assertEquals(42, theShip.getX());
+			assertEquals(43, theShip.getY());
+			assertEquals(OrientationType.South, theShip.getOrientation());
+			System.out.println(theShip);
+			
+		}
+		catch (Exception e)
+		{
+			fail("");
+		}
+		
+		
 		
 	}
 

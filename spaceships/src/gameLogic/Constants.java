@@ -30,5 +30,4 @@ public class Constants
 	public static enum ArmourType { Normal, Heavy }
 	public static enum PlayerNumber { World, PlayerOne, PlayerTwo }
 	public static enum SpaceThingType { CruiserShip, DestroyerShip, MineLayerShip, RadarBoatShip, BaseTile, TorpedoShip, Asteroid, Mine }
-	
 }

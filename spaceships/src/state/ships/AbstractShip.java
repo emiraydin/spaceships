@@ -89,6 +89,7 @@ public abstract class AbstractShip extends SpaceThing
 	
 	/**
 	 * Update the ships properties after a turn.
+	 * Nothing changes if you pass null params.
 	 *  
 	 * @param posX new x position on map
 	 * @param posY new y position on map
@@ -98,8 +99,13 @@ public abstract class AbstractShip extends SpaceThing
 	public void updateProperties(int posX, int posY, OrientationType orientation, int[] sectionHealth) {
 		this.setX(posX);
 		this.setY(posY);
-		this.setOrientation(orientation);
-		this.sectionHealth = sectionHealth.clone();
+		if (orientation != null) {
+			this.setOrientation(orientation);			
+		}
+		if (sectionHealth != null) {
+			this.sectionHealth = sectionHealth.clone();			
+		}
+
 	}
 	
 	/**
