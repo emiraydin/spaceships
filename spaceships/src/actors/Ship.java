@@ -4,7 +4,10 @@ import state.ships.AbstractShip;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 /**
  * Actor that aggregates ship tiles. 
@@ -55,6 +58,22 @@ public class Ship extends Group
 		return tiles[0].getY();
 	}
 	
+	public void drawAsWhite()
+	{
+		for(ShipTile child : tiles)
+		{
+			child.drawAsWhite(); 
+		}
+	}
+	
+	public void drawAsBlue()
+	{
+		for(ShipTile child : tiles)
+		{
+			child.drawAsBlue(); 
+		}
+	}
+	
 	
 	@Override
 	public void draw(Batch batch, float parentAlpha)
@@ -75,4 +94,5 @@ public class Ship extends Group
 	{
 		return this.isCurrent; 
 	}
+
 }

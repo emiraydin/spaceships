@@ -2,6 +2,8 @@ package actors;
 
 import gameLogic.Constants;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
@@ -9,7 +11,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 /**
  * The basic representation of Tiles in the GameBoard. 
@@ -40,8 +45,32 @@ public class Tile extends Image
 		setPosition(x,y);
 		setWidth(1);
 		setHeight(1);
+		
+		setUpListeners(); 
+		
+
 	}
 	
+	private void setUpListeners()
+	{
+		addListener(new ClickListener()
+		{
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
+			{
+				return false;
+			}
+			
+			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
+			{ 
+			}
+			
+			public void exit(InputEvent event, float x, float y, int pointer, Actor toActor)
+			{
+			}
+		});
+		
+	}
+
 	/**
 	 * Generates a basic Texture that is Square
 	 * with blue border. 
@@ -146,6 +175,8 @@ public class Tile extends Image
         batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
         batch.draw(SPRITE, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
 	}
+	
+	
 
 
 }

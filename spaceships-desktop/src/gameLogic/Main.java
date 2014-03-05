@@ -28,6 +28,7 @@ public class Main
 		cfg.useGL20 = false;
 		cfg.width = Constants.APP_WIDTH;
 		cfg.height = Constants.APP_HEIGHT;
+		//cfg.fullscreen = true; 
 		
 		new LwjglApplication(new Spaceships(), cfg);
 	}

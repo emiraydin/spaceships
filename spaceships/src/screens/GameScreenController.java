@@ -13,12 +13,13 @@ import actors.ShipTile;
 import actors.Tile;
 
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 /**
  * This class handles all the game logic changes in the Game Screen. 
@@ -38,7 +39,7 @@ public class GameScreenController implements InputProcessor
 	private CameraController CAMCONTROLLER; 						// Handles changing Camera views. 
 	public Stage STAGE; 											// The Stage. 
 	private int CURRENT_SELECTION = -1; 							// The currently selected ship
-	private boolean CURRENT_SELECTION_UPDATED_AND_NOT_DRAWN = false; // Helper Variable. Keeps track of whether the current selection was updated but not drawn. 
+ 
 	
 	
 	/**
@@ -120,12 +121,20 @@ public class GameScreenController implements InputProcessor
 		if(CURRENT_SELECTION != -1)
 		{
 			Ship currentShip = ActorState.shipList.get(CURRENT_SELECTION); 
-			currentShip.setCurrentShip(true); 
+			currentShip.setCurrentShip(true);
 			
 			for(Ship ship : ActorState.shipList)
 			{
-				if(ship == currentShip) continue; 
-				else ship.setCurrentShip(false);
+				if(ship == currentShip)
+				{
+					ship.drawAsBlue();
+					continue; 
+				}
+				else
+				{
+					ship.drawAsWhite();
+					ship.setCurrentShip(false);
+				}
 			}
 			
 			drawShipBoundaries(); 
@@ -135,6 +144,7 @@ public class GameScreenController implements InputProcessor
 		{
 			for(Ship ship : ActorState.shipList)
 			{
+				ship.drawAsWhite(); 
 				ship.setCurrentShip(false);
 			}
 			
@@ -178,9 +188,6 @@ public class GameScreenController implements InputProcessor
 		// Update all the ships Based on location. 
 		for(Ship currentShip : ActorState.shipList)
 		{
-			
-			// Turning the ship. 
-			// TODO: Figure this shit out... 
 			
 			// Moving forward or backward. 
 			if(currentShip.getX() < (float) currentShip.ship.getX())
@@ -501,15 +508,13 @@ public class GameScreenController implements InputProcessor
 		// Cycle through current Ships 
 		if(Keys.SPACE == keycode)
 		{
-			if(CURRENT_SELECTION < 9)
+			if(CURRENT_SELECTION < ActorState.shipList.size() - 1)
 			{
 				CURRENT_SELECTION ++;
-				CURRENT_SELECTION_UPDATED_AND_NOT_DRAWN = true; 
 			}
 			else
 			{
 				CURRENT_SELECTION = 0; 
-				CURRENT_SELECTION_UPDATED_AND_NOT_DRAWN = true; 
 			}
 		}
 		
@@ -537,7 +542,6 @@ public class GameScreenController implements InputProcessor
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -564,7 +568,8 @@ public class GameScreenController implements InputProcessor
 
 
 	@Override
-	public boolean scrolled(int amount) {
+	public boolean scrolled(int amount) 
+	{
 		// TODO Auto-generated method stub
 		return false;
 	}
