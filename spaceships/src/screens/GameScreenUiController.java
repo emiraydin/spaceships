@@ -99,11 +99,11 @@ public class GameScreenUiController
 		currentShipTable.row(); 
 		currentShipTable.add(description).pad(10f).width(rootTable.getWidth() - 40).center();
 		currentShipTable.row(); 
-		currentShipTable.add(speed).center();
+		currentShipTable.add(speed).left().padLeft(10f);
 		currentShipTable.row(); 
-		currentShipTable.add(health).center();
+		currentShipTable.add(health).left().padLeft(10f);
 		currentShipTable.row(); 
-		currentShipTable.add(arsenal).center();
+		currentShipTable.add(arsenal).left().padLeft(10f);
 
 		
 		// Setup the currentTile Layer
