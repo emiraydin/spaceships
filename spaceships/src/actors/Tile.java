@@ -57,15 +57,21 @@ public class Tile extends Image
 		{
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
 			{
+				if(ActorState.currentSelection != -1)
+				{
+					ActorState.shipList.get(ActorState.currentSelection).ship.setX((int)getX());
+				}
 				return false;
 			}
 			
 			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
 			{ 
+				//drawAsGreen(); 
 			}
 			
 			public void exit(InputEvent event, float x, float y, int pointer, Actor toActor)
 			{
+				//drawAsBlue(); 
 			}
 		});
 		
@@ -80,7 +86,7 @@ public class Tile extends Image
 	{
 		Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
 		// Draw a cyan-colored border around square
-		pixmap.setColor(0, 1, 1, 1);
+		pixmap.setColor(0, 1, 1, 0.4f);
 		pixmap.drawRectangle(0, 0, WIDTH, HEIGHT);
 		Texture newTexture = new Texture(pixmap);
 		

@@ -27,6 +27,8 @@ public class Spaceships extends Game implements ApplicationListener
 	@Override
 	public void create() 
 	{
+		Texture.setEnforcePotImages(false);
+		
 		// Set the log to Debug Level Logs. 
 		Gdx.app.setLogLevel(Application.LOG_DEBUG); 
 		Gdx.app.log(TAG, "Starting new Instance");

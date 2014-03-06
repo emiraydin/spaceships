@@ -38,6 +38,7 @@ public class ActorState
 	private static Mine[][] 	playerTwoMineField = new Mine[boardHeight][boardWidth];// The opponent players Mine Tiles. 
 	public static Asteroid[][]  asteroidField = new Asteroid[boardHeight][boardWidth]; // The locations of all the asteroids. 
 	public static boolean[][] 	visibility	= new boolean[boardHeight][boardWidth];	   // The board visibility. 
+	public static int 			currentSelection = -1; 								   // The currently selected player ship. 
 	
 	public static LinkedList<Ship> shipList = new LinkedList<Ship>(); 
 	
@@ -126,7 +127,7 @@ public class ActorState
 	{
 		// Create the basic ships models 
 		CruiserShip cruiserA = new CruiserShip(0, PlayerNumber.PlayerOne); 
-		CruiserShip cruiserB = new CruiserShip(1, PlayerNumber.PlayerTwo); 
+		CruiserShip cruiserB = new CruiserShip(1, PlayerNumber.PlayerOne); 
 		DestroyerShip destroyerA = new DestroyerShip(2, PlayerNumber.PlayerOne); 
 		DestroyerShip destroyerB = new DestroyerShip(3, PlayerNumber.PlayerOne); 
 		DestroyerShip destroyerC = new DestroyerShip(4, PlayerNumber.PlayerOne); 

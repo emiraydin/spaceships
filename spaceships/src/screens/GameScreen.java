@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 
 /**
  * The Basic Game Screen. 
@@ -16,10 +17,18 @@ public class GameScreen implements Screen
 	/*
 	 * Instance Variables 
 	 */
+	private GameScreenUiController uiController; 
 	private GameScreenController controller; 
 	private GameScreenRenderer 	 renderer ; 
 	private FPSLogger fpsLog = new FPSLogger(); 
-
+	
+	
+	
+	
+	/**
+	 * Run. 
+	 * @param delta
+	 */
 	@Override
 	public void render(float delta) 
 	{
@@ -28,6 +37,9 @@ public class GameScreen implements Screen
 		
 		// Update and Render the Game World. 
 		controller.update(delta); 
+		
+		// Update the Ui. 
+		uiController.update(delta); 
 
 		renderer.render();
 		
@@ -48,13 +60,15 @@ public class GameScreen implements Screen
 		// Create and Initialize GameScreenController. 
 		controller = new GameScreenController();
 		
+		// All the UI Stuff. 
+		uiController = new GameScreenUiController(controller); 
+		
 		// Create and Initialize GameScreenRenderer. 
-		renderer = new GameScreenRenderer(controller);
+		renderer = new GameScreenRenderer(controller, uiController);
 		
 		// controller will handle user input. 
 		Gdx.input.setInputProcessor(new InputMultiplexer(controller, controller.STAGE));
 
-		
 		
 	}
 
