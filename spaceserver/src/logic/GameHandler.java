@@ -1,6 +1,6 @@
 package logic;
 
-import main.Main.ActionType;
+import common.GameConstants.ActionType;
 
 public class GameHandler {
 	public void doAction(ActionType aType, int shipID, int playerID, int x, int y){

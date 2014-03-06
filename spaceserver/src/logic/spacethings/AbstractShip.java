@@ -1,8 +1,8 @@
 package logic.spacethings;
 
-import main.Main.ActionType;
-import main.Main.OrientationType;
-import main.Main.WeaponType;
+import common.GameConstants.ActionType;
+import common.GameConstants.OrientationType;
+import common.GameConstants.WeaponType;
 
 public abstract class AbstractShip extends SpaceThing {
 	private int id;

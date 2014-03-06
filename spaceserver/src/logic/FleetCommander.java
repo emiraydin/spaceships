@@ -3,9 +3,10 @@ package logic;
 import java.util.ArrayList;
 
 import logic.spacethings.AbstractShip;
-import main.Main.OrientationType;
-import main.Main.VisibilityType;
-import main.Main.WeaponType;
+
+import common.GameConstants.OrientationType;
+import common.GameConstants.VisibilityType;
+import common.GameConstants.WeaponType;
 
 public class FleetCommander {
 	private int[][] sonarVisibility, radarVisibility;
@@ -70,15 +71,15 @@ public class FleetCommander {
 	public VisibilityType getVisibility(int x, int y){
 		if (x < 0 || y < 0 || x >= sonarVisibility.length || y >= sonarVisibility.length){
 			// out of bounds
-			return VisibilityType.NONE;
+			return VisibilityType.None;
 		} else if (sonarVisibility[x][y] > 0 && radarVisibility[x][y] > 0){
-			return VisibilityType.BOTH;
+			return VisibilityType.Both;
 		} else if (sonarVisibility[x][y] > 0){
-			return VisibilityType.SONAR;
+			return VisibilityType.Sonar;
 		} else if (radarVisibility[x][y] > 0){
-			return VisibilityType.RADAR;
+			return VisibilityType.Radar;
 		} else {
-			return VisibilityType.NONE;
+			return VisibilityType.None;
 		}
 	}
 	
