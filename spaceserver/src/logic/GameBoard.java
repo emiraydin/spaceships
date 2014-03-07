@@ -1,9 +1,11 @@
 package logic;
 
 import logic.spacethings.AbstractShip;
+import logic.spacethings.Asteroid;
 import logic.spacethings.SpaceThing;
 import static common.GameConstants.BOARD_HEIGHT;
 import static common.GameConstants.BOARD_WIDTH;
+import static common.GameConstants.MAX_ASTEROIDS;;
 
 public class GameBoard {
 	SpaceThing[][] map;
@@ -78,8 +80,31 @@ public class GameBoard {
 		}
 	}
 	
+	public int getSectionAt(int x, int y, AbstractShip ship){
+		if (getSpaceThing(x, y) instanceof AbstractShip){
+ 			if (ship.equals(getSpaceThing(x, y))){
+ 				
+ 			}
+		}
+		return -1;
+	}
+	
 	public void generateAsteroids(){
-		//TODO: generate Asteroid
+		// The Count of the number of displayed Asteroids. 
+		int count = 0; 
+		
+		while(count < MAX_ASTEROIDS)
+		{
+			int randX = 10 + (int) (Math.random() * ((20 - 10) + 1)); 
+			int randY = 3 + (int) (Math.random() * ((27 - 3) + 1));
+			
+//			if(getSpaceThing(randX, randY) == null){
+//			{
+//				setSpaceThing(new Asteroid(), randX, randY);
+//				count++; 
+////				asteroidField[randX][randY] = new Asteroid(randX, randY); 
+//			}
+		}
 	}
 	
 	public boolean isBlocked(int x, int y){

@@ -2,7 +2,13 @@ package logic.spacethings;
 
 public abstract class SpaceThing {
 	private int x, y;
-
+	private int id;
+	
+	public SpaceThing(int x, int y){
+		this.x = x;
+		this.y = y;
+	}
+	
 	public int getX() {
 		return x;
 	}
@@ -17,6 +23,10 @@ public abstract class SpaceThing {
 
 	public void setY(int y) {
 		this.y = y;
+	}
+	
+	public int getID(){
+		return id;
 	}
 	
 }

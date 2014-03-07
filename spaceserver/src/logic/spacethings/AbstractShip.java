@@ -1,11 +1,11 @@
 package logic.spacethings;
 
+import logic.GameBoard;
 import common.GameConstants.ActionType;
 import common.GameConstants.OrientationType;
 import common.GameConstants.WeaponType;
 
 public abstract class AbstractShip extends SpaceThing {
-	private int id;
 	private int speed;
 	private int length;
 	private int[] sectionHealth;
@@ -18,8 +18,9 @@ public abstract class AbstractShip extends SpaceThing {
 	private int radarVisibilityWidth;
 	private int radarVisibilityLength;
 	
-	public int getID(){
-		return id;
+	public AbstractShip(){
+		//TODO: fix this
+		super(0,0);
 	}
 	
 	public ActionType[] getPossibleActions(){
@@ -32,8 +33,10 @@ public abstract class AbstractShip extends SpaceThing {
 		return false;
 	}
 
-	public int getSectionAt(int x, int y){
-		//TODO: getSectionAt()
+	public int getSectionAt(int x, int y, GameBoard gBoard){
+		if (gBoard.getSpaceThing(x, y) instanceof AbstractShip){
+ 			AbstractShip ship = (AbstractShip) gBoard.getSpaceThing(x, y);
+		}
 		return -1;
 	}
 	

@@ -8,11 +8,11 @@ public class Mine extends SpaceThing {
 	private FleetCommander owner;
 	
 	public Mine(){
-		super();
+		super(0,0);
 	}
 	
 	public Mine(FleetCommander fc){
-		super();
+		super(0,0);
 		owner = fc;
 	}
 	
