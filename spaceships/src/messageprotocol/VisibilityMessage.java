@@ -6,15 +6,17 @@ package messageprotocol;
  */
 public class VisibilityMessage extends AbstractMessage
 {
-	boolean[][] visibleTiles;
+	boolean[][] radarVisibleTiles;
+	boolean[][] sonarVisibleTiles;
 	
 	/**
 	 * Construct the VisibilityMessage by cloning the input array.
 	 * 
-	 * @param visibleTiles boolean array that will be cloned
+	 * @param radarVisibleTiles boolean array that will be cloned
 	 */
-	public VisibilityMessage(boolean[][] visibleTiles) {
-		this.visibleTiles = visibleTiles.clone();
+	public VisibilityMessage(boolean[][] radarVisibleTiles, boolean[][] sonarVisibleTiles) {
+		this.radarVisibleTiles = radarVisibleTiles.clone();
+		this.sonarVisibleTiles = sonarVisibleTiles.clone();
 	}
 	
 	/**
@@ -25,7 +27,7 @@ public class VisibilityMessage extends AbstractMessage
 	 * @return
 	 */
 	public boolean getVisibility(int x, int y) {
-		return this.visibleTiles[x][y];
+		return this.radarVisibleTiles[x][y];
 	}
 	
 	/**
@@ -34,13 +36,12 @@ public class VisibilityMessage extends AbstractMessage
 	 * @return a clone of the entire array
 	 */
 	public boolean[][] getVisibleTiles() {
-		return this.visibleTiles.clone();		
+		return this.radarVisibleTiles.clone();		
 	}
 
 	/**
 	 * Update the player's visible tiles.
 	 */
-	@Override
 	public void execute()
 	{
 		// Update the player's visible tiles.

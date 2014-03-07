@@ -15,6 +15,12 @@ public class GameState
 	 */
 	public static HashMap<Integer, SpaceThing> things = new HashMap<Integer, SpaceThing>();
 	
+	/**
+	 * Visibility.
+	 */
+	boolean[][] radarVisibleTiles;
+	boolean[][] sonarVisibleTiles;
+	
 	/*
 	 * Variables respecting Singleton
 	 */

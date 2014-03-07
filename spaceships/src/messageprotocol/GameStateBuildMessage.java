@@ -33,20 +33,20 @@ public class GameStateBuildMessage extends AbstractMessage
 		this.orientation = orientation;
 	}
 
-	/**
-	 * Creates a SpaceThing.
-	 */
-	@Override
-	public void execute()
-	{
-		GameState.createSpaceThing(
-				this.spaceThingId,
-				this.owner, 
-				this.type, 
-				this.posX, 
-				this.posY, 
-				this.orientation);
-	}
+//	/**
+//	 * Creates a SpaceThing.
+//	 */
+//	@Override
+//	public void execute()
+//	{
+//		GameState.createSpaceThing(
+//				this.spaceThingId,
+//				this.owner, 
+//				this.type, 
+//				this.posX, 
+//				this.posY, 
+//				this.orientation);
+//	}
 	
 	
 	

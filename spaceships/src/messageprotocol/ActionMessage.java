@@ -24,14 +24,4 @@ public class ActionMessage extends AbstractMessage
 		this.destY = destY;
 	}
 
-	/**
-	 * When an ActionMessage is executed, it should correspond to some animation.
-	 */
-	@Override
-	public void execute()
-	{
-		// Play some sprite animation.
-	}
-	
-
 }
