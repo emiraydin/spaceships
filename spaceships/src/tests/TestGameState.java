@@ -7,10 +7,10 @@ import gameLogic.Constants.SpaceThingType;
 
 import java.util.ArrayList;
 
-import messagehandlers.ServerMessageHandler;
 import messageprotocol.AbstractMessage;
 import messageprotocol.GameStateBuildMessage;
 import messageprotocol.GameStateMessage;
+import messageprotocol.ServerMessageHandler;
 
 import org.junit.Before;
 import org.junit.Test;

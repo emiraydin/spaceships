@@ -13,13 +13,13 @@ public class GameState
 	/**
 	 * Hashmap from unique ID to spaceThing.
 	 */
-	public static HashMap<Integer, SpaceThing> things = new HashMap<Integer, SpaceThing>();
+	private static HashMap<Integer, SpaceThing> things = new HashMap<Integer, SpaceThing>();
 	
 	/**
 	 * Visibility.
 	 */
-	boolean[][] radarVisibleTiles;
-	boolean[][] sonarVisibleTiles;
+	private static boolean[][] radarVisibleTiles;
+	private static boolean[][] sonarVisibleTiles;
 	
 	/*
 	 * Variables respecting Singleton
@@ -45,6 +45,16 @@ public class GameState
 		if (things.containsKey(id)) {
 			return things.get(id);
 		} else throw new Exception("Requested SpaceThing does not exist!");
+	}
+	
+	/**
+	 * Check if a SpaceThing with the specified id exists.
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public static boolean spaceThingExists(int id) {
+		return things.containsKey(id);
 	}
 	
 	/**
@@ -125,5 +135,39 @@ public class GameState
 	public static Set<Integer> getIdSet() {
 		return things.keySet();
 	}
+
+	/**
+	 * @return the radarVisibleTiles
+	 */
+	public static boolean[][] getRadarVisibleTiles() {
+		return radarVisibleTiles;
+	}
+
+	/**
+	 * @param radarVisibleTiles the radarVisibleTiles to set
+	 */
+	public static void setRadarVisibleTiles(boolean[][] radarVisibleTiles) {
+		GameState.radarVisibleTiles = radarVisibleTiles;
+	}
+
+	/**
+	 * @return the sonarVisibleTiles
+	 */
+	public static boolean[][] getSonarVisibleTiles() {
+		return sonarVisibleTiles;
+	}
+
+	/**
+	 * @param sonarVisibleTiles the sonarVisibleTiles to set
+	 */
+	public static void setSonarVisibleTiles(boolean[][] sonarVisibleTiles) {
+		GameState.sonarVisibleTiles = sonarVisibleTiles;
+	}
+
+	
+
+
+	
+	
 		
 }

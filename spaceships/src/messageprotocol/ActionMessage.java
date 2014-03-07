@@ -2,7 +2,7 @@ package messageprotocol;
 
 import gameLogic.Constants.ActionType;
 
-public class ActionMessage extends AbstractMessage
+public class ActionMessage
 {
 	ActionType action;
 	int spaceThingId;
@@ -23,5 +23,60 @@ public class ActionMessage extends AbstractMessage
 		this.destX = destX;
 		this.destY = destY;
 	}
+
+	public ActionType getAction() {
+		return action;
+	}
+
+	public int getSpaceThingId() {
+		return spaceThingId;
+	}
+
+	public int getDestX() {
+		return destX;
+	}
+
+	public int getDestY() {
+		return destY;
+	}
+
+	@Override
+	public String toString() {
+		return "ActionMessage [action=" + action + ", spaceThingId="
+				+ spaceThingId + ", destX=" + destX + ", destY=" + destY + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((action == null) ? 0 : action.hashCode());
+		result = prime * result + destX;
+		result = prime * result + destY;
+		result = prime * result + spaceThingId;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ActionMessage other = (ActionMessage) obj;
+		if (action != other.action)
+			return false;
+		if (destX != other.destX)
+			return false;
+		if (destY != other.destY)
+			return false;
+		if (spaceThingId != other.spaceThingId)
+			return false;
+		return true;
+	}
+	
+	
 
 }
