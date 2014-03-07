@@ -9,4 +9,10 @@ public class TorpedoLauncher extends AbstractWeapon {
 		return WeaponType.Torpedo;
 	}
 
+	@Override
+	public boolean fire(int x, int y) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

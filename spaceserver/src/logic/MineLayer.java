@@ -9,4 +9,10 @@ public class MineLayer extends AbstractWeapon {
 		return WeaponType.Mine;
 	}
 
+	@Override
+	public boolean fire(int x, int y) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

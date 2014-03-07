@@ -1,12 +1,19 @@
 package logic;
 
-import common.GameConstants.WeaponType;
 
-public class HeavyCannon extends AbstractWeapon {
+public class HeavyCannon extends Cannon {
 
-	@Override
-	public WeaponType getType() {
-		return WeaponType.Cannon;
-	}
+	
+	
+//	@Override
+//	public WeaponType getType() {
+//		return WeaponType.Cannon;
+//	}
+//
+//	@Override
+//	public boolean fire(int x, int y) {
+//		// TODO Auto-generated method stub
+//		return false;
+//	}
 
 }

@@ -8,11 +8,13 @@ public abstract class AbstractWeapon {
 
 	public abstract WeaponType getType();
 	
-	public boolean fire(int x, int y){
-		return false;
-	}
+	public abstract boolean fire(int x, int y);
 	
 	public int getDamage(){
 		return damage;
+	}
+	
+	public void setDamage(int damage){
+		this.damage = damage;
 	}
 }
