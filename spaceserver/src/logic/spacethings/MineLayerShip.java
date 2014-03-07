@@ -2,14 +2,17 @@ package logic.spacethings;
 
 import java.util.ArrayList;
 
+
 public class MineLayerShip extends AbstractShip {
 	private ArrayList<Mine> mines;
+	private static int NUM_MINES = 5;
 	
-	public MineLayerShip(){
-		super();
-		mines = new ArrayList<Mine>(5);
+	public MineLayerShip(int x, int y, int gameID){
+		super(x, y, gameID);
+		mines = new ArrayList<Mine>(NUM_MINES);
 		for (int i = 0; i < 5; i++){
-			mines.add(new Mine());
+			//TODO: Add id generation
+			mines.add(new Mine(0));
 		}
 	}
 	

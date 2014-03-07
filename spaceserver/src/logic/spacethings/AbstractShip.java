@@ -1,7 +1,7 @@
 package logic.spacethings;
 
-import logic.GameBoard;
-import common.GameConstants.ActionType;
+import logic.AbstractWeapon;
+
 import common.GameConstants.OrientationType;
 import common.GameConstants.WeaponType;
 
@@ -17,28 +17,31 @@ public abstract class AbstractShip extends SpaceThing {
 	private int sonarVisibilityLength;
 	private int radarVisibilityWidth;
 	private int radarVisibilityLength;
+//	private ActionType[] possibleActions;
+	private AbstractWeapon[] arsenal;
 	
-	public AbstractShip(){
-		//TODO: fix this
-		super(0,0);
-	}
 	
-	public ActionType[] getPossibleActions(){
-		//TODO: getPossibleAction()... should this be abstract?
-		return null;
+	public AbstractShip(int x, int y, int gameID){
+		super(x, y, gameID);
 	}
 	
 	public boolean useWeapon(WeaponType wType, int x, int y){
 		//TODO: useWeapon()
+		for (int i = 0; i < arsenal.length; i++){
+			if (arsenal[i].getType() == wType){
+				return arsenal[i].fire(x, y);
+			}
+		}
 		return false;
 	}
 
-	public int getSectionAt(int x, int y, GameBoard gBoard){
-		if (gBoard.getSpaceThing(x, y) instanceof AbstractShip){
- 			AbstractShip ship = (AbstractShip) gBoard.getSpaceThing(x, y);
-		}
-		return -1;
-	}
+//	public int getSectionAt(int x, int y, GameBoard gBoard){
+//		if (gBoard.getSpaceThing(x, y) instanceof AbstractShip){
+// 			AbstractShip ship = (AbstractShip) gBoard.getSpaceThing(x, y);
+//			return Math.abs((x - ship.getX()) + (y - ship.getY()));
+//		}
+//		return -1;
+//	}
 	
 	public void incrementSectionHealth(int amount, int section){
 		sectionHealth[section] += amount;
@@ -99,5 +102,9 @@ public abstract class AbstractShip extends SpaceThing {
 
 	public int getRadarVisibilityLength() {
 		return radarVisibilityLength;
+	}
+	
+	public void setArsenal(AbstractWeapon[] weapons){
+		arsenal = weapons;
 	}
 }

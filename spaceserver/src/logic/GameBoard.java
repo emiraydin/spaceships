@@ -5,13 +5,16 @@ import logic.spacethings.Asteroid;
 import logic.spacethings.SpaceThing;
 import static common.GameConstants.BOARD_HEIGHT;
 import static common.GameConstants.BOARD_WIDTH;
-import static common.GameConstants.MAX_ASTEROIDS;;
+import static common.GameConstants.NUM_ASTEROIDS;
 
 public class GameBoard {
 	SpaceThing[][] map;
+	int gameID;
 	
-	public GameBoard(){
+	public GameBoard(int gameID){
 		map = new SpaceThing[BOARD_HEIGHT][BOARD_WIDTH];
+		this.gameID = gameID;
+		
 	}
 	
 	public SpaceThing getSpaceThing(int x, int y){
@@ -83,27 +86,23 @@ public class GameBoard {
 	public int getSectionAt(int x, int y, AbstractShip ship){
 		if (getSpaceThing(x, y) instanceof AbstractShip){
  			if (ship.equals(getSpaceThing(x, y))){
- 				
+ 				// This shooooould work...
+ 				Math.abs((x - ship.getX()) + (y - ship.getY()));
  			}
 		}
 		return -1;
 	}
 	
 	public void generateAsteroids(){
-		// The Count of the number of displayed Asteroids. 
 		int count = 0; 
-		
-		while(count < MAX_ASTEROIDS)
-		{
+		while(count < NUM_ASTEROIDS){
 			int randX = 10 + (int) (Math.random() * ((20 - 10) + 1)); 
 			int randY = 3 + (int) (Math.random() * ((27 - 3) + 1));
 			
-//			if(getSpaceThing(randX, randY) == null){
-//			{
-//				setSpaceThing(new Asteroid(), randX, randY);
-//				count++; 
-////				asteroidField[randX][randY] = new Asteroid(randX, randY); 
-//			}
+			if(getSpaceThing(randX, randY) == null){
+				setSpaceThing(new Asteroid(randX, randY, gameID), randX, randY);
+				count++; 
+			}
 		}
 	}
 	
@@ -111,12 +110,12 @@ public class GameBoard {
 		return (map[x][y] != null);
 	}
 	
-	public boolean handleMineExplosions(){
-		//TODO: Mine explosions... can this be moved?..
-		return false;
-	}
+//	public boolean handleMineExplosions(){
+//		//TODO: Mine explosions... can this be moved?..
+//		return false;
+//	}
 	
-	private boolean inBounds(int x, int y){
+	private static boolean inBounds(int x, int y){
 		return (x >=0 && y >= 0 && x < BOARD_WIDTH && y < BOARD_HEIGHT);
 	}
 

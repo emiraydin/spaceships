@@ -1,9 +1,7 @@
 package logic.spacethings;
 
 public class RadarBoatShip extends AbstractShip {
-	private int id;
-	
-	public int getID(){
-		return id;
+	public RadarBoatShip(int x, int y, int gameID) {
+		super(x, y, gameID);
 	}
 }

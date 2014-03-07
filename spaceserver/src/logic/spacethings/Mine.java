@@ -7,12 +7,12 @@ public class Mine extends SpaceThing {
 	private static final int damage = 2;
 	private FleetCommander owner;
 	
-	public Mine(){
-		super(0,0);
+	public Mine(int gameID){
+		super(0, 0, gameID);
 	}
 	
-	public Mine(FleetCommander fc){
-		super(0,0);
+	public Mine(FleetCommander fc, int gameID){
+		super(0, 0, gameID);
 		owner = fc;
 	}
 	
