@@ -6,19 +6,20 @@ import common.GameConstants.OrientationType;
 import common.GameConstants.WeaponType;
 
 public abstract class AbstractShip extends SpaceThing {
-	private int speed;
-	private int length;
-	private int[] sectionHealth;
-	private OrientationType orientation;
-	private int cannonWidth;
-	private int cannonLength;
-	private int cannonXOffset;
-	private int sonarVisibilityWidth;
-	private int sonarVisibilityLength;
-	private int radarVisibilityWidth;
-	private int radarVisibilityLength;
+	protected int speed;
+	protected int length;
+	protected int[] sectionHealth;
+	protected OrientationType orientation;
+	protected int cannonWidth;
+	protected int cannonLength;
+	protected int cannonXOffset;
+	protected int sonarVisibilityWidth;
+	protected int sonarVisibilityLength;
+	protected int radarVisibilityWidth;
+	protected int radarVisibilityLength;
+	protected int radarVisibilityXOffset;
 //	private ActionType[] possibleActions;
-	private AbstractWeapon[] arsenal;
+	protected AbstractWeapon[] arsenal;
 	
 	
 	public AbstractShip(int x, int y, int gameID){
@@ -111,5 +112,18 @@ public abstract class AbstractShip extends SpaceThing {
 	
 	public void setArsenal(AbstractWeapon[] weapons){
 		arsenal = weapons;
+	}
+	
+	protected void initializeHealth(int length, boolean heavyArmour) { 
+		this.sectionHealth = new int[length];
+		if(heavyArmour) { 
+			for(int i = 0; i < length; i++) { 
+				sectionHealth[i] = 2;
+			}
+		} else { 
+			for(int i = 0; i < length; i++) { 
+				sectionHealth[i] = 1;
+			}
+		}
 	}
 }

@@ -18,7 +18,7 @@ public class FleetCommander {
 		this.fcID = fcID;
 		sonarVisibility = new int[30][30];
 		radarVisibility = new int[30][30];
-		ships = new ArrayList<>();
+		ships = new ArrayList<AbstractShip>();
 	}
 	
 	public void addShip(AbstractShip ship){
