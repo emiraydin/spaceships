@@ -8,11 +8,13 @@ public class Mine extends SpaceThing {
 	private FleetCommander owner;
 	
 	public Mine(int gameID){
-		super(0, 0, gameID);
+		// note: of change: x/y should be -1 not 0 if gameboard indexed at 0 right? 
+		super(-1, -1, gameID);
 	}
 	
 	public Mine(FleetCommander fc, int gameID){
-		super(0, 0, gameID);
+		// note: see above~
+		super(-1, -1, gameID);
 		owner = fc;
 	}
 	
