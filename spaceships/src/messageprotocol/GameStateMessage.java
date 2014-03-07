@@ -16,7 +16,16 @@ public class GameStateMessage
 	OrientationType orientation;
 	int[] sectionHealth;
 	
-	
+	/**
+	 * 
+	 * @param spaceThingId
+	 * @param owner
+	 * @param type
+	 * @param posX
+	 * @param posY
+	 * @param orientation
+	 * @param sectionHealth
+	 */
 	public GameStateMessage(
 			int spaceThingId,
 			PlayerNumber owner,
@@ -125,38 +134,5 @@ public class GameStateMessage
 			return false;
 		return true;
 	}
-	
-	
-
-//	/**
-//	 * When a GameStateUpdateMessage is executed, it updates the properties of some spaceThing.
-//	 * @throws Exception 
-//	 */
-//	public void execute() throws Exception
-//	{
-//		// Doing some serious Reflection here...
-//		try
-//		{
-//			// Get the spacething and figure out if it has an "updateProperties" method, and run it if it can
-//			SpaceThing thing = GameState.getSpaceThing(spaceThingId);
-//			
-//			Class<? extends SpaceThing> thingClass = thing.getClass();
-//			
-//			// If it has the method then run it
-//			for (Method current : thingClass.getMethods()) {
-//				if (current.getName().equals("updateProperties")) {
-//					current.invoke(thing, this.posX, this.posY, this.orientation, this.sectionHealth);
-//					break;
-//				}
-//			}
-//		}
-//		catch (Exception e)
-//		{
-//			throw new Exception("Could not update GameState for thing: " + spaceThingId);
-//		}
-//	}
-	
-	
-	
 
 }
