@@ -17,8 +17,32 @@ public class Mine extends SpaceThing {
 		owner = fc;
 	}
 
-	
-	public void detonate(int x, int y){
+	/** 
+	 * Mine detonates and damages anything adjacent to it.
+	 * @return False if there's a problem, true otherwise.
+	 */
+	public boolean detonate() { 
+		int x = this.getX();
+		int y = this.getY();
+		if(x == -1 && y == -1) { 
+			System.out.println("Can't detonate unplaced mine");
+			return false;
+		}
+		
+		detonate(x, y-1);
+		detonate(x, y+1);
+		detonate(x-1, y);
+		detonate(x+1, y);	
+		
+		return true;
+	}
+ 	
+	/**
+	 * Does damage to a particular coordinate.
+	 * @param x
+	 * @param y
+	 */
+	private void detonate(int x, int y){
 		if (getGameBoard().getSpaceThing(x, y) instanceof AbstractShip){
 			AbstractShip ship = (AbstractShip) getGameBoard().getSpaceThing(x, y);
 			int section = ship.getSectionAt(x, y);
@@ -28,8 +52,8 @@ public class Mine extends SpaceThing {
 			} else {
 				section2 = section - 1;
 			}
-			ship.decrementSectionHealth(2, section);
-			ship.decrementSectionHealth(2, section2);
+			ship.decrementSectionHealth(damage, section);
+			ship.decrementSectionHealth(damage, section2);
 		}
 		
 	}

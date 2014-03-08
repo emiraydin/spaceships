@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import logic.spacethings.AbstractShip;
 import logic.spacethings.Mine;
+import logic.spacethings.MineLayerShip;
 import logic.spacethings.SpaceThing;
 
 import common.GameConstants;
@@ -104,18 +105,28 @@ public class FleetCommander {
 		return false;
 	}
 	
+	/**
+	 * Checks if there are mines in the vicinity of a ship and if so, detonates them
+	 * unless ship is a Mine Layer, in which case it doesn't detonate anything.
+	 * @param ship
+	 * @param x
+	 * @param y
+	 * @return True if there were mines detonated, false otherwise
+	 */
 	private boolean handleMineExplosions(AbstractShip ship, int x, int y){
-		int[][] coords = ship.getShipCoords();
 		boolean detonation = false;
-		for (int i = 0; i < ship.getLength(); i++){
-			int xCoord = coords[i][0];
-			int yCoord = coords[i][1];
-			detonation = (checkMine(xCoord + 1, yCoord, xCoord, yCoord) || detonation);
-			detonation = (checkMine(xCoord - 1, yCoord, xCoord, yCoord) || detonation);
-			detonation = (checkMine(xCoord, yCoord + 1, xCoord, yCoord) || detonation);
-			detonation = (checkMine(xCoord, yCoord - 1, xCoord, yCoord) || detonation);
+		if(!(ship instanceof MineLayerShip)) { 
+			int[][] coords = ship.getShipCoords();
+			for (int i = 0; i < ship.getLength(); i++){
+				int xCoord = coords[i][0];
+				int yCoord = coords[i][1];
+				detonation = (checkMine(xCoord + 1, yCoord) || detonation);
+				detonation = (checkMine(xCoord - 1, yCoord) || detonation);
+				detonation = (checkMine(xCoord, yCoord + 1) || detonation);
+				detonation = (checkMine(xCoord, yCoord - 1) || detonation);
+			}	
 		}
-		return false;
+		return detonation;
 	}
 	
 	/**
@@ -180,9 +191,15 @@ public class FleetCommander {
 		return false;
 	}
 	
-	private boolean checkMine(int x, int y, int xCoord, int yCoord){
+	/**
+	 * If mine located at (x,y), detonates it.
+	 * @param x
+	 * @param y
+	 * @return True if there was a mine, false otherwise.
+	 */
+	private boolean checkMine(int x, int y){
 		if (board.getSpaceThing(x, y) instanceof Mine){
-			((Mine) board.getSpaceThing(x, y)).detonate(xCoord, yCoord);
+			((Mine) board.getSpaceThing(x, y)).detonate();
 			return true;
 		}
 		return false;
