@@ -1,7 +1,10 @@
 package state.ships;
 
 import gameLogic.Constants.*;
+
+import java.util.Arrays;
 import java.util.LinkedList;
+
 import state.SpaceThing;
 import state.weapons.AbstractWeapon;
 
@@ -30,8 +33,8 @@ public abstract class AbstractShip extends SpaceThing
 	protected int cannonXOffset;
 	
 	// Radar Properties
-	protected int radarVisibilityWidth;
-	protected int radarVisibilityLength;
+//	protected int radarVisibilityWidth;
+//	protected int radarVisibilityLength;
 	
 	// Weapons
 	protected LinkedList<AbstractWeapon> weapons;	
@@ -45,8 +48,6 @@ public abstract class AbstractShip extends SpaceThing
 	 * @param cannonWidth
 	 * @param cannonLength
 	 * @param cannonXOffset
-	 * @param radarVisibilityWidth
-	 * @param radarVisibilityLength
 	 */
 	public AbstractShip(int id,
 			PlayerNumber owner,
@@ -55,9 +56,7 @@ public abstract class AbstractShip extends SpaceThing
 			int speed,
 			int cannonWidth,
 			int cannonLength,
-			int cannonXOffset,
-			int radarVisibilityWidth,
-			int radarVisibilityLength) {
+			int cannonXOffset) {
 		
 		// Unique id
 		super(id, owner);
@@ -78,8 +77,6 @@ public abstract class AbstractShip extends SpaceThing
 		this.cannonWidth = cannonWidth;
 		this.cannonLength = cannonLength;
 		this.cannonXOffset = cannonXOffset;
-		this.radarVisibilityWidth = radarVisibilityWidth;
-		this.radarVisibilityLength = radarVisibilityLength;
 	}
 	
 	
@@ -173,41 +170,104 @@ public abstract class AbstractShip extends SpaceThing
 	public int getCannonXOffset() {
 		return this.cannonXOffset;
 	}	
-	public int getRadarVisibilityWidth() {
-		return this.radarVisibilityWidth;
-	}	
-	public int getRadarVisibilityLength() {
-		return this.radarVisibilityLength;
-	}
+//	public int getRadarVisibilityWidth() {
+//		return this.radarVisibilityWidth;
+//	}	
+//	public int getRadarVisibilityLength() {
+//		return this.radarVisibilityLength;
+//	}
 	
 	// Methods that aren't in the client:
 	// incrementSectionHealth()
 	// decrementSEctionHealth()
 	// isDead()
 	
-	public String toString() {
-		return
-				"===================\n"
-				+ "Printing Ship Schematics:"
-				+ "\n    ID: " + uniqueId
-				+ "\n    Owner:" + this.getOwner()
-				+ "\n    x: " + this.getX()
-				+ "\n    y: " + this.getY()
-				+ "\n    Speed: " + this.getSpeed()
-				+ "\n    Length: " + this.getLength()
-				+ "\n    Armour: " + armour
-				+ "\n    Orientation:" + this.getOrientation()
-				+ "\n    CannonWidth: " + this.getCannonWidth()
-				+ "\n    CannonLength: " + this.getCannonLength()
-				+ "\n    CannonXOffset: " + this.getCannonXOffset()
-				+ "\n    RadarVisibilityWidth: " + this.getRadarVisibilityWidth()
-				+ "\n    RadarVisibilityLength: " + this.getRadarVisibilityLength();
-	}
+//	public String toString() {
+//		return
+//				"===================\n"
+//				+ "Printing Ship Schematics:"
+//				+ "\n    ID: " + uniqueId
+//				+ "\n    Owner:" + this.getOwner()
+//				+ "\n    x: " + this.getX()
+//				+ "\n    y: " + this.getY()
+//				+ "\n    Speed: " + this.getSpeed()
+//				+ "\n    Length: " + this.getLength()
+//				+ "\n    Armour: " + armour
+//				+ "\n    Orientation:" + this.getOrientation()
+//				+ "\n    CannonWidth: " + this.getCannonWidth()
+//				+ "\n    CannonLength: " + this.getCannonLength()
+//				+ "\n    CannonXOffset: " + this.getCannonXOffset();
+//	}
 	
 	public LinkedList getWeapons()
 	{
 		return this.weapons; 
 	}
+
+
+	@Override
+	public String toString()
+	{
+		return "AbstractShip [speed=" + speed + ", length=" + length + ", armour=" + armour + ", sectionHealth="
+				+ Arrays.toString(sectionHealth) + ", orientation=" + orientation + ", cannonWidth=" + cannonWidth
+				+ ", cannonLength=" + cannonLength + ", cannonXOffset=" + cannonXOffset + ", weapons=" + weapons + "]";
+	}
+
+
+	@Override
+	public int hashCode()
+	{
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((armour == null) ? 0 : armour.hashCode());
+		result = prime * result + cannonLength;
+		result = prime * result + cannonWidth;
+		result = prime * result + cannonXOffset;
+		result = prime * result + length;
+		result = prime * result + ((orientation == null) ? 0 : orientation.hashCode());
+		result = prime * result + Arrays.hashCode(sectionHealth);
+		result = prime * result + speed;
+		result = prime * result + ((weapons == null) ? 0 : weapons.hashCode());
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AbstractShip other = (AbstractShip) obj;
+		if (armour != other.armour)
+			return false;
+		if (cannonLength != other.cannonLength)
+			return false;
+		if (cannonWidth != other.cannonWidth)
+			return false;
+		if (cannonXOffset != other.cannonXOffset)
+			return false;
+		if (length != other.length)
+			return false;
+		if (orientation != other.orientation)
+			return false;
+		if (!Arrays.equals(sectionHealth, other.sectionHealth))
+			return false;
+		if (speed != other.speed)
+			return false;
+		if (weapons == null)
+		{
+			if (other.weapons != null)
+				return false;
+		}
+		else if (!weapons.equals(other.weapons))
+			return false;
+		return true;
+	}
+
  
 
 }

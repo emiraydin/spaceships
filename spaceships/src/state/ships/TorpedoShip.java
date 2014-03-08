@@ -16,7 +16,7 @@ public class TorpedoShip extends AbstractShip
 	 * Sets the basic properties for the Destroyer ship. 
 	 */
 	public TorpedoShip(int id, PlayerNumber owner) {
-		super(id, owner, 3, ArmourType.Normal, 9, 5, 5, 0, 3, 6);
+		super(id, owner, 3, ArmourType.Normal, 9, 5, 5, 0);
 
 		this.addWeapon(new Cannon());
 		this.addWeapon(new TorpedoLauncher());

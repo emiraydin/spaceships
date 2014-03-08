@@ -15,9 +15,11 @@ public class CruiserShip extends AbstractShip
 	 */
 	public CruiserShip(int id, PlayerNumber owner)
 	{
-		super(id, owner,5, ArmourType.Heavy, 10, 11, 15, 0, 3, 10);
+		super(id, owner,5, ArmourType.Heavy, 10, 11, 15, 0);
 		
 		// Cruiser gets a heavy cannon
 		this.addWeapon(new HeavyCannon());
 	}
+	
+	
 }

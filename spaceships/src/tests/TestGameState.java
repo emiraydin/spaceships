@@ -90,8 +90,7 @@ public class TestGameState
 		try {
 			System.out.println(GameState.getSpaceThing(0).toString());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			fail();
 		}
 		
 		ServerMessageHandler.executeNewTurnMessage(message2);
@@ -103,8 +102,7 @@ public class TestGameState
 			System.out.println(GameState.getSpaceThing(0).toString());
 			System.out.println(GameState.getSpaceThing(5).toString());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			fail();
 		}
 		
 		
