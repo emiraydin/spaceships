@@ -4,6 +4,7 @@ import state.weapons.Cannon;
 import state.weapons.TorpedoLauncher;
 import gameLogic.Constants.ArmourType;
 import gameLogic.Constants.PlayerNumber;
+import gameLogic.Constants.SpaceThingType;
 
 /**
  * The Class for the Torpedo Ship type vessel. 
@@ -16,7 +17,7 @@ public class TorpedoShip extends AbstractShip
 	 * Sets the basic properties for the Destroyer ship. 
 	 */
 	public TorpedoShip(int id, PlayerNumber owner) {
-		super(id, owner, 3, ArmourType.Normal, 9, 5, 5, 0);
+		super(id, SpaceThingType.TorpedoShip, owner, 3, ArmourType.Normal, 9, 5, 5, 0);
 
 		this.addWeapon(new Cannon());
 		this.addWeapon(new TorpedoLauncher());

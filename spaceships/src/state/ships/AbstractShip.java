@@ -32,16 +32,16 @@ public abstract class AbstractShip extends SpaceThing
 	protected int cannonLength;
 	protected int cannonXOffset;
 	
-	// Radar Properties
-//	protected int radarVisibilityWidth;
-//	protected int radarVisibilityLength;
 	
 	// Weapons
 	protected LinkedList<AbstractWeapon> weapons;	
 	
 	/**
-	 * Construct the abstract ship.
+	 * Construct the ship.
 	 * 
+	 * @param id
+	 * @param type
+	 * @param owner
 	 * @param length
 	 * @param armour
 	 * @param speed
@@ -50,6 +50,7 @@ public abstract class AbstractShip extends SpaceThing
 	 * @param cannonXOffset
 	 */
 	public AbstractShip(int id,
+			SpaceThingType type,
 			PlayerNumber owner,
 			int length,
 			ArmourType armour,
@@ -59,7 +60,7 @@ public abstract class AbstractShip extends SpaceThing
 			int cannonXOffset) {
 		
 		// Unique id
-		super(id, owner);
+		super(id, type, owner);
 		
 		// Build the weapons list
 		this.weapons = new LinkedList<AbstractWeapon>();
@@ -170,53 +171,23 @@ public abstract class AbstractShip extends SpaceThing
 	public int getCannonXOffset() {
 		return this.cannonXOffset;
 	}	
-//	public int getRadarVisibilityWidth() {
-//		return this.radarVisibilityWidth;
-//	}	
-//	public int getRadarVisibilityLength() {
-//		return this.radarVisibilityLength;
-//	}
 	
-	// Methods that aren't in the client:
-	// incrementSectionHealth()
-	// decrementSEctionHealth()
-	// isDead()
-	
-//	public String toString() {
-//		return
-//				"===================\n"
-//				+ "Printing Ship Schematics:"
-//				+ "\n    ID: " + uniqueId
-//				+ "\n    Owner:" + this.getOwner()
-//				+ "\n    x: " + this.getX()
-//				+ "\n    y: " + this.getY()
-//				+ "\n    Speed: " + this.getSpeed()
-//				+ "\n    Length: " + this.getLength()
-//				+ "\n    Armour: " + armour
-//				+ "\n    Orientation:" + this.getOrientation()
-//				+ "\n    CannonWidth: " + this.getCannonWidth()
-//				+ "\n    CannonLength: " + this.getCannonLength()
-//				+ "\n    CannonXOffset: " + this.getCannonXOffset();
-//	}
-	
-	public LinkedList getWeapons()
-	{
+	public LinkedList getWeapons() {
 		return this.weapons; 
 	}
 
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		return "AbstractShip [speed=" + speed + ", length=" + length + ", armour=" + armour + ", sectionHealth="
 				+ Arrays.toString(sectionHealth) + ", orientation=" + orientation + ", cannonWidth=" + cannonWidth
-				+ ", cannonLength=" + cannonLength + ", cannonXOffset=" + cannonXOffset + ", weapons=" + weapons + "]";
+				+ ", cannonLength=" + cannonLength + ", cannonXOffset=" + cannonXOffset + ", weapons=" + weapons
+				+ ", uniqueId=" + uniqueId + ", owner=" + owner + ", type=" + type + ", x=" + x + ", y=" + y + "]";
 	}
 
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result + ((armour == null) ? 0 : armour.hashCode());
@@ -233,8 +204,7 @@ public abstract class AbstractShip extends SpaceThing
 
 
 	@Override
-	public boolean equals(Object obj)
-	{
+	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
 		if (!super.equals(obj))
@@ -267,7 +237,5 @@ public abstract class AbstractShip extends SpaceThing
 			return false;
 		return true;
 	}
-
- 
 
 }

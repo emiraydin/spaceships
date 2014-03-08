@@ -2,6 +2,7 @@ package state.ships;
 
 import gameLogic.Constants.ArmourType;
 import gameLogic.Constants.PlayerNumber;
+import gameLogic.Constants.SpaceThingType;
 
 import java.util.LinkedList;
 
@@ -18,7 +19,7 @@ public class RadarBoatShip extends AbstractShip
 	 */
 	public RadarBoatShip(int id, PlayerNumber owner)
 	{
-		super(id, owner, 3, ArmourType.Normal, 3, 3, 5, 0);
+		super(id, SpaceThingType.RadarBoatShip, owner, 3, ArmourType.Normal, 3, 3, 5, 0);
 		
 		this.addWeapon(new Cannon());
 	}

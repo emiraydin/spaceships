@@ -2,6 +2,7 @@ package state.ships;
 
 import gameLogic.Constants.ArmourType;
 import gameLogic.Constants.PlayerNumber;
+import gameLogic.Constants.SpaceThingType;
 
 import java.util.LinkedList;
 
@@ -19,12 +20,12 @@ public class MineLayerShip extends AbstractShip
 	 */
 	LinkedList<Mine> mines;
 	
-	/**
-	 * Sonar
-	 */
-	protected int sonarVisibilityWidth;
-	protected int sonarVisibilityHeight;
-	
+//	/**
+//	 * Sonar
+//	 */
+//	protected int sonarVisibilityWidth;
+//	protected int sonarVisibilityHeight;
+//	
 	
 	/**
 	 * Default constructor. 
@@ -33,7 +34,7 @@ public class MineLayerShip extends AbstractShip
 	public MineLayerShip(int id, PlayerNumber owner)
 	{
 		// Length is 2 and health points are 1?
-		super(id, owner, 2, ArmourType.Heavy, 6, 3, 5, 1);		
+		super(id, SpaceThingType.MineLayerShip, owner, 2, ArmourType.Heavy, 6, 3, 5, 1);		
 		
 		mines = new LinkedList<Mine>();
 		
@@ -41,12 +42,12 @@ public class MineLayerShip extends AbstractShip
 		this.addWeapon(new MineLayer());
 	}
 	
-	public int getSonarVisibilityWidth() {
-		return this.sonarVisibilityWidth;
-	}	
-	public int getSonarVisibilityHeight() {
-		return this.sonarVisibilityHeight;
-	}	
+//	public int getSonarVisibilityWidth() {
+//		return this.sonarVisibilityWidth;
+//	}	
+//	public int getSonarVisibilityHeight() {
+//		return this.sonarVisibilityHeight;
+//	}	
 	
 	/**
 	 * Add a mine.

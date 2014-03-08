@@ -1,19 +1,32 @@
 package state;
 
-import gameLogic.Constants.PlayerNumber;
+import gameLogic.Constants.*;
 
 public class SpaceThing {
 	
 	protected int uniqueId;
 	protected PlayerNumber owner;
+	protected SpaceThingType type;
 	protected int x;
 	protected int y;
 	
-	public SpaceThing(int id, PlayerNumber owner) {
+	public SpaceThing(int id, SpaceThingType type, PlayerNumber owner) {
 		this.uniqueId = id;
+		this.type = type;
 		this.owner = owner;
 	}
 	
+	
+	public int getUniqueId()
+	{
+		return uniqueId;
+	}
+
+	public SpaceThingType getType()
+	{
+		return type;
+	}
+
 	public void setOwner(PlayerNumber owner) {
 		this.owner = owner;
 	}
@@ -37,11 +50,14 @@ public class SpaceThing {
 		this.y = y;
 	}
 
+
 	@Override
 	public String toString()
 	{
-		return "SpaceThing [uniqueId=" + uniqueId + ", owner=" + owner + ", x=" + x + ", y=" + y + "]";
+		return "SpaceThing [uniqueId=" + uniqueId + ", owner=" + owner + ", type=" + type + ", x=" + x + ", y=" + y
+				+ "]";
 	}
+
 
 	@Override
 	public int hashCode()
@@ -49,11 +65,13 @@ public class SpaceThing {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((owner == null) ? 0 : owner.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		result = prime * result + uniqueId;
 		result = prime * result + x;
 		result = prime * result + y;
 		return result;
 	}
+
 
 	@Override
 	public boolean equals(Object obj)
@@ -67,6 +85,8 @@ public class SpaceThing {
 		SpaceThing other = (SpaceThing) obj;
 		if (owner != other.owner)
 			return false;
+		if (type != other.type)
+			return false;
 		if (uniqueId != other.uniqueId)
 			return false;
 		if (x != other.x)
@@ -75,6 +95,9 @@ public class SpaceThing {
 			return false;
 		return true;
 	}
+	
+	
+
 	
 	
 	
