@@ -8,6 +8,8 @@ public abstract class AbstractWeapon {
 
 	public abstract WeaponType getType();
 	
+	protected abstract boolean validate(int x, int y);
+	
 	public abstract boolean fire(int x, int y);
 	
 	public int getDamage(){
