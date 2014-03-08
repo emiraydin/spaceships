@@ -9,6 +9,7 @@ import logic.spacethings.SpaceThing;
 
 import common.GameConstants;
 import common.GameConstants.ActionType;
+import common.GameConstants.OrientationType;
 import common.GameConstants.VisibilityType;
 import common.GameConstants.WeaponType;
 
@@ -23,6 +24,10 @@ public class FleetCommander {
 		this.fcID = fcID;
 		sonarVisibility = new int[30][30];
 		radarVisibility = new int[30][30];
+		/* TODO: set initial visibilities
+		 * - your base has short radar range of 1 square
+		 * - enemies base and coral reefs are visible
+		 */
 		ships = new ArrayList<AbstractShip>();
 	}
 	
@@ -226,6 +231,85 @@ public class FleetCommander {
 		case TurnRight:
 		default:
 			return false;
+		}
+	}
+	
+	public void incrementVisibility(AbstractShip ship) { 
+		changeVisibility(ship, 1);
+	}
+	
+	public void decrementVisibility(AbstractShip ship) { 
+		changeVisibility(ship, -1);
+	}
+	
+	private void changeVisibility(AbstractShip ship, int change) { 
+		int shipX = ship.getX();
+		int shipY = ship.getY();
+		
+		/* Radar */
+		int radarLength = ship.getRadarVisibilityLength();
+		int radarWidth = ship.getRadarVisibilityWidth();
+		int radarLengthOffset = ship.getRadarVisibilityLengthOffset();
+		
+		int minX = -1;
+		int maxX = -1;
+		int minY = -1;
+		int maxY = -1;
+		switch(ship.getOrientation()) { 
+		case East: 
+			minX = shipX + radarLengthOffset;
+			maxX = minX + radarLength;
+			minY = shipY - radarWidth/2;
+			maxY = shipY + radarWidth/2;
+			break;
+		case West:
+			minX = shipX - radarLengthOffset;
+			maxX = minX - radarLength;
+			minY = shipY - radarWidth/2;
+			maxY = shipY + radarWidth/2;
+			break;
+		case North: 
+			minX = shipX - radarWidth/2;
+			maxX = shipX + radarWidth/2;
+			maxY = shipY - radarLengthOffset;
+			minY = maxY - radarLength;
+			break;
+		case South: 
+			minX = shipX - radarWidth/2;
+			maxX = shipX + radarWidth/2;
+			minY = shipY + radarLengthOffset;
+			maxY = minY + radarLength;
+			break;
+		}
+		
+		for(int i = minX; i <= maxX; i++) { 
+			for(int j = minY; j <= maxY; j++) { 
+				if(GameBoard.inBounds(i, j)) { 
+					radarVisibility[i][j] = radarVisibility[i][j] + change;
+				}
+			}
+		}
+		
+		/* Sonar */
+		if(ship instanceof MineLayerShip) { 
+			/* this should work???
+			 * if you don't change the ship's section's visibility but change
+			 * the surrounding tiles for each section, then you get the ship's sections
+			 * covered for free right?? its 4 am why am i awake */
+			int[][] coords = ship.getShipCoords();
+			for(int[] s : coords) { 
+				changeSonarVisibility(s[0], s[1]-1, change);
+				changeSonarVisibility(s[0], s[1]+1, change);
+				changeSonarVisibility(s[0]-1, s[1], change);
+				changeSonarVisibility(s[0]+1, s[1], change);
+			}
+			
+		}	
+	}
+	
+	private void changeSonarVisibility(int x, int y, int change) { 
+		if(GameBoard.inBounds(x, y)) { 
+			sonarVisibility[x][y] = sonarVisibility[x][y] + change; 
 		}
 	}
 	
