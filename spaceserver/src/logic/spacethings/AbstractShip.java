@@ -85,6 +85,13 @@ public abstract class AbstractShip extends SpaceThing {
 		sectionHealth[section] -= amount;
 	}
 	
+	public boolean isSectionDamaged(int section) { 
+		if(sectionHealth[section] > 0) { 
+			return false;
+		}
+		return true;
+	}
+	
 	public boolean isDead(){
 		for (int i = 0; i < sectionHealth.length; i++){
 			if (sectionHealth[i] > 0){

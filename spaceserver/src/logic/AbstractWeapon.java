@@ -23,6 +23,13 @@ public abstract class AbstractWeapon {
 	 */
 	protected abstract boolean inRange(int x, int y);
 	
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @return False if something goes wrong (target out of bounds, etc),
+	 * 		   True otherwise (hit or miss)
+	 */
 	public abstract boolean fire(int x, int y);
 	
 	public int getDamage(){
