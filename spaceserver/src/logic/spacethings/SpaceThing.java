@@ -6,7 +6,7 @@ import logic.IDManager;
 public abstract class SpaceThing {
 	private int x, y;
 	private int id;
-	GameBoard gameBoard;
+	private GameBoard gameBoard;
 	
 	public SpaceThing(int x, int y, int gid, GameBoard gameBoard){
 		this.x = x;
@@ -33,5 +33,9 @@ public abstract class SpaceThing {
 	
 	public int getID(){
 		return id;
+	}
+	
+	public GameBoard getGameBoard() { 
+		return gameBoard;
 	}
 }

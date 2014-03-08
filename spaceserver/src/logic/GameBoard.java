@@ -83,6 +83,15 @@ public class GameBoard {
 		}
 	}
 	
+	/**
+	 * Finds the section index of a ship occupied by (x,y).
+	 * Ship sections indexed from 0 starting at tail.
+	 * @param x 
+	 * @param y
+	 * @param ship the ship that is expected to occupy (x,y)
+	 * @return the section index of the ship occupying some (x,y),
+	 * 		   or -1 if the expected ship does not occupy that spot.
+	 */
 	public int getSectionAt(int x, int y, AbstractShip ship){
 		if (getSpaceThing(x, y) instanceof AbstractShip){
  			if (ship.equals(getSpaceThing(x, y))){
@@ -115,7 +124,7 @@ public class GameBoard {
 //		return false;
 //	}
 	
-	private static boolean inBounds(int x, int y){
+	public static boolean inBounds(int x, int y){
 		return (x >=0 && y >= 0 && x < BOARD_WIDTH && y < BOARD_HEIGHT);
 	}
 
