@@ -15,12 +15,12 @@ public class RadarBoatShip extends AbstractShip {
 		
 		this.cannonLength = 5;
 		this.cannonWidth = 3;
-		this.cannonXOffset = -1;
+		this.cannonLengthOffset = -1;
 		
 		// by default, radar length 6
 		this.radarVisibilityLength = 6;
 		this.radarVisibilityWidth = 3;
-		this.radarVisibilityXOffset = 1;
+		this.radarVisibilityLengthOffset = 1;
 		
 		arsenal = new AbstractWeapon[1];
 		arsenal[0] = new Cannon(this);

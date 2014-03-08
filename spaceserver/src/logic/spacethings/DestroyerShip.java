@@ -15,11 +15,11 @@ public class DestroyerShip extends AbstractShip {
 		
 		this.cannonWidth = 9;
 		this.cannonLength = 12;
-		this.cannonXOffset = -4;
+		this.cannonLengthOffset = -4;
 		
 		this.radarVisibilityLength = 8;
 		this.radarVisibilityWidth = 3;
-		this.radarVisibilityXOffset = 1;
+		this.radarVisibilityLengthOffset = 1;
 		
 		// Destroyers carry Cannons and Torpedoes
 		this.arsenal = new AbstractWeapon[2];

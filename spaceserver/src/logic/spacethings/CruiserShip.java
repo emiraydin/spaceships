@@ -15,12 +15,12 @@ public class CruiserShip extends AbstractShip {
 		
 		this.cannonWidth = 11;
 		this.cannonLength = 15;
-		this.cannonXOffset = -5; 	// 0 offset = flush with stern
+		this.cannonLengthOffset = -5; 	// 0 offset = flush with stern
 		
 		// ignoring sonar..
 		this.radarVisibilityWidth = 3;
 		this.radarVisibilityLength = 10;
-		this.radarVisibilityXOffset = 1;
+		this.radarVisibilityLengthOffset = 1;
 		
 		this.arsenal = new AbstractWeapon[1];
 		arsenal[0] = new HeavyCannon(this);

@@ -12,12 +12,12 @@ public abstract class AbstractShip extends SpaceThing {
 	protected OrientationType orientation;
 	protected int cannonWidth;
 	protected int cannonLength;
-	protected int cannonXOffset;
+	protected int cannonLengthOffset;
 	protected int sonarVisibilityWidth;
 	protected int sonarVisibilityLength;
 	protected int radarVisibilityWidth;
 	protected int radarVisibilityLength;
-	protected int radarVisibilityXOffset;
+	protected int radarVisibilityLengthOffset;
 //	private ActionType[] possibleActions;
 	protected AbstractWeapon[] arsenal;
 	
@@ -91,7 +91,7 @@ public abstract class AbstractShip extends SpaceThing {
 	}
 
 	public int getCannonXOffset() {
-		return cannonXOffset;
+		return cannonLengthOffset;
 	}
 
 	public int getSonarVisibilityWidth() {
@@ -108,6 +108,10 @@ public abstract class AbstractShip extends SpaceThing {
 
 	public int getRadarVisibilityLength() {
 		return radarVisibilityLength;
+	}
+	
+	public int getRadarVisibilityLengthOffset() { 
+		return radarVisibilityLengthOffset;
 	}
 	
 	public void setArsenal(AbstractWeapon[] weapons){

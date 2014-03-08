@@ -15,11 +15,11 @@ public class TorpedoBoatShip extends AbstractShip {
 		
 		this.cannonWidth = 5;
 		this.cannonLength = 5;
-		this.cannonXOffset = 0;
+		this.cannonLengthOffset = 0;
 		
 		this.radarVisibilityLength = 6;
 		this.radarVisibilityWidth = 3;
-		this.radarVisibilityXOffset = 1;
+		this.radarVisibilityLengthOffset = 1;
 		
 		// Torpedo Boats have cannons and torpedoes
 		arsenal = new AbstractWeapon[2];

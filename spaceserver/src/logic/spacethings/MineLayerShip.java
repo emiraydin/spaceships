@@ -27,11 +27,11 @@ public class MineLayerShip extends AbstractShip {
 		
 		this.cannonWidth = 5;
 		this.cannonLength = 4;
-		this.cannonXOffset = -1;
+		this.cannonLengthOffset = -1;
 		
 		this.radarVisibilityLength = 6;
 		this.radarVisibilityWidth = 5;
-		this.radarVisibilityXOffset = -2;
+		this.radarVisibilityLengthOffset = -2;
 		
 		this.arsenal = new AbstractWeapon[2];
 		arsenal[0] = new Cannon(this);
