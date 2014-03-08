@@ -12,13 +12,13 @@ public class MineLayerShip extends AbstractShip {
 	private ArrayList<Mine> mines;
 	private static int NUM_MINES = 5;
 	
-	public MineLayerShip(int x, int y, int gameID, GameBoard gameBoard){
-		super(x, y, gameID, gameBoard);
+	public MineLayerShip(int x, int y, GameBoard gameBoard){
+		super(x, y, gameBoard);
 		mines = new ArrayList<Mine>(NUM_MINES);
 		for (int i = 0; i < 5; i++){
 			//TODO: Add id generation
 			// ^ fixed? lol
-			mines.add(new Mine(gameID, gameBoard));
+			mines.add(new Mine(gameBoard));
 		}
 		
 		this.length = 2;

@@ -23,8 +23,8 @@ public abstract class AbstractShip extends SpaceThing {
 	protected AbstractWeapon[] arsenal;
 	
 	
-	public AbstractShip(int x, int y, int gameID, GameBoard gameBoard){
-		super(x, y, gameID, gameBoard);
+	public AbstractShip(int x, int y, GameBoard gameBoard){
+		super(x, y, gameBoard);
 	}
 	
 	public int[][] getShipCoords(){

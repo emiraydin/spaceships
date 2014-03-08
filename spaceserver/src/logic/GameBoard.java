@@ -10,11 +10,16 @@ import static common.GameConstants.NUM_ASTEROIDS;
 public class GameBoard {
 	SpaceThing[][] map;
 	int gameID;
+	int thingIDCount;
 	
 	public GameBoard(int gameID){
 		map = new SpaceThing[BOARD_HEIGHT][BOARD_WIDTH];
 		this.gameID = gameID;
-		
+		thingIDCount = 0;
+	}
+	
+	public int nextID(){
+		return thingIDCount++;
 	}
 	
 	public SpaceThing getSpaceThing(int x, int y){
@@ -109,7 +114,7 @@ public class GameBoard {
 			int randY = 3 + (int) (Math.random() * ((27 - 3) + 1));
 			
 			if(getSpaceThing(randX, randY) == null){
-				setSpaceThing(new Asteroid(randX, randY, gameID, this), randX, randY);
+				setSpaceThing(new Asteroid(randX, randY, this), randX, randY);
 				count++; 
 			}
 		}

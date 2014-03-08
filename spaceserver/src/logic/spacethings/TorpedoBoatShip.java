@@ -7,8 +7,8 @@ import logic.TorpedoLauncher;
 
 
 public class TorpedoBoatShip extends AbstractShip {
-	public TorpedoBoatShip(int x, int y, int gameID, GameBoard gameBoard) {
-		super(x, y, gameID, gameBoard);
+	public TorpedoBoatShip(int x, int y, GameBoard gameBoard) {
+		super(x, y, gameBoard);
 		
 		this.length = 3;
 		this.speed = 9;

@@ -5,8 +5,8 @@ import logic.Cannon;
 import logic.GameBoard;
 
 public class RadarBoatShip extends AbstractShip {
-	public RadarBoatShip(int x, int y, int gameID, GameBoard gameBoard) {
-		super(x, y, gameID, gameBoard);
+	public RadarBoatShip(int x, int y, GameBoard gameBoard) {
+		super(x, y, gameBoard);
 		
 		this.length = 3;
 		// by default, speed is 3

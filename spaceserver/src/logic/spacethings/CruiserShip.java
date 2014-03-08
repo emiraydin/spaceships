@@ -5,8 +5,8 @@ import logic.GameBoard;
 import logic.HeavyCannon;
 
 public class CruiserShip extends AbstractShip {
-	public CruiserShip(int x, int y, int gameID, GameBoard gameBoard){
-		super(x, y, gameID, gameBoard);
+	public CruiserShip(int x, int y, GameBoard gameBoard){
+		super(x, y, gameBoard);
 		
 		this.length = 5;
 		this.speed = 10;

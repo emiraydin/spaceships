@@ -14,8 +14,9 @@ public class GameHandler {
 	
 	public GameHandler() {
 		// Create new game!
-		int gameID = IDManager.nextGameID();
-		board = new GameBoard(gameID);
+		//TODO: Technically GameBoard expects a gameID, but it doesn't really need one
+		// So we could take it out of the constructor...
+		board = new GameBoard(0);
 		players = new FleetCommander[2];
 		players[0] = new FleetCommander(0, board);
 		players[1] = new FleetCommander(1, board);
