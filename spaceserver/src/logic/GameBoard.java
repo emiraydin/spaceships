@@ -92,15 +92,15 @@ public class GameBoard {
 	 * @return the section index of the ship occupying some (x,y),
 	 * 		   or -1 if the expected ship does not occupy that spot.
 	 */
-	public int getSectionAt(int x, int y, AbstractShip ship){
-		if (getSpaceThing(x, y) instanceof AbstractShip){
- 			if (ship.equals(getSpaceThing(x, y))){
- 				// This shooooould work...
- 				Math.abs((x - ship.getX()) + (y - ship.getY()));
- 			}
-		}
-		return -1;
-	}
+//	public int getSectionAt(int x, int y, AbstractShip ship){
+//		if (getSpaceThing(x, y) instanceof AbstractShip){
+// 			if (ship.equals(getSpaceThing(x, y))){
+// 				// This shooooould work...
+// 				Math.abs((x - ship.getX()) + (y - ship.getY()));
+// 			}
+//		}
+//		return -1;
+//	}
 	
 	public void generateAsteroids(){
 		int count = 0; 

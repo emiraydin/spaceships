@@ -69,13 +69,13 @@ public abstract class AbstractShip extends SpaceThing {
 		return false;
 	}
 
-//	public int getSectionAt(int x, int y, GameBoard gBoard){
-//		if (gBoard.getSpaceThing(x, y) instanceof AbstractShip){
-// 			AbstractShip ship = (AbstractShip) gBoard.getSpaceThing(x, y);
-//			return Math.abs((x - ship.getX()) + (y - ship.getY()));
-//		}
-//		return -1;
-//	}
+	public int getSectionAt(int x, int y){
+		if (getGameBoard().getSpaceThing(x, y) instanceof AbstractShip){
+ 			AbstractShip ship = (AbstractShip) getGameBoard().getSpaceThing(x, y);
+			return Math.abs((x - ship.getX()) + (y - ship.getY()));
+		}
+		return -1;
+	}
 	
 	public void incrementSectionHealth(int amount, int section){
 		sectionHealth[section] += amount;

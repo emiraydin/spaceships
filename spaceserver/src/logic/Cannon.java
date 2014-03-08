@@ -27,7 +27,7 @@ public class Cannon extends AbstractWeapon {
 			if(spaceThing instanceof AbstractShip) { 
 				// decrement ship section health 
 				AbstractShip ship = (AbstractShip)spaceThing;
-				int sectionIndex = owner.getGameBoard().getSectionAt(x, y, ship);
+				int sectionIndex = ship.getSectionAt(x, y);
 				ship.decrementSectionHealth(damage, sectionIndex);
 			}
 			/* If cannon hits a mine */

@@ -1,10 +1,11 @@
 package logic;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import logic.spacethings.AbstractShip;
+import logic.spacethings.Mine;
 import logic.spacethings.SpaceThing;
+
 import common.GameConstants;
 import common.GameConstants.ActionType;
 import common.GameConstants.VisibilityType;
@@ -83,11 +84,6 @@ public class FleetCommander {
 		return 0;
 	}
 	
-//	Could be useful...
-//	private List<SpaceThing> getAdjacentThings(){
-//		
-//	}
-	
 	// Return true if having a ship at this position would incur a collision. (or out of bounds)
 	private boolean handleCollisions(AbstractShip ship, int x, int y){
 		if (x < 0 || y < 0 || x >= GameConstants.BOARD_WIDTH || y >= GameConstants.BOARD_HEIGHT){
@@ -105,58 +101,26 @@ public class FleetCommander {
 				return true;
 			}
 		}
-//		switch (ship.getOrientation()){
-//		case North:
-//			if (y - ship.getLength() < 0) {return true;}
-//			for (int i = 0; i < ship.getLength(); i++){
-//				thing = board.getSpaceThing(x, y - i);
-//				if (thing != null && thing != ship){
-//					return true;
-//				}
-//			}
-//		case East:
-//			if (x - ship.getLength() < 0) {return true;}
-//			for (int i = 0; i < ship.getLength(); i++){
-//				thing = board.getSpaceThing(x + i, y);
-//				if (thing != null && thing != ship){
-//					return true;
-//				}
-//			}
-//		case South:
-//			if (y + ship.getLength() > GameConstants.BOARD_HEIGHT) {return true;}
-//			for (int i = 0; i < ship.getLength(); i++){
-//				thing = board.getSpaceThing(x, y + i);
-//				if (thing != null && thing != ship){
-//					return true;
-//				}
-//			}
-//		case West:
-//			if (x + ship.getLength() > GameConstants.BOARD_WIDTH) {return true;}
-//			for (int i = 0; i < ship.getLength(); i++){
-//				thing = board.getSpaceThing(x - i, y);
-//				if (thing != null && thing != ship){
-//					return true;
-//				}
-//			}
-//		}
 		return false;
 	}
 	
 	private boolean handleMineExplosions(AbstractShip ship, int x, int y){
-		if (x < 0 || y < 0 || x >= GameConstants.BOARD_WIDTH || y >= GameConstants.BOARD_HEIGHT){
-			return true;
-		}
 		int[][] coords = ship.getShipCoords();
-		SpaceThing thing;
+		boolean detonation = false;
 		for (int i = 0; i < ship.getLength(); i++){
-			thing = board.getSpaceThing(coords[i][0], coords[i][1]);
-			if (thing != null && thing != ship){
-				return true;
-			}
+			int xCoord = coords[i][0];
+			int yCoord = coords[i][1];
+			detonation = (checkMine(xCoord + 1, yCoord, xCoord, yCoord) || detonation);
+			detonation = (checkMine(xCoord - 1, yCoord, xCoord, yCoord) || detonation);
+			detonation = (checkMine(xCoord, yCoord + 1, xCoord, yCoord) || detonation);
+			detonation = (checkMine(xCoord, yCoord - 1, xCoord, yCoord) || detonation);
 		}
 		return false;
 	}
 	
+	/**
+	 * Check if the move can be performed by the ship (checks speed, heading, bounds)
+	 */
 	private static boolean validateMove(AbstractShip ship, int x, int y){
 		//// Basic Validation ////
 		if ((x - ship.getX()) != 0 && (y - ship.getY()) != 0){
@@ -216,6 +180,13 @@ public class FleetCommander {
 		return false;
 	}
 	
+	private boolean checkMine(int x, int y, int xCoord, int yCoord){
+		if (board.getSpaceThing(x, y) instanceof Mine){
+			((Mine) board.getSpaceThing(x, y)).detonate(xCoord, yCoord);
+			return true;
+		}
+		return false;
+	}
 	
 	/**
 	 * Move a specified ship to a specified location.

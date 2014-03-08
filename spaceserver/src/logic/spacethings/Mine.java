@@ -17,6 +17,22 @@ public class Mine extends SpaceThing {
 		owner = fc;
 	}
 	
+	public void detonate(int x, int y){
+		if (getGameBoard().getSpaceThing(x, y) instanceof AbstractShip){
+			AbstractShip ship = (AbstractShip) getGameBoard().getSpaceThing(x, y);
+			int section = ship.getSectionAt(x, y);
+			int section2;
+			if (section + 1 < ship.getLength()){
+				section2 = section + 1;
+			} else {
+				section2 = section - 1;
+			}
+			ship.decrementSectionHealth(2, section);
+			ship.decrementSectionHealth(2, section2);
+		}
+		
+	}
+	
 	public static int getDamage(){
 		return damage;
 	}
