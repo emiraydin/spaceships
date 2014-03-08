@@ -2,10 +2,11 @@ package logic.spacethings;
 
 import logic.AbstractWeapon;
 import logic.Cannon;
+import logic.GameBoard;
 
 public class RadarBoatShip extends AbstractShip {
-	public RadarBoatShip(int x, int y, int gameID) {
-		super(x, y, gameID);
+	public RadarBoatShip(int x, int y, int gameID, GameBoard gameBoard) {
+		super(x, y, gameID, gameBoard);
 		
 		this.length = 3;
 		// by default, speed is 3

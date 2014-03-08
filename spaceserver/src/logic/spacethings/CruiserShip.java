@@ -1,12 +1,12 @@
 package logic.spacethings;
 
 import logic.AbstractWeapon;
+import logic.GameBoard;
 import logic.HeavyCannon;
-import common.GameConstants.ActionType;
 
 public class CruiserShip extends AbstractShip {
-	public CruiserShip(int x, int y, int gameID){
-		super(x, y, gameID);
+	public CruiserShip(int x, int y, int gameID, GameBoard gameBoard){
+		super(x, y, gameID, gameBoard);
 		
 		this.length = 5;
 		this.speed = 10;

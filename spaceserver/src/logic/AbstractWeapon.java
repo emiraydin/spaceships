@@ -15,7 +15,13 @@ public abstract class AbstractWeapon {
 
 	public abstract WeaponType getType();
 	
-	protected abstract boolean validate(int x, int y);
+	/**
+	 * Verify if desired target is within the range of the weapon.
+	 * @param x desired x
+	 * @param y desired y
+	 * @return True if target within range, false otherwise.
+	 */
+	protected abstract boolean inRange(int x, int y);
 	
 	public abstract boolean fire(int x, int y);
 	

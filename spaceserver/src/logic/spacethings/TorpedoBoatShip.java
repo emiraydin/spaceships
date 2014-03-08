@@ -2,11 +2,13 @@ package logic.spacethings;
 
 import logic.AbstractWeapon;
 import logic.Cannon;
+import logic.GameBoard;
 import logic.TorpedoLauncher;
 
+
 public class TorpedoBoatShip extends AbstractShip {
-	public TorpedoBoatShip(int x, int y, int gameID) {
-		super(x, y, gameID);
+	public TorpedoBoatShip(int x, int y, int gameID, GameBoard gameBoard) {
+		super(x, y, gameID, gameBoard);
 		
 		this.length = 3;
 		this.speed = 9;

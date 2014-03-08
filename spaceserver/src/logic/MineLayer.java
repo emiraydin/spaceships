@@ -24,7 +24,7 @@ public class MineLayer extends AbstractWeapon {
 	}
 
 	@Override
-	protected boolean validate(int x, int y) {
+	protected boolean inRange(int x, int y) {
 		// TODO Auto-generated method stub
 		return false;
 	}

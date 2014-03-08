@@ -2,11 +2,12 @@ package logic.spacethings;
 
 import logic.AbstractWeapon;
 import logic.Cannon;
+import logic.GameBoard;
 import logic.TorpedoLauncher;
 
 public class DestroyerShip extends AbstractShip {
-	public DestroyerShip(int x, int y, int gameID){
-		super(x, y, gameID);
+	public DestroyerShip(int x, int y, int gameID, GameBoard gameBoard){
+		super(x, y, gameID, gameBoard);
 		
 		this.speed = 8;
 		this.length = 4;

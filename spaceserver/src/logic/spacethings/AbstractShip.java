@@ -1,6 +1,7 @@
 package logic.spacethings;
 
 import logic.AbstractWeapon;
+import logic.GameBoard;
 
 import common.GameConstants.OrientationType;
 import common.GameConstants.WeaponType;
@@ -10,20 +11,20 @@ public abstract class AbstractShip extends SpaceThing {
 	protected int length;
 	protected int[] sectionHealth;
 	protected OrientationType orientation;
-	protected int cannonWidth;
+	protected int cannonWidth;					// entire width (both sides)
 	protected int cannonLength;
-	protected int cannonLengthOffset;
-	protected int sonarVisibilityWidth;
-	protected int sonarVisibilityLength;
-	protected int radarVisibilityWidth;
+	protected int cannonLengthOffset; 			// towards head is positive
+//	protected int sonarVisibilityWidth;
+//	protected int sonarVisibilityLength;
+	protected int radarVisibilityWidth;			// entire width (both sides)
 	protected int radarVisibilityLength;
-	protected int radarVisibilityLengthOffset;
+	protected int radarVisibilityLengthOffset;	// towards head is positive
 //	private ActionType[] possibleActions;
 	protected AbstractWeapon[] arsenal;
 	
 	
-	public AbstractShip(int x, int y, int gameID){
-		super(x, y, gameID);
+	public AbstractShip(int x, int y, int gameID, GameBoard gameBoard){
+		super(x, y, gameID, gameBoard);
 	}
 	
 	public boolean useWeapon(WeaponType wType, int x, int y){
@@ -90,17 +91,17 @@ public abstract class AbstractShip extends SpaceThing {
 		return cannonLength;
 	}
 
-	public int getCannonXOffset() {
+	public int getCannonLengthOffset() {
 		return cannonLengthOffset;
 	}
 
-	public int getSonarVisibilityWidth() {
-		return sonarVisibilityWidth;
-	}
-
-	public int getSonarVisibilityLength() {
-		return sonarVisibilityLength;
-	}
+//	public int getSonarVisibilityWidth() {
+//		return sonarVisibilityWidth;
+//	}
+//
+//	public int getSonarVisibilityLength() {
+//		return sonarVisibilityLength;
+//	}
 
 	public int getRadarVisibilityWidth() {
 		return radarVisibilityWidth;

@@ -100,7 +100,7 @@ public class GameBoard {
 			int randY = 3 + (int) (Math.random() * ((27 - 3) + 1));
 			
 			if(getSpaceThing(randX, randY) == null){
-				setSpaceThing(new Asteroid(randX, randY, gameID), randX, randY);
+				setSpaceThing(new Asteroid(randX, randY, gameID, this), randX, randY);
 				count++; 
 			}
 		}
