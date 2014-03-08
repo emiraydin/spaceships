@@ -16,6 +16,7 @@ public class Mine extends SpaceThing {
 		super(-1, -1, gameBoard);
 		owner = fc;
 	}
+
 	
 	public void detonate(int x, int y){
 		if (getGameBoard().getSpaceThing(x, y) instanceof AbstractShip){
@@ -43,6 +44,11 @@ public class Mine extends SpaceThing {
 	
 	public void setOwner(FleetCommander fc){
 		owner = fc;
+	}
+	
+	public void setLocation(int x, int y) { 
+		this.setX(x);
+		this.setY(y);
 	}
 	
 }

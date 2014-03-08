@@ -2,6 +2,8 @@ package logic.spacethings;
 
 import java.util.ArrayList;
 
+import common.GameConstants.OrientationType;
+
 import logic.AbstractWeapon;
 import logic.Cannon;
 import logic.GameBoard;
@@ -14,8 +16,9 @@ public class MineLayerShip extends AbstractShip {
 	
 	public MineLayerShip(int x, int y, GameBoard gameBoard){
 		super(x, y, gameBoard);
+		
 		mines = new ArrayList<Mine>(NUM_MINES);
-		for (int i = 0; i < 5; i++){
+		for (int i = 0; i < NUM_MINES; i++){
 			//TODO: Add id generation
 			// ^ fixed? lol
 			mines.add(new Mine(gameBoard));
@@ -47,7 +50,57 @@ public class MineLayerShip extends AbstractShip {
 		}
 	}
 	
-	public void addMine(Mine mine){
+	public void pickUpMine(Mine mine){
 		mines.add(mine);
+		mine.setLocation(-1, -1);
+	}
+	
+	/**
+	 * Checks if a coordinate is within sonar range.
+	 * The sonar range for a MineLayerShip is the squares directly adjacent to it.
+	 * @param x
+	 * @param y
+	 * @return True of in sonar range, false otherwise.
+	 */
+	public boolean inSonarRange(int x, int y) { 
+		if(!GameBoard.inBounds(x, y)) { 
+			return false;
+		}
+		
+		int shipX = this.getX();
+		int shipY = this.getY();
+		int shipLength = this.getLength();
+		
+		switch(this.getOrientation()) { 
+		case East:
+			if(x >= shipX - 1 && x <= shipX + shipLength) { 
+				if(y >= shipY - 1 && y <= shipY + 1) { 
+					return true;
+				}
+			}
+			break;
+		case West:
+			if(x >= shipX - shipLength && x <= shipX + 1) { 
+				if(y >= shipY - 1 && y <= shipY + 1) { 
+					return true;
+				}
+			}
+			break;
+		case North:
+			if(x >= shipX - 1 && x <= shipX + 1) { 
+				if(y >= shipY - shipLength && y <= shipY + 1) { 
+					return true;
+				}
+			}
+			break;
+		case South:
+			if(x >= shipX - 1 && x <= shipX + 1) { 
+				if(y >= shipY - 1 && y <= shipY + shipLength) { 
+					return true;
+				}
+			}
+			break;
+		}
+		return false;
 	}
 }
