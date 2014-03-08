@@ -1,16 +1,11 @@
 package tests;
 
 import static org.junit.Assert.*;
-import gameLogic.Constants.OrientationType;
-import gameLogic.Constants.PlayerNumber;
-import gameLogic.Constants.SpaceThingType;
+import gameLogic.Constants.*;
 
 import java.util.ArrayList;
 
-import messageprotocol.AbstractMessage;
-import messageprotocol.GameStateBuildMessage;
-import messageprotocol.GameStateMessage;
-import messageprotocol.ServerMessageHandler;
+import messageprotocol.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -29,49 +24,91 @@ public class TestGameState
 	/**
 	 * Some messages for setting up the game
 	 */
-	ArrayList<AbstractMessage> messages = new ArrayList<AbstractMessage>();
+	ActionMessage action = null;
+	boolean[][] radarVisibleTiles = null;
+	boolean[][]	sonarVisibleTiles = null;
+	NewTurnMessage message = null;
+	NewTurnMessage message2 = null;
 
 	@Before
 	public void setUp() throws Exception
 	{
-		// Build a message to construct a cruiser...
-		messages.add(
-				new GameStateBuildMessage(0, PlayerNumber.PlayerOne, SpaceThingType.CruiserShip, 1, 1, OrientationType.North)
-				);
-		messages.add(
-				new GameStateBuildMessage(1, PlayerNumber.World, SpaceThingType.Asteroid, 5, 5, OrientationType.South)
-				);
+		action = new ActionMessage(ActionType.Move, 0, 0, 0);
+		radarVisibleTiles = new boolean[5][5];
+		sonarVisibleTiles = new boolean[5][5];
+		
+		message = new NewTurnMessage(action, null, radarVisibleTiles, sonarVisibleTiles);
+		
+		message.addStateMessage(new GameStateMessage(
+				0,
+				PlayerNumber.PlayerOne,
+				SpaceThingType.CruiserShip,
+				12,
+				12,
+				OrientationType.South,
+				null)
+		);
+		
+		message2 = new NewTurnMessage(null, null, null, null);
+		message2.addStateMessage(new GameStateMessage(
+				0,
+				PlayerNumber.PlayerOne,
+				SpaceThingType.CruiserShip,
+				17,
+				18,
+				OrientationType.West,
+				null)
+		);	
+		message2.addStateMessage(new GameStateMessage(
+				5,
+				PlayerNumber.World,
+				SpaceThingType.Asteroid,
+				17,
+				18,
+				null,
+				null)
+		);
+		
 	
 	}
 	
-//	/**
-//	 * Test that 
-//	 */
-//	@Test
-//	public void testAddThings()
-//	{		
-//		// No ships yet
-//		assertEquals(0, GameState.getNumSpaceThings());
-//		
-//		// Add the one new ship...
-//		ServerMessageHandler.handleMessages(messages);
-//		
-//		// Should now have 2 things...		
-//		assertEquals(2, GameState.getNumSpaceThings());
-//		
-//		ArrayList<AbstractMessage> moreMessages = new ArrayList<AbstractMessage>();
-//		
-//		moreMessages.add(
-//				new GameStateBuildMessage(2, PlayerNumber.PlayerTwo, SpaceThingType.Mine, 6, 6, OrientationType.South)
-//				);
-//		moreMessages.add(
-//				new GameStateBuildMessage(3, PlayerNumber.PlayerTwo, SpaceThingType.BaseTile, 7, 8, OrientationType.North)
-//				);
-//		
-//		ServerMessageHandler.handleMessages(moreMessages);
-//		
-//		assertEquals(4, GameState.getNumSpaceThings());
-//	}
+	/**
+	 * Test that 
+	 */
+	@Test
+	public void testAddThings()
+	{		
+		// No ships yet
+		assertEquals(0, GameState.getNumSpaceThings());
+		
+		// Add the one new ship...
+		ServerMessageHandler.executeNewTurnMessage(message);
+		
+		// Should now have 1 things...		
+		assertEquals(1, GameState.getNumSpaceThings());
+		
+		try {
+			System.out.println(GameState.getSpaceThing(0).toString());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		ServerMessageHandler.executeNewTurnMessage(message2);
+		
+		// Should now have 2 things
+		assertEquals(2, GameState.getNumSpaceThings());
+		
+		try {
+			System.out.println(GameState.getSpaceThing(0).toString());
+			System.out.println(GameState.getSpaceThing(5).toString());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
 //	
 //	
 //	/**

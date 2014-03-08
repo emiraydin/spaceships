@@ -2,11 +2,13 @@ package logic.spacethings;
 
 import logic.AbstractWeapon;
 import logic.Cannon;
+import logic.GameBoard;
 import logic.TorpedoLauncher;
 
+
 public class TorpedoBoatShip extends AbstractShip {
-	public TorpedoBoatShip(int x, int y, int gameID) {
-		super(x, y, gameID);
+	public TorpedoBoatShip(int x, int y, int gameID, GameBoard gameBoard) {
+		super(x, y, gameID, gameBoard);
 		
 		this.length = 3;
 		this.speed = 9;
@@ -15,15 +17,15 @@ public class TorpedoBoatShip extends AbstractShip {
 		
 		this.cannonWidth = 5;
 		this.cannonLength = 5;
-		this.cannonXOffset = 0;
+		this.cannonLengthOffset = 0;
 		
 		this.radarVisibilityLength = 6;
 		this.radarVisibilityWidth = 3;
-		this.radarVisibilityXOffset = 1;
+		this.radarVisibilityLengthOffset = 1;
 		
 		// Torpedo Boats have cannons and torpedoes
 		arsenal = new AbstractWeapon[2];
-		arsenal[0] = new Cannon();
-		arsenal[1] = new TorpedoLauncher();
+		arsenal[0] = new Cannon(this);
+		arsenal[1] = new TorpedoLauncher(this);
 	}
 }

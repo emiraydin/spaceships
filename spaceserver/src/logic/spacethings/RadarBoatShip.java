@@ -2,10 +2,11 @@ package logic.spacethings;
 
 import logic.AbstractWeapon;
 import logic.Cannon;
+import logic.GameBoard;
 
 public class RadarBoatShip extends AbstractShip {
-	public RadarBoatShip(int x, int y, int gameID) {
-		super(x, y, gameID);
+	public RadarBoatShip(int x, int y, int gameID, GameBoard gameBoard) {
+		super(x, y, gameID, gameBoard);
 		
 		this.length = 3;
 		// by default, speed is 3
@@ -15,15 +16,15 @@ public class RadarBoatShip extends AbstractShip {
 		
 		this.cannonLength = 5;
 		this.cannonWidth = 3;
-		this.cannonXOffset = -1;
+		this.cannonLengthOffset = -1;
 		
 		// by default, radar length 6
 		this.radarVisibilityLength = 6;
 		this.radarVisibilityWidth = 3;
-		this.radarVisibilityXOffset = 1;
+		this.radarVisibilityLengthOffset = 1;
 		
 		arsenal = new AbstractWeapon[1];
-		arsenal[0] = new Cannon();
+		arsenal[0] = new Cannon(this);
 	}
 	
 	public void turnOnLongRadar() { 

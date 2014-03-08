@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import logic.AbstractWeapon;
 import logic.Cannon;
+import logic.GameBoard;
 import logic.MineLayer;
 
 
@@ -11,13 +12,13 @@ public class MineLayerShip extends AbstractShip {
 	private ArrayList<Mine> mines;
 	private static int NUM_MINES = 5;
 	
-	public MineLayerShip(int x, int y, int gameID){
-		super(x, y, gameID);
+	public MineLayerShip(int x, int y, int gameID, GameBoard gameBoard){
+		super(x, y, gameID, gameBoard);
 		mines = new ArrayList<Mine>(NUM_MINES);
 		for (int i = 0; i < 5; i++){
 			//TODO: Add id generation
 			// ^ fixed? lol
-			mines.add(new Mine(gameID));
+			mines.add(new Mine(gameID, gameBoard));
 		}
 		
 		this.length = 2;
@@ -27,15 +28,15 @@ public class MineLayerShip extends AbstractShip {
 		
 		this.cannonWidth = 5;
 		this.cannonLength = 4;
-		this.cannonXOffset = -1;
+		this.cannonLengthOffset = -1;
 		
 		this.radarVisibilityLength = 6;
 		this.radarVisibilityWidth = 5;
-		this.radarVisibilityXOffset = -2;
+		this.radarVisibilityLengthOffset = -2;
 		
 		this.arsenal = new AbstractWeapon[2];
-		arsenal[0] = new Cannon();
-		arsenal[1] = new MineLayer();
+		arsenal[0] = new Cannon(this);
+		arsenal[1] = new MineLayer(this);
 	}
 	
 	public Mine removeMine(){

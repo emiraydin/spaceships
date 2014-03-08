@@ -1,6 +1,7 @@
 package logic.spacethings;
 
 import logic.AbstractWeapon;
+import logic.GameBoard;
 
 import common.GameConstants.OrientationType;
 import common.GameConstants.WeaponType;
@@ -10,20 +11,20 @@ public abstract class AbstractShip extends SpaceThing {
 	protected int length;
 	protected int[] sectionHealth;
 	protected OrientationType orientation;
-	protected int cannonWidth;
+	protected int cannonWidth;					// entire width (both sides)
 	protected int cannonLength;
-	protected int cannonXOffset;
-	protected int sonarVisibilityWidth;
-	protected int sonarVisibilityLength;
-	protected int radarVisibilityWidth;
+	protected int cannonLengthOffset; 			// towards head is positive
+//	protected int sonarVisibilityWidth;
+//	protected int sonarVisibilityLength;
+	protected int radarVisibilityWidth;			// entire width (both sides)
 	protected int radarVisibilityLength;
-	protected int radarVisibilityXOffset;
+	protected int radarVisibilityLengthOffset;	// towards head is positive
 //	private ActionType[] possibleActions;
 	protected AbstractWeapon[] arsenal;
 	
 	
-	public AbstractShip(int x, int y, int gameID){
-		super(x, y, gameID);
+	public AbstractShip(int x, int y, int gameID, GameBoard gameBoard){
+		super(x, y, gameID, gameBoard);
 	}
 	
 	public int[][] getShipCoords(){
@@ -122,17 +123,17 @@ public abstract class AbstractShip extends SpaceThing {
 		return cannonLength;
 	}
 
-	public int getCannonXOffset() {
-		return cannonXOffset;
+	public int getCannonLengthOffset() {
+		return cannonLengthOffset;
 	}
 
-	public int getSonarVisibilityWidth() {
-		return sonarVisibilityWidth;
-	}
-
-	public int getSonarVisibilityLength() {
-		return sonarVisibilityLength;
-	}
+//	public int getSonarVisibilityWidth() {
+//		return sonarVisibilityWidth;
+//	}
+//
+//	public int getSonarVisibilityLength() {
+//		return sonarVisibilityLength;
+//	}
 
 	public int getRadarVisibilityWidth() {
 		return radarVisibilityWidth;
@@ -140,6 +141,10 @@ public abstract class AbstractShip extends SpaceThing {
 
 	public int getRadarVisibilityLength() {
 		return radarVisibilityLength;
+	}
+	
+	public int getRadarVisibilityLengthOffset() { 
+		return radarVisibilityLengthOffset;
 	}
 	
 	public void setArsenal(AbstractWeapon[] weapons){
