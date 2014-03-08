@@ -17,8 +17,8 @@ public class GameHandler {
 		int gameID = IDManager.nextGameID();
 		board = new GameBoard(gameID);
 		players = new FleetCommander[2];
-		players[0] = new FleetCommander(0);
-		players[1] = new FleetCommander(1);
+		players[0] = new FleetCommander(0, board);
+		players[1] = new FleetCommander(1, board);
 	}
 	
 	public GameHandler(int gameID){

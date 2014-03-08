@@ -1,7 +1,2 @@
-/tests
-/screens
-/actors
-/gameLogic
-/messagehandlers
 /messageprotocol
-/state
+/tests

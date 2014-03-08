@@ -26,6 +26,38 @@ public abstract class AbstractShip extends SpaceThing {
 		super(x, y, gameID);
 	}
 	
+	public int[][] getShipCoords(){
+		return getShipCoords(getX(), getY());
+	}
+	
+	public int[][] getShipCoords(int x, int y){
+		int[][] coords = new int[length][2];
+		switch (orientation){
+		case North:
+			for (int i = 0; i < length; i++){
+				coords[i][0] = x;
+				coords[i][1] = y - i;
+			}
+		case South:
+			for (int i = 0; i < length; i++){
+				coords[i][0] = x;
+				coords[i][1] = y + i;
+			}
+		case East:
+			for (int i = 0; i < length; i++){
+				coords[i][0] = x + i;
+				coords[i][1] = y;
+			}
+		case West:
+			for (int i = 0; i < length; i++){
+				coords[i][0] = x - i;
+				coords[i][1] = y;
+			}
+		}
+		
+		return coords;
+	}
+	
 	public boolean useWeapon(WeaponType wType, int x, int y){
 		//TODO: useWeapon()
 		for (int i = 0; i < arsenal.length; i++){
