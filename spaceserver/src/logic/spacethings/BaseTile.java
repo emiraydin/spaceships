@@ -16,4 +16,8 @@ public class BaseTile extends SpaceThing {
 	public void setHealth(int health) {
 		this.health = health;
 	}
+	
+	public void decrementBaseHealth(int amount) { 
+		this.health = this.health - amount;
+	}
 }
