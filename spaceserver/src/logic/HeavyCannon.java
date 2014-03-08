@@ -1,23 +1,13 @@
 package logic;
 
-import common.GameConstants.WeaponType;
+import logic.spacethings.AbstractShip;
 
 
 public class HeavyCannon extends Cannon {
 
-	public HeavyCannon() { 
+	public HeavyCannon(AbstractShip owner) {
+		super(owner);
+		// override damage from 1 to 2
 		damage = 2;
 	}
-	
-//	@Override
-//	public WeaponType getType() {
-//		return WeaponType.Cannon;
-//	}
-//
-//	@Override
-//	public boolean fire(int x, int y) {
-//		// TODO Auto-generated method stub
-//		return false;
-//	}
-
 }

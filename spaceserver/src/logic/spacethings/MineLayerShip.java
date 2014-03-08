@@ -34,8 +34,8 @@ public class MineLayerShip extends AbstractShip {
 		this.radarVisibilityXOffset = -2;
 		
 		this.arsenal = new AbstractWeapon[2];
-		arsenal[0] = new Cannon();
-		arsenal[1] = new MineLayer();
+		arsenal[0] = new Cannon(this);
+		arsenal[1] = new MineLayer(this);
 	}
 	
 	public Mine removeMine(){

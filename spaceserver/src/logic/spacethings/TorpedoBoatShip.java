@@ -23,7 +23,7 @@ public class TorpedoBoatShip extends AbstractShip {
 		
 		// Torpedo Boats have cannons and torpedoes
 		arsenal = new AbstractWeapon[2];
-		arsenal[0] = new Cannon();
-		arsenal[1] = new TorpedoLauncher();
+		arsenal[0] = new Cannon(this);
+		arsenal[1] = new TorpedoLauncher(this);
 	}
 }

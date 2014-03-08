@@ -1,10 +1,13 @@
 package logic;
 
+import logic.spacethings.AbstractShip;
+
 import common.GameConstants.WeaponType;
 
 public class Cannon extends AbstractWeapon {
 
-	public Cannon() { 
+	public Cannon(AbstractShip owner) {
+		super(owner);
 		damage = 1;
 	}
 	

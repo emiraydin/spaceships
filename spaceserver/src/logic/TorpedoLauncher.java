@@ -1,12 +1,15 @@
 package logic;
 
+import logic.spacethings.AbstractShip;
+
 import common.GameConstants.WeaponType;
 
 public class TorpedoLauncher extends AbstractWeapon {
 
 	private final static int MAX_RANGE = 10;
 	
-	public TorpedoLauncher() { 
+	public TorpedoLauncher(AbstractShip owner) {
+		super(owner);
 		damage = 1;
 	}
 	

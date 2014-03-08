@@ -1,10 +1,17 @@
 package logic;
 
+import logic.spacethings.AbstractShip;
+
 import common.GameConstants.WeaponType;
 
 public abstract class AbstractWeapon {
 	
+	protected AbstractShip owner;
 	protected int damage;
+	
+	public AbstractWeapon(AbstractShip owner) { 
+		this.owner = owner;
+	}
 
 	public abstract WeaponType getType();
 	

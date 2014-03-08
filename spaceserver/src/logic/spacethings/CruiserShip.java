@@ -23,6 +23,6 @@ public class CruiserShip extends AbstractShip {
 		this.radarVisibilityXOffset = 1;
 		
 		this.arsenal = new AbstractWeapon[1];
-		arsenal[0] = new HeavyCannon();
+		arsenal[0] = new HeavyCannon(this);
 	}
 }

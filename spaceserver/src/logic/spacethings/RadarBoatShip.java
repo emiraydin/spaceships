@@ -23,7 +23,7 @@ public class RadarBoatShip extends AbstractShip {
 		this.radarVisibilityXOffset = 1;
 		
 		arsenal = new AbstractWeapon[1];
-		arsenal[0] = new Cannon();
+		arsenal[0] = new Cannon(this);
 	}
 	
 	public void turnOnLongRadar() { 
