@@ -5,64 +5,141 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.util.ArrayList;
 
 class ClientThread extends Thread {
 
+	private Socket clientSocket = null;
+	private String clientName = null;
+	private String matchName = null;
+	private boolean prompted = false;
 	private BufferedReader input = null;
 	private PrintStream output = null;
-	private Socket clientSocket = null;
-	private final ClientThread[] clientThreads;
+	private final ClientThread[] allThreads;
 	private int maxPlayersOnServer;
 
 	public ClientThread(Socket clientSocket, ClientThread[] threads) {
 		this.clientSocket = clientSocket;
-		this.clientThreads = threads;
+		this.allThreads = threads;
 		maxPlayersOnServer = threads.length;
 	}
 
 	public void run() {
 		int maxPlayersOnServer = this.maxPlayersOnServer;
-		ClientThread[] clientThreads = this.clientThreads;
+		ClientThread[] allThreads = this.allThreads;
 
 		try {
-			// Initialize input/output streams for this client
+
+			// Create I/O streams and set up the user
 			input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 			output = new PrintStream(clientSocket.getOutputStream());
-			output.println("Enter your username: ");
-			String name = input.readLine().trim();
-			output.println("Welcome " + name + "! To exit game, type 'exit'");
-			
-			for (int i = 0; i < maxPlayersOnServer; i++) {
-				if (clientThreads[i] != null && clientThreads[i] != this) {
-					clientThreads[i].output.println(name + " entered the game");
-				}
-			}
-			
-			// If the user does not exit, display the messages on screen
-			while (true) {
-				
-				String line = input.readLine();
-				if (line.startsWith("exit")) {
-					break;
-				}
+			String userName;
+			output.println("Enter your user name: ");
+			userName = input.readLine().trim();
 
+			// New client enters the game
+			output.println("Welcome " + userName + "!.\nType /exit to quit game.");
+			
+			ArrayList<String> onlinePlayers = new ArrayList<String>();
+			
+			synchronized (this) {
+				// Initialize the user name for the new client and list all online users
 				for (int i = 0; i < maxPlayersOnServer; i++) {
-					if (clientThreads[i] != null) {
-						clientThreads[i].output.println(name + ": " + line);
+					if (allThreads[i] != null && allThreads[i] == this) {
+						clientName = userName;
+						break;
+					}
+					String currentName = allThreads[i].clientName;
+					if (currentName != null)
+						onlinePlayers.add(currentName);
+				}
+				
+				// Show all online users
+				if (onlinePlayers.isEmpty()) {
+					output.println("You are the only online player. Wait for others to join!");
+				} else {
+					output.println("Online players:");
+					for (String p: onlinePlayers)
+						output.println(p);
+				}
+					
+				// Let the unmatched user know about the new player
+				for (int i = 0; i < maxPlayersOnServer; i++) {
+					if (allThreads[i] != null && allThreads[i] != this && this.matchName == null) {
+						allThreads[i].output.println(userName + " is now online!");
+					}
+				}
+				
+				// Match players
+				while (this.matchName == null && this.prompted == false) {
+					output.println("Type one of the usernames to start a game.");
+					String matchUser = input.readLine().trim();
+					
+					// Check if the user exists.
+					for (int i = 0; i < maxPlayersOnServer; i++) {
+						if (allThreads[i] != null && allThreads[i].clientName != null && allThreads[i].clientName.equals(matchUser)) {
+							allThreads[i].setPrompted(true);
+							allThreads[i].output.println(clientName + " wants to play with you. Enter Y to accept, anything else to reject.");
+							String otherUserInput = allThreads[i].input.readLine().trim();
+							if (otherUserInput.startsWith("Y")) {
+								matchName = matchUser;
+								allThreads[i].setMatchName(clientName);
+								output.println(allThreads[i].clientName);
+								output.println("You just matched with " + matchName);
+								break;
+							}
+							
+						}
+					}
+				}
+				
+
+			}
+
+			// Start the connection and maintain it unless the user exits
+			while (true) {
+
+				String line = input.readLine();
+	
+				// Check if the user wants to exit
+				if (line.startsWith("/exit")) {
+					break;
+	
+				} else {
+	
+					// Send the message between matched users!
+					synchronized (this) {
+						for (int i = 0; i < maxPlayersOnServer; i++) {
+							if (this.getClientName() != null && allThreads[i] != null &&
+									allThreads[i].getClientName() != null && allThreads[i].getMatchName() != null) {
+								if (allThreads[i].getMatchName().equals(this.getClientName()) ||
+										allThreads[i].getClientName().equals(this.getClientName()))
+									allThreads[i].output.println("<" + userName + "> " + line);
+							}
+						}
+					}
+						
+				}
+				
+			} // end of connection
+
+			// Check any client left the game and notify all other clients 
+			synchronized (this) {
+				for (int i = 0; i < maxPlayersOnServer; i++) {
+					if (allThreads[i] != null && allThreads[i] != this
+							&& allThreads[i].clientName != null) {
+						allThreads[i].output.println(userName + " left the game!");
 					}
 				}
 			}
-			for (int i = 0; i < maxPlayersOnServer; i++) {
-				if (clientThreads[i] != null && clientThreads[i] != this) {
-					clientThreads[i].output.println(name + " left the game!");
-				}
-			}
-			output.println("Goodbye " + name + "!");
+			output.println("Goodbye " + userName + "!");
 
-			// Clean up this thread to open up a space for a new player on the server
-			for (int i = 0; i < maxPlayersOnServer; i++) {
-				if (clientThreads[i] == this) {
-					clientThreads[i] = null;
+			// Clean up this thread to open up a space for new players on the server
+			synchronized (this) {
+				for (int i = 0; i < maxPlayersOnServer; i++) {
+					if (allThreads[i] == this) {
+						allThreads[i] = null;
+					}
 				}
 			}
 
@@ -70,11 +147,26 @@ class ClientThread extends Thread {
 			input.close();
 			output.close();
 			clientSocket.close();
-			
+
 		} catch (IOException e) {
 			System.out.println(e);
 		}
-		
+
+	}
+	
+	public void setPrompted(boolean v) {
+		this.prompted = v;
+	}
+	
+	public String getClientName() {
+		return this.clientName;
+	}
+	
+	public String getMatchName() {
+		return this.matchName;
+	}
+	
+	public void setMatchName(String user) {
+		this.matchName = user;
 	}
 }
-
