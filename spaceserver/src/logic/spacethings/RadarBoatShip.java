@@ -46,42 +46,6 @@ public class RadarBoatShip extends AbstractShip {
 	}
 	
 	/**
-	 * Detonates the given mine and does appropriate damage
-	 * (mine detonates and does damage to surrounding adjacent squares, which doesn't include the ship
-	 * if the ship wasn't beside the mine BEFORE turning, so handle that case and do appropriate damage to ship)
-	 * @param mine
-	 */
-	private void detonateMineWhileTurning(Mine mine) { 
-		System.out.println("Mine in turn radius. Turn not completed. Mine exploded at " + mine.getX() + "," + mine.getY());
-		// if mine adjacent to ship prior to moving, the detonate() method will damage ship appropriately
-		// otherwise, must take care if damage in this method
-		GameBoard board = this.getGameBoard();
-		int x = this.getX();
-		int y = this.getY(); 
-		if(board.getSpaceThing(x, y+1) == mine || board.getSpaceThing(x, y-1) == mine 
-				|| board.getSpaceThing(x-1, y) == mine || board.getSpaceThing(x+1, y) == mine) { 
-			// damage taken care of
-			mine.detonate();
-		} 
-		else { 
-			// mine needs to be detonated, but ship also needs to be damaged
-			mine.detonate();
-			// choose random section of ship to be damaged
-			int[][] shipCoords = this.getShipCoords();
-			int section = new Random().nextInt(shipCoords.length);
-			// an adjacent section is also damaged
-			int section2;
-			if (section + 1 < this.getLength()){
-				section2 = section + 1;
-			} else {
-				section2 = section - 1;
-			}
-			this.decrementSectionHealth(Mine.getDamage(), section);
-			this.decrementSectionHealth(Mine.getDamage(), section2);			
-		}
-	}
-	
-	/**
 	 * Try turning 90 degrees. If collision/mines happen, deal with them.
 	 * The turn is only completed if there are no obstacles/mines.
 	 * @param turnDirection
@@ -102,8 +66,8 @@ public class RadarBoatShip extends AbstractShip {
 		for(Point coord : obstaclesInTurnZone) { 
 			SpaceThing spaceThing = this.getGameBoard().getSpaceThing(coord.x, coord.y);
 			if(spaceThing instanceof AbstractShip || spaceThing instanceof Asteroid || spaceThing instanceof BaseTile) { 
-				// TODO: HANDLE COLLISION AT COORD.X, COORD.Y!
-				System.out.println("Collision at (" + coord.x + "," + coord.y + ") !");
+				this.collide(coord.x, coord.y);
+				System.out.println("Collision. Turn not completed.");
 				collision = true;
 			}
 		}
@@ -116,8 +80,9 @@ public class RadarBoatShip extends AbstractShip {
 		for(Point coord : obstaclesInTurnZone) { 
 			SpaceThing spaceThing = this.getGameBoard().getSpaceThing(coord.x, coord.y);
 			if(spaceThing instanceof Mine) { 				
-				detonateMineWhileTurning((Mine)spaceThing);
+				this.collide(coord.x, coord.y);
 				// mine exploded => turn not completed
+				System.out.println("Mine explosion. Turn not completed.");
 				return false;
 			}
 		}

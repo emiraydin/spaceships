@@ -65,6 +65,7 @@ public class MineLayerShip extends AbstractShip {
 	 * @return True of in sonar range, false otherwise.
 	 */
 	public boolean inSonarRange(int x, int y) { 
+		// TODO: cant drop a mine directly under a ship
 		if(!GameBoard.inBounds(x, y)) { 
 			return false;
 		}
@@ -126,8 +127,8 @@ public class MineLayerShip extends AbstractShip {
 		for(Point coord : obstaclesInTurnZone) { 
 			SpaceThing spaceThing = this.getGameBoard().getSpaceThing(coord.x, coord.y);
 			if(spaceThing instanceof AbstractShip || spaceThing instanceof Asteroid || spaceThing instanceof BaseTile) { 
-				// TODO: HANDLE COLLISION AT COORD.X, COORD.Y!
-				System.out.println("Collision at (" + coord.x + "," + coord.y + ") !");
+				this.collide(coord.x, coord.y);
+				System.out.println("Collision. Turn not completed.");
 				collision = true;
 			}
 		}
