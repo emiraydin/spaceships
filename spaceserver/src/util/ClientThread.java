@@ -75,23 +75,33 @@ class ClientThread extends Thread {
 					output.println("Type one of the usernames to start a game.");
 					String matchUser = input.readLine().trim();
 					
-					// Check if the user exists.
+					if (matchUser.startsWith("/exit"))
+						break;
+					
+					// Check if the user exists and prompt to match if so
 					for (int i = 0; i < maxPlayersOnServer; i++) {
-						if (allThreads[i] != null && allThreads[i].clientName != null && allThreads[i].clientName.equals(matchUser)) {
-							allThreads[i].setPrompted(true);
-							allThreads[i].output.println(clientName + " wants to play with you. Enter Y to accept, anything else to reject.");
-							String otherUserInput = allThreads[i].input.readLine().trim();
+						ClientThread current = allThreads[i];
+						if (current != null && current.clientName != null && current.clientName.equals(matchUser)) {
+							current.setPrompted(true);
+							this.setPrompted(true);
+							output.println("Waiting for " + matchUser + " to respond...");
+							current.output.println(clientName + " wants to play with you. Enter Y to accept, anything else to reject.");
+							String otherUserInput = current.input.readLine().trim();
+							
+							// Check if the other user confirms the match
 							if (otherUserInput.startsWith("Y")) {
-								matchName = matchUser;
-								allThreads[i].setMatchName(clientName);
-								output.println(allThreads[i].clientName);
-								output.println("You just matched with " + matchName);
+								this.matchName = matchUser;
+								current.setMatchName(this.clientName);
+								output.println("You just matched with " + this.matchName);
+								current.output.println("You just matched with " + this.clientName);
+								current.output.println("You can now type a message to send.");
 								break;
-							}
+							} 
 							
 						}
 					}
-				}
+					
+				} // end of match loop
 				
 
 			}
