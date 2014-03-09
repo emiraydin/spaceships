@@ -1,13 +1,16 @@
 package messageprotocol;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 import gameLogic.Constants.OrientationType;
 import gameLogic.Constants.PlayerNumber;
 import gameLogic.Constants.SpaceThingType;
 
-public class GameStateMessage
-{
+public class GameStateMessage implements Serializable {
+	
+	private static final long serialVersionUID = -7885291047262853973L;
+	
 	int spaceThingId;
 	PlayerNumber owner;
 	SpaceThingType type;
