@@ -19,7 +19,7 @@ public class TCPClient implements Runnable {
 
 	public static void main(String[] args) {
 
-		System.out.println("A client now running on " + Properties.HOST_NAME + " port " + Properties.PORT_NUMBER);
+		System.out.println("Client is now running on " + Properties.HOST_NAME + " port " + Properties.PORT_NUMBER);
 
 		// Open a socket on given host name and port number, and initialize input/output streams
 		try {
