@@ -98,15 +98,12 @@ public abstract class AbstractShip extends SpaceThing {
 			return false;
 		}
 		
-		// if spaceThing was BaseTile or Asteriod, no damage done
-		if(spaceThing instanceof Asteroid || spaceThing instanceof BaseTile) {
+		// if spaceThing was BaseTile, Asteriod, or other ship, no damage done
+		if(spaceThing instanceof Asteroid || spaceThing instanceof BaseTile || spaceThing instanceof AbstractShip) {
 			System.out.println("Collision at " + obstacleX + "," + obstacleY);
 			return true;
 		}			
-		else if(spaceThing instanceof AbstractShip) { 
-			System.out.println("Collision at " + obstacleX + "," + obstacleY);
-			// TODO: does this take damage?
-		}
+		// otherwise, spacething was mine
 		else if(spaceThing instanceof Mine) {
 			// if ship is minelayer, mine doesn't explode
 			// method shouldn't even be called but this is a safety
