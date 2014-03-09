@@ -1,8 +1,12 @@
 package logic.spacethings;
 
+import java.awt.Point;
+import java.util.List;
+
 import logic.AbstractWeapon;
 import logic.GameBoard;
 
+import common.GameConstants.ActionType;
 import common.GameConstants.OrientationType;
 import common.GameConstants.WeaponType;
 
@@ -58,6 +62,13 @@ public abstract class AbstractShip extends SpaceThing {
 		
 		return coords;
 	}
+	
+	/**
+	 * Try turning in given direction, see if crash/detonate mine.
+	 * @param turnType Desired turn direction
+	 * @return True if turned successfully, false otherwise
+	 */
+	public abstract boolean tryTurning(ActionType turnType);
 	
 	public boolean useWeapon(WeaponType wType, int x, int y){
 		//TODO: useWeapon()
@@ -170,4 +181,23 @@ public abstract class AbstractShip extends SpaceThing {
 			}
 		}
 	}
+
+	/**
+	 * Very specific helper method for ship turning pls ignore how awkward it is
+	 * If (x,y) is in bounds, then if there's a SpaceThing at (x,y), add it to the list.
+	 * @param x
+	 * @param y
+	 * @return False if this location puts ship out of bounds, true otherwise.
+	 */
+	protected boolean addObstacleToList(int x, int y, List<Point> list) { 
+		if(!GameBoard.inBounds(x, y)) { 
+			System.out.println("Ship would be out of bounds at (" + x + "," + y + ")");
+			return false;
+		}
+		if(this.getGameBoard().getSpaceThing(x, y) != null) { 
+			list.add(new Point(x,y));
+		}
+		return true;
+	}
+
 }

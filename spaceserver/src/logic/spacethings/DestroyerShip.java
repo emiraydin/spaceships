@@ -1,5 +1,7 @@
 package logic.spacethings;
 
+import common.GameConstants.ActionType;
+
 import logic.AbstractWeapon;
 import logic.Cannon;
 import logic.GameBoard;
@@ -26,5 +28,11 @@ public class DestroyerShip extends AbstractShip {
 		this.arsenal = new AbstractWeapon[2];
 		arsenal[0] = new Cannon(this);
 		arsenal[1] = new TorpedoLauncher(this);
+	}
+
+	@Override
+	public boolean tryTurning(ActionType turnType) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

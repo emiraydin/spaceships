@@ -41,7 +41,6 @@ public class GameBoard {
 	}
 	
 	public void setSpaceThing(AbstractShip ship, int x, int y){
-		//TODO: Overload setSpaceThing with ship
 		for (int i = 0; i < ship.getLength(); i++){
 			switch (ship.getOrientation()){
 				case North:
@@ -58,6 +57,10 @@ public class GameBoard {
 					break;
 			}
 		}
+	}
+	
+	public void clearSpaceThing(AbstractShip ship) { 
+		clearSpaceThing(ship.getX(), ship.getY());
 	}
 	
 	public void clearSpaceThing(int x, int y){

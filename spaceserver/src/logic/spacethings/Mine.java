@@ -34,6 +34,9 @@ public class Mine extends SpaceThing {
 		detonate(x-1, y);
 		detonate(x+1, y);	
 		
+		// remove mine from game after detonation
+		this.getGameBoard().clearSpaceThing(this.getX(), this.getY());
+		
 		return true;
 	}
  	

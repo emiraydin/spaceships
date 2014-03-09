@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import logic.spacethings.AbstractShip;
 import logic.spacethings.Mine;
 import logic.spacethings.MineLayerShip;
+import logic.spacethings.RadarBoatShip;
 import logic.spacethings.SpaceThing;
+import logic.spacethings.TorpedoBoatShip;
 
 import common.GameConstants;
 import common.GameConstants.ActionType;
@@ -222,16 +224,149 @@ public class FleetCommander {
 		return false;
 	}
 	
-	
-	public boolean turnShip(int shipID, ActionType aType){
-		//TODO: implement turnShip (check if 180 is possible, check for collisions/mines)
-		switch (aType){
-		case Turn180:
-		case TurnLeft:
-		case TurnRight:
-		default:
-			return false;
+	/**
+	 * Updates the ship (x,y) and the ship's orientation after a turn
+	 * @param ship The ship that is turning
+	 * @param direction The direction of turn
+	 */
+	private void updateShipLocationAfterTurn(AbstractShip ship, ActionType direction) { 
+		// if ship doesn't turn about stern (can turn 180)
+		if(ship instanceof RadarBoatShip || ship instanceof TorpedoBoatShip) { 
+			int x = ship.getX();
+			int y = ship.getY();
+			// THESE FOLLOW NEW ORIGIN CONVENTION
+			switch(ship.getOrientation()) { 
+			case East:
+				if(direction == ActionType.TurnLeft) { 
+					ship.setX(x+1);
+					ship.setY(y-1);
+					ship.setOrientation(OrientationType.North);
+				}
+				else if(direction == ActionType.TurnRight) { 
+					ship.setX(x+1);
+					ship.setY(y+1);
+					ship.setOrientation(OrientationType.South);
+				}
+				else if(direction == ActionType.Turn180) { 
+					ship.setX(x+2);
+					ship.setOrientation(OrientationType.West);
+				}
+				break;
+			case West:
+				if(direction == ActionType.TurnLeft) { 
+					ship.setX(x-1);
+					ship.setY(y+1);
+					ship.setOrientation(OrientationType.South);
+				}
+				else if(direction == ActionType.TurnRight) { 
+					ship.setX(x-1);
+					ship.setY(y-1);
+					ship.setOrientation(OrientationType.North);
+				}
+				else if(direction == ActionType.Turn180) { 
+					ship.setX(x-2);
+					ship.setOrientation(OrientationType.East);
+				}
+				break;
+			case North:
+				if(direction == ActionType.TurnLeft) { 
+					ship.setX(x+1);
+					ship.setY(y+1);
+					ship.setOrientation(OrientationType.West);
+				}
+				else if(direction == ActionType.TurnRight) { 
+					ship.setX(x-1);
+					ship.setY(y+1);
+					ship.setOrientation(OrientationType.East);
+				}
+				else if(direction == ActionType.Turn180) { 
+					ship.setY(y+2);
+					ship.setOrientation(OrientationType.South);
+				}
+				break;
+			case South:
+				if(direction == ActionType.TurnLeft) { 
+					ship.setX(x-1);
+					ship.setY(y-1);
+					ship.setOrientation(OrientationType.East);
+				}
+				else if(direction == ActionType.TurnRight) { 
+					ship.setX(x+1);
+					ship.setY(y-1);
+					ship.setOrientation(OrientationType.West);
+				}
+				else if(direction == ActionType.Turn180) { 
+					ship.setY(y-2);
+					ship.setOrientation(OrientationType.North);
+				}
+				break;
+			}
 		}
+		
+		// other ships turn about stern and only turn 90 degrees
+		// ship location doesn't change since stern is where ships are indexed at
+		else { 
+			// THESE FOLLOW NEW ORIGIN CONVENTION
+			switch(ship.getOrientation()) { 
+			case East:
+				if(direction == ActionType.TurnLeft) { 
+					ship.setOrientation(OrientationType.North);
+				}
+				else if(direction == ActionType.TurnRight) { 
+					ship.setOrientation(OrientationType.South);
+				}
+				break;
+			case West:
+				if(direction == ActionType.TurnLeft) { 
+					ship.setOrientation(OrientationType.South);
+				}
+				else if(direction == ActionType.TurnRight) { 
+					ship.setOrientation(OrientationType.North);
+				}
+				break;
+			case North:
+				if(direction == ActionType.TurnLeft) { 
+					ship.setOrientation(OrientationType.West);
+				}
+				else if(direction == ActionType.TurnRight) { 
+					ship.setOrientation(OrientationType.East);
+				}
+				break;
+			case South:
+				if(direction == ActionType.TurnLeft) { 
+					ship.setOrientation(OrientationType.East);
+				}
+				else if(direction == ActionType.TurnRight) { 
+					ship.setOrientation(OrientationType.West);
+				}
+				break;
+			}
+		}
+	}
+	
+	/** 
+	 * Turns a given ship in a given direction.
+	 * Updates the ship's location and orientation and updates the GameBoard location
+	 * and visibility status.
+	 * @param shipID ID of the ship that is turning.
+	 * @param direction The direction of turn.
+	 * @return True if the ship successfully turned, false otherwise.
+	 */
+	public boolean turnShip(int shipID, ActionType direction){
+		AbstractShip ship = getShip(shipID);
+		if(ship.tryTurning(direction)) { 
+			/* turn completed successfully, so do bookkeeping */
+			decrementVisibility(ship);
+			board.clearSpaceThing(ship);
+			updateShipLocationAfterTurn(ship, direction);
+			board.setSpaceThing(ship, ship.getX(), ship.getY());
+			incrementVisibility(ship);
+			return true;
+		}
+		/* Otherwise, turn did not happen because ship went out of bounds, or because there
+		 * was some obstacle in the way */
+		
+		return false;
 	}
 	
 	public void incrementVisibility(AbstractShip ship) { 
