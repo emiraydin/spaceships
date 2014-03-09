@@ -3,4 +3,5 @@ spaceships
 
 COMP 361 Project: Battleships
 
-How to run the game
+Server IP: 54.214.255.94
+(running on AWS)
