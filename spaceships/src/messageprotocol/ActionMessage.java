@@ -1,9 +1,13 @@
 package messageprotocol;
 
+import java.io.Serializable;
+
 import gameLogic.Constants.ActionType;
 
-public class ActionMessage
-{
+public class ActionMessage implements Serializable {
+	
+	private static final long serialVersionUID = 2802359185098055738L;
+	
 	ActionType action;
 	int spaceThingId;
 	int destX;

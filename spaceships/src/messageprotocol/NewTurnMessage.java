@@ -1,5 +1,6 @@
 package messageprotocol;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.LinkedList;
 
@@ -11,7 +12,7 @@ import messageprotocol.*;
  * It consists of the previous action, a set of GameState messages for updating the game state, and visibility.
  *
  */
-public class NewTurnMessage
+public class NewTurnMessage implements Serializable
 {
 	/**
 	 * Whatever action has taken place this turn.
