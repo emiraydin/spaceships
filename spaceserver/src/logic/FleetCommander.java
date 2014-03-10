@@ -247,7 +247,7 @@ public class FleetCommander {
 					ship.setY(y+1);
 					ship.setOrientation(OrientationType.South);
 				}
-				else if(direction == ActionType.Turn180) { 
+				else if(direction == ActionType.Turn180Left || direction == ActionType.Turn180Right) { 
 					ship.setX(x+2);
 					ship.setOrientation(OrientationType.West);
 				}
@@ -263,7 +263,7 @@ public class FleetCommander {
 					ship.setY(y-1);
 					ship.setOrientation(OrientationType.North);
 				}
-				else if(direction == ActionType.Turn180) { 
+				else if(direction == ActionType.Turn180Left || direction == ActionType.Turn180Right) { 
 					ship.setX(x-2);
 					ship.setOrientation(OrientationType.East);
 				}
@@ -279,7 +279,7 @@ public class FleetCommander {
 					ship.setY(y+1);
 					ship.setOrientation(OrientationType.East);
 				}
-				else if(direction == ActionType.Turn180) { 
+				else if(direction == ActionType.Turn180Left || direction == ActionType.Turn180Right) { 
 					ship.setY(y+2);
 					ship.setOrientation(OrientationType.South);
 				}
@@ -295,7 +295,7 @@ public class FleetCommander {
 					ship.setY(y-1);
 					ship.setOrientation(OrientationType.West);
 				}
-				else if(direction == ActionType.Turn180) { 
+				else if(direction == ActionType.Turn180Left || direction == ActionType.Turn180Right) { 
 					ship.setY(y-2);
 					ship.setOrientation(OrientationType.North);
 				}

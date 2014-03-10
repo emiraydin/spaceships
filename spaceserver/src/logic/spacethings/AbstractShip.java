@@ -82,7 +82,8 @@ public abstract class AbstractShip extends SpaceThing {
 	}
 	
 	/**
-	 * Handles the actual collision. Does appropriate damage, and alerts players of collision.
+	 * Registers a collision, handles damage, and alerts players of collision.
+	 * (By which I mean it currently sends it to System.out)
 	 * @param shipX Ship's x-coordinate in collision
 	 * @param shipY Ship'x y-coordinate in collision
 	 * @param obstacleX Obstacle's x-coordinate in collision
@@ -105,9 +106,10 @@ public abstract class AbstractShip extends SpaceThing {
 		}			
 		// otherwise, spacething was mine
 		else if(spaceThing instanceof Mine) {
-			// if ship is minelayer, mine doesn't explode
-			// method shouldn't even be called but this is a safety
+			// if ship is minelayer, mine doesn't explode. nothing happens. 
+			// this method shouldnt even really be called in this case but heres a safety
 			if(this instanceof MineLayerShip) { 
+				// non-destructive collision
 				return true;
 			}
 			
@@ -281,6 +283,40 @@ public abstract class AbstractShip extends SpaceThing {
 		if(this.getGameBoard().getSpaceThing(x, y) != null) { 
 			list.add(new Point(x,y));
 		}
+		return true;
+	}
+	
+	
+	protected boolean handleObstaclesWhileTurning(List<Point> obstaclesInTurnZone) { 
+		/* If there's a ship, asteroid or base in the way, turn is cancelled due to collision */
+		for(Point coord : obstaclesInTurnZone) { 
+			SpaceThing spaceThing = this.getGameBoard().getSpaceThing(coord.x, coord.y);
+			if(spaceThing instanceof AbstractShip || spaceThing instanceof Asteroid || spaceThing instanceof BaseTile) { 
+				this.collide(coord.x, coord.y);
+				System.out.println("Collision. Turn not completed.");
+				return false;
+			}
+		}
+		
+		/* If there's a mine in the way, it detonates */
+		for(Point coord : obstaclesInTurnZone) { 
+			SpaceThing spaceThing = this.getGameBoard().getSpaceThing(coord.x, coord.y);
+			if(spaceThing instanceof Mine) { 	
+				if(this instanceof MineLayerShip) { 
+					// no damage, no collision. just doesn't turn.
+					return false;
+				}
+				else { 
+					this.collide(coord.x, coord.y);
+					// mine exploded => turn not completed
+					System.out.println("Mine explosion. Turn not completed.");
+					return false;
+				}
+				
+			}
+		}
+		
+		// no obstacles! turn successful.
 		return true;
 	}
 

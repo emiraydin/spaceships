@@ -40,42 +40,10 @@ public class TorpedoBoatShip extends AbstractShip {
 	/**
 	 * Identical to method in RadarBoatShip
 	 */
-	private void detonateMineWhileTurning(Mine mine) { 
-		System.out.println("Mine in turn radius. Turn not completed. Mine exploded at " + mine.getX() + "," + mine.getY());
-		// if mine adjacent to ship prior to moving, the detonate() method will damage ship appropriately
-		// otherwise, must take care if damage in this method
-		GameBoard board = this.getGameBoard();
-		int x = this.getX();
-		int y = this.getY(); 
-		if(board.getSpaceThing(x, y+1) == mine || board.getSpaceThing(x, y-1) == mine 
-				|| board.getSpaceThing(x-1, y) == mine || board.getSpaceThing(x+1, y) == mine) { 
-			// damage taken care of
-			mine.detonate();
-		} 
-		else { 
-			// mine needs to be detonated, but ship also needs to be damaged
-			mine.detonate();
-			// choose random section of ship to be damaged
-			int[][] shipCoords = this.getShipCoords();
-			int section = new Random().nextInt(shipCoords.length);
-			// an adjacent section is also damaged
-			int section2;
-			if (section + 1 < this.getLength()){
-				section2 = section + 1;
-			} else {
-				section2 = section - 1;
-			}
-			this.decrementSectionHealth(Mine.getDamage(), section);
-			this.decrementSectionHealth(Mine.getDamage(), section2);			
-		}
-	}
-	
-	/**
-	 * Identical to method in RadarBoatShip
-	 */
 	private boolean tryTurning90(ActionType turnDirection) { 
 		// Get obstacles in turn zone
-		List<Point> obstaclesInTurnZone = getObstaclesInTurnZone(this.orientation, turnDirection, true);
+		List<Point> obstaclesInTurnZone = getObstaclesInTurnZone(this.getX(), this.getY(), 
+				this.orientation, turnDirection, true);
 		
 		// if obstaclesInTurnZone returned null, it means the turn puts the ship out of bounds!
 		if(obstaclesInTurnZone == null) { 
@@ -83,41 +51,71 @@ public class TorpedoBoatShip extends AbstractShip {
 			return false;
 		}
 		
-		/* If there's a ship, asteroid or base in the way, turn is cancelled due to collision */
-		boolean collision = false;
-		for(Point coord : obstaclesInTurnZone) { 
-			SpaceThing spaceThing = this.getGameBoard().getSpaceThing(coord.x, coord.y);
-			if(spaceThing instanceof AbstractShip || spaceThing instanceof Asteroid || spaceThing instanceof BaseTile) { 
-				// TODO: HANDLE COLLISION AT COORD.X, COORD.Y!
-				System.out.println("Collision at (" + coord.x + "," + coord.y + ") !");
-				collision = true;
-			}
-		}
-		if(collision) { 
-			// collision => turn not completed
+		return handleObstaclesWhileTurning(obstaclesInTurnZone);
+	}
+	
+	/**
+	 * Identical to method in RadarBoatShip
+	 */
+	private boolean tryTurning180(ActionType turnDirection) {
+		if(!(turnDirection == ActionType.Turn180Left || turnDirection == ActionType.Turn180Right)) { 
 			return false;
 		}
 		
-		/* If there's a mine in the way, it detonates */
-		for(Point coord : obstaclesInTurnZone) { 
-			SpaceThing spaceThing = this.getGameBoard().getSpaceThing(coord.x, coord.y);
-			if(spaceThing instanceof Mine) { 				
-				detonateMineWhileTurning((Mine)spaceThing);
-				// mine exploded => turn not completed
-				return false;
+		List<Point> obstaclesInTurnZone = new ArrayList<Point>();
+		int x = this.getX();
+		int y = this.getY();
+		
+		List<Point> obstacles1 = null;
+		List<Point> obstacles2 = null;
+		
+		if(turnDirection == ActionType.Turn180Left) { 
+			// two 90 degree turns to the left
+			obstacles1 = getObstaclesInTurnZone(x, y, this.orientation, ActionType.TurnLeft, true);
+			
+			// the second turn, after a single 90 degree turn has been made
+			if(this.orientation == OrientationType.East) { 
+				obstacles2 = getObstaclesInTurnZone(x+1, y-1, OrientationType.North, ActionType.TurnLeft, false);
+			}
+			else if(this.orientation == OrientationType.West) { 
+				obstacles2 = getObstaclesInTurnZone(x-1, y+1, OrientationType.South, ActionType.TurnLeft, false);
+			}
+			else if(this.orientation == OrientationType.North) { 
+				obstacles2 = getObstaclesInTurnZone(x+1, y+1, OrientationType.West, ActionType.TurnLeft, false);
+			}
+			else if(this.orientation == OrientationType.South){ 
+				obstacles2 = getObstaclesInTurnZone(x-1, y-1, OrientationType.East, ActionType.TurnLeft, false);
+			}
+		} 
+		else if(turnDirection == ActionType.Turn180Right) { 
+			// two 90 degree turns to the left
+			obstacles1 = getObstaclesInTurnZone(x, y, this.orientation, ActionType.TurnRight, true);
+			
+			// the second turn, after a single 90 degree turn has been made
+			if(this.orientation == OrientationType.East) { 
+				obstacles2 = getObstaclesInTurnZone(x+1, y+1, OrientationType.South, ActionType.TurnRight, false);
+			}
+			else if(this.orientation == OrientationType.West) { 
+				obstacles2 = getObstaclesInTurnZone(x-1, y-1, OrientationType.North, ActionType.TurnRight, false);
+			}
+			else if(this.orientation == OrientationType.North) { 
+				obstacles2 = getObstaclesInTurnZone(x-1, y+1, OrientationType.East, ActionType.TurnRight, false);
+			}
+			else if(this.orientation == OrientationType.South){ 
+				obstacles2 = getObstaclesInTurnZone(x+1, y-1, OrientationType.West, ActionType.TurnRight, false);
 			}
 		}
+				
+		// if either list returned null, it means the turn puts the ship out of bounds!
+		if(obstacles1 == null || obstacles2 == null) { 
+			System.out.println("Turn not completed because out of bounds");
+			return false;
+		}
 		
-		// no collisions or mines => turn completed
-		return true;
-	}
-	
-	/** 
-	 * Identical to method in RadarBoatShip
-	 */
-	private boolean tryTurning180() { 
-		// TODO: figure out how turning 180 works
-		return false;
+		obstaclesInTurnZone.addAll(obstacles1);
+		obstaclesInTurnZone.addAll(obstacles2);
+		
+		return handleObstaclesWhileTurning(obstaclesInTurnZone);
 	}
 
 	/**
@@ -125,33 +123,26 @@ public class TorpedoBoatShip extends AbstractShip {
 	 */
 	@Override
 	public boolean tryTurning(ActionType turnDirection) {
-		// Check that the turn is legal
-		if(!(turnDirection == ActionType.TurnLeft || turnDirection == ActionType.TurnRight) || turnDirection == ActionType.Turn180) { 
-			System.out.println("RadarBoatShip cannot turn in direction: " + turnDirection.name());
-			return false;
-		}
-	
-		boolean turnSuccessful = false;
-		// If ship turning 90 degrees, straight-forward
 		if(turnDirection == ActionType.TurnLeft || turnDirection == ActionType.TurnRight) { 
-			turnSuccessful = tryTurning90(turnDirection);			
+			return tryTurning90(turnDirection);			
 		}
-		else { 
-			turnSuccessful = tryTurning180();
-		}	
+		else if(turnDirection == ActionType.Turn180Left || turnDirection == ActionType.Turn180Right) { 
+			return tryTurning180(turnDirection);
+		}
+		System.out.println("RadarBoatShip cannot turn in direction: " + turnDirection.name());
+		return false;
 		
-		return turnSuccessful;
 	}
 
 	
 	/**
 	 * Identical to method in RadarBoatShip
 	 */
-	private List<Point> getObstaclesInTurnZone(OrientationType orientation, ActionType turnDirection, 
+	private List<Point> getObstaclesInTurnZone(int x, int y, OrientationType orientation, ActionType turnDirection, 
 			boolean includeFinalPosition) {
 		List<Point> obstacles = new ArrayList<Point>();
-		int x = this.getX();
-		int y = this.getY();
+//		int x = this.getX();
+//		int y = this.getY();
 		
 		// ORIENTATION FOLLOWS NEW ORIGIN CONVENTION
 		switch(orientation) { 
