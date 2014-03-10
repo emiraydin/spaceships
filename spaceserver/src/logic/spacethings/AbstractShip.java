@@ -319,5 +319,83 @@ public abstract class AbstractShip extends SpaceThing {
 		// no obstacles! turn successful.
 		return true;
 	}
-
-}
+	
+	/**
+	 * Returns the coordinates of a turn about a pivot
+	 * @param x Start x
+	 * @param y Start y
+	 * @param startOrientation Start orientation
+	 * @param direction Direction of turn
+	 * @return Point representing the final location.
+	 */
+	public Point getLocationAfterPivot(int x, int y, OrientationType startOrientation, ActionType direction) { 
+		// FOLLOWS NEW ORIGIN CONVENTION
+		if(this instanceof TorpedoBoatShip || this instanceof RadarBoatShip) { 
+			if(direction == ActionType.TurnLeft) {
+				switch(startOrientation) { 
+				case East:
+					return new Point(x+1, y-1);
+				case West:
+					return new Point(x-1, y+1);
+				case North:
+					return new Point(x+1, y+1);
+				case South:
+					return new Point(x-1, y-1);
+				}
+			}
+			else if (direction == ActionType.TurnRight) { 
+				switch(startOrientation) { 
+				case East:
+					return new Point(x+1, y+1);
+				case West:
+					return new Point(x-1, y-1);
+				case North:
+					return new Point(x-1, y+1);
+				case South:
+					return new Point(x+1, y-1);
+				}
+			}
+			return null;
+		}
+		else if(this instanceof CruiserShip || this instanceof MineLayerShip || this instanceof DestroyerShip) { 
+			// This really shouldn't ever be called
+			return new Point(x, y);
+		}
+		return null;				
+	}
+	
+	/**
+	 * Returns the orientation after a 90 degree pivot
+	 * @param orientation start orientation
+	 * @param direction direction to turn (left or right)
+	 * @return the final orientation
+	 */
+	public OrientationType getOrientationAfterPivot(OrientationType orientation, ActionType direction) { 
+		if(direction == ActionType.TurnLeft) { 
+			switch(orientation) { 
+			case East:
+				return OrientationType.North;
+			case West:
+				return OrientationType.South;
+			case North:
+				return OrientationType.West;
+			case South:
+				return OrientationType.East;
+			}
+		}
+		else if (direction == ActionType.TurnRight) { 
+			switch(orientation) { 
+			case East:
+				return OrientationType.South;
+			case West:
+				return OrientationType.North;
+			case North:
+				return OrientationType.East;
+			case South:
+				return OrientationType.West;
+			}
+		}
+		return null;
+	}
+}	
+	

@@ -53,7 +53,7 @@ public class RadarBoatShip extends AbstractShip {
 	 */
 	private boolean tryTurning90(ActionType turnDirection) { 
 		// Get obstacles in turn zone
-		List<Point> obstaclesInTurnZone = getObstaclesInTurnZone(this.getX(), this.getY(), 
+		List<Point> obstaclesInTurnZone = getObstaclesIn90DegreeTurnZone(this.getX(), this.getY(), 
 				this.orientation, turnDirection, true);
 		
 		// if obstaclesInTurnZone returned null, it means the turn puts the ship out of bounds!
@@ -82,43 +82,23 @@ public class RadarBoatShip extends AbstractShip {
 		
 		List<Point> obstacles1 = null;
 		List<Point> obstacles2 = null;
+
+		ActionType directionOfHalfTurns = null;
 		
 		if(turnDirection == ActionType.Turn180Left) { 
-			// two 90 degree turns to the left
-			obstacles1 = getObstaclesInTurnZone(x, y, this.orientation, ActionType.TurnLeft, true);
-			
-			// the second turn, after a single 90 degree turn has been made
-			if(this.orientation == OrientationType.East) { 
-				obstacles2 = getObstaclesInTurnZone(x+1, y-1, OrientationType.North, ActionType.TurnLeft, false);
-			}
-			else if(this.orientation == OrientationType.West) { 
-				obstacles2 = getObstaclesInTurnZone(x-1, y+1, OrientationType.South, ActionType.TurnLeft, false);
-			}
-			else if(this.orientation == OrientationType.North) { 
-				obstacles2 = getObstaclesInTurnZone(x+1, y+1, OrientationType.West, ActionType.TurnLeft, false);
-			}
-			else if(this.orientation == OrientationType.South){ 
-				obstacles2 = getObstaclesInTurnZone(x-1, y-1, OrientationType.East, ActionType.TurnLeft, false);
-			}
-		} 
-		else if(turnDirection == ActionType.Turn180Right) { 
-			// two 90 degree turns to the left
-			obstacles1 = getObstaclesInTurnZone(x, y, this.orientation, ActionType.TurnRight, true);
-			
-			// the second turn, after a single 90 degree turn has been made
-			if(this.orientation == OrientationType.East) { 
-				obstacles2 = getObstaclesInTurnZone(x+1, y+1, OrientationType.South, ActionType.TurnRight, false);
-			}
-			else if(this.orientation == OrientationType.West) { 
-				obstacles2 = getObstaclesInTurnZone(x-1, y-1, OrientationType.North, ActionType.TurnRight, false);
-			}
-			else if(this.orientation == OrientationType.North) { 
-				obstacles2 = getObstaclesInTurnZone(x-1, y+1, OrientationType.East, ActionType.TurnRight, false);
-			}
-			else if(this.orientation == OrientationType.South){ 
-				obstacles2 = getObstaclesInTurnZone(x+1, y-1, OrientationType.West, ActionType.TurnRight, false);
-			}
+			directionOfHalfTurns = ActionType.TurnLeft;
 		}
+		else if(turnDirection == ActionType.Turn180Right) { 
+			directionOfHalfTurns = ActionType.TurnRight;
+		}
+		
+		// for first turn
+		obstacles1 = getObstaclesIn90DegreeTurnZone(x, y, this.orientation, directionOfHalfTurns, true);
+		// the second turn, after a single 90 degree turn has been made
+		Point intermediateLocation = getLocationAfterPivot(x, y, this.orientation, directionOfHalfTurns);
+		OrientationType intermediateOrientation = getOrientationAfterPivot(this.orientation, directionOfHalfTurns);
+		obstacles2 = getObstaclesIn90DegreeTurnZone(intermediateLocation.x, intermediateLocation.y, 
+				intermediateOrientation, directionOfHalfTurns, false);
 				
 		// if either list returned null, it means the turn puts the ship out of bounds!
 		if(obstacles1 == null || obstacles2 == null) { 
@@ -159,7 +139,7 @@ public class RadarBoatShip extends AbstractShip {
 	 * 		  (true for 90 degree turns, true for the first turn in a 180 turn)
 	 * @return null if turn puts ship out of bounds, or otherwise list of obstacles in the way of the turn.
 	 */
-	private List<Point> getObstaclesInTurnZone(int x, int y, OrientationType orientation, ActionType turnDirection, 
+	private List<Point> getObstaclesIn90DegreeTurnZone(int x, int y, OrientationType orientation, ActionType turnDirection, 
 			boolean includeFinalPosition) {
 		List<Point> obstacles = new ArrayList<Point>();
 //		int x = this.getX();
