@@ -9,7 +9,7 @@ import state.ships.RadarBoatShip;
 import state.ships.TorpedoShip;
 import state.weapons.AbstractWeapon;
 import actors.ActorState;
-import actors.Ship;
+import actors.ShipActor;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -175,7 +175,7 @@ public class GameScreenUiController
 	{
 		if(ActorState.currentSelection != -1)
 		{
-			Ship ship = ActorState.shipList.get(ActorState.currentSelection); 
+			ShipActor ship = ActorState.shipList.get(ActorState.currentSelection); 
 			AbstractShip aShip = ship.ship; 
 			String type = aShip.getClass().getSimpleName();
 			currentShip.setText(type);

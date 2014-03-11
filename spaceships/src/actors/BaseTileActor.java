@@ -16,7 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
  * @author Vikram
  *
  */
-public class BaseTile extends Image 
+public class BaseTileActor extends Image 
 {
 	int currentPlayerID; 														// The ID of the owning player. 
 	private Sprite SPRITE; 														// The Graphic to be rendered.
@@ -30,7 +30,7 @@ public class BaseTile extends Image
 	 * @param y : The y position of the BaseTile. 
 	 * @param playerId : The Id of the player who owns this tile. 
 	 */
-	public BaseTile(int x, int y, int playerId)
+	public BaseTileActor(int x, int y, int playerId)
 	{
 		if(playerId == 1) 
 		{

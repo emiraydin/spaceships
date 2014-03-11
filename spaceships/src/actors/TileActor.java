@@ -22,7 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
  * @author Vikram
  *
  */
-public class Tile extends Image 
+public class TileActor extends Image 
 {
 	// Pixel Width and Height
 	private final int WIDTH = Constants.PIXEL_WIDTH, HEIGHT = Constants.PIXEL_HEIGHT; 
@@ -37,7 +37,7 @@ public class Tile extends Image
 	 * Constructor for Tile Object.
 	 * Requires an x, y position
 	 */
-	public Tile(int x, int y)
+	public TileActor(int x, int y)
 	{
 		POSITION = new Vector2(x,y); 
 		Texture texture = generateStandardTile(); 
@@ -59,19 +59,19 @@ public class Tile extends Image
 			{
 				if(ActorState.currentSelection != -1)
 				{
-					ActorState.shipList.get(ActorState.currentSelection).ship.setX((int)getX());
+					
 				}
 				return false;
 			}
 			
 			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
 			{ 
-				//drawAsGreen(); 
+				drawAsGreen(); 
 			}
 			
 			public void exit(InputEvent event, float x, float y, int pointer, Actor toActor)
 			{
-				//drawAsBlue(); 
+				drawAsBlue(); 
 			}
 		});
 		

@@ -13,9 +13,9 @@ import com.badlogic.gdx.scenes.scene2d.Group;
  * @author Vikram
  *
  */
-public class Ship extends Group 
+public class ShipActor extends Group 
 {
-	private ShipTile[] tiles;									// The array of Tile Objects this ship occupies. 
+	private ShipTileActor[] tiles;									// The array of Tile Objects this ship occupies. 
 	public AbstractShip ship; 									// The Model Ship that represents the current state. 
 	private boolean isCurrent = false; 							// Is this ship currently being selected? 
 	private OrientationType orientation; 						// The heading the ship is facing. 
@@ -26,10 +26,10 @@ public class Ship extends Group
 	 * @param y: The 'y' position of the backend of the ship. 
 	 * @param ship: The ModelShip that this ship represents. 
 	 */
-	public Ship(int x, int y, AbstractShip ship)
+	public ShipActor(int x, int y, AbstractShip ship)
 	{
 		
-		tiles = new ShipTile[ship.getLength()]; 
+		tiles = new ShipTileActor[ship.getLength()]; 
 		this.ship = ship;
 		// Create a new Ship with the tiles in the appropriate places
 		initShip(x, y);
@@ -52,12 +52,12 @@ public class Ship extends Group
 			// Set the head of the ship
 			if(i == tiles.length - 1)
 			{
-				tiles[i] = new ShipTile(startX, startY, orientation); 
+				tiles[i] = new ShipTileActor(startX, startY, orientation); 
 				tiles[i].setIsHead(true); 
 			}
 			else
 			{
-				tiles[i] = new ShipTile(startX, startY);
+				tiles[i] = new ShipTileActor(startX, startY);
 			}
 			startX ++; 
 			addActor(tiles[i]);
@@ -72,7 +72,7 @@ public class Ship extends Group
 	 */
 	public void moveBy(float x, float y)
 	{
-		for(ShipTile tile : tiles)
+		for(ShipTileActor tile : tiles)
 		{
 			tile.moveBy(x, y);
 		}
@@ -100,7 +100,7 @@ public class Ship extends Group
 	 */
 	public void drawAsNonCurrent()
 	{
-		for(ShipTile child : tiles)
+		for(ShipTileActor child : tiles)
 		{
 			child.drawAsNonCurrent(); 
 		}
@@ -111,7 +111,7 @@ public class Ship extends Group
 	 */
 	public void drawAsCurrent()
 	{
-		for(ShipTile child : tiles)
+		for(ShipTileActor child : tiles)
 		{
 			child.drawAsCurrent(); 
 		}
@@ -163,7 +163,7 @@ public class Ship extends Group
 		// Redraw the onscreen sprite so they reflect the orientation change. 
 		if(this.orientation == OrientationType.East)
 		{
-			for(ShipTile tile : tiles)
+			for(ShipTileActor tile : tiles)
 			{
 				tile.setX(xLocation); 
 				tile.setY(yLocation); 
@@ -172,7 +172,7 @@ public class Ship extends Group
 		}
 		if(this.orientation == OrientationType.West)
 		{
-			for(ShipTile tile : tiles)
+			for(ShipTileActor tile : tiles)
 			{
 				tile.setX(xLocation); 
 				tile.setY(yLocation); 
@@ -181,7 +181,7 @@ public class Ship extends Group
 		}
 		if(this.orientation == OrientationType.North)
 		{
-			for(ShipTile tile : tiles)
+			for(ShipTileActor tile : tiles)
 			{
 				tile.setX(xLocation); 
 				tile.setY(yLocation); 
@@ -190,7 +190,7 @@ public class Ship extends Group
 		}
 		if(this.orientation == OrientationType.South)
 		{
-			for(ShipTile tile : tiles)
+			for(ShipTileActor tile : tiles)
 			{
 				tile.setX(xLocation); 
 				tile.setY(yLocation); 

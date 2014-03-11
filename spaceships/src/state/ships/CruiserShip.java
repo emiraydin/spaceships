@@ -22,5 +22,4 @@ public class CruiserShip extends AbstractShip
 		this.addWeapon(new HeavyCannon());
 	}
 	
-	
 }

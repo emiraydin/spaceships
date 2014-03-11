@@ -19,7 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
  * @author Vikram
  *
  */
-public class ShipTile extends Image
+public class ShipTileActor extends Image
 {
 	
 	private Sprite SPRITE; 
@@ -32,7 +32,7 @@ public class ShipTile extends Image
 	 * @param x : The 'X' location of the tile. 
 	 * @param y : The 'Y' location of the tile. 
 	 */
-	public ShipTile(int x, int y) 
+	public ShipTileActor(int x, int y) 
 	{
 		SPRITE = new Sprite(generateUnselectedShipTexture());
 		setPosition(x,y);
@@ -46,7 +46,7 @@ public class ShipTile extends Image
 	 * @param startY : The 'y' location of the head of the ship. 
 	 * @param orientation : The direction in which we need to draw the head. 
 	 */
-	public ShipTile(int startX, int startY, OrientationType orientation)
+	public ShipTileActor(int startX, int startY, OrientationType orientation)
 	{
 		this.orientation = orientation; 
 		SPRITE = new Sprite(generateUnselectedHead(orientation)); 

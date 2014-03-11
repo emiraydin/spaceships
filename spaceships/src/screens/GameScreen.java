@@ -23,8 +23,6 @@ public class GameScreen implements Screen
 	private FPSLogger fpsLog = new FPSLogger(); 
 	
 	
-	
-	
 	/**
 	 * Run. 
 	 * @param delta
@@ -57,6 +55,7 @@ public class GameScreen implements Screen
 	@Override
 	public void show() 
 	{
+		
 		// Create and Initialize GameScreenController. 
 		controller = new GameScreenController();
 		
