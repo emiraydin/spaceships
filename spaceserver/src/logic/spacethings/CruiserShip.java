@@ -8,13 +8,14 @@ import logic.AbstractWeapon;
 import logic.FleetCommander;
 import logic.HeavyCannon;
 import logic.StarBoard;
+
 import common.GameConstants.ActionType;
 import common.GameConstants.OrientationType;
 import common.GameConstants.SpaceThingType;
 
 public class CruiserShip extends AbstractShip {
-	public CruiserShip(int x, int y, FleetCommander owner, StarBoard gameBoard){
-		super(x, y, owner, gameBoard);
+	public CruiserShip(int x, int y, OrientationType oType, FleetCommander owner, StarBoard gameBoard){
+		super(x, y, oType, owner, gameBoard);
 		
 		this.length = 5;
 		this.speed = 10;

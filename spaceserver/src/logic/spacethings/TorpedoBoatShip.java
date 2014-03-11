@@ -15,8 +15,8 @@ import common.GameConstants.SpaceThingType;
 
 
 public class TorpedoBoatShip extends AbstractShip {
-	public TorpedoBoatShip(int x, int y, FleetCommander owner, StarBoard gameBoard) {
-		super(x, y, owner, gameBoard);
+	public TorpedoBoatShip(int x, int y, OrientationType oType, FleetCommander owner, StarBoard gameBoard) {
+		super(x, y, oType, owner, gameBoard);
 		
 		this.length = 3;
 		this.speed = 9;

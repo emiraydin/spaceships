@@ -23,6 +23,7 @@ public class NewTurnMessage implements Serializable
 	 * A list of state messages for updating the GameState.
 	 */
 	LinkedList<GameStateMessage> state;
+	boolean turnSuccess;
 	
 	/**
 	 * Radar and sonar visibility.
@@ -41,6 +42,7 @@ public class NewTurnMessage implements Serializable
 	 */
 	public NewTurnMessage(
 			ActionMessage action,
+			boolean turnSuccess,
 			LinkedList<GameStateMessage> state,
 			boolean[][] radarVisibleTiles,
 			boolean[][]	sonarVisibleTiles
