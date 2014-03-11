@@ -1,7 +1,5 @@
 package logic;
 
-import java.awt.Window;
-
 import common.GameConstants.ActionType;
 import common.GameConstants.WeaponType;
 import common.GameConstants.WinState;
@@ -15,12 +13,16 @@ public class GameHandler {
 	
 	public GameHandler() {
 		// Create new game!
-		//TODO: Technically GameBoard expects a gameID, but it doesn't really need one
-		// So we could take it out of the constructor...
 		board = new StarBoard(0);
 		players = new FleetCommander[2];
 		players[0] = new FleetCommander(0, board);
 		players[1] = new FleetCommander(1, board);
+		board.generateAsteroids();
+//		for (int playerId = 0; playerId <= 1; playerId++){
+//			for (int basenum = 0; basenum < 10; basenum++){
+//				map[][]
+//			}
+//		}
 	}
 	
 	public GameHandler(int gameID){

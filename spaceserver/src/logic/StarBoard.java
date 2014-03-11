@@ -42,11 +42,12 @@ public class StarBoard {
 	
 	public void setSpaceThing(AbstractShip ship, int x, int y){
 		for (int i = 0; i < ship.getLength(); i++){
+			//UPDATED FOR NEW ORIENTATION
 			switch (ship.getOrientation()){
-				case North:
+				case South:
 					map[x][y-i] = ship;
 					break;
-				case South:
+				case North:
 					map[x][y+i] = ship;
 					break;
 				case East:
@@ -68,11 +69,12 @@ public class StarBoard {
 			if (map[x][y] instanceof AbstractShip){
 				AbstractShip ship = (AbstractShip) map[x][y];
 				for (int i = 0; i < ship.getLength(); i++){
+					// UPDATED FOR NEW ORIENTATION
 					switch (ship.getOrientation()){
-						case North:
+						case South:
 							map[ship.getX()][ship.getY()-i] = null;
 							break;
-						case South:
+						case North:
 							map[ship.getX()][ship.getY()+i] = null;
 							break;
 						case East:
@@ -123,9 +125,9 @@ public class StarBoard {
 		}
 	}
 	
-	public boolean isBlocked(int x, int y){
-		return (map[x][y] != null);
-	}
+//	public boolean isBlocked(int x, int y){
+//		return (map[x][y] != null);
+//	}
 	
 //	public boolean handleMineExplosions(){
 //		//TODO: Mine explosions... can this be moved?..
