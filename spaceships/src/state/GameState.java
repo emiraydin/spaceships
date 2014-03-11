@@ -21,18 +21,13 @@ public class GameState
 	private static boolean[][] radarVisibleTiles;
 	private static boolean[][] sonarVisibleTiles;
 	
-	/*
-	 * Variables respecting Singleton
-	 */
-	private static GameState instance; 
-
+	
 	/**
-	 * Constructor. 
-	 * Create a new GameState instance. 
-	 * There should only be one GameState at any point during the game. 
+	 * Get the entire State
+	 * @return
 	 */
-	private GameState()
-	{
+	public static HashMap<Integer, SpaceThing> getAllSpaceThings() {
+		return things;
 	}
 	
 	/**

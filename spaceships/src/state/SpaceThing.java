@@ -16,7 +16,6 @@ public class SpaceThing {
 		this.owner = owner;
 	}
 	
-	
 	public int getUniqueId()
 	{
 		return uniqueId;

@@ -4,16 +4,18 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.LinkedList;
 
-import messageprotocol.*;
-
 /**
  * 
  * This message is sent from the Server to the Client at the beginning of a turn.
  * It consists of the previous action, a set of GameState messages for updating the game state, and visibility.
  *
  */
-public class NewTurnMessage implements Serializable
-{
+public class NewTurnMessage implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 9172096966349741980L;
+
 	/**
 	 * Whatever action has taken place this turn.
 	 */

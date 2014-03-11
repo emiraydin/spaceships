@@ -8,12 +8,13 @@ import gameLogic.Constants.SpaceThingType;
  */
 public class BaseTile extends SpaceThing {
 
-	int health;
+	protected int[] sectionHealth;
 	
 	public BaseTile(int id, PlayerNumber owner)
 	{
 		super(id, SpaceThingType.BaseTile, owner);
-		this.health = 1;
+		this.sectionHealth = new int[1];
+		this.sectionHealth[0] = 1;
 	}
 
 }
