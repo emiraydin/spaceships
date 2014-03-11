@@ -45,14 +45,25 @@ public class Ship extends Group
 	 */
 	private void initShip(int startX, int startY) 
 	{
+		this.orientation = ship.getOrientation(); 
+		
 		for(int i = 0; i < tiles.length; i++)
 		{
-			tiles[i] = new ShipTile(startX, startY);
+			// Set the head of the ship
+			if(i == tiles.length - 1)
+			{
+				tiles[i] = new ShipTile(startX, startY, orientation); 
+				tiles[i].setIsHead(true); 
+			}
+			else
+			{
+				tiles[i] = new ShipTile(startX, startY);
+			}
 			startX ++; 
 			addActor(tiles[i]);
 		}
 		
-		this.orientation = ship.getOrientation(); 
+
 	}
 	
 	/**

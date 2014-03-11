@@ -1,6 +1,7 @@
 package actors;
 
 import gameLogic.Constants;
+import gameLogic.Constants.OrientationType;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -22,6 +23,8 @@ public class ShipTile extends Image
 {
 	
 	private Sprite SPRITE; 
+	private boolean isHead = false;				// Is this currently the head of the ship.
+	private OrientationType orientation; 
 	private final int WIDTH = Constants.PIXEL_WIDTH, HEIGHT = Constants.PIXEL_HEIGHT;
 
 	/**
@@ -31,19 +34,144 @@ public class ShipTile extends Image
 	 */
 	public ShipTile(int x, int y) 
 	{
-		SPRITE = new Sprite(generateShipTexture());
+		SPRITE = new Sprite(generateUnselectedShipTexture());
 		setPosition(x,y);
 		setWidth(1);
 		setHeight(1);
 	}
+
+	/**
+	 * This is the constructor typically used to create a shipTile that will be the head of the ship. 
+	 * @param startX : The 'x' location of the head of the ship. 
+	 * @param startY : The 'y' location of the head of the ship. 
+	 * @param orientation : The direction in which we need to draw the head. 
+	 */
+	public ShipTile(int startX, int startY, OrientationType orientation)
+	{
+		this.orientation = orientation; 
+		SPRITE = new Sprite(generateUnselectedHead(orientation)); 
+		setPosition(startX, startY); 
+		setWidth(1); 
+		setHeight(1); 
+	}
+
+
+	/** 
+	 * Draws the head as unselected and facing the direction by orientaiton. 
+	 * @param orientation : The direction the ship is facing. 
+	 * @return : a Texture
+	 */
+	private Texture generateUnselectedHead(OrientationType orientation)
+	{
+		if(orientation == OrientationType.East)
+		{
+			Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
+			pixmap.setColor(0, 0, 0, 1);
+			pixmap.fill(); 
+			Texture newTexture = new Texture(pixmap);
+			return newTexture;
+		}
+		else if(orientation == OrientationType.West)
+		{
+			Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
+			pixmap.setColor(0, 0, 0, 1);
+			pixmap.fill(); 
+			Texture newTexture = new Texture(pixmap);
+			return newTexture;
+		}
+		else if(orientation == OrientationType.North)
+		{
+			Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
+			pixmap.setColor(0, 0, 0, 1);
+			pixmap.fill(); 
+			Texture newTexture = new Texture(pixmap);
+			return newTexture;
+		}
+		else if(orientation ==  OrientationType.South)
+		{
+			Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
+			pixmap.setColor(0, 0, 0, 1);
+			pixmap.fill(); 
+			Texture newTexture = new Texture(pixmap);
+			return newTexture;
+		}
+		else
+		{
+			return null;
+		}
+
+	}
 	
+	/**
+	 * Draws the head as a selected and facing the direction by orientation. 
+	 * @param orientation : The direction the ship is facing. 
+	 * @return : a Texture. 
+	 */
+	private Texture generateSelectedHead(OrientationType orientation)
+	{
+		if(orientation == OrientationType.East)
+		{
+			Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
+			pixmap.setColor(1, 0, 0, 1);
+			pixmap.fill(); 
+			Texture newTexture = new Texture(pixmap);
+			return newTexture;
+		}
+		else if(orientation == OrientationType.West)
+		{
+			Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
+			pixmap.setColor(1, 0, 0, 1);
+			pixmap.fill(); 
+			Texture newTexture = new Texture(pixmap);
+			return newTexture;
+		}
+		else if(orientation == OrientationType.North)
+		{
+			Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
+			pixmap.setColor(1, 0, 0, 1);
+			pixmap.fill(); 
+			Texture newTexture = new Texture(pixmap);
+			return newTexture;
+		}
+		else if(orientation ==  OrientationType.South)
+		{
+			Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
+			pixmap.setColor(1, 0, 0, 1);
+			pixmap.fill(); 
+			Texture newTexture = new Texture(pixmap);
+			return newTexture;
+		}
+		else
+		{
+			return null;
+		}
+	}
+
 
 	
-	private Texture generateShipTexture() 
+	/**
+	 * Generates an unselectedShipTexture
+	 * @return
+	 */
+	private Texture generateUnselectedShipTexture() 
 	{
 		Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
 		// Draw a cyan-colored border around square
 		pixmap.setColor(1, 1, 1, 1);
+		pixmap.fill(); 
+		Texture newTexture = new Texture(pixmap);
+		
+		return newTexture;
+	}
+	
+	/**
+	 * Generates a selected Ship Texture
+	 */
+	private Texture generateBlueShipTexture() 
+	{
+		Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
+		// Draw a cyan-colored border around square
+		pixmap.setColor(0, 0, 1, 1);
 		pixmap.fill(); 
 		Texture newTexture = new Texture(pixmap);
 		
@@ -69,25 +197,39 @@ public class ShipTile extends Image
 	public void drawAsNonCurrent()
 	{
 		this.SPRITE.getTexture().dispose(); 
-		SPRITE = new Sprite(generateShipTexture()); 
+		if(isHead)
+		{
+			SPRITE = new Sprite(generateUnselectedHead(orientation)); 
+			return; 
+		}
+		SPRITE = new Sprite(generateUnselectedShipTexture()); 
 	}
 	
 	public void drawAsCurrent()
 	{
 		this.SPRITE.getTexture().dispose(); 
+		if(isHead)
+		{
+			SPRITE = new Sprite(generateSelectedHead(orientation)); 
+			return; 
+		}
 		SPRITE = new Sprite(generateBlueShipTexture()); 
 	}
-
-
-	private Texture generateBlueShipTexture() 
+	
+	/**
+	 * Sets whether this tile is the head of the ship or not. 
+	 */
+	public void setIsHead(boolean b)
 	{
-		Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
-		// Draw a cyan-colored border around square
-		pixmap.setColor(0, 0, 1, 1);
-		pixmap.fill(); 
-		Texture newTexture = new Texture(pixmap);
-		
-		return newTexture;
+		this.isHead = b; 
+	}
+	
+	/**
+	 * Returns whether this tile is the head of the ship or not. 
+	 */
+	public boolean isHead()
+	{
+		return isHead; 
 	}
 
 }
