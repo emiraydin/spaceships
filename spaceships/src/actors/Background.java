@@ -10,17 +10,21 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 /**
- * The Background for the Game Board.
+ * This is the actor that just draws the background on the gameboard.
+ * It is used so we can control the position and semantic location. 
  * @author Vikram
  *
  */
 public class Background extends Image 
 {
-	// Pixel Width and Height
 	private final int WIDTH = Constants.APP_WIDTH, HEIGHT = Constants.APP_HEIGHT; 
 	private Sprite SPRITE; 
 	private String location = "images/background.png";
 	
+	/**
+	 * Create the Background and set the position to start just off the game screen. 
+	 * Width and Height are in in game units. 
+	 */
 	public Background()
 	{
 		importBackground(); 
@@ -29,6 +33,9 @@ public class Background extends Image
 		setPosition(-5,-20);
 	}
 
+	/**
+	 * Import the background from file.
+	 */
 	private void importBackground() 
 	{
 		Texture texture = new Texture(Gdx.files.internal(location));
@@ -36,6 +43,10 @@ public class Background extends Image
 		SPRITE = new Sprite(texture); 
 	}
 	
+	
+	/**
+	 * Draw the background
+	 */
 	@Override
 	public void draw(Batch batch, float parentAlpha)
 	{

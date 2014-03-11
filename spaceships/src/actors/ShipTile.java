@@ -11,8 +11,10 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 /**
- * One Ship Tile.
- * Pretty much a testing class at the moment, since we dont have actually assets. 
+ *
+ * One ship tile. 
+ * Used to draw each seperate part of the ship. 
+ * Currently we only differentiate between the head and the stern of the ship. 
  * @author Vikram
  *
  */
@@ -22,6 +24,11 @@ public class ShipTile extends Image
 	private Sprite SPRITE; 
 	private final int WIDTH = Constants.PIXEL_WIDTH, HEIGHT = Constants.PIXEL_HEIGHT;
 
+	/**
+	 * Create a new ship tile at the specified location. 
+	 * @param x : The 'X' location of the tile. 
+	 * @param y : The 'Y' location of the tile. 
+	 */
 	public ShipTile(int x, int y) 
 	{
 		SPRITE = new Sprite(generateShipTexture());
@@ -31,6 +38,7 @@ public class ShipTile extends Image
 	}
 	
 
+	
 	private Texture generateShipTexture() 
 	{
 		Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
@@ -58,13 +66,13 @@ public class ShipTile extends Image
 	}
 
 
-	public void drawAsWhite()
+	public void drawAsNonCurrent()
 	{
 		this.SPRITE.getTexture().dispose(); 
 		SPRITE = new Sprite(generateShipTexture()); 
 	}
 	
-	public void drawAsBlue()
+	public void drawAsCurrent()
 	{
 		this.SPRITE.getTexture().dispose(); 
 		SPRITE = new Sprite(generateBlueShipTexture()); 

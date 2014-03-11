@@ -8,12 +8,12 @@ import actors.ActorState;
 import actors.Asteroid;
 import actors.Background;
 import actors.BaseTile;
-import actors.Gameboard;
 import actors.Ship;
 import actors.ShipTile;
 import actors.Tile;
 
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -33,7 +33,6 @@ public class GameScreenController implements InputProcessor
 	 * Instance variables 
 	 * ****************************************************************************
 	 ******************************************************************************/
-	Gameboard BOARD; 												// The Game Board Actor, handles position of all objects. 
 	public OrthographicCamera CAMERA; 								// The Game Camera
 	private CameraController CAMCONTROLLER; 						// Handles changing Camera views. 
 	public Stage STAGE; 											// The Stage. 
@@ -116,7 +115,7 @@ public class GameScreenController implements InputProcessor
 	 * Method that checks to see if the player has selected any actions. 
 	 */
 	private void checkPlayerAction()
-	{
+	{		
 		// Display the movement and fire range for a ship. 
 		if(CURRENT_SELECTION != -1)
 		{
@@ -127,12 +126,12 @@ public class GameScreenController implements InputProcessor
 			{
 				if(ship == currentShip)
 				{
-					ship.drawAsBlue();
+					ship.drawAsCurrent();
 					continue; 
 				}
 				else
 				{
-					ship.drawAsWhite();
+					ship.drawAsNonCurrent();
 					ship.setCurrentShip(false);
 				}
 			}
@@ -141,7 +140,7 @@ public class GameScreenController implements InputProcessor
 		{
 			for(Ship ship : ActorState.shipList)
 			{
-				ship.drawAsWhite(); 
+				ship.drawAsNonCurrent(); 
 				ship.setCurrentShip(false);
 			}
 		}
@@ -173,8 +172,15 @@ public class GameScreenController implements InputProcessor
 	private void updateMovementAndFire(float delta) 
 	{
 		// Update all the ships Based on location. 
+		// Update the ships orientation. 
+		// if there was something to update then just return. 
 		for(Ship currentShip : ActorState.shipList)
 		{
+			if(currentShip.getOrientation() != currentShip.ship.getOrientation())
+			{
+				currentShip.setOrientation(currentShip.ship.getOrientation()); 
+				return; 
+			}
 			
 			// Moving forward or backward. 
 			if(currentShip.getX() < (float) currentShip.ship.getX())
