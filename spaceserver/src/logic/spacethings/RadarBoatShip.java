@@ -13,8 +13,8 @@ import common.GameConstants.OrientationType;
 import common.GameConstants.SpaceThingType;
 
 public class RadarBoatShip extends AbstractShip {
-	public RadarBoatShip(int x, int y, FleetCommander owner, StarBoard gameBoard) {
-		super(x, y, owner, gameBoard);
+	public RadarBoatShip(int x, int y, OrientationType oType, FleetCommander owner, StarBoard gameBoard) {
+		super(x, y, oType, owner, gameBoard);
 		
 		this.length = 3;
 		// by default, speed is 3

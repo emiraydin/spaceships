@@ -36,8 +36,9 @@ public abstract class AbstractShip extends SpaceThing {
 	
 	public abstract SpaceThingType getShipType();
 	
-	public AbstractShip(int x, int y, FleetCommander owner, StarBoard gameBoard){
+	public AbstractShip(int x, int y, OrientationType orientation, FleetCommander owner, StarBoard gameBoard){
 		super(x, y, owner, gameBoard);
+		this.orientation = orientation;
 	}
 	
 	public int[][] getShipCoords(){

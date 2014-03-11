@@ -9,7 +9,9 @@ import logic.Cannon;
 import logic.FleetCommander;
 import logic.MineLayer;
 import logic.StarBoard;
+
 import common.GameConstants.ActionType;
+import common.GameConstants.OrientationType;
 import common.GameConstants.SpaceThingType;
 
 
@@ -17,8 +19,8 @@ public class MineLayerShip extends AbstractShip {
 	private ArrayList<Mine> mines;
 	private static int NUM_MINES = 5;
 	
-	public MineLayerShip(int x, int y, FleetCommander owner, StarBoard gameBoard){
-		super(x, y, owner, gameBoard);
+	public MineLayerShip(int x, int y, OrientationType oType, FleetCommander owner, StarBoard gameBoard){
+		super(x, y, oType, owner, gameBoard);
 		
 		mines = new ArrayList<Mine>(NUM_MINES);
 		for (int i = 0; i < NUM_MINES; i++){

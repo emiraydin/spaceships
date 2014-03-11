@@ -14,8 +14,8 @@ import common.GameConstants.OrientationType;
 import common.GameConstants.SpaceThingType;
 
 public class DestroyerShip extends AbstractShip {
-	public DestroyerShip(int x, int y, FleetCommander owner, StarBoard gameBoard){
-		super(x, y, owner, gameBoard);
+	public DestroyerShip(int x, int y, OrientationType oType, FleetCommander owner, StarBoard gameBoard){
+		super(x, y, oType, owner, gameBoard);
 		
 		this.speed = 8;
 		this.length = 4;
