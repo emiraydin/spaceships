@@ -9,8 +9,8 @@ import logic.Cannon;
 import logic.FleetCommander;
 import logic.MineLayer;
 import logic.StarBoard;
-
 import common.GameConstants.ActionType;
+import common.GameConstants.SpaceThingType;
 
 
 public class MineLayerShip extends AbstractShip {
@@ -233,5 +233,18 @@ public class MineLayerShip extends AbstractShip {
 		return obstacles;
 	}
 	
+	public boolean hasMines(){
+		return !mines.isEmpty();
+	}
+	
+	public ArrayList<Mine> getMines(){
+		return mines;
+	}
+	
+	@Override
+	public SpaceThingType getShipType() {
+		return SpaceThingType.MineLayerShip;
+		
+	}
 	
 }

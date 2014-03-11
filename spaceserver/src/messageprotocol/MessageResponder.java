@@ -6,6 +6,8 @@ import java.util.LinkedList;
 import logic.FleetCommander;
 import logic.GameHandler;
 import logic.StarBoard;
+import logic.spacethings.Mine;
+import logic.spacethings.MineLayerShip;
 import logic.spacethings.SpaceThing;
 
 import common.GameConstants;
@@ -26,6 +28,14 @@ public class MessageResponder {
 				SpaceThing thing = board.getSpaceThing(x, y);
 				if (thing != null && !states.containsKey(thing.getID())){
 					states.put(thing.getID(), thing.genGameStateMessage());
+					if (thing instanceof MineLayerShip){
+						MineLayerShip mShip = (MineLayerShip) thing;
+						if(mShip.hasMines()){
+							for (Mine m : mShip.getMines()){
+								states.put(thing.getID(), m.genGameStateMessage());
+							}
+						}
+					}
 				}
 			}
 		}
@@ -42,9 +52,11 @@ public class MessageResponder {
 		return boolVis;
 	}
 	
+	
 	private NewTurnMessage createNewTurnMessage(int playerID, ActionMessage action, LinkedList<GameStateMessage> state){
 		FleetCommander fc = handler.getFleetCommander(playerID);
 		return new NewTurnMessage(action, state,
 				convertVisibility(fc.getRadarVisibility()), convertVisibility(fc.getSonarVisibility()));
 	}
+	
 }

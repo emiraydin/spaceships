@@ -8,9 +8,9 @@ import logic.AbstractWeapon;
 import logic.Cannon;
 import logic.FleetCommander;
 import logic.StarBoard;
-
 import common.GameConstants.ActionType;
 import common.GameConstants.OrientationType;
+import common.GameConstants.SpaceThingType;
 
 public class RadarBoatShip extends AbstractShip {
 	public RadarBoatShip(int x, int y, FleetCommander owner, StarBoard gameBoard) {
@@ -317,6 +317,12 @@ public class RadarBoatShip extends AbstractShip {
 		}
 		
 		return obstacles;
+	}
+	
+	@Override
+	public SpaceThingType getShipType() {
+		return SpaceThingType.RadarBoatShip;
+		
 	}
 	
 }

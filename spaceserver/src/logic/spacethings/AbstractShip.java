@@ -30,9 +30,11 @@ public abstract class AbstractShip extends SpaceThing {
 	@Override
 	public GameStateMessage genGameStateMessage() {
 		//TODO: finish
-		return new GameStateMessage(getID(), getOwner().getPlayer(), SpaceThingType.BaseTile, 
+		return new GameStateMessage(getID(), getOwner().getPlayer(), getShipType(), 
 				getX(), getY(), orientation, sectionHealth);
 	}
+	
+	public abstract SpaceThingType getShipType();
 	
 	public AbstractShip(int x, int y, FleetCommander owner, StarBoard gameBoard){
 		super(x, y, owner, gameBoard);
@@ -396,4 +398,5 @@ public abstract class AbstractShip extends SpaceThing {
 		return null;
 	}
 }	
+
 	

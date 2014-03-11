@@ -27,8 +27,8 @@ public class BaseTile extends SpaceThing {
 
 	@Override
 	public GameStateMessage genGameStateMessage() {
-		//TODO: finish
-		return new GameStateMessage(getID(), null, SpaceThingType.BaseTile, getX(), getY(), null, null);
+		return new GameStateMessage(getID(), null, SpaceThingType.BaseTile, 
+				getX(), getY(), null, new int[]{health});
 	}
 	
 	

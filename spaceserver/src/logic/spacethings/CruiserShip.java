@@ -8,9 +8,9 @@ import logic.AbstractWeapon;
 import logic.FleetCommander;
 import logic.HeavyCannon;
 import logic.StarBoard;
-
 import common.GameConstants.ActionType;
 import common.GameConstants.OrientationType;
+import common.GameConstants.SpaceThingType;
 
 public class CruiserShip extends AbstractShip {
 	public CruiserShip(int x, int y, FleetCommander owner, StarBoard gameBoard){
@@ -145,6 +145,12 @@ public class CruiserShip extends AbstractShip {
 		}
 		
 		return obstacles;
+	}
+
+	@Override
+	public SpaceThingType getShipType() {
+		return SpaceThingType.CruiserShip;
+		
 	}
 
 }

@@ -9,9 +9,9 @@ import logic.Cannon;
 import logic.FleetCommander;
 import logic.StarBoard;
 import logic.TorpedoLauncher;
-
 import common.GameConstants.ActionType;
 import common.GameConstants.OrientationType;
+import common.GameConstants.SpaceThingType;
 
 public class DestroyerShip extends AbstractShip {
 	public DestroyerShip(int x, int y, FleetCommander owner, StarBoard gameBoard){
@@ -147,5 +147,11 @@ public class DestroyerShip extends AbstractShip {
 		}
 		
 		return obstacles;
+	}
+	
+	@Override
+	public SpaceThingType getShipType() {
+		return SpaceThingType.DestroyerShip;
+		
 	}
 }
