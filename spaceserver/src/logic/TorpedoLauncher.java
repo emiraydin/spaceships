@@ -47,6 +47,7 @@ public class TorpedoLauncher extends AbstractWeapon {
 		int torpedoX = -1;
 		int torpedoY = -1;
 		
+		// UPDATED FOR NEW ORIGIN CONVENTION
 		switch(owner.getOrientation()) { 
 		case East:
 			torpedoLauncherX = shipX + shipLength - 1;
@@ -80,8 +81,8 @@ public class TorpedoLauncher extends AbstractWeapon {
 			break;
 		case North:
 			torpedoX = shipX;
-			torpedoLauncherY = shipY - shipLength + 1;
-			for(torpedoY = torpedoLauncherY; torpedoY >= torpedoLauncherY - MAX_RANGE; torpedoY--) { 
+			torpedoLauncherY = shipY + shipLength - 1;
+			for(torpedoY = torpedoLauncherY; torpedoY <= torpedoLauncherY + MAX_RANGE; torpedoY++) { 
 				if(!GameBoard.inBounds(torpedoX, torpedoY)) { 
 					break;
 				}
@@ -94,8 +95,8 @@ public class TorpedoLauncher extends AbstractWeapon {
 			break;
 		case South:
 			torpedoX = shipX;
-			torpedoLauncherY = shipY + shipLength - 1;
-			for(torpedoY = torpedoLauncherY; torpedoY <= torpedoLauncherY + MAX_RANGE; torpedoY++) { 
+			torpedoLauncherY = shipY - shipLength + 1;
+			for(torpedoY = torpedoLauncherY; torpedoY >= torpedoLauncherY - MAX_RANGE; torpedoY--) { 
 				if(!GameBoard.inBounds(torpedoX, torpedoY)) { 
 					break;
 				}
@@ -133,7 +134,7 @@ public class TorpedoLauncher extends AbstractWeapon {
 		/* Obstacle is mine */
 		else if(spaceThing instanceof Mine) { 
 			// mine is destroyed without exploding
-			owner.getGameBoard().clearSpaceThing(spaceThing.getX(), spaceThing.getY());
+			owner.getGameBoard().clearSpaceThing(x, y);
 		}
 		
 		/* Obstacle is base */
