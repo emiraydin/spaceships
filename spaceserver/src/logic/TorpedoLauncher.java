@@ -53,7 +53,7 @@ public class TorpedoLauncher extends AbstractWeapon {
 			torpedoLauncherX = shipX + shipLength - 1;
 			torpedoY = shipY;
 			for(torpedoX = torpedoLauncherX; torpedoX <= torpedoLauncherX + MAX_RANGE; torpedoX++) { 
-				if(!GameBoard.inBounds(torpedoX, torpedoY)) { 
+				if(!StarBoard.inBounds(torpedoX, torpedoY)) { 
 					break;
 				}
 				SpaceThing spaceThing = owner.getGameBoard().getSpaceThing(torpedoX, torpedoY);  
@@ -68,7 +68,7 @@ public class TorpedoLauncher extends AbstractWeapon {
 			torpedoLauncherX = shipX - shipLength + 1;
 			torpedoY = shipY;
 			for(torpedoX = torpedoLauncherX; torpedoX >= torpedoLauncherX - MAX_RANGE; torpedoX--) { 
-				if(!GameBoard.inBounds(torpedoX, torpedoY)) { 
+				if(!StarBoard.inBounds(torpedoX, torpedoY)) { 
 					break;
 				}
 				SpaceThing spaceThing = owner.getGameBoard().getSpaceThing(torpedoX, torpedoY);
@@ -83,7 +83,7 @@ public class TorpedoLauncher extends AbstractWeapon {
 			torpedoX = shipX;
 			torpedoLauncherY = shipY + shipLength - 1;
 			for(torpedoY = torpedoLauncherY; torpedoY <= torpedoLauncherY + MAX_RANGE; torpedoY++) { 
-				if(!GameBoard.inBounds(torpedoX, torpedoY)) { 
+				if(!StarBoard.inBounds(torpedoX, torpedoY)) { 
 					break;
 				}
 				SpaceThing spaceThing = owner.getGameBoard().getSpaceThing(torpedoX, torpedoY);
@@ -97,7 +97,7 @@ public class TorpedoLauncher extends AbstractWeapon {
 			torpedoX = shipX;
 			torpedoLauncherY = shipY - shipLength + 1;
 			for(torpedoY = torpedoLauncherY; torpedoY >= torpedoLauncherY - MAX_RANGE; torpedoY--) { 
-				if(!GameBoard.inBounds(torpedoX, torpedoY)) { 
+				if(!StarBoard.inBounds(torpedoX, torpedoY)) { 
 					break;
 				}
 				SpaceThing spaceThing = owner.getGameBoard().getSpaceThing(torpedoX, torpedoY);

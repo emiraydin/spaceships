@@ -7,12 +7,12 @@ import static common.GameConstants.BOARD_HEIGHT;
 import static common.GameConstants.BOARD_WIDTH;
 import static common.GameConstants.NUM_ASTEROIDS;
 
-public class GameBoard {
+public class StarBoard {
 	SpaceThing[][] map;
 	int gameID;
 	int thingIDCount;
 	
-	public GameBoard(int gameID){
+	public StarBoard(int gameID){
 		map = new SpaceThing[BOARD_HEIGHT][BOARD_WIDTH];
 		this.gameID = gameID;
 		thingIDCount = 0;

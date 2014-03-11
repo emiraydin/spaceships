@@ -1,12 +1,16 @@
 package logic.spacethings;
 
-import logic.GameBoard;
+import logic.FleetCommander;
+import logic.StarBoard;
+import messageprotocol.GameStateMessage;
+
+import common.GameConstants.SpaceThingType;
 
 public class BaseTile extends SpaceThing {
 	private int health = 1;
 	
-	public BaseTile(int x, int y, GameBoard gameBoard){
-		super(x, y, gameBoard);
+	public BaseTile(int x, int y, FleetCommander owner, StarBoard gameBoard){
+		super(x, y, owner, gameBoard);
 	}
 
 	public int getHealth() {
@@ -20,4 +24,12 @@ public class BaseTile extends SpaceThing {
 	public void decrementBaseHealth(int amount) { 
 		this.health = this.health - amount;
 	}
+
+	@Override
+	public GameStateMessage genGameStateMessage() {
+		//TODO: finish
+		return new GameStateMessage(getID(), null, SpaceThingType.BaseTile, getX(), getY(), null, null);
+	}
+	
+	
 }

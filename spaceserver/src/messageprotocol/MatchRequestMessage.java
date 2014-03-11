@@ -1,6 +1,5 @@
 package messageprotocol;
 
-import util.MatchMaker;
 import util.PlayerProfile;
 
 public class MatchRequestMessage implements Message {

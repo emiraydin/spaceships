@@ -1,22 +1,20 @@
 package logic.spacethings;
 
+import common.GameConstants.SpaceThingType;
+
 import logic.FleetCommander;
-import logic.GameBoard;
+import logic.StarBoard;
+import messageprotocol.GameStateMessage;
 
 public class Mine extends SpaceThing {
 	
 	private static final int damage = 2;
-	private FleetCommander owner;
+//	private FleetCommander owner;
 	
-	public Mine(GameBoard gameBoard){
-		super(-1, -1, gameBoard);
+	public Mine(FleetCommander owner, StarBoard gameBoard){
+		super(-1, -1, owner, gameBoard);
 	}
 	
-	public Mine(FleetCommander fc, int gameID, GameBoard gameBoard){
-		super(-1, -1, gameBoard);
-		owner = fc;
-	}
-
 	/** 
 	 * Mine detonates and damages anything adjacent to it.
 	 * @return False if there's a problem, true otherwise.
@@ -65,17 +63,23 @@ public class Mine extends SpaceThing {
 		return damage;
 	}
 	
-	public FleetCommander getOwner(){
-		return owner;
-	}
-	
-	public void setOwner(FleetCommander fc){
-		owner = fc;
-	}
+//	public FleetCommander getOwner(){
+//		return owner;
+//	}
+//	
+//	public void setOwner(FleetCommander fc){
+//		owner = fc;
+//	}
 	
 	public void setLocation(int x, int y) { 
 		this.setX(x);
 		this.setY(y);
+	}
+
+	@Override
+	public GameStateMessage genGameStateMessage() {
+		return new GameStateMessage(getID(), getOwner().getPlayer(), SpaceThingType.Mine, 
+				getX(), getY(), null, null);
 	}
 	
 }

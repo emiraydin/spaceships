@@ -6,15 +6,16 @@ import java.util.List;
 
 import logic.AbstractWeapon;
 import logic.Cannon;
-import logic.GameBoard;
+import logic.FleetCommander;
+import logic.StarBoard;
 import logic.TorpedoLauncher;
 
 import common.GameConstants.ActionType;
 import common.GameConstants.OrientationType;
 
 public class DestroyerShip extends AbstractShip {
-	public DestroyerShip(int x, int y, GameBoard gameBoard){
-		super(x, y, gameBoard);
+	public DestroyerShip(int x, int y, FleetCommander owner, StarBoard gameBoard){
+		super(x, y, owner, gameBoard);
 		
 		this.speed = 8;
 		this.length = 4;

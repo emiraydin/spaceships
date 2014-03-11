@@ -3,18 +3,18 @@ package logic.spacethings;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import logic.AbstractWeapon;
 import logic.Cannon;
-import logic.GameBoard;
+import logic.FleetCommander;
+import logic.StarBoard;
 
 import common.GameConstants.ActionType;
 import common.GameConstants.OrientationType;
 
 public class RadarBoatShip extends AbstractShip {
-	public RadarBoatShip(int x, int y, GameBoard gameBoard) {
-		super(x, y, gameBoard);
+	public RadarBoatShip(int x, int y, FleetCommander owner, StarBoard gameBoard) {
+		super(x, y, owner, gameBoard);
 		
 		this.length = 3;
 		// by default, speed is 3

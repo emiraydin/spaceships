@@ -8,10 +8,10 @@ import logic.spacethings.MineLayerShip;
 import logic.spacethings.RadarBoatShip;
 import logic.spacethings.SpaceThing;
 import logic.spacethings.TorpedoBoatShip;
-
 import common.GameConstants;
 import common.GameConstants.ActionType;
 import common.GameConstants.OrientationType;
+import common.GameConstants.PlayerNumber;
 import common.GameConstants.VisibilityType;
 import common.GameConstants.WeaponType;
 
@@ -19,9 +19,9 @@ public class FleetCommander {
 	private int[][] sonarVisibility, radarVisibility;
 	private int fcID;
 	private ArrayList<AbstractShip> ships;
-	private GameBoard board;
+	private StarBoard board;
 	
-	public FleetCommander(int fcID, GameBoard board){
+	public FleetCommander(int fcID, StarBoard board){
 		super();
 		this.fcID = fcID;
 		sonarVisibility = new int[30][30];
@@ -37,6 +37,14 @@ public class FleetCommander {
 		ships.add(ship);
 	}
 	
+	public int[][] getSonarVisibility() {
+		return sonarVisibility;
+	}
+
+	public int[][] getRadarVisibility() {
+		return radarVisibility;
+	}
+
 	/**
 	 * Perform an attack using a specified weapon.
 	 * @param wType Weapon to be used.
@@ -153,6 +161,7 @@ public class FleetCommander {
 		}
 		
 		int speed = ship.getSpeed();
+		// THESE FOLLOW NEW ORIGIN CONVENTION
 		switch (ship.getOrientation()){
 		case East:
 			if (x < ship.getX()){
@@ -164,7 +173,7 @@ public class FleetCommander {
 			} else {
 				return true;
 			}
-		case North:
+		case South:
 			if (y > ship.getY()){
 				return false;
 			} else if (y < ship.getY() - speed){
@@ -174,7 +183,7 @@ public class FleetCommander {
 			} else {
 				return true;
 			}
-		case South:
+		case North:
 			if (y < ship.getY()){
 				return false;
 			} else if (y > ship.getY() + speed){
@@ -385,7 +394,7 @@ public class FleetCommander {
 		int radarLength = ship.getRadarVisibilityLength();
 		int radarWidth = ship.getRadarVisibilityWidth();
 		int radarLengthOffset = ship.getRadarVisibilityLengthOffset();
-		
+		// THESE FOLLOW NEW ORIGIN CONVENTION
 		int minX = -1;
 		int maxX = -1;
 		int minY = -1;
@@ -403,13 +412,13 @@ public class FleetCommander {
 			minY = shipY - radarWidth/2;
 			maxY = shipY + radarWidth/2;
 			break;
-		case North: 
+		case South: 
 			minX = shipX - radarWidth/2;
 			maxX = shipX + radarWidth/2;
 			maxY = shipY - radarLengthOffset;
 			minY = maxY - radarLength;
 			break;
-		case South: 
+		case North: 
 			minX = shipX - radarWidth/2;
 			maxX = shipX + radarWidth/2;
 			minY = shipY + radarLengthOffset;
@@ -419,7 +428,7 @@ public class FleetCommander {
 		
 		for(int i = minX; i <= maxX; i++) { 
 			for(int j = minY; j <= maxY; j++) { 
-				if(GameBoard.inBounds(i, j)) { 
+				if(StarBoard.inBounds(i, j)) { 
 					radarVisibility[i][j] = radarVisibility[i][j] + change;
 				}
 			}
@@ -443,7 +452,7 @@ public class FleetCommander {
 	}
 	
 	private void changeSonarVisibility(int x, int y, int change) { 
-		if(GameBoard.inBounds(x, y)) { 
+		if(StarBoard.inBounds(x, y)) { 
 			sonarVisibility[x][y] = sonarVisibility[x][y] + change; 
 		}
 	}
@@ -470,6 +479,21 @@ public class FleetCommander {
 			}
 		}
 		return null;
+	}
+	
+	public int getID(){
+		return fcID;
+	}
+	
+	public PlayerNumber getPlayer(){
+		if (fcID == 0){
+			return PlayerNumber.PlayerOne;
+		} else if (fcID == 1){
+			return PlayerNumber.PlayerTwo;
+		} else {
+			System.out.println("ABORT ABORT EVERYTHING IS BROKEN");
+			return null;
+		}
 	}
 	
 	public boolean hasLivingShips(){

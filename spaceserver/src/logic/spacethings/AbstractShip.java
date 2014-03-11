@@ -5,10 +5,13 @@ import java.util.List;
 import java.util.Random;
 
 import logic.AbstractWeapon;
-import logic.GameBoard;
+import logic.FleetCommander;
+import logic.StarBoard;
+import messageprotocol.GameStateMessage;
 
 import common.GameConstants.ActionType;
 import common.GameConstants.OrientationType;
+import common.GameConstants.SpaceThingType;
 import common.GameConstants.WeaponType;
 
 public abstract class AbstractShip extends SpaceThing {
@@ -19,17 +22,20 @@ public abstract class AbstractShip extends SpaceThing {
 	protected int cannonWidth;					// entire width (both sides)
 	protected int cannonLength;
 	protected int cannonLengthOffset; 			// towards head is positive
-//	protected int sonarVisibilityWidth;
-//	protected int sonarVisibilityLength;
 	protected int radarVisibilityWidth;			// entire width (both sides)
 	protected int radarVisibilityLength;
 	protected int radarVisibilityLengthOffset;	// towards head is positive
-//	private ActionType[] possibleActions;
 	protected AbstractWeapon[] arsenal;
 	
+	@Override
+	public GameStateMessage genGameStateMessage() {
+		//TODO: finish
+		return new GameStateMessage(getID(), getOwner().getPlayer(), SpaceThingType.BaseTile, 
+				getX(), getY(), orientation, sectionHealth);
+	}
 	
-	public AbstractShip(int x, int y, GameBoard gameBoard){
-		super(x, y, gameBoard);
+	public AbstractShip(int x, int y, FleetCommander owner, StarBoard gameBoard){
+		super(x, y, owner, gameBoard);
 	}
 	
 	public int[][] getShipCoords(){
@@ -39,12 +45,13 @@ public abstract class AbstractShip extends SpaceThing {
 	public int[][] getShipCoords(int x, int y){
 		int[][] coords = new int[length][2];
 		switch (orientation){
-		case North:
+		// ORIENTATION FOLLOWS NEW ORIGIN CONVENTION
+		case South:
 			for (int i = 0; i < length; i++){
 				coords[i][0] = x;
 				coords[i][1] = y - i;
 			}
-		case South:
+		case North:
 			for (int i = 0; i < length; i++){
 				coords[i][0] = x;
 				coords[i][1] = y + i;
@@ -91,7 +98,7 @@ public abstract class AbstractShip extends SpaceThing {
 	 * @return True if successful collision, false otherwise
 	 */
 	public boolean collide(int shipX, int shipY, int obstacleX, int obstacleY) { 
-		GameBoard board = this.getGameBoard();
+		StarBoard board = this.getGameBoard();
 		SpaceThing spaceThing = this.getGameBoard().getSpaceThing(obstacleX, obstacleY);
 		
 		// basic check 
@@ -157,7 +164,6 @@ public abstract class AbstractShip extends SpaceThing {
 	}
 	
 	public boolean useWeapon(WeaponType wType, int x, int y){
-		//TODO: useWeapon()
 		for (int i = 0; i < arsenal.length; i++){
 			if (arsenal[i].getType() == wType){
 				return arsenal[i].fire(x, y);
@@ -231,14 +237,6 @@ public abstract class AbstractShip extends SpaceThing {
 		return cannonLengthOffset;
 	}
 
-//	public int getSonarVisibilityWidth() {
-//		return sonarVisibilityWidth;
-//	}
-//
-//	public int getSonarVisibilityLength() {
-//		return sonarVisibilityLength;
-//	}
-
 	public int getRadarVisibilityWidth() {
 		return radarVisibilityWidth;
 	}
@@ -276,7 +274,7 @@ public abstract class AbstractShip extends SpaceThing {
 	 * @return False if this location puts ship out of bounds, true otherwise.
 	 */
 	protected boolean addObstacleToList(int x, int y, List<Point> list) { 
-		if(!GameBoard.inBounds(x, y)) { 
+		if(!StarBoard.inBounds(x, y)) { 
 			System.out.println("Ship would be out of bounds at (" + x + "," + y + ")");
 			return false;
 		}

@@ -6,8 +6,9 @@ import java.util.List;
 
 import logic.AbstractWeapon;
 import logic.Cannon;
-import logic.GameBoard;
+import logic.FleetCommander;
 import logic.MineLayer;
+import logic.StarBoard;
 
 import common.GameConstants.ActionType;
 
@@ -16,14 +17,12 @@ public class MineLayerShip extends AbstractShip {
 	private ArrayList<Mine> mines;
 	private static int NUM_MINES = 5;
 	
-	public MineLayerShip(int x, int y, GameBoard gameBoard){
-		super(x, y, gameBoard);
+	public MineLayerShip(int x, int y, FleetCommander owner, StarBoard gameBoard){
+		super(x, y, owner, gameBoard);
 		
 		mines = new ArrayList<Mine>(NUM_MINES);
 		for (int i = 0; i < NUM_MINES; i++){
-			//TODO: Add id generation
-			// ^ fixed? lol
-			mines.add(new Mine(gameBoard));
+			mines.add(new Mine(owner, gameBoard));
 		}
 		
 		this.length = 2;
@@ -66,7 +65,7 @@ public class MineLayerShip extends AbstractShip {
 	 */
 	public boolean inSonarRange(int x, int y) { 
 		// TODO: cant drop a mine directly under a ship
-		if(!GameBoard.inBounds(x, y)) { 
+		if(!StarBoard.inBounds(x, y)) { 
 			return false;
 		}
 		

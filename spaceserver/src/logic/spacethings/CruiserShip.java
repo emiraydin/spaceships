@@ -4,16 +4,17 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
+import logic.AbstractWeapon;
+import logic.FleetCommander;
+import logic.HeavyCannon;
+import logic.StarBoard;
+
 import common.GameConstants.ActionType;
 import common.GameConstants.OrientationType;
 
-import logic.AbstractWeapon;
-import logic.GameBoard;
-import logic.HeavyCannon;
-
 public class CruiserShip extends AbstractShip {
-	public CruiserShip(int x, int y, GameBoard gameBoard){
-		super(x, y, gameBoard);
+	public CruiserShip(int x, int y, FleetCommander owner, StarBoard gameBoard){
+		super(x, y, owner, gameBoard);
 		
 		this.length = 5;
 		this.speed = 10;

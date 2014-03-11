@@ -3,20 +3,20 @@ package logic.spacethings;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+
+import logic.AbstractWeapon;
+import logic.Cannon;
+import logic.FleetCommander;
+import logic.StarBoard;
+import logic.TorpedoLauncher;
 
 import common.GameConstants.ActionType;
 import common.GameConstants.OrientationType;
 
-import logic.AbstractWeapon;
-import logic.Cannon;
-import logic.GameBoard;
-import logic.TorpedoLauncher;
-
 
 public class TorpedoBoatShip extends AbstractShip {
-	public TorpedoBoatShip(int x, int y, GameBoard gameBoard) {
-		super(x, y, gameBoard);
+	public TorpedoBoatShip(int x, int y, FleetCommander owner, StarBoard gameBoard) {
+		super(x, y, owner, gameBoard);
 		
 		this.length = 3;
 		this.speed = 9;

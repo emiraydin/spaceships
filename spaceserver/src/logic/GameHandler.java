@@ -10,13 +10,14 @@ public class GameHandler {
 	
 //	FleetCommander fc1, fc2;
 	FleetCommander[] players;
-	GameBoard board;
+	
+	StarBoard board;
 	
 	public GameHandler() {
 		// Create new game!
 		//TODO: Technically GameBoard expects a gameID, but it doesn't really need one
 		// So we could take it out of the constructor...
-		board = new GameBoard(0);
+		board = new StarBoard(0);
 		players = new FleetCommander[2];
 		players[0] = new FleetCommander(0, board);
 		players[1] = new FleetCommander(1, board);
@@ -51,7 +52,8 @@ public class GameHandler {
 			break;
 		case Repair:
 			break;
-		case Turn180:
+		case Turn180Left:
+		case Turn180Right:
 		case TurnLeft:
 		case TurnRight:
 			players[playerID].turnShip(shipID, aType);
@@ -78,4 +80,16 @@ public class GameHandler {
 			return WinState.Playing;
 		}
 	}
+	
+	public FleetCommander getFleetCommander(int playerID){
+		if (playerID == 0 || playerID == 1){
+			return players[playerID];
+		}
+		return null;
+	}
+	
+	public StarBoard getBoard() {
+		return board;
+	}
+	
 }

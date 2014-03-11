@@ -1,19 +1,25 @@
 package logic.spacethings;
 
-import logic.GameBoard;
+import logic.FleetCommander;
+import logic.StarBoard;
+import messageprotocol.GameStateMessage;
 
 public abstract class SpaceThing {
 	private int x, y;
 	private int id;
-	private GameBoard gameBoard;
+	private FleetCommander owner;
+	private StarBoard gameBoard;
 	
-	public SpaceThing(int x, int y, GameBoard gameBoard){
+	public SpaceThing(int x, int y, FleetCommander owner, StarBoard gameBoard){
 		this.x = x;
 		this.y = y;
 		this.gameBoard = gameBoard;
+		this.owner = owner;
 		this.id = gameBoard.nextID();
 	}
 	
+	public abstract GameStateMessage genGameStateMessage();
+
 	public int getX() {
 		return x;
 	}
@@ -34,7 +40,12 @@ public abstract class SpaceThing {
 		return id;
 	}
 	
-	public GameBoard getGameBoard() { 
+	public FleetCommander getOwner(){
+		return owner;
+	}
+	
+	public StarBoard getGameBoard() { 
 		return gameBoard;
 	}
+	
 }

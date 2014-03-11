@@ -86,7 +86,7 @@ public class Cannon extends AbstractWeapon {
 			break;
 		}
 		
-		if(minX <= x && maxX >= x && minY <= y && maxY >= y && GameBoard.inBounds(x, y)) { 
+		if(minX <= x && maxX >= x && minY <= y && maxY >= y && StarBoard.inBounds(x, y)) { 
 			return true;
 		}
 		return false;
