@@ -27,23 +27,6 @@ public class Mine extends SpaceThing {
 			return false;
 		}
 		
-		detonate(x, y-1);
-		detonate(x, y+1);
-		detonate(x-1, y);
-		detonate(x+1, y);	
-		
-		// remove mine from game after detonation
-		this.getGameBoard().clearSpaceThing(this.getX(), this.getY());
-		
-		return true;
-	}
- 	
-	/**
-	 * Does damage to a particular coordinate.
-	 * @param x
-	 * @param y
-	 */
-	private void detonate(int x, int y){
 		if (getGameBoard().getSpaceThing(x, y) instanceof AbstractShip){
 			AbstractShip ship = (AbstractShip) getGameBoard().getSpaceThing(x, y);
 			int section = ship.getSectionAt(x, y);
@@ -55,9 +38,11 @@ public class Mine extends SpaceThing {
 			}
 			ship.decrementSectionHealth(damage, section);
 			ship.decrementSectionHealth(damage, section2);
-		}
-		// TODO: do mines damage the base? or other mines lol 
+		}	
 		
+		// remove mine from game after detonation
+		this.getGameBoard().clearSpaceThing(this.getX(), this.getY());	
+		return true;
 	}
 	
 	public static int getDamage(){
