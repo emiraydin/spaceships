@@ -65,6 +65,8 @@ public class TCPClient implements Runnable {
 					break;
 			}
 			connectionClosed = true;
+			// Exit the client application
+			System.exit(0);
 			
 		} catch (IOException e) {
 			System.err.println(e);
