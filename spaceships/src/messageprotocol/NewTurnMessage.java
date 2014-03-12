@@ -19,19 +19,23 @@ public class NewTurnMessage implements Serializable {
 	/**
 	 * Whatever action has taken place this turn.
 	 */
-	ActionMessage action;
+	private ActionMessage action;
 	
 	/**
 	 * A list of state messages for updating the GameState.
 	 */
-	LinkedList<GameStateMessage> state;
-	boolean turnSuccess;
+	private LinkedList<GameStateMessage> state;
+	
+	/**
+	 * Whether or not the turn was successful.
+	 */
+	private boolean turnSuccess;
 	
 	/**
 	 * Radar and sonar visibility.
 	 */
-	boolean[][] radarVisibleTiles;
-	boolean[][] sonarVisibleTiles;
+	private boolean[][] radarVisibleTiles;
+	private boolean[][] sonarVisibleTiles;
 	
 	/**
 	 * Construct the NewTurnMessage.
@@ -49,7 +53,7 @@ public class NewTurnMessage implements Serializable {
 			boolean[][] radarVisibleTiles,
 			boolean[][]	sonarVisibleTiles
 					) {
-		
+		this.turnSuccess = turnSuccess;
 		this.action = action;
 		
 		// If the state is null, then make an empty linked list.
@@ -152,6 +156,14 @@ public class NewTurnMessage implements Serializable {
 		} else if (!state.equals(other.state))
 			return false;
 		return true;
+	}
+
+	public boolean isTurnSuccess() {
+		return turnSuccess;
+	}
+
+	public void setTurnSuccess(boolean turnSuccess) {
+		this.turnSuccess = turnSuccess;
 	}
 	
 	

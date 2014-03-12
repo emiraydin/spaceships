@@ -85,26 +85,26 @@ public abstract class AbstractShip extends SpaceThing
 	 * Methods
 	 */	
 	
-	/**
-	 * Update the ships properties after a turn.
-	 * Nothing changes if you pass null params.
-	 *  
-	 * @param posX new x position on map
-	 * @param posY new y position on map
-	 * @param orientation new orientation
-	 * @param sectionHealth new sectionHealth array
-	 */
-	public void updateProperties(int posX, int posY, OrientationType orientation, int[] sectionHealth) {
-		this.setX(posX);
-		this.setY(posY);
-		if (orientation != null) {
-			this.setOrientation(orientation);			
-		}
-		if (sectionHealth != null) {
-			this.sectionHealth = sectionHealth.clone();			
-		}
-
-	}
+//	/**
+//	 * Update the ships properties after a turn.
+//	 * Nothing changes if you pass null params.
+//	 *  
+//	 * @param posX new x position on map
+//	 * @param posY new y position on map
+//	 * @param orientation new orientation
+//	 * @param sectionHealth new sectionHealth array
+//	 */
+//	public void updateProperties(int posX, int posY, OrientationType orientation, int[] sectionHealth) {
+//		this.setX(posX);
+//		this.setY(posY);
+//		if (orientation != null) {
+//			this.setOrientation(orientation);			
+//		}
+//		if (sectionHealth != null) {
+//			this.sectionHealth = sectionHealth.clone();			
+//		}
+//
+//	}
 	
 	/**
 	 * Do we need this function on the client?
@@ -147,6 +147,9 @@ public abstract class AbstractShip extends SpaceThing
 	/*
 	 * Basic Getters...
 	 */
+	public void setSectionHealth(int[] input) {
+		this.sectionHealth = input.clone();
+	}
 	public int[] getSectionHealth() {
 		return this.sectionHealth.clone();
 	}

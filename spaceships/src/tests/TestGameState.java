@@ -29,6 +29,8 @@ public class TestGameState
 	boolean[][]	sonarVisibleTiles = null;
 	NewTurnMessage message = null;
 	NewTurnMessage message2 = null;
+	
+	int[] newHealth;
 
 	@Before
 	public void setUp() throws Exception
@@ -37,7 +39,7 @@ public class TestGameState
 		radarVisibleTiles = new boolean[5][5];
 		sonarVisibleTiles = new boolean[5][5];
 		
-		message = new NewTurnMessage(action, null, radarVisibleTiles, sonarVisibleTiles);
+		message = new NewTurnMessage(action, true, null, radarVisibleTiles, sonarVisibleTiles);
 		
 		message.addStateMessage(new GameStateMessage(
 				0,
@@ -49,7 +51,10 @@ public class TestGameState
 				null)
 		);
 		
-		message2 = new NewTurnMessage(null, null, null, null);
+		newHealth = new int[2];
+		newHealth[0] = 1;
+		newHealth[1] = 2;
+		message2 = new NewTurnMessage(null, true, null, null, null);
 		message2.addStateMessage(new GameStateMessage(
 				0,
 				PlayerNumber.PlayerOne,
@@ -57,7 +62,7 @@ public class TestGameState
 				17,
 				18,
 				OrientationType.West,
-				null)
+				newHealth)
 		);	
 		message2.addStateMessage(new GameStateMessage(
 				5,
@@ -97,6 +102,7 @@ public class TestGameState
 		
 		// Should now have 2 things
 		assertEquals(2, GameState.getNumSpaceThings());
+		
 		
 		try {
 			System.out.println(GameState.getSpaceThing(0).toString());
