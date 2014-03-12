@@ -29,8 +29,8 @@ public class GameHandler {
 		board = new StarBoard(0);
 		responder = new MessageResponder(this);
 		players = new FleetCommander[2];
-		players[0] = new FleetCommander(0, board);
-		players[1] = new FleetCommander(1, board);
+		players[0] = new FleetCommander(0, board, this);
+		players[1] = new FleetCommander(1, board, this);
 		board.generateAsteroids();
 		for (int playerId = 0; playerId <= 1; playerId++){
 			for (int basenum = 0; basenum < 10; basenum++){
@@ -97,7 +97,7 @@ public class GameHandler {
 				responder.moveFailed();
 			break;
 		case PickupMine:
-			if (players[playerID].pickupMine(shipID, x, y))
+			if (!players[playerID].pickupMine(shipID, x, y))
 				responder.moveFailed();
 			break;
 		case Place:
@@ -110,7 +110,7 @@ public class GameHandler {
 		case Turn180Right:
 		case TurnLeft:
 		case TurnRight:
-			if (players[playerID].turnShip(shipID, aType))
+			if (!players[playerID].turnShip(shipID, aType))
 				responder.moveFailed();
 			break;
 		}
@@ -145,6 +145,15 @@ public class GameHandler {
 	
 	public StarBoard getBoard() {
 		return board;
+	}
+	
+	/**
+	 * Call when there's a response the server needs to send the client
+	 * (e.g. collision)
+	 * @param message 
+	 */
+	public MessageResponder getMessageResponder() { 
+		return this.responder;
 	}
 	
 }

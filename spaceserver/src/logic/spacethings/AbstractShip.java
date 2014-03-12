@@ -162,6 +162,7 @@ public abstract class AbstractShip extends SpaceThing {
 				return arsenal[i].fire(x, y);
 			}
 		}
+		this.getOwner().setActionResponse(this.getShipType() + " does not have weapon type " + wType.toString());
 		return false;
 	}
 
