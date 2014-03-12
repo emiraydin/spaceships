@@ -48,4 +48,8 @@ public abstract class SpaceThing {
 		return gameBoard;
 	}
 	
+	public void setOwner(FleetCommander owner) { 
+		this.owner = owner;
+	}
+	
 }

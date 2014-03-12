@@ -56,6 +56,7 @@ public class MineLayerShip extends AbstractShip {
 	public void pickUpMine(Mine mine){
 		mines.add(mine);
 		mine.setLocation(-1, -1);
+		mine.setOwner(this.getOwner());
 	}
 	
 	/**

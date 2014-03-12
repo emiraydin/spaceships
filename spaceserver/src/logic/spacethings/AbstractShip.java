@@ -319,7 +319,7 @@ public abstract class AbstractShip extends SpaceThing {
 	 * @param direction Direction of turn
 	 * @return Point representing the final location.
 	 */
-	public Point getLocationAfterPivot(int x, int y, OrientationType startOrientation, ActionType direction) { 
+	protected Point getLocationAfterPivot(int x, int y, OrientationType startOrientation, ActionType direction) { 
 		// FOLLOWS NEW ORIGIN CONVENTION
 		if(this instanceof TorpedoBoatShip || this instanceof RadarBoatShip) { 
 			if(direction == ActionType.TurnLeft) {
@@ -361,7 +361,7 @@ public abstract class AbstractShip extends SpaceThing {
 	 * @param direction direction to turn (left or right)
 	 * @return the final orientation
 	 */
-	public OrientationType getOrientationAfterPivot(OrientationType orientation, ActionType direction) { 
+	protected OrientationType getOrientationAfterPivot(OrientationType orientation, ActionType direction) { 
 		if(direction == ActionType.TurnLeft) { 
 			switch(orientation) { 
 			case East:
