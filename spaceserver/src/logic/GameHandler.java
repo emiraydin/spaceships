@@ -7,6 +7,8 @@ import logic.spacethings.MineLayerShip;
 import logic.spacethings.RadarBoatShip;
 import logic.spacethings.TorpedoBoatShip;
 import messageprotocol.ActionMessage;
+import messageprotocol.MessageResponder;
+import messageprotocol.NewTurnMessage;
 import common.GameConstants.ActionType;
 import common.GameConstants.OrientationType;
 import common.GameConstants.WeaponType;
@@ -15,13 +17,17 @@ import common.GameConstants.WinState;
 public class GameHandler {
 	
 //	FleetCommander fc1, fc2;
-	FleetCommander[] players;
-	
-	StarBoard board;
+	private FleetCommander[] players;
+	static int gameIDCount = 0;
+	private int gameID;
+	private StarBoard board;
+	private MessageResponder responder;
 	
 	public GameHandler() {
 		// Create new game!
+		gameID = gameIDCount++;
 		board = new StarBoard(0);
+		responder = new MessageResponder(this);
 		players = new FleetCommander[2];
 		players[0] = new FleetCommander(0, board);
 		players[1] = new FleetCommander(1, board);
@@ -49,7 +55,7 @@ public class GameHandler {
 		board.setSpaceThing(new DestroyerShip(28, 17, OrientationType.West, players[1], board), 28, 17);
 		board.setSpaceThing(new DestroyerShip(28, 18, OrientationType.West, players[1], board), 28, 18);
 		board.setSpaceThing(new DestroyerShip(28, 19, OrientationType.West, players[1], board), 28, 19);
-		board.setSpaceThing(new TorpedoBoatShip(28, 21, OrientationType.West, players[0], board), 28, 20);
+		board.setSpaceThing(new TorpedoBoatShip(28, 21, OrientationType.West, players[1], board), 28, 20);
 		board.setSpaceThing(new TorpedoBoatShip(28, 228, OrientationType.West, players[1], board), 28, 21);
 		board.setSpaceThing(new MineLayerShip(28, 22, OrientationType.West, players[1], board), 28, 22);
 		board.setSpaceThing(new MineLayerShip(28, 23, OrientationType.West, players[1], board), 28, 23);
@@ -61,8 +67,11 @@ public class GameHandler {
 		//TODO: load game
 	}
 	
-	public void doAction(ActionMessage aMessage){
-		
+	public NewTurnMessage[] doAction(ActionMessage aMessage, int playerID){
+		responder.startMessage(aMessage);
+		doAction(aMessage.getAction(), aMessage.getSpaceThingId(), 
+				playerID, aMessage.getDestX(), aMessage.getDestY());
+		return new NewTurnMessage[]{responder.getResponse(0), responder.getResponse(1)};
 	}
 	
 	private void doAction(ActionType aType, int shipID, int playerID, int x, int y){
