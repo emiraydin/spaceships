@@ -21,8 +21,9 @@ public class FleetCommander {
 	private int fcID;
 	private ArrayList<AbstractShip> ships;
 	private StarBoard board;
+	private GameHandler handler;
 	
-	public FleetCommander(int fcID, StarBoard board){
+	public FleetCommander(int fcID, StarBoard board, GameHandler handler){
 		super();
 		this.fcID = fcID;
 		sonarVisibility = new int[30][30];
@@ -32,6 +33,7 @@ public class FleetCommander {
 		 * - enemies base and coral reefs are visible
 		 */
 		ships = new ArrayList<AbstractShip>();
+		this.handler = handler;
 	}
 	
 	public void addShip(AbstractShip ship){
@@ -45,6 +47,10 @@ public class FleetCommander {
 
 	public int[][] getRadarVisibility() {
 		return radarVisibility;
+	}
+	
+	public GameHandler getHandler() { 
+		return this.handler;
 	}
 
 	/**
@@ -239,7 +245,7 @@ public class FleetCommander {
 		AbstractShip ship = getShip(shipID);
 		SpaceThing thing = board.getSpaceThing(x, y);
 		if (ship instanceof MineLayerShip && thing instanceof Mine){
-			((MineLayerShip) ship).pickUpMine((Mine) thing);
+			return ((MineLayerShip) ship).pickUpMine((Mine) thing);
 		}
 		return false;
 	}
@@ -514,5 +520,9 @@ public class FleetCommander {
 			}
 		}
 		return false;
+	}
+	
+	public void setActionResponse(String response) { 
+		this.handler.getMessageResponder().setResponseMessage(response);
 	}
 }

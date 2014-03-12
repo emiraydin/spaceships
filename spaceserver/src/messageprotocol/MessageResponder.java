@@ -17,6 +17,7 @@ public class MessageResponder {
 	GameHandler handler;
 	ActionMessage aMessage;
 	boolean success;
+	String response;
 	
 	public MessageResponder(GameHandler handler) {
 		this.handler = handler;
@@ -30,6 +31,7 @@ public class MessageResponder {
 	public void startMessage(ActionMessage aMessage){
 		success = false;
 		this.aMessage = aMessage;
+		response = null;
 	}
 	
 	/**
@@ -39,11 +41,11 @@ public class MessageResponder {
 	 */
 	public NewTurnMessage getResponse(int playerID){
 		if (!success){
-			return new NewTurnMessage(aMessage, success, null, null, null);
+			return new NewTurnMessage(aMessage, success, response, null, null, null);
 		}
 		FleetCommander fc = handler.getFleetCommander(playerID);
 		
-		return new NewTurnMessage(aMessage, success, createStateMessages(),
+		return new NewTurnMessage(aMessage, success, response, createStateMessages(),
 				convertVisibility(fc.getRadarVisibility()), convertVisibility(fc.getSonarVisibility()));
 	}
 	
@@ -52,6 +54,15 @@ public class MessageResponder {
 	 */
 	public void moveFailed(){
 		success = false;
+	}
+	
+	/**
+	 * Call when there's a response the server needs to send the client
+	 * (e.g. collision)
+	 * @param message 
+	 */
+	public void setResponseMessage(String response) { 
+		this.response = response;
 	}
 	
 	private LinkedList<GameStateMessage> createStateMessages(){
