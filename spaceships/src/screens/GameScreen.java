@@ -55,7 +55,6 @@ public class GameScreen implements Screen
 	@Override
 	public void show() 
 	{
-		
 		// Create and Initialize GameScreenController. 
 		controller = new GameScreenController();
 		

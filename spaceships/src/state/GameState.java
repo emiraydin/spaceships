@@ -159,13 +159,7 @@ public class GameState
 		GameState.sonarVisibleTiles = sonarVisibleTiles;
 	}
 
-	/**
-	 * Returns the Spacething Hash
-	 */
-	public static HashMap<Integer, SpaceThing> getAllSpaceThings()
-	{
-		return things; 
-	}
+
 	
 
 
