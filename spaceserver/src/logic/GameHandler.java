@@ -75,35 +75,43 @@ public class GameHandler {
 	}
 	
 	private void doAction(ActionType aType, int shipID, int playerID, int x, int y){
-		//TODO: finish doAction method
 		if (playerID < 0 || playerID > 1){
 			// TODO: Notification for invalid playerid
 			return;
 		}
 		switch (aType){
 		case DropMine:
-			players[playerID].useWeapon(WeaponType.Mine, shipID, x, y);
+			if (!players[playerID].useWeapon(WeaponType.Mine, shipID, x, y))
+				responder.moveFailed();
 			break;
 		case FireCannon:
-			players[playerID].useWeapon(WeaponType.Cannon, shipID, x, y);
+			if (!players[playerID].useWeapon(WeaponType.Cannon, shipID, x, y))
+				responder.moveFailed();
 			break;
 		case FireTorpedo:
-			players[playerID].useWeapon(WeaponType.Torpedo, shipID, x, y);
+			if (!players[playerID].useWeapon(WeaponType.Torpedo, shipID, x, y))
+				responder.moveFailed();
 			break;
 		case Move:
-			players[playerID].moveShip(shipID, x, y);
+			if (players[playerID].moveShip(shipID, x, y) == 0)
+				responder.moveFailed();
 			break;
 		case PickupMine:
+			if (players[playerID].pickupMine(shipID, x, y))
+				responder.moveFailed();
 			break;
 		case Place:
+			// TODO
 			break;
 		case Repair:
+			// TODO
 			break;
 		case Turn180Left:
 		case Turn180Right:
 		case TurnLeft:
 		case TurnRight:
-			players[playerID].turnShip(shipID, aType);
+			if (players[playerID].turnShip(shipID, aType))
+				responder.moveFailed();
 			break;
 		}
 		
