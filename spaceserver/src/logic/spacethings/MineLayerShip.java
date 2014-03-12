@@ -75,31 +75,59 @@ public class MineLayerShip extends AbstractShip {
 		int shipY = this.getY();
 		int shipLength = this.getLength();
 		
+		// UPDATED TO NEW ORIGIN CONVENTION
 		switch(this.getOrientation()) { 
 		case East:
-			if(x >= shipX - 1 && x <= shipX + shipLength) { 
-				if(y >= shipY - 1 && y <= shipY + 1) { 
+			// behind/in front
+			if(y == shipY) { 
+				if(x == shipX-1 || x == shipX + shipLength) { 
+					return true;
+				}
+			}
+			// along ship length
+			else if(y == shipY+1 || y == shipY-1) { 
+				if(shipX <= x && x <= shipX + shipLength - 1) { 
 					return true;
 				}
 			}
 			break;
 		case West:
-			if(x >= shipX - shipLength && x <= shipX + 1) { 
-				if(y >= shipY - 1 && y <= shipY + 1) { 
+			// behind/in front
+			if(y == shipY) { 
+				if(x == shipX + 1 || x == shipX - shipLength) { 
+					return true;
+				}
+			}
+			// along ship length
+			else if(y == shipY+1 || y == shipY-1) { 
+				if(shipX >= x && x >= shipX - shipLength + 1) { 
 					return true;
 				}
 			}
 			break;
 		case North:
-			if(x >= shipX - 1 && x <= shipX + 1) { 
-				if(y >= shipY - shipLength && y <= shipY + 1) { 
+			// behind/in front
+			if(x == shipX) { 
+				if(y == shipY + shipLength || y == shipY-1) { 
+					return true;
+				}
+			}
+			// along ship length
+			else if(x == shipX-1 || x == shipX+1) { 
+				if(shipY <= y && y <= shipY + shipLength - 1) { 
 					return true;
 				}
 			}
 			break;
 		case South:
-			if(x >= shipX - 1 && x <= shipX + 1) { 
-				if(y >= shipY - 1 && y <= shipY + shipLength) { 
+			// in front/behind
+			if(x == shipX) { 
+				if(y == shipY+1 || y == shipY + shipLength) { 
+					return true;
+				}
+			}
+			else if(x == shipX-1 || x == shipX+1) { 
+				if(shipY >= y && y >= shipY - shipLength + 1) { 
 					return true;
 				}
 			}

@@ -82,16 +82,6 @@ public abstract class AbstractShip extends SpaceThing {
 	public abstract boolean tryTurning(ActionType turnType);
 	
 	/**
-	 * Ship hit something while turning, not sure what part of the ship it hit.
-	 * @param obstacleX Obstacle's x-coordinate in collision
-	 * @param obstacleY Obstacle's y-coordinate in collision
-	 * @return true if successful collision, false otherwise
-	 */
-	public boolean collide(int obstacleX, int obstacleY) { 
-		return collide(this.getX(), this.getY(), obstacleX, obstacleY);
-	}
-	
-	/**
 	 * Registers a collision, handles damage, and alerts players of collision.
 	 * (By which I mean it currently sends it to System.out)
 	 * @param shipX Ship's x-coordinate in collision
@@ -100,12 +90,12 @@ public abstract class AbstractShip extends SpaceThing {
 	 * @param obstacleY Obstacle's y-coordinate in collision
 	 * @return True if successful collision, false otherwise
 	 */
-	public boolean collide(int shipX, int shipY, int obstacleX, int obstacleY) { 
+	public boolean collide(int obstacleX, int obstacleY) { 
 		StarBoard board = this.getGameBoard();
 		SpaceThing spaceThing = this.getGameBoard().getSpaceThing(obstacleX, obstacleY);
 		
 		// basic check 
-		if(spaceThing == null || board.getSpaceThing(shipX, shipY) != this) { 
+		if(spaceThing == null) { 
 			return false;
 		}
 		

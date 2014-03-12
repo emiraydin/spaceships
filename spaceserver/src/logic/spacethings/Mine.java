@@ -56,6 +56,7 @@ public class Mine extends SpaceThing {
 			ship.decrementSectionHealth(damage, section);
 			ship.decrementSectionHealth(damage, section2);
 		}
+		// TODO: do mines damage the base? or other mines lol 
 		
 	}
 	
