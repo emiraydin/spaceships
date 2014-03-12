@@ -15,13 +15,46 @@ import common.GameConstants;
 public class MessageResponder {
 	StarBoard board;
 	GameHandler handler;
+	ActionMessage aMessage;
+	boolean success;
 	
 	public MessageResponder(GameHandler handler) {
 		this.handler = handler;
 		this.board = handler.getBoard();
 	}
 	
-	LinkedList<GameStateMessage> createStateMessages(){
+	/**
+	 * Call this method at the beginning of every turn.
+	 * @param aMessage Action Message of the move
+	 */
+	public void startMessage(ActionMessage aMessage){
+		success = false;
+		this.aMessage = aMessage;
+	}
+	
+	/**
+	 * Call to recieve the response message to be sent to the player.
+	 * @param playerID ID of player to recieve response.
+	 * @return The message to be sent to player
+	 */
+	public NewTurnMessage getResponse(int playerID){
+		if (!success){
+			return new NewTurnMessage(aMessage, success, null, null, null);
+		}
+		FleetCommander fc = handler.getFleetCommander(playerID);
+		
+		return new NewTurnMessage(aMessage, success, createStateMessages(),
+				convertVisibility(fc.getRadarVisibility()), convertVisibility(fc.getSonarVisibility()));
+	}
+	
+	/**
+	 * Call when a move fails.
+	 */
+	public void moveFailed(){
+		success = false;
+	}
+	
+	private LinkedList<GameStateMessage> createStateMessages(){
 		HashMap<Integer, GameStateMessage> states = new HashMap<>();
 		for (int x = 0; x < GameConstants.BOARD_WIDTH; x++){
 			for (int y = 0; y < GameConstants.BOARD_HEIGHT; y++){
@@ -52,11 +85,5 @@ public class MessageResponder {
 		return boolVis;
 	}
 	
-	
-	private NewTurnMessage createNewTurnMessage(int playerID, ActionMessage action, LinkedList<GameStateMessage> state){
-		FleetCommander fc = handler.getFleetCommander(playerID);
-		return new NewTurnMessage(action, state,
-				convertVisibility(fc.getRadarVisibility()), convertVisibility(fc.getSonarVisibility()));
-	}
 	
 }

@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
  * @author Vikram
  *
  */
-public class Background extends Image 
+public class BackgroundActor extends Image 
 {
 	private final int WIDTH = Constants.APP_WIDTH, HEIGHT = Constants.APP_HEIGHT; 
 	private Sprite SPRITE; 
@@ -25,7 +25,7 @@ public class Background extends Image
 	 * Create the Background and set the position to start just off the game screen. 
 	 * Width and Height are in in game units. 
 	 */
-	public Background()
+	public BackgroundActor()
 	{
 		importBackground(); 
 		setWidth(75);

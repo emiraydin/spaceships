@@ -23,8 +23,6 @@ public class GameScreen implements Screen
 	private FPSLogger fpsLog = new FPSLogger(); 
 	
 	
-	
-	
 	/**
 	 * Run. 
 	 * @param delta

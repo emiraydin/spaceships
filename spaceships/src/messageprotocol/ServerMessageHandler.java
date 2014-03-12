@@ -8,8 +8,7 @@ import state.SpaceThing;
 import messageprotocol.*;
 
 
-public class ServerMessageHandler
-{
+public class ServerMessageHandler {
 	
 	/**
 	 * Execute a NewTurnMessage.  The server sends each client one of these 

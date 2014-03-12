@@ -36,25 +36,48 @@ public class MineLayer extends AbstractWeapon {
 	/** 
 	 * Note: this method is for checking if a location is within FIRE range, 
 	 * not just within sonar range (see MineLayerShip.inSonarRange(x,y) for that)
-	 * It returns false if x,y is in immediate contact with something
+	 * It returns false if x,y is in immediate contact with something (a mine layer cannot
+	 * drop a mine that would be directly on/adjacent to something)
 	 */
 	@Override
 	protected boolean inRange(int x, int y) {
 		MineLayerShip ship = (MineLayerShip)owner;
-		// can't drop mine outside range or on tile containing something else
 		if(ship.inSonarRange(x, y)) {
-			for(int i = x - 1; i < x + 1; i++) { 
-				for(int j = y; j < y + 1; j++) { 
-					SpaceThing spaceThing = owner.getGameBoard().getSpaceThing(i, j) ;
-					if(spaceThing != null && spaceThing != owner) {
-						// cannot drop mine adjacent to any other spacething
-						return false;
-					}
+			StarBoard board = owner.getGameBoard();
+			// if something is on that square, can't drop mine
+			SpaceThing spaceThing = board.getSpaceThing(x, y);
+			if(spaceThing != null && spaceThing != owner) { 
+				return false;
+			}
+			
+			// if something is directly adjacent to square, can't drop mine
+			if(StarBoard.inBounds(x+1, y)) { 
+				SpaceThing adjacentSpaceThing = board.getSpaceThing(x+1, y);
+				if(adjacentSpaceThing != null && adjacentSpaceThing != owner) { 
+					return false;
 				}
-			}		
-			return true;
+			}
+			if(StarBoard.inBounds(x-1, y)) { 
+				SpaceThing adjacentSpaceThing = board.getSpaceThing(x-1, y);
+				if(adjacentSpaceThing != null && adjacentSpaceThing != owner) { 
+					return false;
+				}
+			}
+			if(StarBoard.inBounds(x, y+1)) { 
+				SpaceThing adjacentSpaceThing = board.getSpaceThing(x, y+1);
+				if(adjacentSpaceThing != null && adjacentSpaceThing != owner) { 
+					return false;
+				}
+			}
+			if(StarBoard.inBounds(x, y-1)) { 
+				SpaceThing adjacentSpaceThing = board.getSpaceThing(x, y-1);
+				if(adjacentSpaceThing != null && adjacentSpaceThing != owner) { 
+					return false;
+				}
+			}			
 		}
-		return false;
+		// in bounds, in sonar range, not on/adjacent to anything except minelayer itself
+		return true;
 	}
 
 }

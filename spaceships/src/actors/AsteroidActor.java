@@ -14,7 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
  * Represents the in game asteroid actors. 
  * Drawn with a width and height of 32 pixels. (Declared in Constants). 
  */
-public class Asteroid extends Image
+public class AsteroidActor extends Image
 {
 	private Sprite SPRITE; 
 	private final int WIDTH = Constants.PIXEL_WIDTH, HEIGHT = Constants.PIXEL_HEIGHT;
@@ -24,7 +24,7 @@ public class Asteroid extends Image
 	 * @param x
 	 * @param y
 	 */
-	public Asteroid(int x, int y) 
+	public AsteroidActor(int x, int y) 
 	{
 		SPRITE = new Sprite(generateAsteroidTexture());
 		setPosition(x,y);

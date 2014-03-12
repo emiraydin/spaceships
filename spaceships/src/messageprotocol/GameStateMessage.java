@@ -11,6 +11,7 @@ public class GameStateMessage implements Serializable {
 	
 	private static final long serialVersionUID = -7885291047262853973L;
 	
+	
 	int spaceThingId;
 	PlayerNumber owner;
 	SpaceThingType type;

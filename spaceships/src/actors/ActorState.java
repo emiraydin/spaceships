@@ -3,8 +3,11 @@ package actors;
 import gameLogic.Constants.OrientationType;
 import gameLogic.Constants.PlayerNumber;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 
+import state.Asteroid;
+import state.SpaceThing;
 import state.ships.CruiserShip;
 import state.ships.DestroyerShip;
 import state.ships.MineLayerShip;
@@ -27,20 +30,20 @@ public class ActorState
 	 * Instance variables.
 	 * These are the various objects to which we are interested. 
 	 */
-	public static int			boardHeight = 30, boardWidth = 30;					// The gameBoard Height and Width. 	
-	private static int			maxAsteroids = 24; 									// The Maximum number of Asteroids available. 
-	public static Tile[][] 		boardTiles = new Tile[boardHeight][boardWidth];		 // The game Tiles. 
-	public static BaseTile[][] 	playerOneBase = new BaseTile[boardHeight][boardWidth]; 	// The current players base Tiles. 
-	public static BaseTile[][]  playerTwoBase = new BaseTile[boardHeight][boardWidth];; // The opponent players base Tiles.
-	public static ShipTile[][] playerOneFleet = new ShipTile[boardHeight][boardWidth];// The current players ship Tiles. 
-	private static ShipTile[][] playerTwoFleet = new ShipTile[boardHeight][boardWidth]; // The opponent players ship Tiles. 
-	private static Mine[][] 	playerOneMineField = new Mine[boardHeight][boardWidth];// The current players Mine Tiles. 
-	private static Mine[][] 	playerTwoMineField = new Mine[boardHeight][boardWidth];// The opponent players Mine Tiles. 
-	public static Asteroid[][]  asteroidField = new Asteroid[boardHeight][boardWidth]; // The locations of all the asteroids. 
-	public static boolean[][] 	visibility	= new boolean[boardHeight][boardWidth];	   // The board visibility. 
-	public static int 			currentSelection = -1; 								   // The currently selected player ship. 
+	public static int			boardHeight = 30, boardWidth = 30;						// The gameBoard Height and Width. 	
+	private static int			maxAsteroids = 24; 										// The Maximum number of Asteroids available. 
+	public static TileActor[][] 		boardTiles = new TileActor[boardHeight][boardWidth];		 	// The game Tiles. 
+	public static BaseTileActor[][] 	playerOneBase = new BaseTileActor[boardHeight][boardWidth]; 	// The current players base Tiles. 
+	public static BaseTileActor[][]  playerTwoBase = new BaseTileActor[boardHeight][boardWidth];; // The opponent players base Tiles.
+	public static ShipTileActor[][] playerOneFleet = new ShipTileActor[boardHeight][boardWidth];	// The current players ship Tiles. 
+	private static ShipTileActor[][] playerTwoFleet = new ShipTileActor[boardHeight][boardWidth]; // The opponent players ship Tiles. 
+	private static MineActor[][] 	playerOneMineField = new MineActor[boardHeight][boardWidth];	// The current players Mine Tiles. 
+	private static MineActor[][] 	playerTwoMineField = new MineActor[boardHeight][boardWidth];	// The opponent players Mine Tiles. 
+	public static AsteroidActor[][]  asteroidField = new AsteroidActor[boardHeight][boardWidth]; 	// The locations of all the asteroids. 
+	public static boolean[][] 	visibility	= new boolean[boardHeight][boardWidth];	   	// The board visibility. 
+	public static int 			currentSelection = -1; 								   	// The currently selected player ship. 
 	
-	public static LinkedList<Ship> shipList = new LinkedList<Ship>(); 
+	public static LinkedList<ShipActor> shipList = new LinkedList<ShipActor>(); 
 	
 	/*
 	 * Variables respecting Singleton
@@ -65,7 +68,7 @@ public class ActorState
 		{
 			for(int k = 0; k < boardWidth; k++)
 			{
-				boardTiles[i][k] = new Tile(i,k); 
+				boardTiles[i][k] = new TileActor(i,k); 
 			}
 		}
 	}
@@ -96,7 +99,7 @@ public class ActorState
 			
 			if(asteroidField[randX][randY] == null)
 			{
-				asteroidField[randX][randY] = new Asteroid(randX, randY); 
+				asteroidField[randX][randY] = new AsteroidActor(randX, randY); 
 				count++; 
 			}
 		}
@@ -110,13 +113,13 @@ public class ActorState
 		// Create the current players tiles. 
 		for(int i = 10; i < 20; i++)
 		{
-			playerOneBase[0][i] = new BaseTile(0, i, 1);
+			playerOneBase[0][i] = new BaseTileActor(0, i, 1);
 		}
 		
 		// Create the current players tiles. 
 		for(int i = 10; i < 20; i++)
 		{
-			playerOneBase[29][i] = new BaseTile(29, i, 0);
+			playerOneBase[29][i] = new BaseTileActor(29, i, 0);
 		}
 	}
 	
@@ -172,16 +175,16 @@ public class ActorState
 		torpedoB.setY(19);
 
 		// Create the basic ship actors. 
-		Ship playerCruiserOne = new Ship(1,10,cruiserA);
-		Ship playerCruiserTwo = new Ship(1,11,cruiserB);
-		Ship playerDestroyerOne = new Ship(1,12,destroyerA);
-		Ship playerDestroyerTwo = new Ship(1,13,destroyerB);
-		Ship playerDestroyerThree = new Ship(1,14,destroyerC);
-		Ship playerLayerOne = new Ship(1,15,layerA);
-		Ship playerLayerTwo = new Ship(1,16,layerB);
-		Ship playerRadarOne = new Ship(1,17,radarA);
-		Ship playerTorpedoOne = new Ship(1,18,torpedoA); 
-		Ship playerTorpedoTwo = new Ship(1,19,torpedoB); 
+		ShipActor playerCruiserOne = new ShipActor(1,10,cruiserA);
+		ShipActor playerCruiserTwo = new ShipActor(1,11,cruiserB);
+		ShipActor playerDestroyerOne = new ShipActor(1,12,destroyerA);
+		ShipActor playerDestroyerTwo = new ShipActor(1,13,destroyerB);
+		ShipActor playerDestroyerThree = new ShipActor(1,14,destroyerC);
+		ShipActor playerLayerOne = new ShipActor(1,15,layerA);
+		ShipActor playerLayerTwo = new ShipActor(1,16,layerB);
+		ShipActor playerRadarOne = new ShipActor(1,17,radarA);
+		ShipActor playerTorpedoOne = new ShipActor(1,18,torpedoA); 
+		ShipActor playerTorpedoTwo = new ShipActor(1,19,torpedoB); 
 
 		// Add all the Actors to the FleetList.
 		shipList.add(0, playerCruiserOne); 
@@ -204,15 +207,41 @@ public class ActorState
 	 * Helper method that adds all the ships to the playerFleet
 	 * @param shipList2 
 	 */
-	private static void addFleetTiles(LinkedList<Ship> shipList2)
+	private static void addFleetTiles(LinkedList<ShipActor> shipList2)
 	{
-		for(Ship ship : shipList2)
+		for(ShipActor ship : shipList2)
 		{
 			for(Actor tile : ship.getChildren())
 			{
-				playerOneFleet[(int)tile.getX()][(int)tile.getY()] = (ShipTile) tile; 
+				playerOneFleet[(int)tile.getX()][(int)tile.getY()] = (ShipTileActor) tile; 
 			}
 		}
+	}
+
+	/**
+	 * Method that initializes the entire game from the GameState class. 
+	 */
+	public static void initializeGame()
+	{
+		// Create the board Tiles. 
+		initializeBoardTiles(); 
+		
+		// Get the SpaceThing Hash. 
+		HashMap<Integer, SpaceThing> things = new HashMap<Integer, SpaceThing>(); 
+		
+		// Initialize the rest of the objects. 
+		for(Integer key : things.keySet())
+		{
+			SpaceThing object = things.get(key); 
+			
+			if(object instanceof Asteroid)
+			{
+				AsteroidActor actor = new AsteroidActor(object.getX(), object.getY()); 
+				asteroidField[object.getX()][object.getY()] = actor; 
+			}
+		}
+		
+		
 	}
 
 

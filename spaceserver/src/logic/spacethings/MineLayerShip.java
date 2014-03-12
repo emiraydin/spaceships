@@ -9,7 +9,9 @@ import logic.Cannon;
 import logic.FleetCommander;
 import logic.MineLayer;
 import logic.StarBoard;
+
 import common.GameConstants.ActionType;
+import common.GameConstants.OrientationType;
 import common.GameConstants.SpaceThingType;
 
 
@@ -17,8 +19,8 @@ public class MineLayerShip extends AbstractShip {
 	private ArrayList<Mine> mines;
 	private static int NUM_MINES = 5;
 	
-	public MineLayerShip(int x, int y, FleetCommander owner, StarBoard gameBoard){
-		super(x, y, owner, gameBoard);
+	public MineLayerShip(int x, int y, OrientationType oType, FleetCommander owner, StarBoard gameBoard){
+		super(x, y, oType, owner, gameBoard);
 		
 		mines = new ArrayList<Mine>(NUM_MINES);
 		for (int i = 0; i < NUM_MINES; i++){
@@ -54,6 +56,7 @@ public class MineLayerShip extends AbstractShip {
 	public void pickUpMine(Mine mine){
 		mines.add(mine);
 		mine.setLocation(-1, -1);
+		mine.setOwner(this.getOwner());
 	}
 	
 	/**
@@ -73,31 +76,59 @@ public class MineLayerShip extends AbstractShip {
 		int shipY = this.getY();
 		int shipLength = this.getLength();
 		
+		// UPDATED TO NEW ORIGIN CONVENTION
 		switch(this.getOrientation()) { 
 		case East:
-			if(x >= shipX - 1 && x <= shipX + shipLength) { 
-				if(y >= shipY - 1 && y <= shipY + 1) { 
+			// behind/in front
+			if(y == shipY) { 
+				if(x == shipX-1 || x == shipX + shipLength) { 
+					return true;
+				}
+			}
+			// along ship length
+			else if(y == shipY+1 || y == shipY-1) { 
+				if(shipX <= x && x <= shipX + shipLength - 1) { 
 					return true;
 				}
 			}
 			break;
 		case West:
-			if(x >= shipX - shipLength && x <= shipX + 1) { 
-				if(y >= shipY - 1 && y <= shipY + 1) { 
+			// behind/in front
+			if(y == shipY) { 
+				if(x == shipX + 1 || x == shipX - shipLength) { 
+					return true;
+				}
+			}
+			// along ship length
+			else if(y == shipY+1 || y == shipY-1) { 
+				if(shipX >= x && x >= shipX - shipLength + 1) { 
 					return true;
 				}
 			}
 			break;
 		case North:
-			if(x >= shipX - 1 && x <= shipX + 1) { 
-				if(y >= shipY - shipLength && y <= shipY + 1) { 
+			// behind/in front
+			if(x == shipX) { 
+				if(y == shipY + shipLength || y == shipY-1) { 
+					return true;
+				}
+			}
+			// along ship length
+			else if(x == shipX-1 || x == shipX+1) { 
+				if(shipY <= y && y <= shipY + shipLength - 1) { 
 					return true;
 				}
 			}
 			break;
 		case South:
-			if(x >= shipX - 1 && x <= shipX + 1) { 
-				if(y >= shipY - 1 && y <= shipY + shipLength) { 
+			// in front/behind
+			if(x == shipX) { 
+				if(y == shipY+1 || y == shipY + shipLength) { 
+					return true;
+				}
+			}
+			else if(x == shipX-1 || x == shipX+1) { 
+				if(shipY >= y && y >= shipY - shipLength + 1) { 
 					return true;
 				}
 			}
