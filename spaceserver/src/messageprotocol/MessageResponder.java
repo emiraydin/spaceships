@@ -45,12 +45,12 @@ public class MessageResponder {
 	 */
 	public NewTurnMessage getResponse(int playerID){
 		if (!success){
-			return new NewTurnMessage(aMessage, success, response, null, null, null);
+			return new NewTurnMessage(aMessage, success, response, null, null, null, playerID);
 		}
 		FleetCommander fc = handler.getFleetCommander(playerID);
 		
 		return new NewTurnMessage(aMessage, success, response, createStateMessages(),
-				convertVisibility(fc.getRadarVisibility()), convertVisibility(fc.getSonarVisibility()));
+				convertVisibility(fc.getRadarVisibility()), convertVisibility(fc.getSonarVisibility()), playerID);
 	}
 	
 	/**
