@@ -5,6 +5,7 @@ import gameLogic.ActionValidator;
 import common.GameConstants.*;
 import gameLogic.Constants;
 
+import state.GameState;
 import state.ships.AbstractShip;
 import state.ships.TorpedoShip;
 
@@ -42,14 +43,15 @@ public class GameScreenController implements InputProcessor
 	private CameraController CAMCONTROLLER; 						// Handles changing Camera views. 
 	public Stage STAGE; 											// The Stage. 
 	private int CURRENT_SELECTION = -1; 							// The currently selected ship
-	private boolean debugMode = true; 								// Whether we are debugging or not. 
-	
+	private boolean debugMode = false; 								// Whether we are debugging or not. 
+	public PlayerNumber cPlayer; 
 	
 	/**
 	 * Constructor for GameScreenController. 
 	 */
-	public GameScreenController()
+	public GameScreenController(PlayerNumber currentPlayer)
 	{
+		this.cPlayer = currentPlayer; 
 		
 		// Initialize Camera. 
 		initCamera(); 
@@ -131,10 +133,10 @@ public class GameScreenController implements InputProcessor
 		// Display the movement and fire range for a ship. 
 		if(CURRENT_SELECTION != -1)
 		{
-			ShipActor currentShip = ActorState.shipList.get(CURRENT_SELECTION); 
+			ShipActor currentShip = ActorState.getShipList(cPlayer).get(CURRENT_SELECTION); 
 			currentShip.setCurrentShip(true);
 			
-			for(ShipActor ship : ActorState.shipList)
+			for(ShipActor ship : ActorState.getShipList(cPlayer))
 			{
 				if(ship == currentShip)
 				{
@@ -150,7 +152,7 @@ public class GameScreenController implements InputProcessor
 		}
 		else if (CURRENT_SELECTION == -1)
 		{
-			for(ShipActor ship : ActorState.shipList)
+			for(ShipActor ship : ActorState.getShipList(cPlayer))
 			{
 				ship.drawAsNonCurrent(); 
 				ship.setCurrentShip(false);
@@ -191,10 +193,10 @@ public class GameScreenController implements InputProcessor
 	{
 		if(Gdx.input.isKeyPressed(Keys.R))
 		{
-			AbstractShip ship = ActorState.shipList.get(0).ship; 
+			AbstractShip ship = ActorState.getShipList(cPlayer).get(0).ship; 
 			int[] r = new int[ship.getLength()];
 			//ship.updateProperties(ship.getX(), ship.getY(), ship.getOrientation(), r); 
-			System.out.println(ActorState.shipList.get(0).ship.getSectionHealth()[0]); 
+			System.out.println(ActorState.getShipList(cPlayer).get(0).ship.getSectionHealth()[0]); 
 			//ActorState.shipList.get(0).setVisible(false); 
 			//ActorState.shipList.removeFirst();
 			
@@ -203,7 +205,7 @@ public class GameScreenController implements InputProcessor
 		// Update all the ships Based on location. 
 		// Update the ships orientation. 
 		// if there was something to update then just return. 
-		for(ShipActor currentShip : ActorState.shipList)
+		for(ShipActor currentShip : ActorState.getShipList(cPlayer))
 		{
 			// Draw the section health as destroyed if it is. 
 			for(int i = 0; i < currentShip.ship.getSectionHealth().length; i++)
@@ -342,6 +344,7 @@ public class GameScreenController implements InputProcessor
 	 */
 	private void initLegitStage()
 	{
+		
 		Group backdrop = new Group(); 
 		Group background = new Group(); 
 		Group foreground = new Group(); 
@@ -374,9 +377,31 @@ public class GameScreenController implements InputProcessor
 			}
 		}
 		
-		// Create the Ship Objects. 
+		// Add the ships. 
+		for(ShipTileActor[] xArray : ActorState.playerOneFleet)
+		{
+			for(ShipTileActor ship : xArray)
+			{
+				if(ship != null) background.addActor(ship);
+			}
+		}
 		
+		// Initialize the Bases
+		for(BaseTileActor[] xArray : ActorState.playerOneBase)
+		{
+			for(BaseTileActor base : xArray)
+			{
+				if(base != null) background.addActor(base);
+			}
+		}
 		
+		for(BaseTileActor[] xArray : ActorState.playerTwoBase)
+		{
+			for(BaseTileActor base : xArray)
+			{
+				if(base != null) background.addActor(base);
+			}
+		}
 		
 		
 		
@@ -398,7 +423,7 @@ public class GameScreenController implements InputProcessor
 		{
 			if(CURRENT_SELECTION != -1)
 			{
-				ShipActor actorShip = ActorState.shipList.get(CURRENT_SELECTION);
+				ShipActor actorShip = ActorState.getShipList(cPlayer).get(CURRENT_SELECTION);
 				AbstractShip modelShip = actorShip.ship; 
 				
 				// Draw the movement Range
@@ -410,7 +435,7 @@ public class GameScreenController implements InputProcessor
 		{
 			if(CURRENT_SELECTION != -1)
 			{
-				ShipActor actorShip = ActorState.shipList.get(CURRENT_SELECTION);
+				ShipActor actorShip = ActorState.getShipList(cPlayer).get(CURRENT_SELECTION);
 				AbstractShip modelShip = actorShip.ship; 
 				
 				// Draw the fire range.
@@ -607,7 +632,7 @@ public class GameScreenController implements InputProcessor
 	public void drawMovementRange(ShipActor actor, AbstractShip model)
 	{
 		// Get the actor and model ships, and draw their appropriate rectangles. 
-		ShipActor actorShip = ActorState.shipList.get(CURRENT_SELECTION); 
+		ShipActor actorShip = ActorState.getShipList(cPlayer).get(CURRENT_SELECTION); 
 		AbstractShip modelShip = actorShip.ship; 
 		int length = modelShip.getLength(); 
 		int speed = modelShip.getSpeed(); 
@@ -728,17 +753,17 @@ public class GameScreenController implements InputProcessor
 		// Cycle through current Ships 
 		if(Keys.SPACE == keycode)
 		{
-			if(CURRENT_SELECTION < ActorState.shipList.size() - 1)
+			if(CURRENT_SELECTION < ActorState.getShipList(cPlayer).size() - 1)
 			{
 				CURRENT_SELECTION ++;
 				ActorState.currentSelectionShip = CURRENT_SELECTION; 
-				ActionValidator.setCurrentShip(ActorState.shipList.get(CURRENT_SELECTION).ship); 
+				ActionValidator.setCurrentShip(ActorState.getShipList(cPlayer).get(CURRENT_SELECTION).ship); 
 			}
 			else
 			{
 				CURRENT_SELECTION = 0; 
 				ActorState.currentSelectionShip = CURRENT_SELECTION; 
-				ActionValidator.setCurrentShip(ActorState.shipList.get(CURRENT_SELECTION).ship); 
+				ActionValidator.setCurrentShip(ActorState.getShipList(cPlayer).get(CURRENT_SELECTION).ship); 
 			}
 		}
 		

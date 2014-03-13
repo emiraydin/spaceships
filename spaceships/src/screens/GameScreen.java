@@ -7,6 +7,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL10;
+import common.GameConstants.PlayerNumber;
 
 /**
  * The Basic Game Screen. 
@@ -79,11 +80,10 @@ public class GameScreen implements Screen
 				break; 
 			}
 		}
-
-		System.out.println("Starting"); 
+		
 		
 		// Create and Initialize GameScreenController. 
-		controller = new GameScreenController();
+		controller = new GameScreenController(PlayerNumber.PlayerOne);
 		
 		// All the UI Stuff. 
 		uiController = new GameScreenUiController(controller); 
