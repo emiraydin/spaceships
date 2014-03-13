@@ -83,7 +83,7 @@ public abstract class AbstractShip extends SpaceThing {
 	 * @param obstacleY Obstacle's y-coordinate in collision
 	 * @return True if successful collision, false otherwise
 	 */
-	public boolean collide(int obstacleX, int obstacleY) { 
+	public boolean collideWhileTurning(int obstacleX, int obstacleY) { 
 		SpaceThing spaceThing = this.getGameBoard().getSpaceThing(obstacleX, obstacleY);
 		
 		// basic check 
@@ -272,7 +272,7 @@ public abstract class AbstractShip extends SpaceThing {
 			SpaceThing spaceThing = this.getGameBoard().getSpaceThing(coord.x, coord.y);
 			if(spaceThing instanceof AbstractShip || spaceThing instanceof Asteroid || spaceThing instanceof BaseTile) { 
 				// collide takes care of message responses
-				this.collide(coord.x, coord.y);
+				this.collideWhileTurning(coord.x, coord.y);
 				return false;
 			}
 		}
@@ -284,7 +284,7 @@ public abstract class AbstractShip extends SpaceThing {
 				// mine only detonates if ship is not a MineLayer
 				if(!(this instanceof MineLayerShip)) { 
 					// collide takes care of message responses
-					this.collide(coord.x, coord.y);
+					this.collideWhileTurning(coord.x, coord.y);
 				} 
 				// either way, turn not completed
 				return false;

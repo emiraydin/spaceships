@@ -5,13 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import logic.spacethings.AbstractShip;
+import logic.spacethings.Asteroid;
+import logic.spacethings.BaseTile;
 import logic.spacethings.Mine;
 import logic.spacethings.MineLayerShip;
 import logic.spacethings.RadarBoatShip;
 import logic.spacethings.SpaceThing;
 import logic.spacethings.TorpedoBoatShip;
 
-import common.GameConstants;
 import common.GameConstants.ActionType;
 import common.GameConstants.OrientationType;
 import common.GameConstants.PlayerNumber;
@@ -75,55 +76,62 @@ public class FleetCommander {
 	 * @return Number of spaces moved by ship
 	 */
 	public int moveShip(int shipID, int x, int y){
-		//TODO: implement moveShip (Check for collision and mines)
-		AbstractShip ship = getShip(shipID);
-		
+		AbstractShip ship = getShip(shipID);		
 		if (validateMove(ship, x, y)){
+			decrementVisibility(ship);
+			board.clearSpaceThing(ship);
+			int spacesMoved = 0;
 			while (Math.abs((x - ship.getX()) + (y - ship.getY())) > 0){
 				if (x > ship.getX()){
-					if (handleCollisions(ship, x+1, y) || handleMineExplosions(ship, x, y)){
+					if (handleCollisions(ship, ship.getX()+1, ship.getY()) || handleMineExplosions(ship, ship.getX(), ship.getY())){
 						break;
 					} else {
 						ship.setX(ship.getX() + 1);
 					}
 				} else if (x < ship.getX()){
-					if (handleCollisions(ship, x-1, y) || handleMineExplosions(ship, x, y)){
+					if (handleCollisions(ship, ship.getX()-1, ship.getY()) || handleMineExplosions(ship, ship.getX(), ship.getY())){
 						break;
 					} else {
 						ship.setX(ship.getX() - 1);
 					}
 				} else if (y > ship.getY()){
-					if (handleCollisions(ship, x, y+1) || handleMineExplosions(ship, x, y)){
+					if (handleCollisions(ship, ship.getX(), ship.getY()+1) || handleMineExplosions(ship, ship.getX(), ship.getY())){
 						break;
 					} else {
 						ship.setY(ship.getY() + 1);
 					}
 				} else if (y < ship.getY()){
-					if (handleCollisions(ship, x, y-1) || handleMineExplosions(ship, x, y)){
+					if (handleCollisions(ship, ship.getX(), ship.getY()-1) || handleMineExplosions(ship, ship.getX(), ship.getY())){
 						break;
 					} else {
 						ship.setY(ship.getY() - 1);
 					}
 				}
+				spacesMoved++;
 			}
+			// might not have gone the full in case of a collision
+			board.setSpaceThing(ship, ship.getX(), ship.getY());
+			incrementVisibility(ship);
+			return spacesMoved;
 		}
+		setActionResponse("Ships cannot go out of bounds");
 		return 0;
 	}
 	
 	// Return true if having a ship at this position would incur a collision. (or out of bounds)
 	private boolean handleCollisions(AbstractShip ship, int x, int y){
-		if (x < 0 || y < 0 || x >= GameConstants.BOARD_WIDTH || y >= GameConstants.BOARD_HEIGHT){
-			return true;
-		}
 		int[][] coords = ship.getShipCoords(x, y);
 		SpaceThing thing;
 		for (int i = 0; i < ship.getLength(); i++){
-			if (coords[i][0] < 0 || coords[i][1] < 0 
-					|| coords[i][0] >= GameConstants.BOARD_WIDTH || coords[i][1] >= GameConstants.BOARD_HEIGHT){
-				return true;
-			}
 			thing = board.getSpaceThing(coords[i][0], coords[i][1]);
-			if (thing != null && thing != ship){
+			if(thing instanceof AbstractShip && thing != ship) { 
+				setActionResponse(String.format("Ship collision at (%d,%d)", x, y));
+				return true;
+			} else if(thing instanceof BaseTile) { 
+				setActionResponse(String.format("Ship collision with a base at (%d,%d)", x, y));
+				return true;
+			} else if(thing instanceof Asteroid) { 
+				setActionResponse(String.format("Ship collision with asteroid at (%d,%d)", x, y));
 				return true;
 			}
 		}
@@ -134,24 +142,47 @@ public class FleetCommander {
 	 * Checks if there are mines in the vicinity of a ship and if so, detonates them
 	 * unless ship is a Mine Layer, in which case it doesn't detonate anything.
 	 * @param ship
-	 * @param x
-	 * @param y
-	 * @return True if there were mines detonated, false otherwise
+	 * @param shipX
+	 * @param shipY
+	 * @return True if there were mines in the vicinity, false otherwise 
+	 * 		   Note: returns true even if there are undetonated mines (ship is MineLayer)
 	 */
-	private boolean handleMineExplosions(AbstractShip ship, int x, int y){
-		boolean detonation = false;
-		if(!(ship instanceof MineLayerShip)) { 
-			int[][] coords = ship.getShipCoords();
-			for (int i = 0; i < ship.getLength(); i++){
-				int xCoord = coords[i][0];
-				int yCoord = coords[i][1];
-				detonation = (checkMine(xCoord + 1, yCoord) || detonation);
-				detonation = (checkMine(xCoord - 1, yCoord) || detonation);
-				detonation = (checkMine(xCoord, yCoord + 1) || detonation);
-				detonation = (checkMine(xCoord, yCoord - 1) || detonation);
-			}	
-		}
-		return detonation;
+	private boolean handleMineExplosions(AbstractShip ship, int shipX, int shipY){
+		int[][] coords = ship.getShipCoords(shipX, shipY);
+		for (int i = 0; i < ship.getLength(); i++){
+			int sectionX = coords[i][0];
+			int sectionY = coords[i][1];
+			if(board.getSpaceThing(sectionX+1, sectionY) instanceof Mine) { 
+				if(!(ship instanceof MineLayerShip)) { 
+					setActionResponse(String.format("Mine detonated at (%d,%d)", sectionX+1, sectionY));
+					Mine mine = (Mine)board.getSpaceThing(sectionX+1, sectionY);
+					mine.detonate(sectionX, sectionY);
+				}
+				return true;				
+			} else if(board.getSpaceThing(sectionX-1, sectionY) instanceof Mine) { 
+				if(!(ship instanceof MineLayerShip)) { 
+					setActionResponse(String.format("Mine detonated at (%d,%d)", sectionX-1, sectionY));
+					Mine mine = (Mine)board.getSpaceThing(sectionX-1, sectionY);
+					mine.detonate(sectionX, sectionY);
+				}
+				return true;
+			} else if(board.getSpaceThing(sectionX, sectionY+1) instanceof Mine) { 
+				if(!(ship instanceof MineLayerShip)) { 
+					setActionResponse(String.format("Mine detonated at (%d,%d)", sectionX, sectionY+1));
+					Mine mine = (Mine)board.getSpaceThing(sectionX, sectionY+1);
+					mine.detonate(sectionX, sectionY);
+				}
+				return true;
+			} else if(board.getSpaceThing(sectionX, sectionY-1) instanceof Mine) { 
+				if(!(ship instanceof MineLayerShip)) {
+					setActionResponse(String.format("Mine detonated at (%d,%d)", sectionX, sectionY-1));
+					Mine mine = (Mine)board.getSpaceThing(sectionX, sectionY-1);
+					mine.detonate(sectionX, sectionY);
+				}
+				return true;
+			}
+		}	
+		return false;
 	}
 	
 	/**
@@ -159,73 +190,92 @@ public class FleetCommander {
 	 */
 	private static boolean validateMove(AbstractShip ship, int x, int y){
 		//// Basic Validation ////
-		if ((x - ship.getX()) != 0 && (y - ship.getY()) != 0){
+		if(!StarBoard.inBounds(x, y)) {
+			// tail out of bounds
+			return false;
+		} else if ((x - ship.getX()) != 0 && (y - ship.getY()) != 0){
 			// Can't move diagonally
 			return false;
 		} else if (x == ship.getX() && y == ship.getY()){
 			// Ship didn't move
 			return false;
-		} else if (Math.abs((x - ship.getX()) + (y - ship.getY())) == 1){
-			// A ship can always move one square in each direction
-			return true;
-		}
+		} 
+//		else if (Math.abs((x - ship.getX()) + (y - ship.getY())) == 1){
+//			// A ship can always move one square in each direction
+//			return true;
+//		}
 		
 		int speed = ship.getSpeed();
+		int length = ship.getLength();
 		// THESE FOLLOW NEW ORIGIN CONVENTION
 		switch (ship.getOrientation()){
 		case East:
-			if (x < ship.getX()){
-				return false;
-			} else if (x > ship.getX() + speed){
-				return false;
-			} else if (y != ship.getY()){
-				return false;
+			if(x != ship.getX()) { 
+				if (x < ship.getX() - 1){
+					return false;
+				} else if(!StarBoard.inBounds(x+length-1, y)) { 
+					return false;
+				} else if (x > ship.getX() + speed){
+					return false;
+				} 
 			} else {
-				return true;
+				if(Math.abs(y - ship.getY()) != 1) { 
+					return false;
+				}
+				else if(StarBoard.inBounds(x, y)) { 
+					return false;
+				}
 			}
+			return true;
 		case South:
-			if (y > ship.getY()){
-				return false;
-			} else if (y < ship.getY() - speed){
-				return false;
-			} else if (x != ship.getX()){
-				return false;
-			} else {
-				return true;
+			if(y != ship.getY()) { 
+				if (y > ship.getY() + 1){
+					return false;
+				} else if(!StarBoard.inBounds(x, y-length+1)) { 
+					return false;
+				} else if (y < ship.getY() - speed){
+					return false;
+				} 
+			} else { 
+				if(Math.abs(x - ship.getX()) != 1) { 
+					return false;
+				} else if(!StarBoard.inBounds(x, y)) { 
+					return false;
+				}
 			}
 		case North:
-			if (y < ship.getY()){
-				return false;
-			} else if (y > ship.getY() + speed){
-				return false;
-			} else if (x != ship.getX()){
-				return false;
-			} else {
-				return true;
+			if(y != ship.getY()) { 
+				if (y < ship.getY() - 1){
+					return false;
+				} else if(!StarBoard.inBounds(x, y+length-1)) { 
+					return false;
+				} else if (y > ship.getY() + speed){
+					return false;
+				} 
+			} else { 
+				if(Math.abs(x - ship.getX()) != 1) { 
+					return false;
+				} else if(!StarBoard.inBounds(x, y)) { 
+					return false;
+				}
 			}
 		case West:
-			if (x > ship.getX()){
-				return false;
-			} else if (x < ship.getX() - speed){
-				return false;
-			} else if (y != ship.getY()){
-				return false;
+			if(x != ship.getX()) { 
+				if (x > ship.getX() + 1){
+					return false;
+				} else if(!StarBoard.inBounds(x-length+1, y)) { 
+					return false;
+				} else if (x < ship.getX() - speed){
+					return false;
+				} 
 			} else {
-				return true;
+				if(Math.abs(y - ship.getY()) != 1) { 
+					return false;
+				}
+				else if(StarBoard.inBounds(x, y)) { 
+					return false;
+				}
 			}
-		}
-		return false;
-	}
-	
-	/**
-	 * If mine located at (x,y), detonates it.
-	 * @param x
-	 * @param y
-	 * @return True if there was a mine, false otherwise.
-	 */
-	private boolean checkMine(int x, int y){
-		if (board.getSpaceThing(x, y) instanceof Mine){
-			((Mine) board.getSpaceThing(x, y)).detonate();
 			return true;
 		}
 		return false;
