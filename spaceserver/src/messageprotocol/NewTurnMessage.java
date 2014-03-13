@@ -120,10 +120,32 @@ public class NewTurnMessage implements Serializable
 	 */
 	@Override
 	public String toString() {
+		String radVis = "[";
+		for(boolean[] b : radarVisibleTiles) { 
+			radVis += "[";
+			for(int i = 0; i < b.length-1; i++) {
+				radVis += b[i] + ", ";
+			}
+			radVis += b[b.length-1];
+			radVis += "]";
+		}
+		radVis += "]";
+		
+		String sonVis = "[";
+		for(boolean[] b : sonarVisibleTiles) { 
+			sonVis += "[";
+			for(int i = 0; i < b.length-1; i++) { 
+				sonVis += b[i] + ", ";
+			}
+			sonVis += b[b.length - 1];
+			sonVis += "]";
+		}
+		sonVis += "]";
+		
 		return "NewTurnMessage [action=" + action + ", state=" + state
 				+ ", turnSuccess=" + turnSuccess + ", response=" + response
-				+ ", radarVisibleTiles=" + Arrays.toString(radarVisibleTiles)
-				+ ", sonarVisibleTiles=" + Arrays.toString(sonarVisibleTiles)
+				+ ", radarVisibleTiles=" + radVis
+				+ ", sonarVisibleTiles=" + sonVis
 				+ ", testNumber=" + testNumber + "]";
 	}
 

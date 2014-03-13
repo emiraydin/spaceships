@@ -161,7 +161,8 @@ public class TestMessageProtocol {
 			System.out.println(current);
 		}	
 		
-		pZero.turnShip(shipId, ActionType.Turn180Left);
+		
+		//pZero.turnShip(shipId, ActionType.Turn180Left);
 	}
 
 	@Test
