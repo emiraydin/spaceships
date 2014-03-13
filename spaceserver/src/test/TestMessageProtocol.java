@@ -127,15 +127,25 @@ public class TestMessageProtocol {
 			}
 		}	
 		
-		ActionMessage newMes = new ActionMessage(ActionType.FireCannon, shipId, ships.get(0).getX() + 1, ships.get(0).getY());
+		ActionMessage newMes = new ActionMessage(ActionType.FireCannon, shipId, pZero.getShip(shipId).getX() + 2, pZero.getShip(shipId).getY());
 		
 		NewTurnMessage[] response = handler.doAction(newMes, 0);
 		
 		for (NewTurnMessage current : response) {
 			System.out.println(current);
+		}
+		
+		
+		// TORPEDO
+		
+		// We want to pick out the radar ship
+		for (AbstractShip current : ships) {
+			if (current.getShipType().equals(SpaceThingType.TorpedoShip)) {
+				shipId = current.getID();
+			}
 		}	
 		
-		newMes = new ActionMessage(ActionType.FireTorpedo, shipId, ships.get(0).getX() + 1, ships.get(0).getY());
+		newMes = new ActionMessage(ActionType.FireTorpedo, shipId, pZero.getShip(shipId).getX() + 1, pZero.getShip(shipId).getY());
 		
 		response = handler.doAction(newMes, 0);
 		
@@ -143,7 +153,7 @@ public class TestMessageProtocol {
 			System.out.println(current);
 		}
 		
-		newMes = new ActionMessage(ActionType.Move, shipId, ships.get(0).getX() + 5, ships.get(0).getY());
+		newMes = new ActionMessage(ActionType.Move, shipId, pZero.getShip(shipId).getX() + 9, pZero.getShip(shipId).getY());
 		
 		response = handler.doAction(newMes, 0);
 		
@@ -151,7 +161,7 @@ public class TestMessageProtocol {
 			System.out.println(current);
 		}	
 		
-		pZero.turnShip(shipId, ActionType.TurnLeft);
+		pZero.turnShip(shipId, ActionType.Turn180Left);
 	}
 
 	@Test
