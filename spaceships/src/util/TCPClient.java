@@ -23,6 +23,7 @@ public class TCPClient implements Runnable {
 
 	private static BufferedReader inputLine = null;
 	private static boolean connectionClosed = false;
+	public static boolean canStart;
 	
 	public static void start() {
 
@@ -72,7 +73,15 @@ public class TCPClient implements Runnable {
 					ServerMessageHandler.executeNewTurnMessage(received);
 					System.out.println(received.toString());
 				} else if (responseLine.startsWith("//connected")) {
-					GameScreen.canStart = true;
+					canStart = true;
+//					try
+//					{
+//						Thread.sleep(1500);
+//					}
+//					catch (InterruptedException e)
+//					{
+//						e.printStackTrace();
+//					} 
 					System.out.println("isConnectedAndMatched:");
 				} else {
 					System.out.println(responseLine);

@@ -35,7 +35,6 @@ public class BaseTileActor extends Image
 	{
 		if(currentPlayer == PlayerNumber.PlayerOne) 
 		{
-			System.out.println("TEST");
 			SPRITE = new Sprite(generateBaseTile());
 		}
 		else 
