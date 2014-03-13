@@ -32,11 +32,12 @@ public class NewTurnMessage implements Serializable
 	boolean[][] radarVisibleTiles;
 	boolean[][] sonarVisibleTiles;
 	int testNumber; //removethis
+
 	/**
-	 * Construct the NewTurnMessage.
-	 * The params are all references, so watch out...
 	 * 
 	 * @param action
+	 * @param turnSuccess
+	 * @param response
 	 * @param state
 	 * @param radarVisibleTiles
 	 * @param sonarVisibleTiles

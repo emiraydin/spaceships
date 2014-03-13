@@ -7,6 +7,10 @@ public class PlayerOnlineMessage implements Message {
 	
 	private final String userName;  
 	
+	/**
+	 * 
+	 * @param userName
+	 */
 	public PlayerOnlineMessage(String userName) { 
 		this.userName = userName;
 	}

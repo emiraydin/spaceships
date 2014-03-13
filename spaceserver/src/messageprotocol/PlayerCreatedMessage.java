@@ -7,6 +7,11 @@ public class PlayerCreatedMessage implements Message {
 	private final String userName; 
 	private final String userPass; 
 	
+	/**
+	 * 
+	 * @param userName
+	 * @param userPass
+	 */
 	public PlayerCreatedMessage(String userName, String userPass) { 
 		this.userName = userName;
 		this.userPass = userPass;

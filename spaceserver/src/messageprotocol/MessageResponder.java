@@ -19,6 +19,10 @@ public class MessageResponder {
 	boolean success;
 	String response;
 	
+	/**
+	 * 
+	 * @param handler
+	 */
 	public MessageResponder(GameHandler handler) {
 		this.handler = handler;
 		this.board = handler.getBoard();

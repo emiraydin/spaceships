@@ -604,4 +604,8 @@ public class FleetCommander {
 	public void setActionResponse(String response) { 
 		this.handler.getMessageResponder().setResponseMessage(response);
 	}
+
+	public ArrayList<AbstractShip> getShips() {
+		return ships;
+	}
 }
