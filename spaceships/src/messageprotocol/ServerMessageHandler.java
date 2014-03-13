@@ -10,6 +10,8 @@ import messageprotocol.*;
 
 public class ServerMessageHandler {
 	
+	public static ActionMessage currentAction;
+	public static boolean hasChanged = false; 
 	/**
 	 * Execute a NewTurnMessage.  The server sends each client one of these 
 	 * every turn.  If a NewTurnMessage field is null, this function ignores it.

@@ -1,5 +1,7 @@
 package util;
 
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -7,12 +9,18 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import messageprotocol.ActionMessage;
+import messageprotocol.NewTurnMessage;
+import messageprotocol.ServerMessageHandler;
+
 public class TCPClient implements Runnable {
 
-	// Initialize sockets and input/output streams
+	// Initialize sockets and messageInput/messageOutput streams
 	private static Socket clientSocket = null;
-	private static PrintStream output = null;
-	private static BufferedReader input = null;
+	private static PrintStream messageOutput = null;
+	private static BufferedReader messageInput = null;
+	private static ObjectInputStream objectInput = null;
+	private static ObjectOutputStream objectOutput = null;
 
 	private static BufferedReader inputLine = null;
 	private static boolean connectionClosed = false;
@@ -21,12 +29,14 @@ public class TCPClient implements Runnable {
 
 		System.out.println("Client is now running on " + Properties.HOST_NAME + " port " + Properties.PORT_NUMBER);
 
-		// Open a socket on given host name and port number, and initialize input/output streams
+		// Open a socket on given host name and port number, and initialize messageInput/messageOutput streams
 		try {
 			clientSocket = new Socket(Properties.HOST_NAME, Properties.PORT_NUMBER);
 			inputLine = new BufferedReader(new InputStreamReader(System.in));
-			output = new PrintStream(clientSocket.getOutputStream());
-			input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+			messageOutput = new PrintStream(clientSocket.getOutputStream());
+			messageInput = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+			objectInput = new ObjectInputStream(clientSocket.getInputStream());
+			objectOutput = new ObjectOutputStream(clientSocket.getOutputStream());
 		} catch (UnknownHostException e) {
 			System.err.println("Unknown host: " + Properties.HOST_NAME);
 		} catch (IOException e) {
@@ -34,17 +44,17 @@ public class TCPClient implements Runnable {
 		}
 
 		// Write the data to the recently opened socket, given everything is set up
-		if (clientSocket != null && output != null && input != null) {
+		if (clientSocket != null && messageOutput != null && messageInput != null) {
 			
 			try {
 				// Create new thread to read from the server
 				new Thread(new TCPClient()).start();
 				while (!connectionClosed) {
-					output.println(inputLine.readLine().trim());
+					messageOutput.println(inputLine.readLine().trim());
 				}
 				// Close streams and sockets
-				output.close();
-				input.close();
+				messageOutput.close();
+				messageInput.close();
 				clientSocket.close();
 			} catch (IOException e) {
 				System.err.println(e);
@@ -58,17 +68,28 @@ public class TCPClient implements Runnable {
 	public void run() {
 		// Continue reading from the socket until the Goodbye signal is sent from the server
 		String responseLine;
+		NewTurnMessage responseObject;
 		try {
-			while ((responseLine = input.readLine()) != null) {
+			responseLine = messageInput.readLine();
+			responseObject = (NewTurnMessage)objectInput.readObject();
+			while (responseLine != null) {
 				System.out.println(responseLine);
 				if (responseLine.indexOf("Goodbye") != -1)
 					break;
+				ServerMessageHandler.executeNewTurnMessage(responseObject);
+				
+				if (ServerMessageHandler.hasChanged) {
+					objectOutput.writeObject((ActionMessage) ServerMessageHandler.currentAction);
+					ServerMessageHandler.hasChanged = false;
+				}
 			}
 			connectionClosed = true;
 			// Exit the client application
 			System.exit(0);
 			
 		} catch (IOException e) {
+			System.err.println(e);
+		} catch (ClassNotFoundException e) {
 			System.err.println(e);
 		}
 	}
