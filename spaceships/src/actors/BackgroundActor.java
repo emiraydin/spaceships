@@ -31,6 +31,7 @@ public class BackgroundActor extends Image
 		setWidth(75);
 		setHeight(55); 
 		setPosition(-5,-20);
+		
 	}
 
 	/**
@@ -51,7 +52,7 @@ public class BackgroundActor extends Image
 	public void draw(Batch batch, float parentAlpha)
 	{
         Color color = getColor();
-        batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
+        batch.setColor(color.r, color.g, color.b, 0.8f);
         batch.draw(SPRITE, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
 	}
 }

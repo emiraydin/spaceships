@@ -312,7 +312,7 @@ public class GameScreenUiController
 			{
 				if(ActorState.currentSelectionShip != -1)
 				{
-					ActorState.shipList.get(ActorState.currentSelectionShip).ship.setOrientation(OrientationType.South); 
+					ActorState.shipList.get(ActorState.currentSelectionShip).ship.setOrientation(OrientationType.North); 
 					chatBox.setText(""); 
 				}
 				return false; 
@@ -444,7 +444,7 @@ public class GameScreenUiController
 		float height = table.getHeight(), width = table.getWidth(); 
 		Pixmap pixmap = new Pixmap((int)width, (int)height, Format.RGBA8888);
 
-		pixmap.setColor(0, 0, 0, 0.5f);
+		pixmap.setColor(0, 0, 0, 0.3f);
 		pixmap.fill(); 
 		//pixmap.drawRectangle(0, 0, width, height);
 		pixmap.setColor(0, 1, 1, 1);
