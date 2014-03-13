@@ -36,7 +36,7 @@ public class NewTurnMessage implements Serializable
 	 */
 	boolean[][] radarVisibleTiles;
 	boolean[][] sonarVisibleTiles;
-	int testNumber; //removethis
+	int playerID;
 
 	/**
 	 * 
@@ -53,7 +53,8 @@ public class NewTurnMessage implements Serializable
 			String response,
 			LinkedList<GameStateMessage> state,
 			boolean[][] radarVisibleTiles,
-			boolean[][]	sonarVisibleTiles
+			boolean[][]	sonarVisibleTiles,
+			int pid
 					) {
 		
 		this.action = action;
@@ -70,8 +71,7 @@ public class NewTurnMessage implements Serializable
 		this.radarVisibleTiles = radarVisibleTiles;
 		this.sonarVisibleTiles = sonarVisibleTiles;
 		
-		this.testNumber = 33; //removethis
-		
+		this.playerID = pid;
 	}
 	
 	public ActionMessage getAction() {
@@ -120,11 +120,38 @@ public class NewTurnMessage implements Serializable
 	 */
 	@Override
 	public String toString() {
+		String radVis = null;
+		if(radarVisibleTiles != null) { 
+			radVis = "[";
+			for(boolean[] b : radarVisibleTiles) { 
+				radVis += "[";
+				for(int i = 0; i < b.length-1; i++) {
+					radVis += b[i] + ", ";
+				}
+				radVis += b[b.length-1];
+				radVis += "]";
+			}
+			radVis += "]";
+		} 
+ 				
+		String sonVis = null;
+		if(sonarVisibleTiles != null) { 
+			for(boolean[] b : sonarVisibleTiles) { 
+				sonVis += "[";
+				for(int i = 0; i < b.length-1; i++) { 
+					sonVis += b[i] + ", ";
+				}
+				sonVis += b[b.length - 1];
+				sonVis += "]";
+			}
+			sonVis += "]";
+		}
+		
 		return "NewTurnMessage [action=" + action + ", state=" + state
 				+ ", turnSuccess=" + turnSuccess + ", response=" + response
-				+ ", radarVisibleTiles=" + Arrays.toString(radarVisibleTiles)
-				+ ", sonarVisibleTiles=" + Arrays.toString(sonarVisibleTiles)
-				+ ", testNumber=" + testNumber + "]";
+				+ ", radarVisibleTiles=" + radVis
+				+ ", sonarVisibleTiles=" + sonVis
+				+ ", playerID=" + playerID + "]";
 	}
 
 	/* (non-Javadoc)
@@ -140,7 +167,7 @@ public class NewTurnMessage implements Serializable
 				+ ((response == null) ? 0 : response.hashCode());
 		result = prime * result + Arrays.hashCode(sonarVisibleTiles);
 		result = prime * result + ((state == null) ? 0 : state.hashCode());
-		result = prime * result + testNumber;
+		result = prime * result + playerID;
 		result = prime * result + (turnSuccess ? 1231 : 1237);
 		return result;
 	}
@@ -176,7 +203,7 @@ public class NewTurnMessage implements Serializable
 				return false;
 		} else if (!state.equals(other.state))
 			return false;
-		if (testNumber != other.testNumber)
+		if (playerID != other.playerID)
 			return false;
 		if (turnSuccess != other.turnSuccess)
 			return false;
