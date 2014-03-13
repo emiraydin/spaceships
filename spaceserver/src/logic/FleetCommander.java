@@ -380,19 +380,22 @@ public class FleetCommander {
 	 */
 	public boolean turnShip(int shipID, ActionType direction){
 		AbstractShip ship = getShip(shipID);
+		
+		// if out of bounds
+		if(ship.validateTurn(direction)) { 
+			return false;
+		}
+		
+		// if no obstacles in the way (i.e. turn complete), update location
 		if(ship.tryTurning(direction)) { 
-			/* turn completed successfully, so do bookkeeping */
 			decrementVisibility(ship);
 			board.clearSpaceThing(ship);
 			updateShipLocationAfterTurn(ship, direction);
 			board.setSpaceThing(ship, ship.getX(), ship.getY());
-			incrementVisibility(ship);
-			return true;
-		}
-		/* Otherwise, turn did not happen because ship went out of bounds, or because there
-		 * was some obstacle in the way */
-		
-		return false;
+			incrementVisibility(ship);			
+		} 
+		// if obstacles in the way, no relocation
+		return true;
 	}
 	
 	public void incrementVisibility(AbstractShip ship) { 

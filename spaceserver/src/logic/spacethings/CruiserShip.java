@@ -36,9 +36,9 @@ public class CruiserShip extends AbstractShip {
 	}
 
 	@Override
-	public boolean tryTurning(ActionType direction) {
+	public boolean validateTurn(ActionType direction) {
 		if(!(direction == ActionType.TurnLeft || direction == ActionType.TurnRight)) { 
-			System.out.println("CruiserShip cannot turn in direction: " + direction.name());
+			this.getOwner().setActionResponse("Cruisers can only turn left or right");
 			return false;
 		}
 		
@@ -46,11 +46,11 @@ public class CruiserShip extends AbstractShip {
 		
 		// if obstaclesInTurnZone returned null, it means the turn puts the ship out of bounds!
 		if(obstaclesInTurnZone == null) { 
-			System.out.println("Turn not completed because out of bounds");
+			this.getOwner().setActionResponse("Ships cannot go out of bounds");
 			return false;
 		}
 		
-		return handleObstaclesWhileTurning(obstaclesInTurnZone);		
+		return true;	
 	}
 	
 	/**
@@ -60,7 +60,7 @@ public class CruiserShip extends AbstractShip {
 	 *         otherwise a list of the coordinates of obstacles in the way of the turn
 	 *         (ships are multiple coordinates for multiple collisions).
 	 */
-	protected List<Point> getObstaclesInTurnZone(ActionType direction) {
+	public List<Point> getObstaclesInTurnZone(ActionType direction) {
 		List<Point> obstacles = new ArrayList<Point>();
 		
 		int x = this.getX();

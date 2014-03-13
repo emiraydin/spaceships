@@ -77,13 +77,13 @@ public abstract class AbstractShip extends SpaceThing {
 	/**
 	 * Try turning in given direction, see if crash/detonate mine.
 	 * @param turnType Desired turn direction
-	 * @return True if turned successfully, false otherwise
+	 * @return True if turn is valid, false otherwise.
 	 */
-	public abstract boolean tryTurning(ActionType turnType);
+	public abstract boolean validateTurn(ActionType turnType);
+	
 	
 	/**
 	 * Registers a collision, handles damage, and alerts players of collision.
-	 * (By which I mean it currently sends it to System.out)
 	 * @param shipX Ship's x-coordinate in collision
 	 * @param shipY Ship'x y-coordinate in collision
 	 * @param obstacleX Obstacle's x-coordinate in collision
@@ -91,7 +91,6 @@ public abstract class AbstractShip extends SpaceThing {
 	 * @return True if successful collision, false otherwise
 	 */
 	public boolean collide(int obstacleX, int obstacleY) { 
-		StarBoard board = this.getGameBoard();
 		SpaceThing spaceThing = this.getGameBoard().getSpaceThing(obstacleX, obstacleY);
 		
 		// basic check 
@@ -100,42 +99,36 @@ public abstract class AbstractShip extends SpaceThing {
 		}
 		
 		// if spaceThing was BaseTile, Asteriod, or other ship, no damage done
-		if(spaceThing instanceof Asteroid || spaceThing instanceof BaseTile || spaceThing instanceof AbstractShip) {
-			System.out.println("Collision at " + obstacleX + "," + obstacleY);
+		if(spaceThing instanceof Asteroid) { 
+			this.getOwner().setActionResponse(String.format("Ship collision with asteroid at (%d,%d)", obstacleX, obstacleY));
 			return true;
-		}			
-		// otherwise, spacething was mine
+		}
+		else if(spaceThing instanceof BaseTile) { 
+			this.getOwner().setActionResponse(String.format("Ship collision with a base at (%d,%d)", obstacleX, obstacleY));
+			return true;
+		}
+		else if(spaceThing instanceof AbstractShip) { 
+			this.getOwner().setActionResponse(String.format("Ship collision at (%d,%d)", obstacleX, obstacleY));
+			return true;
+		}		
 		else if(spaceThing instanceof Mine) {
 			// if ship is minelayer, mine doesn't explode. nothing happens. 
-			// this method shouldnt even really be called in this case but heres a safety
 			if(this instanceof MineLayerShip) { 
-				// non-destructive collision
+				// non-destructive collision, not announced
 				return true;
 			}
 			
 			Mine mine = (Mine)spaceThing;
-	
-			// detonate mine
-			mine.detonate();
 			
-			// choose random section of ship to be damaged
+			// choose random section of ship to be be the square that collides
 			int[][] shipCoords = this.getShipCoords();
-			int section = new Random().nextInt(shipCoords.length);
-			
-			// an adjacent section is also damaged
-			int section2;
-			if (section + 1 < this.getLength()){
-				section2 = section + 1;
-			} else {
-				section2 = section - 1;
-			}
-			this.decrementSectionHealth(Mine.getDamage(), section);
-			this.decrementSectionHealth(Mine.getDamage(), section2);
-			
-			System.out.println("Mine exploded at " + mine.getX() + "," + mine.getY());
+			// detonate mine
+			Random r = new Random(shipCoords.length);
+			int[] shipLocation = shipCoords[r.nextInt()];
+			mine.detonate(shipLocation[0], shipLocation[1]);
+			this.getOwner().setActionResponse(String.format("Mine detonated at (%d,%d)", obstacleX, obstacleY));
 		}
 		else { 
-			// uuuuuuh so this shouldnt happen but just in case
 			return false;
 		}
 		
@@ -256,7 +249,7 @@ public abstract class AbstractShip extends SpaceThing {
 	 */
 	protected boolean addObstacleToList(int x, int y, List<Point> list) { 
 		if(!StarBoard.inBounds(x, y)) { 
-			System.out.println("Ship would be out of bounds at (" + x + "," + y + ")");
+//			System.out.println("Ship would be out of bounds at (" + x + "," + y + ")");
 			return false;
 		}
 		if(this.getGameBoard().getSpaceThing(x, y) != null) { 
@@ -265,32 +258,43 @@ public abstract class AbstractShip extends SpaceThing {
 		return true;
 	}
 	
-	
-	protected boolean handleObstaclesWhileTurning(List<Point> obstaclesInTurnZone) { 
+	public abstract List<Point> getObstaclesInTurnZone(ActionType direction);
+		
+	/** Checks to see if any obstacles in the way of the ship turning.
+	 * If obstacles, deals with them (collides, etc)
+	 * 
+	 * @param obstaclesInTurnZone SHOULD NOT BE NULL PLS USE VALIDATETURN() THX
+	 * @return true if turn completed (no collisions), false otherwise.
+	 */
+	public boolean tryTurning(ActionType direction) { 
+		List<Point> obstacles = this.getObstaclesInTurnZone(direction);
+		
+		// this should not be null! pls guys
+		if(obstacles == null) { 
+			return false;
+		}
+		
 		/* If there's a ship, asteroid or base in the way, turn is cancelled due to collision */
-		for(Point coord : obstaclesInTurnZone) { 
+		for(Point coord : obstacles) { 
 			SpaceThing spaceThing = this.getGameBoard().getSpaceThing(coord.x, coord.y);
 			if(spaceThing instanceof AbstractShip || spaceThing instanceof Asteroid || spaceThing instanceof BaseTile) { 
+				// collide takes care of message responses
 				this.collide(coord.x, coord.y);
-				System.out.println("Collision. Turn not completed.");
 				return false;
 			}
 		}
 		
 		/* If there's a mine in the way, it detonates */
-		for(Point coord : obstaclesInTurnZone) { 
+		for(Point coord : obstacles) { 
 			SpaceThing spaceThing = this.getGameBoard().getSpaceThing(coord.x, coord.y);
 			if(spaceThing instanceof Mine) { 	
-				if(this instanceof MineLayerShip) { 
-					// no damage, no collision. just doesn't turn.
-					return false;
-				}
-				else { 
+				// mine only detonates if ship is not a MineLayer
+				if(!(this instanceof MineLayerShip)) { 
+					// collide takes care of message responses
 					this.collide(coord.x, coord.y);
-					// mine exploded => turn not completed
-					System.out.println("Mine explosion. Turn not completed.");
-					return false;
-				}
+				} 
+				// either way, turn not completed
+				return false;
 				
 			}
 		}

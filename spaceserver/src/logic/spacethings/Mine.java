@@ -9,20 +9,19 @@ import messageprotocol.GameStateMessage;
 public class Mine extends SpaceThing {
 	
 	private static final int damage = 2;
-//	private FleetCommander owner;
 	
 	public Mine(FleetCommander owner, StarBoard gameBoard){
 		super(-1, -1, owner, gameBoard);
 	}
 	
-	/** 
-	 * Mine detonates and damages anything adjacent to it.
-	 * @return False if there's a problem, true otherwise.
+	/**
+	 * Removes mine, does damage to ship that detonates it.
+	 * @param x Of the ship detonating mine
+	 * @param y Of the ship detonating mine
+	 * @return True if detonation successful, false otherwise
 	 */
-	public boolean detonate() { 
-		int x = this.getX();
-		int y = this.getY();
-		if(x == -1 && y == -1) { 
+	public boolean detonate(int x, int y) { 
+		if(this.getX() == -1 && this.getY() == -1) { 
 			System.out.println("Can't detonate unplaced mine");
 			return false;
 		}
@@ -48,14 +47,6 @@ public class Mine extends SpaceThing {
 	public static int getDamage(){
 		return damage;
 	}
-	
-//	public FleetCommander getOwner(){
-//		return owner;
-//	}
-//	
-//	public void setOwner(FleetCommander fc){
-//		owner = fc;
-//	}
 	
 	public void setLocation(int x, int y) { 
 		this.setX(x);
