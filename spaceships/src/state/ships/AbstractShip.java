@@ -1,6 +1,6 @@
 package state.ships;
 
-import gameLogic.Constants.*;
+import common.GameConstants.*;
 
 import java.util.Arrays;
 import java.util.LinkedList;

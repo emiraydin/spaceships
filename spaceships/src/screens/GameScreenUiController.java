@@ -1,6 +1,7 @@
 package screens;
 
-import gameLogic.Constants.OrientationType;
+import common.GameConstants.*;
+
 import gameLogic.ActionValidator;
 import gameLogic.Descriptions;
 import state.ships.AbstractShip;

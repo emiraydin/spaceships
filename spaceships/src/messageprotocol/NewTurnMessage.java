@@ -115,7 +115,7 @@ public class NewTurnMessage implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "NewTurnMessage [action=" + action + ", state=" + state
+		return "NewTurnMessage [action=" + action.toString() + ", state=" + state
 				+ ", radarVisibleTiles=" + Arrays.toString(radarVisibleTiles)
 				+ ", sonarVisibleTiles=" + Arrays.toString(sonarVisibleTiles)
 				+ "]";

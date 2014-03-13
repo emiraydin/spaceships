@@ -1,6 +1,6 @@
 package state;
 
-import gameLogic.Constants.*;
+import common.GameConstants.*;
 
 public class SpaceThing {
 	

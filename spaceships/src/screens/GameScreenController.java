@@ -1,10 +1,13 @@
 package screens;
 
 import gameLogic.ActionValidator;
+
+import common.GameConstants.*;
 import gameLogic.Constants;
-import gameLogic.Constants.OrientationType;
+
 import state.ships.AbstractShip;
 import state.ships.TorpedoShip;
+
 import actors.ActorState;
 import actors.AsteroidActor;
 import actors.BackgroundActor;

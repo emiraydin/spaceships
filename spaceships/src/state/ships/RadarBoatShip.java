@@ -1,8 +1,6 @@
 package state.ships;
 
-import gameLogic.Constants.ArmourType;
-import gameLogic.Constants.PlayerNumber;
-import gameLogic.Constants.SpaceThingType;
+import common.GameConstants.*;
 
 import java.util.LinkedList;
 

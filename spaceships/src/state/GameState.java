@@ -1,12 +1,11 @@
 package state;
 
-import gameLogic.Constants.*;
-
 import java.util.HashMap;
 import java.util.Set;
 
 import state.ships.*;
 
+import common.GameConstants.*;
 
 public class GameState
 {

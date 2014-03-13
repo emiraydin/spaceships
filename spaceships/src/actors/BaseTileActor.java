@@ -1,7 +1,7 @@
 package actors;
 
 import gameLogic.Constants;
-import gameLogic.Constants.PlayerNumber;
+import common.GameConstants.*;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -35,6 +35,7 @@ public class BaseTileActor extends Image
 	{
 		if(currentPlayer == PlayerNumber.PlayerOne) 
 		{
+			System.out.println("TEST");
 			SPRITE = new Sprite(generateBaseTile());
 		}
 		else 

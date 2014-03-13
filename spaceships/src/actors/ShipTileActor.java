@@ -1,8 +1,7 @@
 package actors;
 
+import common.GameConstants.*;
 import gameLogic.Constants;
-import gameLogic.Constants.OrientationType;
-import gameLogic.Constants.PlayerNumber;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;

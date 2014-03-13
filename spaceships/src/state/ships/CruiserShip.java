@@ -1,9 +1,8 @@
 package state.ships;
 
 import state.weapons.HeavyCannon;
-import gameLogic.Constants.ArmourType;
-import gameLogic.Constants.PlayerNumber;
-import gameLogic.Constants.SpaceThingType;
+
+import common.GameConstants.*;
 
 /**
  * The Cruiser Class Ship. TODO: Come up with a cooler name. 

@@ -1,7 +1,9 @@
 package gameLogic;
 
 import actors.ActorState;
-import gameLogic.Constants.OrientationType;
+
+import common.GameConstants.*;
+
 import state.ships.AbstractShip;
 import state.ships.TorpedoShip;
 

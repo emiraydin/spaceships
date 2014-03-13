@@ -3,9 +3,7 @@ package messageprotocol;
 import java.io.Serializable;
 import java.util.Arrays;
 
-import gameLogic.Constants.OrientationType;
-import gameLogic.Constants.PlayerNumber;
-import gameLogic.Constants.SpaceThingType;
+import common.GameConstants.*;
 
 public class GameStateMessage implements Serializable {
 	

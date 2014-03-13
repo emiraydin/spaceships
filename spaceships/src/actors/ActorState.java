@@ -1,7 +1,6 @@
 package actors;
 
-import gameLogic.Constants.OrientationType;
-import gameLogic.Constants.PlayerNumber;
+import common.GameConstants.*;
 
 import java.util.HashMap;
 import java.util.LinkedList;

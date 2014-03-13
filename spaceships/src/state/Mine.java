@@ -1,7 +1,6 @@
 package state;
 
-import gameLogic.Constants.PlayerNumber;
-import gameLogic.Constants.SpaceThingType;
+import common.GameConstants.*;
 
 
 public class Mine extends SpaceThing {

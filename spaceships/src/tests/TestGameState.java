@@ -1,7 +1,8 @@
 package tests;
 
 import static org.junit.Assert.*;
-import gameLogic.Constants.*;
+
+import common.GameConstants.*;
 
 import java.util.ArrayList;
 

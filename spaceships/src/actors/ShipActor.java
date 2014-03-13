@@ -1,7 +1,7 @@
 package actors;
 
-import gameLogic.Constants.OrientationType;
-import gameLogic.Constants.PlayerNumber;
+import common.GameConstants.*;
+
 import state.ships.AbstractShip;
 
 import com.badlogic.gdx.graphics.Color;

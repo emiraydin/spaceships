@@ -113,6 +113,21 @@ public class TestMessageProtocol {
 		}
 		
 	}
+	
+	@Test
+	public void testMessageExec() {
+		ArrayList<AbstractShip> ships = pZero.getShips();
+		
+		int shipId = ships.get(0).getID();		
+		
+		ActionMessage newMes = new ActionMessage(ActionType.Move, shipId, ships.get(0).getX() + 1, ships.get(0).getY());
+		
+		NewTurnMessage[] response = handler.doAction(newMes, 0);
+		
+		for (NewTurnMessage current : response) {
+			System.out.println(current);
+		}		
+	}
 
 	@Test
 	public void testFleetCommander() {
