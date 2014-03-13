@@ -31,7 +31,7 @@ public class FleetCommander {
 		this.fcID = fcID;
 		sonarVisibility = new int[30][30];
 		radarVisibility = new int[30][30];
-		/* TODO: set initial visibilities
+		/* 
 		 * - your base has short radar range of 1 square
 		 * - enemies base and coral reefs are visible
 		 */
