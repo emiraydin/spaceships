@@ -1,11 +1,12 @@
 package actors;
 
 import gameLogic.Constants;
+import gameLogic.Constants.PlayerNumber;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -18,7 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
  */
 public class BaseTileActor extends Image 
 {
-	int currentPlayerID; 														// The ID of the owning player. 
+	PlayerNumber currentPlayer; 														// The ID of the owning player. 
 	private Sprite SPRITE; 														// The Graphic to be rendered.
 	private final int WIDTH = Constants.PIXEL_WIDTH, 							// The actual pixel size. 
 					  HEIGHT = Constants.PIXEL_HEIGHT;
@@ -30,9 +31,9 @@ public class BaseTileActor extends Image
 	 * @param y : The y position of the BaseTile. 
 	 * @param playerId : The Id of the player who owns this tile. 
 	 */
-	public BaseTileActor(int x, int y, int playerId)
+	public BaseTileActor(int x, int y, PlayerNumber currentPlayer)
 	{
-		if(playerId == 1) 
+		if(currentPlayer == PlayerNumber.PlayerOne) 
 		{
 			SPRITE = new Sprite(generateBaseTile());
 		}
@@ -43,7 +44,7 @@ public class BaseTileActor extends Image
 		setPosition(x,y);
 		setWidth(1);
 		setHeight(1);
-		this.currentPlayerID = playerId; 
+		this.currentPlayer = currentPlayer; 
 	}
 
 

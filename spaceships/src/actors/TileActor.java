@@ -33,6 +33,8 @@ public class TileActor extends Image
 	// Position on the GameScreen
 	private final Vector2 POSITION; 
 	
+	// Just for testing. 
+	
 	/**
 	 * Constructor for Tile Object.
 	 * Requires an x, y position
@@ -57,26 +59,28 @@ public class TileActor extends Image
 		{
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
 			{
-				if(ActorState.currentSelection != -1)
-				{
-					
-				}
+				ActorState.setCurrentTile(getThisTile()); 
 				return false;
 			}
 			
 			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
 			{ 
-				drawAsGreen(); 
+			//	drawAsGreen(); 
 			}
 			
 			public void exit(InputEvent event, float x, float y, int pointer, Actor toActor)
 			{
-				drawAsBlue(); 
+			//	drawAsBlue(); 
 			}
 		});
 		
 	}
 
+	private TileActor getThisTile()
+	{
+		return this; 
+	}
+	
 	/**
 	 * Generates a basic Texture that is Square
 	 * with blue border. 

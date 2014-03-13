@@ -65,7 +65,7 @@ public class GameScreen implements Screen
 		renderer = new GameScreenRenderer(controller, uiController);
 		
 		// controller will handle user input. 
-		Gdx.input.setInputProcessor(new InputMultiplexer(controller, controller.STAGE));
+		Gdx.input.setInputProcessor(new InputMultiplexer(controller, controller.STAGE, uiController.uiStage));
 
 		
 	}

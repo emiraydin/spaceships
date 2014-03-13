@@ -7,7 +7,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 import state.Asteroid;
+import state.BaseTile;
 import state.SpaceThing;
+import state.ships.AbstractShip;
 import state.ships.CruiserShip;
 import state.ships.DestroyerShip;
 import state.ships.MineLayerShip;
@@ -41,7 +43,8 @@ public class ActorState
 	private static MineActor[][] 	playerTwoMineField = new MineActor[boardHeight][boardWidth];	// The opponent players Mine Tiles. 
 	public static AsteroidActor[][]  asteroidField = new AsteroidActor[boardHeight][boardWidth]; 	// The locations of all the asteroids. 
 	public static boolean[][] 	visibility	= new boolean[boardHeight][boardWidth];	   	// The board visibility. 
-	public static int 			currentSelection = -1; 								   	// The currently selected player ship. 
+	public static int 			currentSelectionShip = -1; 								   	// The currently selected player ship. 
+	public static TileActor 	currentTile; 
 	
 	public static LinkedList<ShipActor> shipList = new LinkedList<ShipActor>(); 
 	
@@ -113,13 +116,13 @@ public class ActorState
 		// Create the current players tiles. 
 		for(int i = 10; i < 20; i++)
 		{
-			playerOneBase[0][i] = new BaseTileActor(0, i, 1);
+			playerOneBase[0][i] = new BaseTileActor(0, i, PlayerNumber.PlayerOne);
 		}
 		
 		// Create the current players tiles. 
 		for(int i = 10; i < 20; i++)
 		{
-			playerOneBase[29][i] = new BaseTileActor(29, i, 0);
+			playerOneBase[29][i] = new BaseTileActor(29, i, PlayerNumber.PlayerTwo);
 		}
 	}
 	
@@ -219,6 +222,18 @@ public class ActorState
 	}
 
 	/**
+	 * Another helper that just takes the actor. 
+	 * @param ship
+	 */
+	private static void addFleetTile(ShipActor ship)
+	{
+		for(Actor tile : ship.getChildren())
+		{
+			playerOneFleet[(int)tile.getX()][(int)tile.getY()] = (ShipTileActor) tile; 
+		}
+	}
+	
+	/**
 	 * Method that initializes the entire game from the GameState class. 
 	 */
 	public static void initializeGame()
@@ -239,8 +254,45 @@ public class ActorState
 				AsteroidActor actor = new AsteroidActor(object.getX(), object.getY()); 
 				asteroidField[object.getX()][object.getY()] = actor; 
 			}
+			
+			if(object instanceof AbstractShip)
+			{
+				ShipActor ship = new ShipActor(object.getX(), object.getY(), (AbstractShip) object); 
+				if(((AbstractShip) object).getOwner() == PlayerNumber.PlayerOne)
+				{
+					addFleetTile(ship); 
+				}
+				else
+				{
+					//TODO ADD THE OTHER PLAYESRS SHIP. 
+				}
+			}
+			
+			if(object instanceof BaseTile)
+			{
+				BaseTileActor tile = new BaseTileActor(object.getX(), object.getY(), object.getOwner()); 
+				if(object.getOwner() == PlayerNumber.PlayerOne)
+				{
+					playerOneBase[object.getX()][object.getY()] = tile; 
+				}
+				else
+				{
+					playerTwoBase[object.getX()][object.getY()] = tile; 
+				}
+			}
 		}
 		
+		
+	}
+
+	public static void setCurrentTile(TileActor thisTile)
+	{
+		if(currentTile != null)
+		{
+			currentTile.drawAsBlue(); 
+		}
+		currentTile = thisTile; 
+		thisTile.drawAsGreen(); 
 		
 	}
 

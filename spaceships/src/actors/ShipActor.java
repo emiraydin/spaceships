@@ -208,4 +208,27 @@ public class ShipActor extends Group
 		return this.orientation; 
 	}
 
+
+	/**
+	 * Render an 'X' for any section that is destroyed. 
+	 * @param i
+	 */
+	public void drawDestroyedSection(int i)
+	{
+		tiles[i].drawAsDestroyed(); 
+		tiles[i].setDestroyed(true); 
+		
+	}
+	
+	/**
+	 * Tells the ship to not draw anymore. 
+	 */
+	public void setVisible(boolean b)
+	{
+		for(ShipTileActor m : tiles)
+		{
+			m.setVisible(false); 
+		}
+	}
+
 }

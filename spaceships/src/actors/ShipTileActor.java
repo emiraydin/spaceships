@@ -24,6 +24,7 @@ public class ShipTileActor extends Image
 	
 	private Sprite SPRITE; 
 	private boolean isHead = false;				// Is this currently the head of the ship.
+	private boolean isDestroyed = false; 		// Is the section currently destroyed. 
 	private OrientationType orientation; 
 	private final int WIDTH = Constants.PIXEL_WIDTH, HEIGHT = Constants.PIXEL_HEIGHT;
 
@@ -197,6 +198,11 @@ public class ShipTileActor extends Image
 	public void drawAsNonCurrent()
 	{
 		this.SPRITE.getTexture().dispose(); 
+		if(isDestroyed)
+		{
+			drawAsDestroyed(); 
+			return; 
+		}
 		if(isHead)
 		{
 			SPRITE = new Sprite(generateUnselectedHead(orientation)); 
@@ -208,6 +214,11 @@ public class ShipTileActor extends Image
 	public void drawAsCurrent()
 	{
 		this.SPRITE.getTexture().dispose(); 
+		if(isDestroyed)
+		{
+			drawAsDestroyed(); 
+			return; 
+		}
 		if(isHead)
 		{
 			SPRITE = new Sprite(generateSelectedHead(orientation)); 
@@ -230,6 +241,51 @@ public class ShipTileActor extends Image
 	public boolean isHead()
 	{
 		return isHead; 
+	}
+
+	/**
+	 * Draws the tile as if it had been destroyed. 
+	 */
+	public void drawAsDestroyed()
+	{
+		this.SPRITE.getTexture().dispose(); 
+		
+		this.SPRITE = new Sprite(generateDestroyedTexture()); 
+		
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	private Texture generateDestroyedTexture()
+	{
+		Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
+		// Draw a cyan-colored border around square
+		pixmap.setColor(0, 0, 0, 0.4f);
+		pixmap.fill(); 
+		pixmap.setColor(1, 0, 0, 1f);
+		pixmap.drawLine(0, 0, 32, 32); 
+		pixmap.drawLine(0, 32, 32, 0); 
+		Texture newTexture = new Texture(pixmap);
+		
+		return newTexture;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setDestroyed(boolean b)
+	{
+		this.isDestroyed = b; 
+	}
+	
+	/**
+	 * 
+	 */
+	public boolean getDestroted()
+	{
+		return this.isDestroyed; 
 	}
 
 }

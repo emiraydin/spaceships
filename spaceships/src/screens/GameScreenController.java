@@ -76,7 +76,7 @@ public class GameScreenController implements InputProcessor
 	{		
 		
 		// If a ship is selected, display the movement and fire range. 
-		updateMovementAndFire(delta); 
+		updateMovementAndFireAndHealth(delta); 
 		
 		// Get player action Selection
 		checkPlayerAction(); 
@@ -158,7 +158,7 @@ public class GameScreenController implements InputProcessor
 	/**
 	 * Draws the entire gameBoard as blue tiles. 
 	 */
-	private void resetGameBoardBlue() 
+	public void resetGameBoardBlue() 
 	{
 		// Reset all the game tiles to blue. 
 		for(int i = 0; i < ActorState.boardHeight; i ++)
@@ -167,7 +167,12 @@ public class GameScreenController implements InputProcessor
 			{
 				ActorState.boardTiles[i][k].drawAsBlue(); 
 			}
-		}	
+		}		
+		
+		if(ActorState.currentTile != null)
+		{
+			ActorState.currentTile.drawAsGreen(); 
+		}
 	}
 	
 
@@ -176,14 +181,42 @@ public class GameScreenController implements InputProcessor
 	 * This method compares the ACTOR ship with the MODEL ship.
 	 * It determines if the two are in the same location, and if not,
 	 * it moves them to the proper place. 
+	 * Also determines how much health the ship has and render it based on that.
 	 */
-	private void updateMovementAndFire(float delta) 
+	private void updateMovementAndFireAndHealth(float delta) 
 	{
+		if(Gdx.input.isKeyPressed(Keys.R))
+		{
+			AbstractShip ship = ActorState.shipList.get(0).ship; 
+			int[] r = new int[ship.getLength()];
+			ship.updateProperties(ship.getX(), ship.getY(), ship.getOrientation(), r); 
+			System.out.println(ActorState.shipList.get(0).ship.getSectionHealth()[0]); 
+			//ActorState.shipList.get(0).setVisible(false); 
+			//ActorState.shipList.removeFirst();
+			
+		}
+		
 		// Update all the ships Based on location. 
 		// Update the ships orientation. 
 		// if there was something to update then just return. 
 		for(ShipActor currentShip : ActorState.shipList)
 		{
+			// Draw the section health as destroyed if it is. 
+			for(int i = 0; i < currentShip.ship.getSectionHealth().length; i++)
+			{
+				if(currentShip.ship.getSectionHealth()[i] <= 0)
+				{
+					currentShip.drawDestroyedSection(i); 
+				}
+			}
+			
+			// If the entire ship is destroyed, draw remove from screen. 
+			int count = currentShip.ship.getLength(); 
+			for(int i : currentShip.ship.getSectionHealth())
+			{
+				if(i <= 0) count --; 
+			}
+			
 			if(currentShip.getOrientation() != currentShip.ship.getOrientation())
 			{
 				currentShip.setOrientation(currentShip.ship.getOrientation()); 
@@ -209,7 +242,6 @@ public class GameScreenController implements InputProcessor
 			}
 
 		}
-		
 	}
 
 	/*********************************************************************************
@@ -338,6 +370,10 @@ public class GameScreenController implements InputProcessor
 			}
 		}
 		
+		// Create the Ship Objects. 
+		
+		
+		
 		
 		
 		
@@ -385,7 +421,7 @@ public class GameScreenController implements InputProcessor
 	 * @param actorShip
 	 * @param modelShip
 	 */
-	private void drawCannonRange(ShipActor actorShip, AbstractShip modelShip) 
+	public void drawCannonRange(ShipActor actorShip, AbstractShip modelShip) 
 	{
 		// Get the actor and model ships, and draw their appropriate rectangles. 
 		int length = modelShip.getLength(); 
@@ -563,7 +599,7 @@ public class GameScreenController implements InputProcessor
 	/**
 	 * Helper method that draws all the movement range. 
 	 */
-	private void drawMovementRange(ShipActor actor, AbstractShip model)
+	public void drawMovementRange(ShipActor actor, AbstractShip model)
 	{
 		// Get the actor and model ships, and draw their appropriate rectangles. 
 		ShipActor actorShip = ActorState.shipList.get(CURRENT_SELECTION); 
@@ -690,12 +726,12 @@ public class GameScreenController implements InputProcessor
 			if(CURRENT_SELECTION < ActorState.shipList.size() - 1)
 			{
 				CURRENT_SELECTION ++;
-				ActorState.currentSelection = CURRENT_SELECTION; 
+				ActorState.currentSelectionShip = CURRENT_SELECTION; 
 			}
 			else
 			{
 				CURRENT_SELECTION = 0; 
-				ActorState.currentSelection = CURRENT_SELECTION; 
+				ActorState.currentSelectionShip = CURRENT_SELECTION; 
 			}
 		}
 		
@@ -708,7 +744,7 @@ public class GameScreenController implements InputProcessor
 		if(Keys.ALT_RIGHT == keycode)
 		{
 			CURRENT_SELECTION = -1; 
-			ActorState.currentSelection = CURRENT_SELECTION; 
+			ActorState.currentSelectionShip = CURRENT_SELECTION; 
 		}
 		
 		return false;
