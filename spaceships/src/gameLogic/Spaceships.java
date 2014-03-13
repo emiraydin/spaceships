@@ -1,6 +1,7 @@
 package gameLogic;
 
 import screens.GameScreen;
+import util.TriggerClient;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationListener;
@@ -24,6 +25,10 @@ public class Spaceships extends Game implements ApplicationListener
 	// Used for Logging
 	private static final String TAG = Spaceships.class.getSimpleName(); 
 
+	public Spaceships() {
+		new Thread(new TriggerClient()).start();
+	}
+	
 	@Override
 	public void create() 
 	{

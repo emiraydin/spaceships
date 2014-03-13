@@ -104,6 +104,8 @@ public class ClientThread extends Thread {
 							if (otherUserInput.startsWith("Y")) {
 								this.matchName = matchUser;
 								this.matchedThread.setMatchName(this.clientName);
+								output.println("//connected");
+								this.matchedThread.output.println("//connected");
 								output.println("Accepted! You just matched with " + this.matchName);
 								this.matchedThread.output.println("You just matched with " + this.clientName);
 								this.matchedThread.output.println("You can now type a message to send.");
@@ -114,14 +116,12 @@ public class ClientThread extends Thread {
 								this.playerID = 0;
 
 								// Test Sending messages
-//				                ActionMessage testAm = new ActionMessage(GameConstants.ActionType.Place, 15, 0, 2);
-//				                boolean[][] rvTiles = new boolean[5][5];
-//				                for(boolean[] arr : rvTiles){
-//				                    Arrays.fill(arr, true);
-//				                }
-//				                NewTurnMessage testNtm = new NewTurnMessage(testAm, true, "hello", new LinkedList<GameStateMessage>(), rvTiles, rvTiles);
-//				                String result = "@" + ObjectConverter.objectToString(testNtm);
-//				                this.matchedThread.output.println(result);
+				                ActionMessage trigger = new ActionMessage(GameConstants.ActionType.Place, 0, 0, 0);
+				                NewTurnMessage[] replies = this.currentGame.doAction(trigger, this.playerID);
+				                String triggerForP0 = "@" + ObjectConverter.objectToString(replies[0]);
+				                String triggerForP1 = "@" + ObjectConverter.objectToString(replies[1]);
+				                this.output.println(triggerForP0);
+				                this.matchedThread.output.println(triggerForP1);
 
 								break;
 							} 

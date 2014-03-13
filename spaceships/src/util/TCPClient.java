@@ -8,6 +8,8 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
+import screens.GameScreen;
+
 import messageprotocol.ActionMessage;
 import messageprotocol.NewTurnMessage;
 import messageprotocol.ServerMessageHandler;
@@ -21,8 +23,8 @@ public class TCPClient implements Runnable {
 
 	private static BufferedReader inputLine = null;
 	private static boolean connectionClosed = false;
-
-	public static void main(String[] args) {
+	
+	public static void start() {
 
 		System.out.println("Client is now running on " + Properties.HOST_NAME + " port " + Properties.PORT_NUMBER);
 
@@ -35,7 +37,7 @@ public class TCPClient implements Runnable {
 		} catch (UnknownHostException e) {
 			System.err.println("Unknown host: " + Properties.HOST_NAME);
 		} catch (IOException e) {
-			System.err.println("I/O connection to " + Properties.HOST_NAME + "cannot be established!");
+			System.err.println("I/O connection to " + Properties.HOST_NAME + " cannot be established!");
 		}
 
 		// Write the data to the recently opened socket, given everything is set up
@@ -67,8 +69,11 @@ public class TCPClient implements Runnable {
 				if (responseLine.startsWith("@")) {
 					NewTurnMessage received = (NewTurnMessage) ObjectConverter.stringtoObject(responseLine.substring(1));
 					// Process the NewTurnMessage
-//					ServerMessageHandler.executeNewTurnMessage(received);
+					ServerMessageHandler.executeNewTurnMessage(received);
 					System.out.println(received.toString());
+				} else if (responseLine.startsWith("//connected")) {
+					GameScreen.canStart = true;
+					System.out.println("isConnectedAndMatched:");
 				} else {
 					System.out.println(responseLine);
 				}
