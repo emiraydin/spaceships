@@ -73,6 +73,7 @@ public class TCPClient implements Runnable {
 					if (ServerMessageHandler.hasChanged) {
 						ActionMessage am = ServerMessageHandler.currentAction;
 						String amString = ObjectConverter.objectToString(am);
+						ServerMessageHandler.hasChanged = false;
 						output.println(amString);
 					}
 				} else {
