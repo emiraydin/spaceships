@@ -21,7 +21,7 @@ public class GameScreen implements Screen
 	private GameScreenController controller; 
 	private GameScreenRenderer 	 renderer ; 
 	private FPSLogger fpsLog = new FPSLogger(); 
-	
+	public static boolean canStart = false;
 	
 	/**
 	 * Run. 
@@ -55,6 +55,11 @@ public class GameScreen implements Screen
 	@Override
 	public void show() 
 	{
+		while(!canStart)
+		{
+			
+		}
+		
 		// Create and Initialize GameScreenController. 
 		controller = new GameScreenController();
 		
