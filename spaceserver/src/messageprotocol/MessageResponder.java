@@ -80,7 +80,7 @@ public class MessageResponder {
 						MineLayerShip mShip = (MineLayerShip) thing;
 						if(mShip.hasMines()){
 							for (Mine m : mShip.getMines()){
-								states.put(thing.getID(), m.genGameStateMessage());
+								states.put(m.getID(), m.genGameStateMessage());
 							}
 						}
 					}
