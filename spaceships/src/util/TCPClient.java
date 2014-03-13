@@ -69,19 +69,20 @@ public class TCPClient implements Runnable {
 					// Process the NewTurnMessage
 					ServerMessageHandler.executeNewTurnMessage(received);
 					System.out.println(received.toString());
-					// Send the ActionMessage
-					if (ServerMessageHandler.hasChanged) {
-						ActionMessage am = ServerMessageHandler.currentAction;
-						String amString = ObjectConverter.objectToString(am);
-						ServerMessageHandler.hasChanged = false;
-						output.println(amString);
-					}
 				} else {
 					System.out.println(responseLine);
 				}
 				if (responseLine.indexOf("Goodbye") != -1)
 					break;
 			}
+			// Send the ActionMessage
+			while (ServerMessageHandler.hasChanged) {
+				ActionMessage am = ServerMessageHandler.currentAction;
+				String amString = ObjectConverter.objectToString(am);
+				output.println(amString);
+				ServerMessageHandler.hasChanged = false;
+			}
+			
 			connectionClosed = true;
 			// Exit the client application
 			System.exit(0);
