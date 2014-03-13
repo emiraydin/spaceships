@@ -6,11 +6,13 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
 
 import logic.GameHandler;
 import messageprotocol.ActionMessage;
+import messageprotocol.GameStateMessage;
 import messageprotocol.NewTurnMessage;
-
 import common.GameConstants;
 
 class ClientThread extends Thread {
@@ -47,7 +49,7 @@ class ClientThread extends Thread {
 			userName = input.readLine().trim();
 
 			// New client enters the game
-			output.println("Welcome " + userName + "!.\nType /exit to quit game.");
+			output.println("Welcome " + userName + "!\nType /exit to quit game.");
 
 			ArrayList<String> onlinePlayers = new ArrayList<String>();
 
@@ -110,11 +112,16 @@ class ClientThread extends Thread {
 								this.currentGame = new GameHandler();
 								this.matchedThread.setGameHandler(this.currentGame);
 								this.playerID = 0;
-								//                currentGame.doAction(new ActionMessage(ActionType.Place, 0, 0, 0), 0);
 
-								//                ActionMessage test = new ActionMessage(GameConstants.ActionType.Place, 15, 0, 2);
-								//                String result = "@" + ObjectConverter.objectToString(test);
-								//                this.matchedThread.output.println(result);
+								// Test Sending messages
+//				                ActionMessage testAm = new ActionMessage(GameConstants.ActionType.Place, 15, 0, 2);
+//				                boolean[][] rvTiles = new boolean[5][5];
+//				                for(boolean[] arr : rvTiles){
+//				                    Arrays.fill(arr, true);
+//				                }
+//				                NewTurnMessage testNtm = new NewTurnMessage(testAm, true, "hello", new LinkedList<GameStateMessage>(), rvTiles, rvTiles);
+//				                String result = "@" + ObjectConverter.objectToString(testNtm);
+//				                this.matchedThread.output.println(result);
 
 								break;
 							} 
@@ -137,7 +144,7 @@ class ClientThread extends Thread {
 					break;
 
 				} else if (line.startsWith("@")) {
-					// This is where we process messages.
+					// This is where we process game messages
 					synchronized(this) {
 						if (this.currentGame != null && this.currentGame.checkWin() == GameConstants.WinState.Playing) {
 
@@ -159,7 +166,7 @@ class ClientThread extends Thread {
 
 				} else {
 
-					// Send the message between matched users!
+					// Send a chat message between matched users
 					synchronized (this) {
 						for (int i = 0; i < maxPlayersOnServer; i++) {
 							if (this.getClientName() != null && allThreads[i] != null &&

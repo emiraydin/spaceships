@@ -67,7 +67,7 @@ public class TCPClient implements Runnable {
 				if (responseLine.startsWith("@")) {
 					NewTurnMessage received = (NewTurnMessage) ObjectConverter.stringtoObject(responseLine.substring(1));
 					// Process the NewTurnMessage
-					ServerMessageHandler.executeNewTurnMessage(received);
+//					ServerMessageHandler.executeNewTurnMessage(received);
 					System.out.println(received.toString());
 				} else {
 					System.out.println(responseLine);
@@ -78,7 +78,7 @@ public class TCPClient implements Runnable {
 			// Send the ActionMessage
 			while (ServerMessageHandler.hasChanged) {
 				ActionMessage am = ServerMessageHandler.currentAction;
-				String amString = ObjectConverter.objectToString(am);
+				String amString = "@" + ObjectConverter.objectToString(am);
 				output.println(amString);
 				ServerMessageHandler.hasChanged = false;
 			}
