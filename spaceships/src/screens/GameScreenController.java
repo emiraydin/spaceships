@@ -13,13 +13,14 @@ import actors.ShipActor;
 import actors.ShipTileActor;
 import actors.TileActor;
 
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 /**
  * This class handles all the game logic changes in the Game Screen. 
@@ -75,11 +76,6 @@ public class GameScreenController implements InputProcessor
 	 */
 	public void update(float delta) 
 	{		
-		if(Gdx.input.isKeyPressed(Keys.ESCAPE))
-		{
-			System.exit(0); 
-		}
-		
 		// If a ship is selected, display the movement and fire range. 
 		updateMovementAndFireAndHealth(delta); 
 		

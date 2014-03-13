@@ -71,6 +71,7 @@ public class ShipTileActor extends Image
 			pixmap.setColor(0/255f, 45/255f, 75/255f, 1f);
 			pixmap.fillTriangle(0, 0, 0, 32, 32, 32/2); 
 			Texture newTexture = new Texture(pixmap);
+			pixmap.dispose(); 
 			return newTexture;
 		}
 		else if(orientation == OrientationType.West)
@@ -79,6 +80,7 @@ public class ShipTileActor extends Image
 			pixmap.setColor(0/255f, 45/255f, 75/255f, 1f);
 			pixmap.fillTriangle(0, 32/2, 32, 0, 32, 32);
 			Texture newTexture = new Texture(pixmap);
+			pixmap.dispose(); 
 			return newTexture;
 		}
 		else if(orientation == OrientationType.North)
@@ -87,6 +89,7 @@ public class ShipTileActor extends Image
 			pixmap.setColor(0/255f, 45/255f, 75/255f, 1f);
 			pixmap.fillTriangle(0, 32, 32, 32, 32/2, 0);
 			Texture newTexture = new Texture(pixmap);
+			pixmap.dispose(); 
 			return newTexture;
 		}
 		else if(orientation ==  OrientationType.South)
@@ -94,9 +97,8 @@ public class ShipTileActor extends Image
 			Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
 			pixmap.setColor(0/255f, 45/255f, 75/255f, 1f);
 			pixmap.fillTriangle(0, 0, 32/2, 32, 32, 0);
-			
-			
 			Texture newTexture = new Texture(pixmap);
+			pixmap.dispose(); 
 			return newTexture;
 		}
 		else
@@ -119,6 +121,7 @@ public class ShipTileActor extends Image
 			pixmap.setColor(0, 0, 200/255f, 1f);
 			pixmap.fillTriangle(0, 0, 0, 32, 32, 32/2); 
 			Texture newTexture = new Texture(pixmap);
+			pixmap.dispose(); 
 			return newTexture;
 		}
 		else if(orientation == OrientationType.West)
@@ -127,6 +130,7 @@ public class ShipTileActor extends Image
 			pixmap.setColor(0, 0, 200/255f, 1f);
 			pixmap.fillTriangle(0, 32/2, 32, 0, 32, 32); 
 			Texture newTexture = new Texture(pixmap);
+			pixmap.dispose(); 
 			return newTexture;
 		}
 		else if(orientation == OrientationType.North)
@@ -135,6 +139,7 @@ public class ShipTileActor extends Image
 			pixmap.setColor(0, 0, 200/255f, 1f);
 			pixmap.fillTriangle(0, 32, 32, 32, 32/2, 0);
 			Texture newTexture = new Texture(pixmap);
+			pixmap.dispose(); 
 			return newTexture;
 		}
 		else if(orientation ==  OrientationType.South)
@@ -143,6 +148,7 @@ public class ShipTileActor extends Image
 			pixmap.setColor(0, 0, 200/255f, 1f);
 			pixmap.fillTriangle(0, 0, 32/2, 32, 32, 0);
 			Texture newTexture = new Texture(pixmap);
+			pixmap.dispose(); 
 			return newTexture;
 		}
 		else
@@ -163,7 +169,7 @@ public class ShipTileActor extends Image
 		pixmap.setColor(0/255f, 45/255f, 75/255f, 1f);
 		pixmap.fill(); 
 		Texture newTexture = new Texture(pixmap);
-		
+		pixmap.dispose(); 
 		return newTexture;
 	}
 	
@@ -177,7 +183,7 @@ public class ShipTileActor extends Image
 		pixmap.setColor(0, 0, 200/255f, 1f);
 		pixmap.fill(); 
 		Texture newTexture = new Texture(pixmap);
-		
+		pixmap.dispose(); 
 		return newTexture;
 	}
 
@@ -300,6 +306,9 @@ public class ShipTileActor extends Image
 		pixmap.drawLine(0, 0, 32, 32); 
 		pixmap.drawLine(0, 32, 32, 0); 
 		Texture newTexture = new Texture(pixmap);
+		pixmap.dispose(); 
+
+
 		
 		return newTexture;
 	}
