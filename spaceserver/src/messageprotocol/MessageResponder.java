@@ -33,7 +33,7 @@ public class MessageResponder {
 	 * @param aMessage Action Message of the move
 	 */
 	public void startMessage(ActionMessage aMessage){
-		success = false;
+		success = true;
 		this.aMessage = aMessage;
 		response = null;
 	}
