@@ -40,7 +40,7 @@ public class AsteroidActor extends Image
 	private Texture generateAsteroidTexture() 
 	{
 		Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
-		pixmap.setColor(79, 70, 58, 1);
+		pixmap.setColor(82/255f, 69/255f, 57/255f, 1);
 		pixmap.fill(); 
 		Texture newTexture = new Texture(pixmap);
 		

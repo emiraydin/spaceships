@@ -75,6 +75,10 @@ public class GameScreenController implements InputProcessor
 	 */
 	public void update(float delta) 
 	{		
+		if(Gdx.input.isKeyPressed(Keys.ESCAPE))
+		{
+			System.exit(0); 
+		}
 		
 		// If a ship is selected, display the movement and fire range. 
 		updateMovementAndFireAndHealth(delta); 
