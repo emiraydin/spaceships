@@ -93,7 +93,7 @@ public class TileActor extends Image
 		pixmap.setColor(0, 1, 1, 0.4f);
 		pixmap.drawRectangle(0, 0, WIDTH, HEIGHT);
 		Texture newTexture = new Texture(pixmap);
-		
+		pixmap.dispose(); 
 		return newTexture;
 	}
 	
@@ -112,7 +112,7 @@ public class TileActor extends Image
 		pixmap.setColor(0, 1, 1, 1);
 		pixmap.drawRectangle(0, 0, WIDTH, HEIGHT);
 		Texture newTexture = new Texture(pixmap);
-		
+		pixmap.dispose(); 
 		return newTexture;
 	}
 	
@@ -131,7 +131,7 @@ public class TileActor extends Image
 		//pixmap.setColor(0, 1, 1, 1);
 		//pixmap.drawRectangle(0, 0, WIDTH, HEIGHT);
 		Texture newTexture = new Texture(pixmap);
-		
+		pixmap.dispose(); 
 		return newTexture;
 	}
 	
@@ -150,7 +150,7 @@ public class TileActor extends Image
 		pixmap.setColor(0, 1, 1, 1);
 		pixmap.drawRectangle(0, 0, WIDTH, HEIGHT);
 		Texture newTexture = new Texture(pixmap);
-		
+		pixmap.dispose(); 
 		return newTexture;
 	}
 

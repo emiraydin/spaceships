@@ -516,16 +516,15 @@ public class GameScreenUiController
 			
 			speed.setText("Speed: "+ aShip.getSpeed());
 			
-			int healthCount = aShip.getLength(); 
-			for(int i = 0; i < aShip.getLength(); i++)
+			int[] healthCount = aShip.getSectionHealth(); 
+			String healthText = ""; 
+			for(int i : healthCount)
 			{
-				if(aShip.getSectionHealth()[i] < 2)
-				{
-					healthCount --; 
-				}
+				healthText += (" "+ i); 
 			}
 			
-			health.setText("Health: " + healthCount);
+			
+			health.setText("Health: " + healthText);
 			String arsenalText = "Arsenal : ";
 			
 			for(int i = 0; i < aShip.getWeapons().size(); i++)

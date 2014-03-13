@@ -10,8 +10,8 @@ public class Constants
 	public static final int PIXEL_HEIGHT = 32; 
 
 	// Width and Height of the Desktop Application 
-	public static int APP_WIDTH = 1280; 
-	public static int APP_HEIGHT = 720; 	
+	public static int APP_WIDTH = 1440; 
+	public static int APP_HEIGHT = 900; 	
 	
 	// Visible Game World Width & Height
 	public static float VIEWPORT_WIDTH = 5.0f;
