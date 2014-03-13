@@ -9,6 +9,8 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import messageprotocol.ActionMessage;
+import messageprotocol.NewTurnMessage;
+import messageprotocol.ServerMessageHandler;
 
 public class TCPClient implements Runnable {
 
@@ -63,8 +65,16 @@ public class TCPClient implements Runnable {
 		try {
 			while ((responseLine = input.readLine()) != null) {
 				if (responseLine.startsWith("@")) {
-					ActionMessage received = (ActionMessage) ObjectConverter.stringtoObject(responseLine.substring(1));
+					NewTurnMessage received = (NewTurnMessage) ObjectConverter.stringtoObject(responseLine.substring(1));
+					// Process the NewTurnMessage
+					ServerMessageHandler.executeNewTurnMessage(received);
 					System.out.println(received.toString());
+					// Send the ActionMessage
+					if (ServerMessageHandler.hasChanged) {
+						ActionMessage am = ServerMessageHandler.currentAction;
+						String amString = ObjectConverter.objectToString(am);
+						output.println(amString);
+					}
 				} else {
 					System.out.println(responseLine);
 				}
