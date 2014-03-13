@@ -29,7 +29,6 @@ public abstract class AbstractShip extends SpaceThing {
 	
 	@Override
 	public GameStateMessage genGameStateMessage() {
-		//TODO: finish
 		return new GameStateMessage(getID(), getOwner().getPlayer(), getShipType(), 
 				getX(), getY(), orientation, sectionHealth);
 	}
@@ -54,21 +53,25 @@ public abstract class AbstractShip extends SpaceThing {
 				coords[i][0] = x;
 				coords[i][1] = y - i;
 			}
+			break;
 		case North:
 			for (int i = 0; i < length; i++){
 				coords[i][0] = x;
 				coords[i][1] = y + i;
 			}
+			break;
 		case East:
 			for (int i = 0; i < length; i++){
 				coords[i][0] = x + i;
 				coords[i][1] = y;
 			}
+			break;
 		case West:
 			for (int i = 0; i < length; i++){
 				coords[i][0] = x - i;
 				coords[i][1] = y;
 			}
+			break;
 		}
 		
 		return coords;

@@ -128,13 +128,13 @@ public class FleetCommander {
 		for (int i = 0; i < ship.getLength(); i++){
 			thing = board.getSpaceThing(coords[i][0], coords[i][1]);
 			if(thing instanceof AbstractShip && thing != ship) { 
-				setActionResponse(String.format("Ship collision at (%d,%d)", x, y));
+				setActionResponse(String.format("Ship collision at (%d,%d)", coords[i][0], coords[i][1]));
 				return true;
 			} else if(thing instanceof BaseTile) { 
-				setActionResponse(String.format("Ship collision with a base at (%d,%d)", x, y));
+				setActionResponse(String.format("Ship collision with a base at (%d,%d)", coords[i][0], coords[i][1]));
 				return true;
 			} else if(thing instanceof Asteroid) { 
-				setActionResponse(String.format("Ship collision with asteroid at (%d,%d)", x, y));
+				setActionResponse(String.format("Ship collision with asteroid at (%d,%d)", coords[i][0], coords[i][1]));
 				return true;
 			}
 		}
@@ -246,6 +246,7 @@ public class FleetCommander {
 					return false;
 				}
 			}
+			return true;
 		case North:
 			if(y != ship.getY()) { 
 				if (y < ship.getY() - 1){
@@ -262,6 +263,7 @@ public class FleetCommander {
 					return false;
 				}
 			}
+			return true;
 		case West:
 			if(x != ship.getX()) { 
 				if (x > ship.getX() + 1){
