@@ -15,7 +15,7 @@ import messageprotocol.GameStateMessage;
 import messageprotocol.NewTurnMessage;
 import common.GameConstants;
 
-class ClientThread extends Thread {
+public class ClientThread extends Thread {
 
 	private Socket clientSocket = null;
 	private String clientName = null;
