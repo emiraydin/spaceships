@@ -1,6 +1,7 @@
 package screens;
 
 import gameLogic.Constants.OrientationType;
+import gameLogic.ActionValidator;
 import gameLogic.Descriptions;
 import state.ships.AbstractShip;
 import state.ships.CruiserShip;
@@ -28,6 +29,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
@@ -52,6 +54,7 @@ public class GameScreenUiController
 	TextButton moveShip, fireCannon, fireTorpedo, turnLeft, turnRight,turn180 ; 
 	
 	// Other Table Variables
+	Label currentPlayerAction, serverMessage, chatBox; 
 	
 	public GameScreenUiController(GameScreenController controller)
 	{
@@ -103,6 +106,8 @@ public class GameScreenUiController
 		tbs.up = generateButtonBackground(); 
 		tbs.down = generateDownButtonBackground(); 
 		tbs.disabled = generateDisableButtonBackground(); 
+		tbs.over = generateHoverButtonBackground(); 
+
 		
 		moveShip = new TextButton("Move", tbs); 
 		setUpClickListnersForMove(moveShip); 
@@ -125,7 +130,6 @@ public class GameScreenUiController
 		buttonTable.add(turnLeft).pad(10f);
 		buttonTable.add(turnRight).pad(10f);
 		buttonTable.add(turn180).pad(10f); 
-
 		
 		speed = new Label("", typingStyle); 
 		health = new Label("", typingStyle); 
@@ -154,6 +158,20 @@ public class GameScreenUiController
 		chatTable.setHeight(rootTable.getHeight() / 3);
 		generateComponentBackgroundFor(chatTable); 
 		
+		LabelStyle notificationLabelStyle = new LabelStyle(); 
+		notificationLabelStyle.font = whiteFontSmall; 
+		notificationLabelStyle.background = generateNotificationBackground(); 
+		currentPlayerAction = new Label("", notificationLabelStyle); 
+		currentPlayerAction.setAlignment(Align.center); 
+		chatTable.add(currentPlayerAction).width(rootTable.getWidth() - 20).height(chatTable.getHeight() / 3).center(); 
+		serverMessage = new Label("", notificationLabelStyle); 
+		serverMessage.setAlignment(Align.center); 
+		chatBox = new Label("", notificationLabelStyle); 
+		chatBox.setAlignment(Align.center); 
+		chatTable.row(); 
+		chatTable.add(serverMessage).width(rootTable.getWidth() - 20).height(chatTable.getHeight() / 3).center().padTop(10f); 
+		chatTable.row(); 
+		chatTable.add(chatBox).width(rootTable.getWidth() - 20).height(chatTable.getHeight() / 3).center().padTop(10f); 
 
 		ScrollPane scroller = new ScrollPane(chatTable);
 		
@@ -176,33 +194,33 @@ public class GameScreenUiController
 		{
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
 			{
-				if(ActorState.currentSelectionShip != -1 && ActorState.currentTile != null)
+				if(ActorState.currentSelectionShip != -1
+						&& ActorState.currentTile != null
+						&& ActionValidator.validateMove((int)ActorState.currentTile.getX(), (int)ActorState.currentTile.getY()))
 				{
 					ActorState.shipList.get(ActorState.currentSelectionShip).ship.setX((int)ActorState.currentTile.getX()); 
 					ActorState.shipList.get(ActorState.currentSelectionShip).ship.setY((int)ActorState.currentTile.getY()); 
-					ActorState.shipList.get(ActorState.currentSelectionShip).ship.setOrientation(OrientationType.North); 
+					chatBox.setText(""); 
+				}
+				else
+				{
+					chatBox.setText("That move selection is invalid.\nPlease select a move in range"); 
 				}
 				return false; 
 			}
-			
+		
 			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
 			{ 
-				if(ActorState.currentSelectionShip != -1)
-				{
-//					ShipActor ship = ActorState.shipList.get(ActorState.currentSelectionShip); 
-//					AbstractShip aShip = ship.ship; 
-//					
-//					controller.drawMovementRange(ship, aShip); 
-				}
+				currentPlayerAction.setText("Move the currently selected ship\nto the selected tile");
 			}
 			
 			public void exit(InputEvent event, float x, float y, int pointer, Actor toActor)
 			{
-//				controller.resetGameBoardBlue(); 
+				currentPlayerAction.setText(""); 
 			}
+		
 		});
 	}
-	
 	private void setUpClickListnersForFire(TextButton button)
 	{
 		button.addListener(new ClickListener()
@@ -243,7 +261,7 @@ public class GameScreenUiController
 		float height = 55f, width = 70f; 
 		Pixmap pixmap = new Pixmap((int)width, (int)height, Format.RGBA8888);
 
-		pixmap.setColor(128/255f, 0/255f, 128/255f, 0.5f);
+		pixmap.setColor(0/255f, 0/255f, 255/255f, 0.5f);
 		pixmap.fill(); 
 		pixmap.setColor(0, 1, 1, 1);
 		pixmap.drawRectangle(0, 0, (int)width, (int)height);
@@ -276,6 +294,36 @@ public class GameScreenUiController
 		pixmap.setColor(128/255f, 128/255f, 128/255f, 0.5f);
 		pixmap.fill(); 
 		pixmap.setColor(0, 1, 1, 1);
+		pixmap.drawRectangle(0, 0, (int)width, (int)height);
+		Texture newTexture = new Texture(pixmap);
+		TextureRegion newTexture2 = new TextureRegion(newTexture); 
+		TextureRegionDrawable drawable = new TextureRegionDrawable(newTexture2); 
+		
+		return drawable; 
+	}
+	private TextureRegionDrawable generateHoverButtonBackground()
+	{
+		float height = 55f, width = 70f; 
+		Pixmap pixmap = new Pixmap((int)width, (int)height, Format.RGBA8888);
+
+		pixmap.setColor(0/255f, 255/255f, 255/255f, 0.5f);
+		pixmap.fill(); 
+		pixmap.setColor(0, 1, 1, 1);
+		pixmap.drawRectangle(0, 0, (int)width, (int)height);
+		Texture newTexture = new Texture(pixmap);
+		TextureRegion newTexture2 = new TextureRegion(newTexture); 
+		TextureRegionDrawable drawable = new TextureRegionDrawable(newTexture2); 
+		
+		return drawable; 
+	}
+	private TextureRegionDrawable generateNotificationBackground()
+	{
+		float height = 55f, width = 70f; 
+		Pixmap pixmap = new Pixmap((int)width, (int)height, Format.RGBA8888);
+
+		pixmap.setColor(0/255f, 0/255f, 0/255f, 0.5f);
+		pixmap.fill(); 
+		pixmap.setColor(1, 1, 1, 0.5f);
 		pixmap.drawRectangle(0, 0, (int)width, (int)height);
 		Texture newTexture = new Texture(pixmap);
 		TextureRegion newTexture2 = new TextureRegion(newTexture); 
