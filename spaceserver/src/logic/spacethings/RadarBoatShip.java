@@ -44,21 +44,6 @@ public class RadarBoatShip extends AbstractShip {
 		speed = 3;
 		radarVisibilityLength = 6;
 	}
-
-	@Override
-	public boolean validateTurn(ActionType turnDirection) {
-		if(turnDirection == ActionType.TurnLeft || turnDirection == ActionType.TurnRight 
-				|| turnDirection == ActionType.Turn180Left || turnDirection == ActionType.Turn180Right) { 
-			if(getObstaclesInTurnZone(turnDirection) == null) { 
-				this.getOwner().setActionResponse("Ships cannot go out of bounds");
-				return false;
-			}
-			return true;
-		}
-		this.getOwner().setActionResponse("RadarBoatShip cannot turn in direction: " + turnDirection.name());
-		return false;
-		
-	}
 	
 	@Override
 	public List<Point> getObstaclesInTurnZone(ActionType direction) { 

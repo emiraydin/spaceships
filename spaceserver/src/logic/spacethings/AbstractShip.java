@@ -74,13 +74,6 @@ public abstract class AbstractShip extends SpaceThing {
 		return coords;
 	}
 	
-	/**
-	 * Try turning in given direction, see if crash/detonate mine.
-	 * @param turnType Desired turn direction
-	 * @return True if turn is valid, false otherwise.
-	 */
-	public abstract boolean validateTurn(ActionType turnType);
-	
 	
 	/**
 	 * Registers a collision, handles damage, and alerts players of collision.

@@ -35,24 +35,6 @@ public class DestroyerShip extends AbstractShip {
 		arsenal[0] = new Cannon(this);
 		arsenal[1] = new TorpedoLauncher(this);
 	}
-
-	@Override
-	public boolean validateTurn(ActionType direction) {
-		if(!(direction == ActionType.TurnLeft || direction == ActionType.TurnRight)) { 
-			this.getOwner().setActionResponse("DestroyerShip cannot turn in direction: " + direction.name());
-			return false;
-		}
-		
-		List<Point> obstaclesInTurnZone = getObstaclesInTurnZone(direction);
-		
-		// if obstaclesInTurnZone returned null, it means the turn puts the ship out of bounds!
-		if(obstaclesInTurnZone == null) { 
-			this.getOwner().setActionResponse("Ships cannot go out of bounds");
-			return false;
-		}
-		
-		return true;
-	}
 	
 	@Override
 	public List<Point> getObstaclesInTurnZone(ActionType direction) {

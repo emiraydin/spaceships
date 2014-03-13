@@ -1,6 +1,8 @@
 package logic;
 
+import java.awt.Point;
 import java.util.ArrayList;
+import java.util.List;
 
 import logic.spacethings.AbstractShip;
 import logic.spacethings.Mine;
@@ -381,8 +383,10 @@ public class FleetCommander {
 	public boolean turnShip(int shipID, ActionType direction){
 		AbstractShip ship = getShip(shipID);
 		
+		List<Point> obstaclesInTurnZone = ship.getObstaclesInTurnZone(direction);
 		// if out of bounds
-		if(ship.validateTurn(direction)) { 
+		if(obstaclesInTurnZone == null) { 
+			this.setActionResponse("Ships cannot go out of bounds");
 			return false;
 		}
 		

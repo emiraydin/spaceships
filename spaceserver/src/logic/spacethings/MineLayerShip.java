@@ -142,24 +142,6 @@ public class MineLayerShip extends AbstractShip {
 		}
 		return false;
 	}
-
-	@Override
-	public boolean validateTurn(ActionType direction) {
-		if(!(direction == ActionType.TurnLeft || direction == ActionType.TurnRight)) { 
-			this.getOwner().setActionResponse("MineLayer cannot turn in direction: " + direction.name());
-			return false;
-		}
-		
-		List<Point> obstaclesInTurnZone = getObstaclesInTurnZone(direction);
-		
-		// if obstaclesInTurnZone returned null, it means the turn puts the ship out of bounds!
-		if(obstaclesInTurnZone == null) { 
-			this.getOwner().setActionResponse("Ships cannot go out of bounds");
-			return false;
-		}	
-		
-		return true;
-	}
 	
 	@Override
 	public List<Point> getObstaclesInTurnZone(ActionType turnDirection) {

@@ -41,24 +41,6 @@ public class TorpedoBoatShip extends AbstractShip {
 	 * Identical to RadarBoatShip
 	 */
 	@Override
-	public boolean validateTurn(ActionType turnDirection) {
-		if(turnDirection == ActionType.TurnLeft || turnDirection == ActionType.TurnRight 
-				|| turnDirection == ActionType.Turn180Left || turnDirection == ActionType.Turn180Right) { 
-			if(getObstaclesInTurnZone(turnDirection) == null) { 
-				this.getOwner().setActionResponse("Ships cannot go out of bounds");
-				return false;
-			}
-			return true;
-		}
-		this.getOwner().setActionResponse("RadarBoatShip cannot turn in direction: " + turnDirection.name());
-		return false;
-		
-	}
-	
-	/*
-	 * Identical to RadarBoatShip
-	 */
-	@Override
 	public List<Point> getObstaclesInTurnZone(ActionType direction) { 
 		if(direction == ActionType.TurnLeft || direction == ActionType.Turn180Right) { 
 			return getObstaclesIn90DegreeTurnZone(this.getX(), this.getY(), this.getOrientation(), direction, true);

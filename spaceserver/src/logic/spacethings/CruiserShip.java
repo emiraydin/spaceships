@@ -34,24 +34,6 @@ public class CruiserShip extends AbstractShip {
 		this.arsenal = new AbstractWeapon[1];
 		arsenal[0] = new HeavyCannon(this);
 	}
-
-	@Override
-	public boolean validateTurn(ActionType direction) {
-		if(!(direction == ActionType.TurnLeft || direction == ActionType.TurnRight)) { 
-			this.getOwner().setActionResponse("Cruisers can only turn left or right");
-			return false;
-		}
-		
-		List<Point> obstaclesInTurnZone = getObstaclesInTurnZone(direction);
-		
-		// if obstaclesInTurnZone returned null, it means the turn puts the ship out of bounds!
-		if(obstaclesInTurnZone == null) { 
-			this.getOwner().setActionResponse("Ships cannot go out of bounds");
-			return false;
-		}
-		
-		return true;	
-	}
 	
 	/**
 	 * Gets the coordinates for all the obstacles in the turn zone. 
