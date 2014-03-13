@@ -1,5 +1,6 @@
 package screens;
 
+import gameLogic.ActionValidator;
 import gameLogic.Constants;
 import gameLogic.Constants.OrientationType;
 import state.ships.AbstractShip;
@@ -189,7 +190,7 @@ public class GameScreenController implements InputProcessor
 		{
 			AbstractShip ship = ActorState.shipList.get(0).ship; 
 			int[] r = new int[ship.getLength()];
-			ship.updateProperties(ship.getX(), ship.getY(), ship.getOrientation(), r); 
+			//ship.updateProperties(ship.getX(), ship.getY(), ship.getOrientation(), r); 
 			System.out.println(ActorState.shipList.get(0).ship.getSectionHealth()[0]); 
 			//ActorState.shipList.get(0).setVisible(false); 
 			//ActorState.shipList.removeFirst();
@@ -727,11 +728,13 @@ public class GameScreenController implements InputProcessor
 			{
 				CURRENT_SELECTION ++;
 				ActorState.currentSelectionShip = CURRENT_SELECTION; 
+				ActionValidator.setCurrentShip(ActorState.shipList.get(CURRENT_SELECTION).ship); 
 			}
 			else
 			{
 				CURRENT_SELECTION = 0; 
 				ActorState.currentSelectionShip = CURRENT_SELECTION; 
+				ActionValidator.setCurrentShip(ActorState.shipList.get(CURRENT_SELECTION).ship); 
 			}
 		}
 		
