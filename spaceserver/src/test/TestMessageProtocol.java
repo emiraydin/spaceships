@@ -118,15 +118,40 @@ public class TestMessageProtocol {
 	public void testMessageExec() {
 		ArrayList<AbstractShip> ships = pZero.getShips();
 		
-		int shipId = ships.get(0).getID();		
+		int shipId = 0;
 		
-		ActionMessage newMes = new ActionMessage(ActionType.Move, shipId, ships.get(0).getX() + 1, ships.get(0).getY());
+		// We want to pick out the radar ship
+		for (AbstractShip current : ships) {
+			if (current.getShipType().equals(SpaceThingType.RadarBoatShip)) {
+				shipId = current.getID();
+			}
+		}	
+		
+		ActionMessage newMes = new ActionMessage(ActionType.FireCannon, shipId, ships.get(0).getX() + 1, ships.get(0).getY());
 		
 		NewTurnMessage[] response = handler.doAction(newMes, 0);
 		
 		for (NewTurnMessage current : response) {
 			System.out.println(current);
-		}		
+		}	
+		
+		newMes = new ActionMessage(ActionType.FireTorpedo, shipId, ships.get(0).getX() + 1, ships.get(0).getY());
+		
+		response = handler.doAction(newMes, 0);
+		
+		for (NewTurnMessage current : response) {
+			System.out.println(current);
+		}
+		
+		newMes = new ActionMessage(ActionType.Move, shipId, ships.get(0).getX() + 5, ships.get(0).getY());
+		
+		response = handler.doAction(newMes, 0);
+		
+		for (NewTurnMessage current : response) {
+			System.out.println(current);
+		}	
+		
+		pZero.turnShip(shipId, ActionType.TurnLeft);
 	}
 
 	@Test

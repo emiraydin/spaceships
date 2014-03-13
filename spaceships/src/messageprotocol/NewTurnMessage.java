@@ -4,44 +4,45 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.LinkedList;
 
+import messageprotocol.*;
+
 /**
  * 
  * This message is sent from the Server to the Client at the beginning of a turn.
  * It consists of the previous action, a set of GameState messages for updating the game state, and visibility.
  *
  */
-public class NewTurnMessage implements Serializable {
+public class NewTurnMessage implements Serializable
+{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 9172096966349741980L;
-
+	
 	/**
 	 * Whatever action has taken place this turn.
 	 */
-	private ActionMessage action;
+	ActionMessage action;
 	
 	/**
 	 * A list of state messages for updating the GameState.
 	 */
-	private LinkedList<GameStateMessage> state;
-	
-	/**
-	 * Whether or not the turn was successful.
-	 */
-	private boolean turnSuccess;
+	LinkedList<GameStateMessage> state;
+	boolean turnSuccess;
+	String response;
 	
 	/**
 	 * Radar and sonar visibility.
 	 */
-	private boolean[][] radarVisibleTiles;
-	private boolean[][] sonarVisibleTiles;
-	
+	boolean[][] radarVisibleTiles;
+	boolean[][] sonarVisibleTiles;
+	int testNumber; //removethis
+
 	/**
-	 * Construct the NewTurnMessage.
-	 * The params are all references, so watch out...
 	 * 
 	 * @param action
+	 * @param turnSuccess
+	 * @param response
 	 * @param state
 	 * @param radarVisibleTiles
 	 * @param sonarVisibleTiles
@@ -49,12 +50,15 @@ public class NewTurnMessage implements Serializable {
 	public NewTurnMessage(
 			ActionMessage action,
 			boolean turnSuccess,
+			String response,
 			LinkedList<GameStateMessage> state,
 			boolean[][] radarVisibleTiles,
 			boolean[][]	sonarVisibleTiles
 					) {
-		this.turnSuccess = turnSuccess;
+		
 		this.action = action;
+		this.turnSuccess = turnSuccess;
+		this.response = response;
 		
 		// If the state is null, then make an empty linked list.
 		if (state == null) {
@@ -65,6 +69,8 @@ public class NewTurnMessage implements Serializable {
 		
 		this.radarVisibleTiles = radarVisibleTiles;
 		this.sonarVisibleTiles = sonarVisibleTiles;
+		
+		this.testNumber = 33; //removethis
 		
 	}
 	
@@ -108,30 +114,40 @@ public class NewTurnMessage implements Serializable {
 	public void addStateMessage(GameStateMessage input) {
 		this.state.addLast(input);
 	}
-	
-	/*
-	 * I auto-generated toString(), hashCode(), and equals() in Eclipse...
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
 	 */
-	
 	@Override
 	public String toString() {
-		return "NewTurnMessage [action=" + action.toString() + ", state=" + state
+		return "NewTurnMessage [action=" + action + ", state=" + state
+				+ ", turnSuccess=" + turnSuccess + ", response=" + response
 				+ ", radarVisibleTiles=" + Arrays.toString(radarVisibleTiles)
 				+ ", sonarVisibleTiles=" + Arrays.toString(sonarVisibleTiles)
-				+ "]";
+				+ ", testNumber=" + testNumber + "]";
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((action == null) ? 0 : action.hashCode());
 		result = prime * result + Arrays.hashCode(radarVisibleTiles);
+		result = prime * result
+				+ ((response == null) ? 0 : response.hashCode());
 		result = prime * result + Arrays.hashCode(sonarVisibleTiles);
 		result = prime * result + ((state == null) ? 0 : state.hashCode());
+		result = prime * result + testNumber;
+		result = prime * result + (turnSuccess ? 1231 : 1237);
 		return result;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -148,6 +164,11 @@ public class NewTurnMessage implements Serializable {
 			return false;
 		if (!Arrays.deepEquals(radarVisibleTiles, other.radarVisibleTiles))
 			return false;
+		if (response == null) {
+			if (other.response != null)
+				return false;
+		} else if (!response.equals(other.response))
+			return false;
 		if (!Arrays.deepEquals(sonarVisibleTiles, other.sonarVisibleTiles))
 			return false;
 		if (state == null) {
@@ -155,9 +176,13 @@ public class NewTurnMessage implements Serializable {
 				return false;
 		} else if (!state.equals(other.state))
 			return false;
+		if (testNumber != other.testNumber)
+			return false;
+		if (turnSuccess != other.turnSuccess)
+			return false;
 		return true;
 	}
-
+	
 	public boolean isTurnSuccess() {
 		return turnSuccess;
 	}

@@ -114,30 +114,40 @@ public class NewTurnMessage implements Serializable
 	public void addStateMessage(GameStateMessage input) {
 		this.state.addLast(input);
 	}
-	
-	/*
-	 * I auto-generated toString(), hashCode(), and equals() in Eclipse...
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
 	 */
-	
 	@Override
 	public String toString() {
-		return "NewTurnMessage [action=" + action.toString() + ", state=" + state
+		return "NewTurnMessage [action=" + action + ", state=" + state
+				+ ", turnSuccess=" + turnSuccess + ", response=" + response
 				+ ", radarVisibleTiles=" + Arrays.toString(radarVisibleTiles)
 				+ ", sonarVisibleTiles=" + Arrays.toString(sonarVisibleTiles)
-				+ "]";
+				+ ", testNumber=" + testNumber + "]";
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((action == null) ? 0 : action.hashCode());
 		result = prime * result + Arrays.hashCode(radarVisibleTiles);
+		result = prime * result
+				+ ((response == null) ? 0 : response.hashCode());
 		result = prime * result + Arrays.hashCode(sonarVisibleTiles);
 		result = prime * result + ((state == null) ? 0 : state.hashCode());
+		result = prime * result + testNumber;
+		result = prime * result + (turnSuccess ? 1231 : 1237);
 		return result;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -154,6 +164,11 @@ public class NewTurnMessage implements Serializable
 			return false;
 		if (!Arrays.deepEquals(radarVisibleTiles, other.radarVisibleTiles))
 			return false;
+		if (response == null) {
+			if (other.response != null)
+				return false;
+		} else if (!response.equals(other.response))
+			return false;
 		if (!Arrays.deepEquals(sonarVisibleTiles, other.sonarVisibleTiles))
 			return false;
 		if (state == null) {
@@ -161,7 +176,19 @@ public class NewTurnMessage implements Serializable
 				return false;
 		} else if (!state.equals(other.state))
 			return false;
+		if (testNumber != other.testNumber)
+			return false;
+		if (turnSuccess != other.turnSuccess)
+			return false;
 		return true;
+	}
+	
+	public boolean isTurnSuccess() {
+		return turnSuccess;
+	}
+
+	public void setTurnSuccess(boolean turnSuccess) {
+		this.turnSuccess = turnSuccess;
 	}
 	
 	
