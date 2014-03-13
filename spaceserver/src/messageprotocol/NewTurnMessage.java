@@ -15,6 +15,11 @@ import messageprotocol.*;
 public class NewTurnMessage implements Serializable
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 9172096966349741980L;
+	
+	/**
 	 * Whatever action has taken place this turn.
 	 */
 	ActionMessage action;
