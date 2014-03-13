@@ -45,10 +45,18 @@ public class BaseTile extends SpaceThing {
 			if (health <= 0){
 				health = 0;
 				getOwner().decrementRadarVisibility(getX(), getY());
-				getOwner().decrementRadarVisibility(getX()+1, getY()-1);
-				getOwner().decrementRadarVisibility(getX()+1, getY()+1);
-				getOwner().decrementRadarVisibility(getX()+1, getY()+1);
-				getOwner().decrementRadarVisibility(getX()-1, getY()+1);
+				if(StarBoard.inBounds(getX()-1, getY())) { 
+					getOwner().decrementRadarVisibility(getX()-1, getY());
+				}
+				if(StarBoard.inBounds(getX()+1, getY())) { 
+					getOwner().decrementRadarVisibility(getX()+1, getY());
+				}
+				if(StarBoard.inBounds(getX(), getY()-1)) { 
+					getOwner().decrementRadarVisibility(getX(), getY()-1);
+				}
+				if(StarBoard.inBounds(getX(), getY()+1)) { 
+					getOwner().decrementRadarVisibility(getX(), getY()+1);
+				}				
 				
 				// Yeah... don't get mad.
 				getOwner().getHandler().getFleetCommander((getOwner().getID() + 1) % 2).
