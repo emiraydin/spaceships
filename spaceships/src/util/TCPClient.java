@@ -35,7 +35,7 @@ public class TCPClient implements Runnable {
 		} catch (UnknownHostException e) {
 			System.err.println("Unknown host: " + Properties.HOST_NAME);
 		} catch (IOException e) {
-			System.err.println("I/O connection to " + Properties.HOST_NAME + "cannot be established!");
+			System.err.println("I/O connection to " + Properties.HOST_NAME + " cannot be established!");
 		}
 
 		// Write the data to the recently opened socket, given everything is set up
@@ -67,8 +67,10 @@ public class TCPClient implements Runnable {
 				if (responseLine.startsWith("@")) {
 					NewTurnMessage received = (NewTurnMessage) ObjectConverter.stringtoObject(responseLine.substring(1));
 					// Process the NewTurnMessage
-//					ServerMessageHandler.executeNewTurnMessage(received);
+					ServerMessageHandler.executeNewTurnMessage(received);
 					System.out.println(received.toString());
+				} else if (responseLine.startsWith("//connected")) {
+					System.out.println("We're now connected. Do whatever the fuck you want!");
 				} else {
 					System.out.println(responseLine);
 				}
