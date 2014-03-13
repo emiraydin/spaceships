@@ -113,38 +113,25 @@ public abstract class AbstractShip extends SpaceThing {
 				return true;
 			}
 			
-			/* 2 cases: if ship hit the mine from a cartesian direction, mine.detonate() does damage to ship
-			 * but if ship hit the mine while turning and the mine wasn't originally adjacent to the ship before
-			 * the turn, then the ship needs to take damage, and that's not covered in mine.detonate() */
-			
 			Mine mine = (Mine)spaceThing;
+	
+			// detonate mine
+			mine.detonate();
 			
-			// CASE 1: ship adjacent to mine
-			int mineX = mine.getX();
-			int mineY = mine.getY();
-			if(board.getSpaceThing(mineX, mineY+1) == this || board.getSpaceThing(mineX, mineY-1) == this
-					|| board.getSpaceThing(mineX-1, mineY) == this || board.getSpaceThing(mineX+1, mineY) == this) { 
-				// damage taken care of
-				mine.detonate();
-			} 
-			else { 
-				// detonate mine
-				mine.detonate();
-				
-				// choose random section of ship to be damaged
-				int[][] shipCoords = this.getShipCoords();
-				int section = new Random().nextInt(shipCoords.length);
-				
-				// an adjacent section is also damaged
-				int section2;
-				if (section + 1 < this.getLength()){
-					section2 = section + 1;
-				} else {
-					section2 = section - 1;
-				}
-				this.decrementSectionHealth(Mine.getDamage(), section);
-				this.decrementSectionHealth(Mine.getDamage(), section2);
+			// choose random section of ship to be damaged
+			int[][] shipCoords = this.getShipCoords();
+			int section = new Random().nextInt(shipCoords.length);
+			
+			// an adjacent section is also damaged
+			int section2;
+			if (section + 1 < this.getLength()){
+				section2 = section + 1;
+			} else {
+				section2 = section - 1;
 			}
+			this.decrementSectionHealth(Mine.getDamage(), section);
+			this.decrementSectionHealth(Mine.getDamage(), section2);
+			
 			System.out.println("Mine exploded at " + mine.getX() + "," + mine.getY());
 		}
 		else { 
@@ -162,6 +149,7 @@ public abstract class AbstractShip extends SpaceThing {
 				return arsenal[i].fire(x, y);
 			}
 		}
+		this.getOwner().setActionResponse(this.getShipType() + " does not have weapon type " + wType.toString());
 		return false;
 	}
 
@@ -319,7 +307,7 @@ public abstract class AbstractShip extends SpaceThing {
 	 * @param direction Direction of turn
 	 * @return Point representing the final location.
 	 */
-	public Point getLocationAfterPivot(int x, int y, OrientationType startOrientation, ActionType direction) { 
+	protected Point getLocationAfterPivot(int x, int y, OrientationType startOrientation, ActionType direction) { 
 		// FOLLOWS NEW ORIGIN CONVENTION
 		if(this instanceof TorpedoBoatShip || this instanceof RadarBoatShip) { 
 			if(direction == ActionType.TurnLeft) {
@@ -361,7 +349,7 @@ public abstract class AbstractShip extends SpaceThing {
 	 * @param direction direction to turn (left or right)
 	 * @return the final orientation
 	 */
-	public OrientationType getOrientationAfterPivot(OrientationType orientation, ActionType direction) { 
+	protected OrientationType getOrientationAfterPivot(OrientationType orientation, ActionType direction) { 
 		if(direction == ActionType.TurnLeft) { 
 			switch(orientation) { 
 			case East:

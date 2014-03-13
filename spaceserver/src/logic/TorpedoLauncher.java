@@ -59,11 +59,9 @@ public class TorpedoLauncher extends AbstractWeapon {
 				SpaceThing spaceThing = owner.getGameBoard().getSpaceThing(torpedoX, torpedoY);  
 				if(spaceThing != null) { 
 					damageObstacle(spaceThing, torpedoX, torpedoY);
-					break;
+					return true;
 				}
-				
 			}
-			break;
 		case West:
 			torpedoLauncherX = shipX - shipLength + 1;
 			torpedoY = shipY;
@@ -74,11 +72,10 @@ public class TorpedoLauncher extends AbstractWeapon {
 				SpaceThing spaceThing = owner.getGameBoard().getSpaceThing(torpedoX, torpedoY);
 				if(spaceThing != null) { 
 					damageObstacle(spaceThing, torpedoX, torpedoY);
-					break;
+					return true;
 				}
 				
 			}
-			break;
 		case North:
 			torpedoX = shipX;
 			torpedoLauncherY = shipY + shipLength - 1;
@@ -89,10 +86,9 @@ public class TorpedoLauncher extends AbstractWeapon {
 				SpaceThing spaceThing = owner.getGameBoard().getSpaceThing(torpedoX, torpedoY);
 				if(spaceThing != null) { 
 					damageObstacle(spaceThing, torpedoX, torpedoY);
-					break;
+					return true;
 				}
 			}
-			break;
 		case South:
 			torpedoX = shipX;
 			torpedoLauncherY = shipY - shipLength + 1;
@@ -103,12 +99,12 @@ public class TorpedoLauncher extends AbstractWeapon {
 				SpaceThing spaceThing = owner.getGameBoard().getSpaceThing(torpedoX, torpedoY);
 				if(spaceThing != null) { 
 					damageObstacle(spaceThing, torpedoX, torpedoY);
-					break;
+					return true;
 				}
 			}
-			break;
 		}
-	
+		// If method got here, the torpedo either went out of bounds or hit its max range before it hit any obstacles
+		this.owner.getOwner().setActionResponse("Torpedo fired and missed");
 		return true;
 	}
 	
@@ -128,13 +124,15 @@ public class TorpedoLauncher extends AbstractWeapon {
 				} else if(section - 1 >= 0 && !ship.isSectionDamaged(section - 1)) { 
 					ship.decrementSectionHealth(damage, section - 1);
 				}
-			}		
-		}
-		
+			}	
+			
+			this.owner.getOwner().setActionResponse(String.format("Torpedo damaged a ship at (%d,%d)", x, y));
+		}		
 		/* Obstacle is mine */
 		else if(spaceThing instanceof Mine) { 
 			// mine is destroyed without exploding
 			owner.getGameBoard().clearSpaceThing(x, y);
+			this.owner.getOwner().setActionResponse(String.format("Torpedo destroyed a mine at (%d,%d)", x, y));
 		}
 		
 		/* Obstacle is base */
@@ -142,7 +140,9 @@ public class TorpedoLauncher extends AbstractWeapon {
 			// base tile health decremented
 			BaseTile baseTile = (BaseTile)spaceThing;
 			baseTile.decrementBaseHealth(damage);
+			this.owner.getOwner().setActionResponse(String.format("Torpedo damaged a base at (%d,%d)", x, y));
 		}
+	
 	}
 	
 	/**
@@ -168,11 +168,12 @@ public class TorpedoLauncher extends AbstractWeapon {
 	}
 
 	/**
-	 * This method is useless lol
+	 * This method is useless
+	 * Torpedoes aren't fired to a specific location, they are just fired and go as far as possible.
 	 */
 	@Override
 	protected boolean inRange(int x, int y) {
-		return true; 			
+		return true;
 	}
 
 }

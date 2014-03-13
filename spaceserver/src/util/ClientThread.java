@@ -7,11 +7,17 @@ import java.io.PrintStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import common.GameConstants.ActionType;
+
+import logic.GameHandler;
+import messageprotocol.ActionMessage;
+
 class ClientThread extends Thread {
 
 	private Socket clientSocket = null;
 	private String clientName = null;
 	private String matchName = null;
+	private GameHandler currentGame = null;
 	private boolean prompted = false;
 	private BufferedReader input = null;
 	private PrintStream output = null;
@@ -95,6 +101,12 @@ class ClientThread extends Thread {
 								output.println("You just matched with " + this.matchName);
 								current.output.println("You just matched with " + this.clientName);
 								current.output.println("You can now type a message to send.");
+								
+								// Initialize the game handler
+								this.currentGame = new GameHandler();
+								current.setGameHandler(this.currentGame);
+								currentGame.doAction(new ActionMessage(ActionType.Place, 0, 0, 0), 0);
+								
 								break;
 							} 
 							
@@ -162,6 +174,10 @@ class ClientThread extends Thread {
 			System.out.println(e);
 		}
 
+	}
+	
+	public void setGameHandler(GameHandler g) {
+		this.currentGame = g;
 	}
 	
 	public void setPrompted(boolean v) {

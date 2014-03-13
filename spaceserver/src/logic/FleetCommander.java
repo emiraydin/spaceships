@@ -8,6 +8,7 @@ import logic.spacethings.MineLayerShip;
 import logic.spacethings.RadarBoatShip;
 import logic.spacethings.SpaceThing;
 import logic.spacethings.TorpedoBoatShip;
+
 import common.GameConstants;
 import common.GameConstants.ActionType;
 import common.GameConstants.OrientationType;
@@ -20,8 +21,9 @@ public class FleetCommander {
 	private int fcID;
 	private ArrayList<AbstractShip> ships;
 	private StarBoard board;
+	private GameHandler handler;
 	
-	public FleetCommander(int fcID, StarBoard board){
+	public FleetCommander(int fcID, StarBoard board, GameHandler handler){
 		super();
 		this.fcID = fcID;
 		sonarVisibility = new int[30][30];
@@ -31,10 +33,12 @@ public class FleetCommander {
 		 * - enemies base and coral reefs are visible
 		 */
 		ships = new ArrayList<AbstractShip>();
+		this.handler = handler;
 	}
 	
 	public void addShip(AbstractShip ship){
 		ships.add(ship);
+		incrementVisibility(ship);
 	}
 	
 	public int[][] getSonarVisibility() {
@@ -43,6 +47,10 @@ public class FleetCommander {
 
 	public int[][] getRadarVisibility() {
 		return radarVisibility;
+	}
+	
+	public GameHandler getHandler() { 
+		return this.handler;
 	}
 
 	/**
@@ -233,12 +241,21 @@ public class FleetCommander {
 		return false;
 	}
 	
+	public boolean pickupMine(int shipID, int x, int y){
+		AbstractShip ship = getShip(shipID);
+		SpaceThing thing = board.getSpaceThing(x, y);
+		if (ship instanceof MineLayerShip && thing instanceof Mine){
+			return ((MineLayerShip) ship).pickUpMine((Mine) thing);
+		}
+		return false;
+	}
+	
 	/**
 	 * Updates the ship (x,y) and the ship's orientation after a turn
 	 * @param ship The ship that is turning
 	 * @param direction The direction of turn
 	 */
-	private void updateShipLocationAfterTurn(AbstractShip ship, ActionType direction) { 
+	private static void updateShipLocationAfterTurn(AbstractShip ship, ActionType direction) { 
 		// if ship doesn't turn about stern (can turn 180)
 		if(ship instanceof RadarBoatShip || ship instanceof TorpedoBoatShip) { 
 			int x = ship.getX();
@@ -503,5 +520,9 @@ public class FleetCommander {
 			}
 		}
 		return false;
+	}
+	
+	public void setActionResponse(String response) { 
+		this.handler.getMessageResponder().setResponseMessage(response);
 	}
 }

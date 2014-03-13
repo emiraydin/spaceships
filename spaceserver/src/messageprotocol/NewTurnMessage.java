@@ -24,6 +24,7 @@ public class NewTurnMessage implements Serializable
 	 */
 	LinkedList<GameStateMessage> state;
 	boolean turnSuccess;
+	String response;
 	
 	/**
 	 * Radar and sonar visibility.
@@ -43,12 +44,15 @@ public class NewTurnMessage implements Serializable
 	public NewTurnMessage(
 			ActionMessage action,
 			boolean turnSuccess,
+			String response,
 			LinkedList<GameStateMessage> state,
 			boolean[][] radarVisibleTiles,
 			boolean[][]	sonarVisibleTiles
 					) {
 		
 		this.action = action;
+		this.turnSuccess = turnSuccess;
+		this.response = response;
 		
 		// If the state is null, then make an empty linked list.
 		if (state == null) {

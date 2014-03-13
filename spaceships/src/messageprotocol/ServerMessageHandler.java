@@ -17,30 +17,35 @@ public class ServerMessageHandler {
 	 * @param turn
 	 */
 	public static void executeNewTurnMessage(NewTurnMessage turn) {
-		// First, we execute the action message.  This should do nothing for now...
-		if (turn.getAction() != null) {
-			executeActionMessage(turn.getAction());			
-		}
-		
-		// Now, execute allf of the gamestate messages.
-		if  (turn.getState() != null) {
-			for (GameStateMessage state : turn.getState()) {
-				try {
-					executeGameStateMessage(state);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+		// Only do operations if the turn is successful
+		if (turn.isTurnSuccess()) {
+			// First, we execute the action message.  This should do nothing for now...
+			if (turn.getAction() != null) {
+				executeActionMessage(turn.getAction());			
+			}
+			
+			// Now, execute allf of the gamestate messages.
+			if  (turn.getState() != null) {
+				for (GameStateMessage state : turn.getState()) {
+					try {
+						executeGameStateMessage(state);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}			
+			}
+			
+			// Now, update the radar and sonar visible tiles...
+			if (turn.getRadarVisibleTiles() != null) {
+				GameState.setRadarVisibleTiles(turn.getRadarVisibleTiles());			
+			}
+			if (turn.getSonarVisibleTiles() != null) {
+				GameState.setSonarVisibleTiles(turn.getSonarVisibleTiles());			
 			}			
+		} else {
+			// We need to let the player know that their turn wasn't a success somehow...
 		}
-		
-		// Now, update the radar and sonar visible tiles...
-		if (turn.getRadarVisibleTiles() != null) {
-			GameState.setRadarVisibleTiles(turn.getRadarVisibleTiles());			
-		}
-		if (turn.getSonarVisibleTiles() != null) {
-			GameState.setSonarVisibleTiles(turn.getSonarVisibleTiles());			
-		}	
 	}
 	
 	/**
@@ -70,16 +75,16 @@ public class ServerMessageHandler {
 				
 				Class<? extends SpaceThing> thingClass = thing.getClass();
 				
-				// If it has the method then run it
+				// Run all the setters that are available
 				for (Method current : thingClass.getMethods()) {
-					if (current.getName().equals("updateProperties")) {
-						current.invoke(
-								thing,
-								state.getPosX(),
-								state.getPosY(),
-								state.getOrientation(),
-								state.getSectionHealth());
-						break;
+					if (current.getName().equals("setX")) {
+						current.invoke(thing, state.getPosX());
+					} else if (current.getName().equals("setY")) {
+						current.invoke(thing, state.getPosY());
+					} else if (current.getName().equals("setOrientation")) {
+						current.invoke(thing, state.getOrientation());
+					} else if (current.getName().equals("setSectionHealth")) {
+						current.invoke(thing, state.getSectionHealth());
 					}
 				}	
 			} else {

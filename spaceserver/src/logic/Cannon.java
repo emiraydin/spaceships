@@ -29,20 +29,28 @@ public class Cannon extends AbstractWeapon {
 				AbstractShip ship = (AbstractShip)spaceThing;
 				int sectionIndex = ship.getSectionAt(x, y);
 				ship.decrementSectionHealth(damage, sectionIndex);
+				this.owner.getOwner().setActionResponse(String.format("Cannon hit a ship at (%d,%d)", x, y));
 			}
 			/* If cannon hits a mine */
 			else if(spaceThing instanceof Mine) { 
 				// mine is destroyed without exploding
 				owner.getGameBoard().clearSpaceThing(x, y);
+				this.owner.getOwner().setActionResponse(String.format("Cannont hit a mine at (%d,%d)", x, y));
 			}
 			/* If cannon hits a base tile */
 			else if (spaceThing instanceof BaseTile) { 
 				// base tile health decremented
 				BaseTile baseTile = (BaseTile)spaceThing;
 				baseTile.decrementBaseHealth(damage);
+				this.owner.getOwner().setActionResponse(String.format("Cannon hit a base at (%d, %d)", x, y));
 			}
-			/* Otherwise, cannon hit a coral reef (indestructible) or nothing */
-		}	
+			else { 
+				/* Otherwise, cannon hit a coral reef (indestructible) or nothing */
+				this.owner.getOwner().setActionResponse(String.format("Cannon shot and missed at (%d,%d)", x, y));
+			}			
+			return true;
+		}
+		this.owner.getOwner().setActionResponse(String.format("(%d,%d) out of range.", x, y));
 		return false;
 	}
 
