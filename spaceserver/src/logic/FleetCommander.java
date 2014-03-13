@@ -246,6 +246,7 @@ public class FleetCommander {
 					return false;
 				}
 			}
+			return true;
 		case North:
 			if(y != ship.getY()) { 
 				if (y < ship.getY() - 1){
@@ -262,6 +263,7 @@ public class FleetCommander {
 					return false;
 				}
 			}
+			return true;
 		case West:
 			if(x != ship.getX()) { 
 				if (x > ship.getX() + 1){

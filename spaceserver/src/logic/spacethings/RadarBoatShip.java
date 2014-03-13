@@ -148,6 +148,7 @@ public class RadarBoatShip extends AbstractShip {
 					}
 				}
 			}
+			break;
 		case West:
 			if(turnDirection == ActionType.TurnLeft) { 
 				// in turn radius

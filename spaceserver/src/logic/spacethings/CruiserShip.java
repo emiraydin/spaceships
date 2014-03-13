@@ -107,24 +107,28 @@ public class CruiserShip extends AbstractShip {
 					return null;
 				}
 			}
+			break;
 		case West:
 			for(int i = 1; i < this.length; i++) { 
 				if(!this.addObstacleToList(x-i, y, obstacles)) { 
 					return null;
 				}
 			}
+			break;
 		case North:
 			for(int i = 1; i < this.length; i++) { 
 				if(!this.addObstacleToList(x, y+i, obstacles)) { 
 					return null;
 				}
 			}
+			break;
 		case South:
 			for(int i = 1; i < this.length; i++) { 
 				if(!this.addObstacleToList(x, y-i, obstacles)) { 
 					return null;
 				}
 			}
+			break;
 		}
 		
 		return obstacles;
