@@ -138,7 +138,7 @@ public class TestMessageProtocol {
 		
 		// TORPEDO
 		
-		// We want to pick out the radar ship
+		// We want to pick out the torpedo ship
 		for (AbstractShip current : ships) {
 			if (current.getShipType().equals(SpaceThingType.TorpedoShip)) {
 				shipId = current.getID();
@@ -147,6 +147,14 @@ public class TestMessageProtocol {
 		
 		newMes = new ActionMessage(ActionType.FireTorpedo, shipId, pZero.getShip(shipId).getX() + 1, pZero.getShip(shipId).getY());
 		
+		response = handler.doAction(newMes, 0);
+		
+		for (NewTurnMessage current : response) {
+			System.out.println(current);
+		}
+		
+		// try to turn, should fail
+		newMes = new ActionMessage(ActionType.TurnRight, shipId, -1, -1);
 		response = handler.doAction(newMes, 0);
 		
 		for (NewTurnMessage current : response) {
