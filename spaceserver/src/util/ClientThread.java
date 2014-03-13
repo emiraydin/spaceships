@@ -3,14 +3,18 @@ package util;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.util.ArrayList;
-
-import common.GameConstants.ActionType;
+import java.util.Arrays;
 
 import logic.GameHandler;
 import messageprotocol.ActionMessage;
+import messageprotocol.NewTurnMessage;
+
+import common.GameConstants;
 
 class ClientThread extends Thread {
 
@@ -19,8 +23,11 @@ class ClientThread extends Thread {
 	private String matchName = null;
 	private GameHandler currentGame = null;
 	private boolean prompted = false;
-	private BufferedReader input = null;
-	private PrintStream output = null;
+	private int playerID;
+	private BufferedReader messageInput = null;
+	private PrintStream messageOutput = null;
+	private ObjectInputStream objectInput = null;
+	private ObjectOutputStream objectOutput = null;
 	private final ClientThread[] allThreads;
 	private int maxPlayersOnServer;
 
@@ -28,6 +35,7 @@ class ClientThread extends Thread {
 		this.clientSocket = clientSocket;
 		this.allThreads = threads;
 		maxPlayersOnServer = threads.length;
+		this.playerID = 1;
 	}
 
 	public void run() {
@@ -37,14 +45,17 @@ class ClientThread extends Thread {
 		try {
 
 			// Create I/O streams and set up the user
-			input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-			output = new PrintStream(clientSocket.getOutputStream());
+			messageInput = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+			messageOutput = new PrintStream(clientSocket.getOutputStream());
+			objectInput = new ObjectInputStream(clientSocket.getInputStream());
+			objectOutput = new ObjectOutputStream(clientSocket.getOutputStream());
+			
 			String userName;
-			output.println("Enter your user name: ");
-			userName = input.readLine().trim();
+			messageOutput.println("Enter your user name: ");
+			userName = messageInput.readLine().trim();
 
 			// New client enters the game
-			output.println("Welcome " + userName + "!.\nType /exit to quit game.");
+			messageOutput.println("Welcome " + userName + "!.\nType /exit to quit game.");
 			
 			ArrayList<String> onlinePlayers = new ArrayList<String>();
 			
@@ -62,51 +73,61 @@ class ClientThread extends Thread {
 				
 				// Show all online users
 				if (onlinePlayers.isEmpty()) {
-					output.println("You are the only online player. Wait for others to join!");
+					messageOutput.println("You are the only online player. Wait for others to join!");
 				} else {
-					output.println("Online players:");
+					messageOutput.println("Online players:");
 					for (String p: onlinePlayers)
-						output.println(p);
+						messageOutput.println(p);
 				}
 					
 				// Let the unmatched user know about the new player
 				for (int i = 0; i < maxPlayersOnServer; i++) {
 					if (allThreads[i] != null && allThreads[i] != this && this.matchName == null) {
-						allThreads[i].output.println(userName + " is now online!");
+						allThreads[i].messageOutput.println(userName + " is now online!");
 					}
 				}
 				
 				// Match players
 				while (this.matchName == null && this.prompted == false) {
-					output.println("Type one of the usernames to start a game.");
-					String matchUser = input.readLine().trim();
+					messageOutput.println("Type one of the usernames to start a game.");
+					String matchUser = messageInput.readLine().trim();
 					
 					if (matchUser.startsWith("/exit"))
 						break;
 					
 					// Check if the user exists and prompt to match if so
 					for (int i = 0; i < maxPlayersOnServer; i++) {
-						ClientThread current = allThreads[i];
-						if (current != null && current.clientName != null && current.clientName.equals(matchUser)) {
-							current.setPrompted(true);
+						ClientThread matchThread = allThreads[i];
+						if (matchThread != null && matchThread.clientName != null && matchThread.clientName.equals(matchUser)) {
+							matchThread.setPrompted(true);
 							this.setPrompted(true);
-							output.println("Waiting for " + matchUser + " to respond...");
-							current.output.println(clientName + " wants to play with you. Enter Y to accept, anything else to reject.");
-							String otherUserInput = current.input.readLine().trim();
+							messageOutput.println("Waiting for " + matchUser + " to respond...");
+							matchThread.messageOutput.println(clientName + " wants to play with you. Enter Y to accept, anything else to reject.");
+							String otherUserInput = matchThread.messageInput.readLine().trim();
 							
 							// Check if the other user confirms the match
 							if (otherUserInput.startsWith("Y")) {
 								this.matchName = matchUser;
-								current.setMatchName(this.clientName);
-								output.println("You just matched with " + this.matchName);
-								current.output.println("You just matched with " + this.clientName);
-								current.output.println("You can now type a message to send.");
+								matchThread.setMatchName(this.clientName);
+								messageOutput.println("You just matched with " + this.matchName);
+								matchThread.messageOutput.println("You just matched with " + this.clientName);
+								matchThread.messageOutput.println("You can now type a message to send.");
 								
 								// Initialize the game handler
 								this.currentGame = new GameHandler();
-								current.setGameHandler(this.currentGame);
-								currentGame.doAction(new ActionMessage(ActionType.Place, 0, 0, 0), 0);
+								matchThread.setGameHandler(this.currentGame);
+								this.playerID = 0;
+//								NewTurnMessage[] messages = currentGame.doAction(new ActionMessage(ActionType.Place, 0, 0, 0), 0);
+								ArrayList<Integer> myArray = new ArrayList<>(Arrays.asList(15, 20, 30));
+								this.objectOutput.writeObject(myArray);
+								matchThread.objectOutput.writeObject(myArray);
+//								this.objectOutput.writeObject(messages[0]);
+//								matchThread.objectOutput.writeObject(messages[1]);
 								
+								while (this.currentGame.checkWin() == GameConstants.WinState.Playing) {
+									// continue passing on messages
+									NewTurnMessage[] messages = currentGame.doAction(new ActionMessage(GameConstants.ActionType.Place, 0, 0, 0), this.playerID);
+								}
 								break;
 							} 
 							
@@ -121,7 +142,7 @@ class ClientThread extends Thread {
 			// Start the connection and maintain it unless the user exits
 			while (true) {
 
-				String line = input.readLine();
+				String line = messageInput.readLine();
 	
 				// Check if the user wants to exit
 				if (line.startsWith("/exit")) {
@@ -136,7 +157,7 @@ class ClientThread extends Thread {
 									allThreads[i].getClientName() != null && allThreads[i].getMatchName() != null) {
 								if (allThreads[i].getMatchName().equals(this.getClientName()) ||
 										allThreads[i].getClientName().equals(this.getClientName()))
-									allThreads[i].output.println("<" + userName + "> " + line);
+									allThreads[i].messageOutput.println("<" + userName + "> " + line);
 							}
 						}
 					}
@@ -150,11 +171,11 @@ class ClientThread extends Thread {
 				for (int i = 0; i < maxPlayersOnServer; i++) {
 					if (allThreads[i] != null && allThreads[i] != this
 							&& allThreads[i].clientName != null) {
-						allThreads[i].output.println(userName + " left the game!");
+						allThreads[i].messageOutput.println(userName + " left the game!");
 					}
 				}
 			}
-			output.println("Goodbye " + userName + "!");
+			messageOutput.println("Goodbye " + userName + "!");
 
 			// Clean up this thread to open up a space for new players on the server
 			synchronized (this) {
@@ -166,8 +187,8 @@ class ClientThread extends Thread {
 			}
 
 			// Close the socket and i/o streams
-			input.close();
-			output.close();
+			messageInput.close();
+			messageOutput.close();
 			clientSocket.close();
 
 		} catch (IOException e) {
