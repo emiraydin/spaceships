@@ -29,7 +29,6 @@ public abstract class AbstractShip extends SpaceThing {
 	
 	@Override
 	public GameStateMessage genGameStateMessage() {
-		//TODO: finish
 		return new GameStateMessage(getID(), getOwner().getPlayer(), getShipType(), 
 				getX(), getY(), orientation, sectionHealth);
 	}
