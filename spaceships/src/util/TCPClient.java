@@ -8,6 +8,8 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
+import messageprotocol.ActionMessage;
+
 public class TCPClient implements Runnable {
 
 	// Initialize sockets and input/output streams
@@ -61,7 +63,7 @@ public class TCPClient implements Runnable {
 		try {
 			while ((responseLine = input.readLine()) != null) {
 				if (responseLine.startsWith("@")) {
-					ArrayList<String> received = (ArrayList<String>) ObjectConverter.stringtoObject(responseLine.substring(1));
+					ActionMessage received = (ActionMessage) ObjectConverter.stringtoObject(responseLine.substring(1));
 					System.out.println(received.toString());
 				} else {
 					System.out.println(responseLine);

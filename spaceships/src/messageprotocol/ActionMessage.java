@@ -2,7 +2,7 @@ package messageprotocol;
 
 import java.io.Serializable;
 
-import gameLogic.Constants.ActionType;
+import common.GameConstants.ActionType;
 
 public class ActionMessage implements Serializable {
 	

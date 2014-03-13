@@ -6,11 +6,11 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Arrays;
 
-import common.GameConstants.ActionType;
 import logic.GameHandler;
 import messageprotocol.ActionMessage;
+
+import common.GameConstants;
 
 class ClientThread extends Thread {
 
@@ -98,7 +98,7 @@ class ClientThread extends Thread {
               if (otherUserInput.startsWith("Y")) {
                 this.matchName = matchUser;
                 matchedThread.setMatchName(this.clientName);
-                output.println("You just matched with " + this.matchName);
+                output.println("Accepted! You just matched with " + this.matchName);
                 matchedThread.output.println("You just matched with " + this.clientName);
                 matchedThread.output.println("You can now type a message to send.");
                 
@@ -107,7 +107,7 @@ class ClientThread extends Thread {
 //                current.setGameHandler(this.currentGame);
 //                currentGame.doAction(new ActionMessage(ActionType.Place, 0, 0, 0), 0);
                 
-                ArrayList<String> test = new ArrayList<>(Arrays.asList("one", "two", "three"));
+                ActionMessage test = new ActionMessage(GameConstants.ActionType.Place, 15, 0, 2);
                 String result = "@" + ObjectConverter.objectToString(test);
                 matchedThread.output.println(result);
                 
