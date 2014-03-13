@@ -29,6 +29,7 @@ public class FleetCommander {
 	public FleetCommander(int fcID, StarBoard board, GameHandler handler){
 		super();
 		this.fcID = fcID;
+		this.board = board;
 		sonarVisibility = new int[30][30];
 		radarVisibility = new int[30][30];
 		/* 
@@ -39,8 +40,10 @@ public class FleetCommander {
 		this.handler = handler;
 	}
 	
+	
 	public void addShip(AbstractShip ship){
 		ships.add(ship);
+		board.setSpaceThing(ship, ship.getX(), ship.getY());
 		incrementVisibility(ship);
 	}
 	
@@ -484,13 +487,13 @@ public class FleetCommander {
 		switch(ship.getOrientation()) { 
 		case East: 
 			minX = shipX + radarLengthOffset;
-			maxX = minX + radarLength;
+			maxX = minX + radarLength - 1;
 			minY = shipY - radarWidth/2;
 			maxY = shipY + radarWidth/2;
 			break;
 		case West:
-			minX = shipX - radarLengthOffset;
-			maxX = minX - radarLength;
+			maxX = shipX - radarLengthOffset;
+			minX = maxX - radarLength + 1;
 			minY = shipY - radarWidth/2;
 			maxY = shipY + radarWidth/2;
 			break;
@@ -498,13 +501,13 @@ public class FleetCommander {
 			minX = shipX - radarWidth/2;
 			maxX = shipX + radarWidth/2;
 			maxY = shipY - radarLengthOffset;
-			minY = maxY - radarLength;
+			minY = maxY - radarLength + 1;
 			break;
 		case North: 
 			minX = shipX - radarWidth/2;
 			maxX = shipX + radarWidth/2;
 			minY = shipY + radarLengthOffset;
-			maxY = minY + radarLength;
+			maxY = minY + radarLength - 1;
 			break;
 		}
 		
@@ -515,14 +518,25 @@ public class FleetCommander {
 				}
 			}
 		}
+		// add the ship's sections too!
+		int[][] coords = ship.getShipCoords();
+		for(int[] section : coords) { 
+			int xCoord = section[0];
+			int yCoord = section[1];
+			if(StarBoard.inBounds(xCoord, yCoord)) { 
+				radarVisibility[xCoord][yCoord] = radarVisibility[xCoord][yCoord] + change;
+			}
+		}
 		
 		/* Sonar */
 		if(ship instanceof MineLayerShip) { 
 			/* this should work???
 			 * if you don't change the ship's section's visibility but change
 			 * the surrounding tiles for each section, then you get the ship's sections
-			 * covered for free right?? its 4 am why am i awake */
-			int[][] coords = ship.getShipCoords();
+			 * covered for free right?? its 4 am why am i awake */		
+			// TODO: ship's sections are NOT in sonar because you cant drop mines there
+			// but for the sake of visibility it shouldnt matter? 
+			// also sonar not necessary for demo #yolo
 			for(int[] s : coords) { 
 				changeSonarVisibility(s[0], s[1]-1, change);
 				changeSonarVisibility(s[0], s[1]+1, change);
