@@ -91,7 +91,7 @@ public class StarBoard {
 		}
 	}
 	
-	public void generateAsteroids(){
+	public void generateAsteroids(FleetCommander[] players){
 		int count = 0; 
 		while(count < NUM_ASTEROIDS){
 			int randX = 10 + (int) (Math.random() * ((20 - 10) + 1)); 
@@ -99,6 +99,8 @@ public class StarBoard {
 			
 			if(getSpaceThing(randX, randY) == null){
 				setSpaceThing(new Asteroid(randX, randY, this), randX, randY);
+				players[0].incrementRadarVisibility(randX, randY);
+				players[1].incrementRadarVisibility(randX, randY);
 				count++; 
 			}
 		}

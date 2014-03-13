@@ -11,6 +11,9 @@ public class BaseTile extends SpaceThing {
 	
 	public BaseTile(int x, int y, FleetCommander owner, StarBoard gameBoard){
 		super(x, y, owner, gameBoard);
+		// Yeah... don't get mad.
+		owner.getHandler().getFleetCommander(0).incrementRadarVisibility(x, y);
+		owner.getHandler().getFleetCommander(1).incrementRadarVisibility(x, y);
 	}
 
 	public int getHealth() {

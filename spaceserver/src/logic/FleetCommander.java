@@ -452,6 +452,14 @@ public class FleetCommander {
 		return true;
 	}
 	
+	public void incrementRadarVisibility(int x, int y) { 
+		radarVisibility[x][y]++;
+	}
+	
+	public void decrementRadarVisibility(int x, int y) { 
+		radarVisibility[x][y]--;
+	}
+	
 	public void incrementVisibility(AbstractShip ship) { 
 		changeVisibility(ship, 1);
 	}

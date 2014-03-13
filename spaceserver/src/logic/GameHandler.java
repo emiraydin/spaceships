@@ -31,7 +31,7 @@ public class GameHandler {
 		players = new FleetCommander[2];
 		players[0] = new FleetCommander(0, board, this);
 		players[1] = new FleetCommander(1, board, this);
-		board.generateAsteroids();
+		board.generateAsteroids(players);
 		for (int playerId = 0; playerId <= 1; playerId++){
 			for (int basenum = 0; basenum < 10; basenum++){
 				board.setSpaceThing(new BaseTile(playerId*29, basenum+15, players[playerId], board),
