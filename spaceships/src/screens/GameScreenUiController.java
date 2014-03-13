@@ -115,13 +115,17 @@ public class GameScreenUiController
 		fireCannon = new TextButton("Fire", tbs); 
 		setUpClickListnersForFire(fireCannon); 
 		fireCannon.setVisible(false); 
-		fireTorpedo = new TextButton("Torp", tbs); 
+		fireTorpedo = new TextButton("Torp", tbs);
+		setUpClickListnersForTorp(fireTorpedo); 
 		fireTorpedo.setVisible(false);  
 		turnLeft = new TextButton("Turn\nLeft", tbs);
+		setUpClickListnersForTurnLeft(turnLeft); 
 		turnLeft.setVisible(false); 
 		turnRight = new TextButton("Turn\nRight", tbs); 
+		setUpClickListnersForTurnRight(turnRight); 
 		turnRight.setVisible(false); 
 		turn180 = new TextButton("180\nTurn", tbs); 
+		setUpClickListnersForTurn180(turn180); 
 		turn180.setVisible(false); 
 		
 		buttonTable.add(moveShip).pad(10f); 
@@ -227,30 +231,130 @@ public class GameScreenUiController
 		{
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
 			{
-				if(ActorState.currentSelectionShip != -1)
+				if(ActorState.currentSelectionShip != -1
+						&& ActorState.currentTile != null
+						&& ActionValidator.validateShot((int)ActorState.currentTile.getX(),(int)ActorState.currentTile.getY()))
 				{
-					
+					chatBox.setText(""); 
+				}
+				else
+				{
+					chatBox.setText("That shot was out of range.\nPlease select a shot in range"); 
 				}
 				return false; 
 			}
 			
 			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
 			{ 
-				if(ActorState.currentSelectionShip != -1)
-				{
-					ShipActor ship = ActorState.shipList.get(ActorState.currentSelectionShip); 
-					AbstractShip aShip = ship.ship; 
-					
-					controller.drawCannonRange(ship, aShip); 
-				}
+				currentPlayerAction.setText("Fire the Ships Cannons.\nAutomatically determines heaviest cannon"); 
 			}
 			
 			public void exit(InputEvent event, float x, float y, int pointer, Actor toActor)
 			{
-				controller.resetGameBoardBlue(); 
+				currentPlayerAction.setText(""); 
 			}
 		});
 	}
+	private void setUpClickListnersForTorp(TextButton button)
+	{
+		button.addListener(new ClickListener()
+		{
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
+			{
+				if(ActorState.currentSelectionShip != -1)
+				{
+					chatBox.setText(""); 
+				}
+				return false; 
+			}
+			
+			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
+			{ 
+				currentPlayerAction.setText("Fire Torpedoes.\nWill hit the first object within 10 lightyears"); 
+			}
+			
+			public void exit(InputEvent event, float x, float y, int pointer, Actor toActor)
+			{
+				currentPlayerAction.setText(""); 
+			}
+		});
+	}
+	private void setUpClickListnersForTurnLeft(TextButton button)
+	{
+		button.addListener(new ClickListener()
+		{
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
+			{
+				if(ActorState.currentSelectionShip != -1)
+				{
+					ActorState.shipList.get(ActorState.currentSelectionShip).ship.setOrientation(OrientationType.West); 
+					chatBox.setText(""); 
+				}
+				return false; 
+			}
+			
+			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
+			{ 
+				currentPlayerAction.setText("Turn the ship 90 degrees leftwards."); 
+			}
+			
+			public void exit(InputEvent event, float x, float y, int pointer, Actor toActor)
+			{
+				currentPlayerAction.setText(""); 
+			}
+		});
+	}
+	private void setUpClickListnersForTurnRight(TextButton button)
+	{
+		button.addListener(new ClickListener()
+		{
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
+			{
+				if(ActorState.currentSelectionShip != -1)
+				{
+					ActorState.shipList.get(ActorState.currentSelectionShip).ship.setOrientation(OrientationType.South); 
+					chatBox.setText(""); 
+				}
+				return false; 
+			}
+			
+			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
+			{ 
+				currentPlayerAction.setText("Turn the ship 90 degrees rightwards."); 
+			}
+			
+			public void exit(InputEvent event, float x, float y, int pointer, Actor toActor)
+			{
+				currentPlayerAction.setText(""); 
+			}
+		});
+	}
+	private void setUpClickListnersForTurn180(TextButton button)
+	{
+		button.addListener(new ClickListener()
+		{
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
+			{
+				if(ActorState.currentSelectionShip != -1)
+				{
+					//ActorState.shipList.get(ActorState.currentSelectionShip).ship.setOrientation(OrientationType.South); 
+					chatBox.setText(""); 
+				}
+				return false; 
+			}
+			
+			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
+			{ 
+				currentPlayerAction.setText("Turn the ship right around."); 
+			}
+			
+			public void exit(InputEvent event, float x, float y, int pointer, Actor toActor)
+			{
+				currentPlayerAction.setText(""); 
+			}
+		});
+	}
+	
 	
 	/**
 	 * Generates a background for the button. 
@@ -261,7 +365,7 @@ public class GameScreenUiController
 		float height = 55f, width = 70f; 
 		Pixmap pixmap = new Pixmap((int)width, (int)height, Format.RGBA8888);
 
-		pixmap.setColor(0/255f, 0/255f, 255/255f, 0.5f);
+		pixmap.setColor(0/255f, 0/255f, 250/255f, 0.15f);
 		pixmap.fill(); 
 		pixmap.setColor(0, 1, 1, 1);
 		pixmap.drawRectangle(0, 0, (int)width, (int)height);
@@ -276,7 +380,7 @@ public class GameScreenUiController
 		float height = 55f, width = 70f; 
 		Pixmap pixmap = new Pixmap((int)width, (int)height, Format.RGBA8888);
 
-		pixmap.setColor(1, 0, 0, 1f);
+		pixmap.setColor(0/255f, 0/255f, 250/255f, 0.6f);
 		pixmap.fill(); 
 		pixmap.setColor(0, 1, 1, 1);
 		pixmap.drawRectangle(0, 0, (int)width, (int)height);
@@ -306,7 +410,7 @@ public class GameScreenUiController
 		float height = 55f, width = 70f; 
 		Pixmap pixmap = new Pixmap((int)width, (int)height, Format.RGBA8888);
 
-		pixmap.setColor(0/255f, 255/255f, 255/255f, 0.5f);
+		pixmap.setColor(0/255f, 0/255f, 250/255f, 0.3f);
 		pixmap.fill(); 
 		pixmap.setColor(0, 1, 1, 1);
 		pixmap.drawRectangle(0, 0, (int)width, (int)height);
@@ -321,7 +425,7 @@ public class GameScreenUiController
 		float height = 55f, width = 70f; 
 		Pixmap pixmap = new Pixmap((int)width, (int)height, Format.RGBA8888);
 
-		pixmap.setColor(0/255f, 0/255f, 0/255f, 0.5f);
+		pixmap.setColor(0/255f, 0/255f, 250/255f, 0.15f);
 		pixmap.fill(); 
 		pixmap.setColor(1, 1, 1, 0.5f);
 		pixmap.drawRectangle(0, 0, (int)width, (int)height);
