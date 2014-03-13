@@ -149,15 +149,9 @@ public class NewTurnMessage implements Serializable
 		
 		return "NewTurnMessage [action=" + action + ", state=" + state
 				+ ", turnSuccess=" + turnSuccess + ", response=" + response
-<<<<<<< HEAD
-				+ ", radarVisibleTiles=" + Arrays.toString(radarVisibleTiles)
-				+ ", sonarVisibleTiles=" + Arrays.toString(sonarVisibleTiles)
-				+ ", playerID=" + playerID + "]";
-=======
 				+ ", radarVisibleTiles=" + radVis
 				+ ", sonarVisibleTiles=" + sonVis
-				+ ", testNumber=" + testNumber + "]";
->>>>>>> 8fefe5773b96f6eda4126555c44f645671dc92cf
+				+ ", playerID=" + playerID + "]";
 	}
 
 	/* (non-Javadoc)
