@@ -83,7 +83,7 @@ public class GameScreen implements Screen
 		
 		
 		// Create and Initialize GameScreenController. 
-		controller = new GameScreenController(PlayerNumber.PlayerOne);
+		controller = new GameScreenController(PlayerNumber.PlayerTwo);
 		
 		// All the UI Stuff. 
 		uiController = new GameScreenUiController(controller); 

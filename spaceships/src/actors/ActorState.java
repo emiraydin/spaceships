@@ -38,7 +38,7 @@ public class ActorState
 	public static BaseTileActor[][] 	playerOneBase = new BaseTileActor[boardHeight][boardWidth]; 	// The current players base Tiles. 
 	public static BaseTileActor[][]  playerTwoBase = new BaseTileActor[boardHeight][boardWidth];; // The opponent players base Tiles.
 	public static ShipTileActor[][] playerOneFleet = new ShipTileActor[boardHeight][boardWidth];	// The current players ship Tiles. 
-	private static ShipTileActor[][] playerTwoFleet = new ShipTileActor[boardHeight][boardWidth]; // The opponent players ship Tiles. 
+	public static ShipTileActor[][] playerTwoFleet = new ShipTileActor[boardHeight][boardWidth]; // The opponent players ship Tiles. 
 	private static MineActor[][] 	playerOneMineField = new MineActor[boardHeight][boardWidth];	// The current players Mine Tiles. 
 	private static MineActor[][] 	playerTwoMineField = new MineActor[boardHeight][boardWidth];	// The opponent players Mine Tiles. 
 	public static AsteroidActor[][]  asteroidField = new AsteroidActor[boardHeight][boardWidth]; 	// The locations of all the asteroids. 

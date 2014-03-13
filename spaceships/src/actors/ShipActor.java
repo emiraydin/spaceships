@@ -48,22 +48,43 @@ public class ShipActor extends Group
 	private void initShip(int startX, int startY) 
 	{
 		this.orientation = ship.getOrientation(); 
-		
-		for(int i = 0; i < tiles.length; i++)
+		if(orientation == OrientationType.East)
 		{
-			// Set the head of the ship
-			if(i == tiles.length - 1)
+			for(int i = 0; i < tiles.length; i++)
 			{
-				tiles[i] = new ShipTileActor(startX, startY, orientation); 
-				tiles[i].setIsHead(true); 
+				// Set the head of the ship
+				if(i == tiles.length - 1)
+				{
+					tiles[i] = new ShipTileActor(startX, startY, orientation); 
+					tiles[i].setIsHead(true); 
+				}
+				else
+				{
+					tiles[i] = new ShipTileActor(startX, startY);
+				}
+				startX ++; 
+				addActor(tiles[i]);
 			}
-			else
-			{
-				tiles[i] = new ShipTileActor(startX, startY);
-			}
-			startX ++; 
-			addActor(tiles[i]);
 		}
+		else
+		{
+			for(int i = 0; i < tiles.length; i++)
+			{
+				// Set the head of the ship
+				if(i == tiles.length - 1)
+				{
+					tiles[i] = new ShipTileActor(startX, startY, orientation); 
+					tiles[i].setIsHead(true); 
+				}
+				else
+				{
+					tiles[i] = new ShipTileActor(startX, startY);
+				}
+				startX --; 
+				addActor(tiles[i]);
+			}
+		}
+
 		
 
 	}

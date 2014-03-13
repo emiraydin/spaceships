@@ -386,6 +386,14 @@ public class GameScreenController implements InputProcessor
 			}
 		}
 		
+		for(ShipTileActor[] xArray : ActorState.playerTwoFleet)
+		{
+			for(ShipTileActor ship : xArray)
+			{
+				if(ship != null) background.addActor(ship);
+			}
+		}
+		
 		// Initialize the Bases
 		for(BaseTileActor[] xArray : ActorState.playerOneBase)
 		{
