@@ -1,9 +1,9 @@
 package screens;
 
-import common.GameConstants.*;
-
 import gameLogic.ActionValidator;
 import gameLogic.Descriptions;
+import messageprotocol.ActionMessage;
+import messageprotocol.ServerMessageHandler;
 import state.ships.AbstractShip;
 import state.ships.CruiserShip;
 import state.ships.DestroyerShip;
@@ -33,6 +33,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import common.GameConstants.ActionType;
+import common.GameConstants.OrientationType;
 
 /**
  * Handles everything on the UI side of things. 
@@ -203,8 +205,8 @@ public class GameScreenUiController
 						&& ActorState.currentTile != null
 						&& ActionValidator.validateMove((int)ActorState.currentTile.getX(), (int)ActorState.currentTile.getY()))
 				{
-					ActorState.shipList.get(ActorState.currentSelectionShip).ship.setX((int)ActorState.currentTile.getX()); 
-					ActorState.shipList.get(ActorState.currentSelectionShip).ship.setY((int)ActorState.currentTile.getY()); 
+					ServerMessageHandler.currentAction = new ActionMessage(ActionType.Move, ActorState.getShipList(controller.cPlayer).get(ActorState.currentSelectionShip).ship.getUniqueId(), (int)ActorState.currentTile.getX(), (int)ActorState.currentTile.getY());
+					ServerMessageHandler.hasChanged = true; 
 					chatBox.setText(""); 
 				}
 				else
@@ -288,7 +290,7 @@ public class GameScreenUiController
 			{
 				if(ActorState.currentSelectionShip != -1)
 				{
-					ActorState.shipList.get(ActorState.currentSelectionShip).ship.setOrientation(OrientationType.West); 
+					ActorState.getShipList((controller.cPlayer)).get(ActorState.currentSelectionShip).ship.setOrientation(OrientationType.West); 
 					chatBox.setText(""); 
 				}
 				return false; 
@@ -313,7 +315,7 @@ public class GameScreenUiController
 			{
 				if(ActorState.currentSelectionShip != -1)
 				{
-					ActorState.shipList.get(ActorState.currentSelectionShip).ship.setOrientation(OrientationType.North); 
+					ActorState.getShipList((controller.cPlayer)).get(ActorState.currentSelectionShip).ship.setOrientation(OrientationType.North); 
 					chatBox.setText(""); 
 				}
 				return false; 
@@ -485,7 +487,7 @@ public class GameScreenUiController
 	{
 		if(ActorState.currentSelectionShip != -1)
 		{
-			ShipActor ship = ActorState.shipList.get(ActorState.currentSelectionShip); 
+			ShipActor ship = ActorState.getShipList((controller.cPlayer)).get(ActorState.currentSelectionShip); 
 			AbstractShip aShip = ship.ship; 
 			
 			// Set the buttons 

@@ -9,6 +9,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import screens.GameScreen;
+import state.GameState;
 
 import messageprotocol.ActionMessage;
 import messageprotocol.NewTurnMessage;
@@ -71,17 +72,10 @@ public class TCPClient implements Runnable {
 					NewTurnMessage received = (NewTurnMessage) ObjectConverter.stringtoObject(responseLine.substring(1));
 					// Process the NewTurnMessage
 					ServerMessageHandler.executeNewTurnMessage(received);
+					System.out.println(GameState.getAllSpaceThings().size()); 
 					System.out.println(received.toString());
 				} else if (responseLine.startsWith("//connected")) {
 					canStart = true;
-//					try
-//					{
-//						Thread.sleep(1500);
-//					}
-//					catch (InterruptedException e)
-//					{
-//						e.printStackTrace();
-//					} 
 					System.out.println("isConnectedAndMatched:");
 				} else {
 					System.out.println(responseLine);
