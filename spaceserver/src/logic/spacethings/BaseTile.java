@@ -12,10 +12,18 @@ public class BaseTile extends SpaceThing {
 	public BaseTile(int x, int y, FleetCommander owner, StarBoard gameBoard){
 		super(x, y, owner, gameBoard);
 		owner.incrementRadarVisibility(x, y);
-		owner.incrementRadarVisibility(x+1, y-1);
-		owner.incrementRadarVisibility(x+1, y+1);
-		owner.incrementRadarVisibility(x+1, y+1);
-		owner.incrementRadarVisibility(x-1, y+1);
+		if(StarBoard.inBounds(x+1, y)) { 
+			owner.incrementRadarVisibility(x+1, y);
+		}
+		if(StarBoard.inBounds(x-1, y)) { 
+			owner.incrementRadarVisibility(x-1, y);
+		}
+		if(StarBoard.inBounds(x, y-1)) { 
+			owner.incrementRadarVisibility(x, y-1);
+		}
+		if(StarBoard.inBounds(x, y+1)) { 
+			owner.incrementRadarVisibility(x, y+1);
+		}
 		
 		// Opponent gets visibility
 		// Don't worry, this is very clean code.  I'm sure of it.
