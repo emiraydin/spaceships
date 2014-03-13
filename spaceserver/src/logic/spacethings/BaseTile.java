@@ -11,9 +11,15 @@ public class BaseTile extends SpaceThing {
 	
 	public BaseTile(int x, int y, FleetCommander owner, StarBoard gameBoard){
 		super(x, y, owner, gameBoard);
-		// Yeah... don't get mad.
-		owner.getHandler().getFleetCommander(0).incrementRadarVisibility(x, y);
-		owner.getHandler().getFleetCommander(1).incrementRadarVisibility(x, y);
+		owner.incrementRadarVisibility(x, y);
+		owner.incrementRadarVisibility(x+1, y-1);
+		owner.incrementRadarVisibility(x+1, y+1);
+		owner.incrementRadarVisibility(x+1, y+1);
+		owner.incrementRadarVisibility(x-1, y+1);
+		
+		// Opponent gets visibility
+		// Don't worry, this is very clean code.  I'm sure of it.
+		owner.getHandler().getFleetCommander((owner.getID() + 1) % 2).incrementRadarVisibility(x, y);
 	}
 
 	public int getHealth() {
@@ -24,8 +30,22 @@ public class BaseTile extends SpaceThing {
 		this.health = health;
 	}
 	
-	public void decrementBaseHealth(int amount) { 
-		this.health = this.health - amount;
+	public void decrementBaseHealth(int amount) {
+		if (health != 0){
+			this.health = this.health - amount;
+			}
+			if (health <= 0){
+				health = 0;
+				getOwner().decrementRadarVisibility(getX(), getY());
+				getOwner().decrementRadarVisibility(getX()+1, getY()-1);
+				getOwner().decrementRadarVisibility(getX()+1, getY()+1);
+				getOwner().decrementRadarVisibility(getX()+1, getY()+1);
+				getOwner().decrementRadarVisibility(getX()-1, getY()+1);
+				
+				// Yeah... don't get mad.
+				getOwner().getHandler().getFleetCommander((getOwner().getID() + 1) % 2).
+					decrementRadarVisibility(getX(), getY());
+		}
 	}
 
 	@Override
