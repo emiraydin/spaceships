@@ -1,11 +1,12 @@
 package screens;
 
+import util.TCPClient;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 
 /**
  * The Basic Game Screen. 
@@ -20,8 +21,13 @@ public class GameScreen implements Screen
 	private GameScreenUiController uiController; 
 	private GameScreenController controller; 
 	private GameScreenRenderer 	 renderer ; 
-	private FPSLogger fpsLog = new FPSLogger(); 
+	//private FPSLogger fpsLog = new FPSLogger(); 
 	public static boolean canStart = false;
+	
+	public GameScreen()
+	{
+		
+	}
 	
 	/**
 	 * Run. 
@@ -42,7 +48,7 @@ public class GameScreen implements Screen
 		renderer.render();
 		
 		// Display the current FPS.
-		fpsLog.log(); 
+		//fpsLog.log(); 
 	}
 
 	@Override
@@ -55,10 +61,26 @@ public class GameScreen implements Screen
 	@Override
 	public void show() 
 	{
-		while (!canStart)
+		while(true)
 		{
-			
+			if(TCPClient.canStart == false)
+			{
+				try
+				{
+					Thread.sleep(1000);
+				}
+				catch (InterruptedException e)
+				{
+					e.printStackTrace();
+				} 
+			}
+			else
+			{
+				break; 
+			}
 		}
+
+		System.out.println("Starting"); 
 		
 		// Create and Initialize GameScreenController. 
 		controller = new GameScreenController();

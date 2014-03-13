@@ -104,7 +104,8 @@ public class TorpedoLauncher extends AbstractWeapon {
 			}
 		}
 		// If method got here, the torpedo either went out of bounds or hit its max range before it hit any obstacles
-		this.owner.getOwner().setActionResponse("Torpedo fired and missed");
+		// vague game rules - I think cannons that don't hit anything are signaled to both players but not torpedoes
+		//	this.owner.getOwner().setActionResponse("Torpedo fired and missed");
 		return true;
 	}
 	
