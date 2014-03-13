@@ -425,9 +425,9 @@ public class GameScreenUiController
 		float height = 55f, width = 70f; 
 		Pixmap pixmap = new Pixmap((int)width, (int)height, Format.RGBA8888);
 
-		pixmap.setColor(0/255f, 0/255f, 250/255f, 0.15f);
+		pixmap.setColor(0/255f, 0/255f, 255/255f, 0.05f);
 		pixmap.fill(); 
-		pixmap.setColor(1, 1, 1, 0.5f);
+		pixmap.setColor(0, 1, 0, 0.5f);
 		pixmap.drawRectangle(0, 0, (int)width, (int)height);
 		Texture newTexture = new Texture(pixmap);
 		TextureRegion newTexture2 = new TextureRegion(newTexture); 
