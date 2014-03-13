@@ -21,6 +21,8 @@ public class TCPClient implements Runnable {
 
 	private static BufferedReader inputLine = null;
 	private static boolean connectionClosed = false;
+	
+	public boolean isConnectedAndMatched = false;
 
 	public static void main(String[] args) {
 
@@ -70,7 +72,8 @@ public class TCPClient implements Runnable {
 					ServerMessageHandler.executeNewTurnMessage(received);
 					System.out.println(received.toString());
 				} else if (responseLine.startsWith("//connected")) {
-					System.out.println("We're now connected. Do whatever the fuck you want!");
+					this.isConnectedAndMatched = true;
+					System.out.println("isConnectedAndMatched:" + this.isConnectedAndMatched);
 				} else {
 					System.out.println(responseLine);
 				}
