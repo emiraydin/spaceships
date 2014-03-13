@@ -8,6 +8,8 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
+import screens.GameScreen;
+
 import messageprotocol.ActionMessage;
 import messageprotocol.NewTurnMessage;
 import messageprotocol.ServerMessageHandler;
@@ -22,9 +24,7 @@ public class TCPClient implements Runnable {
 	private static BufferedReader inputLine = null;
 	private static boolean connectionClosed = false;
 	
-	public boolean isConnectedAndMatched = false;
-
-	public static void main(String[] args) {
+	public static void start() {
 
 		System.out.println("Client is now running on " + Properties.HOST_NAME + " port " + Properties.PORT_NUMBER);
 
@@ -72,8 +72,8 @@ public class TCPClient implements Runnable {
 					ServerMessageHandler.executeNewTurnMessage(received);
 					System.out.println(received.toString());
 				} else if (responseLine.startsWith("//connected")) {
-					this.isConnectedAndMatched = true;
-					System.out.println("isConnectedAndMatched:" + this.isConnectedAndMatched);
+					GameScreen.canStart = true;
+					System.out.println("isConnectedAndMatched:");
 				} else {
 					System.out.println(responseLine);
 				}
