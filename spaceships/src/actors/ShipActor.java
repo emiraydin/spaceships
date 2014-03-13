@@ -1,6 +1,7 @@
 package actors;
 
 import gameLogic.Constants.OrientationType;
+import gameLogic.Constants.PlayerNumber;
 import state.ships.AbstractShip;
 
 import com.badlogic.gdx.graphics.Color;
@@ -18,7 +19,8 @@ public class ShipActor extends Group
 	private ShipTileActor[] tiles;									// The array of Tile Objects this ship occupies. 
 	public AbstractShip ship; 									// The Model Ship that represents the current state. 
 	private boolean isCurrent = false; 							// Is this ship currently being selected? 
-	private OrientationType orientation; 						// The heading the ship is facing. 
+	private OrientationType orientation; 						// The heading the ship is facing.
+	private PlayerNumber owner; 
 	
 	/**
 	 * Create a new ship where the back end is at position (x,y). 
@@ -26,9 +28,9 @@ public class ShipActor extends Group
 	 * @param y: The 'y' position of the backend of the ship. 
 	 * @param ship: The ModelShip that this ship represents. 
 	 */
-	public ShipActor(int x, int y, AbstractShip ship)
+	public ShipActor(int x, int y, AbstractShip ship, PlayerNumber owner)
 	{
-		
+		this.owner = owner; 
 		tiles = new ShipTileActor[ship.getLength()]; 
 		this.ship = ship;
 		// Create a new Ship with the tiles in the appropriate places
@@ -102,7 +104,7 @@ public class ShipActor extends Group
 	{
 		for(ShipTileActor child : tiles)
 		{
-			child.drawAsNonCurrent(); 
+			child.drawAsNonCurrent(owner); 
 		}
 	}
 	
@@ -113,7 +115,7 @@ public class ShipActor extends Group
 	{
 		for(ShipTileActor child : tiles)
 		{
-			child.drawAsCurrent(); 
+			child.drawAsCurrent(owner); 
 		}
 	}
 	
@@ -165,6 +167,7 @@ public class ShipActor extends Group
 		{
 			for(ShipTileActor tile : tiles)
 			{
+				tile.setOrientation(orientation); 
 				tile.setX(xLocation); 
 				tile.setY(yLocation); 
 				xLocation++; 
@@ -174,6 +177,7 @@ public class ShipActor extends Group
 		{
 			for(ShipTileActor tile : tiles)
 			{
+				tile.setOrientation(orientation); 
 				tile.setX(xLocation); 
 				tile.setY(yLocation); 
 				xLocation--; 
@@ -183,6 +187,7 @@ public class ShipActor extends Group
 		{
 			for(ShipTileActor tile : tiles)
 			{
+				tile.setOrientation(orientation); 
 				tile.setX(xLocation); 
 				tile.setY(yLocation); 
 				yLocation++; 
@@ -192,6 +197,7 @@ public class ShipActor extends Group
 		{
 			for(ShipTileActor tile : tiles)
 			{
+				tile.setOrientation(orientation); 
 				tile.setX(xLocation); 
 				tile.setY(yLocation); 
 				yLocation--; 

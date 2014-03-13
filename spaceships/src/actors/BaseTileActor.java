@@ -51,7 +51,8 @@ public class BaseTileActor extends Image
 	private Texture generateOtherBaseTile() 
 	{
 		Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
-		pixmap.setColor(50, 70, 20, 1);
+		pixmap.setColor(0/255f, 0/255f, 0/255f, 1f);
+		//pixmap.setColor(29/255f, 3/255f, 50/255f, 1);
 		pixmap.fill(); 
 		Texture newTexture = new Texture(pixmap);
 		
@@ -62,7 +63,7 @@ public class BaseTileActor extends Image
 	private Texture generateBaseTile() 
 	{
 		Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
-		pixmap.setColor(15, 23, 151, 1);
+		pixmap.setColor(0/255f, 0/255f, 0/255f, 1f);
 		pixmap.fill(); 
 		Texture newTexture = new Texture(pixmap);
 		

@@ -178,16 +178,16 @@ public class ActorState
 		torpedoB.setY(19);
 
 		// Create the basic ship actors. 
-		ShipActor playerCruiserOne = new ShipActor(1,10,cruiserA);
-		ShipActor playerCruiserTwo = new ShipActor(1,11,cruiserB);
-		ShipActor playerDestroyerOne = new ShipActor(1,12,destroyerA);
-		ShipActor playerDestroyerTwo = new ShipActor(1,13,destroyerB);
-		ShipActor playerDestroyerThree = new ShipActor(1,14,destroyerC);
-		ShipActor playerLayerOne = new ShipActor(1,15,layerA);
-		ShipActor playerLayerTwo = new ShipActor(1,16,layerB);
-		ShipActor playerRadarOne = new ShipActor(1,17,radarA);
-		ShipActor playerTorpedoOne = new ShipActor(1,18,torpedoA); 
-		ShipActor playerTorpedoTwo = new ShipActor(1,19,torpedoB); 
+		ShipActor playerCruiserOne = new ShipActor(1,10,cruiserA,PlayerNumber.PlayerOne);
+		ShipActor playerCruiserTwo = new ShipActor(1,11,cruiserB, PlayerNumber.PlayerOne);
+		ShipActor playerDestroyerOne = new ShipActor(1,12,destroyerA, PlayerNumber.PlayerOne);
+		ShipActor playerDestroyerTwo = new ShipActor(1,13,destroyerB, PlayerNumber.PlayerOne);
+		ShipActor playerDestroyerThree = new ShipActor(1,14,destroyerC, PlayerNumber.PlayerOne);
+		ShipActor playerLayerOne = new ShipActor(1,15,layerA, PlayerNumber.PlayerOne);
+		ShipActor playerLayerTwo = new ShipActor(1,16,layerB, PlayerNumber.PlayerOne);
+		ShipActor playerRadarOne = new ShipActor(1,17,radarA, PlayerNumber.PlayerOne);
+		ShipActor playerTorpedoOne = new ShipActor(1,18,torpedoA, PlayerNumber.PlayerOne); 
+		ShipActor playerTorpedoTwo = new ShipActor(1,19,torpedoB, PlayerNumber.PlayerOne); 
 
 		// Add all the Actors to the FleetList.
 		shipList.add(0, playerCruiserOne); 
@@ -257,7 +257,7 @@ public class ActorState
 			
 			if(object instanceof AbstractShip)
 			{
-				ShipActor ship = new ShipActor(object.getX(), object.getY(), (AbstractShip) object); 
+				ShipActor ship = new ShipActor(object.getX(), object.getY(), (AbstractShip) object, object.getOwner()); 
 				if(((AbstractShip) object).getOwner() == PlayerNumber.PlayerOne)
 				{
 					addFleetTile(ship); 
