@@ -240,6 +240,8 @@ public class GameScreenUiController
 						&& ActorState.currentTile != null
 						&& ActionValidator.validateShot((int)ActorState.currentTile.getX(),(int)ActorState.currentTile.getY()))
 				{
+					ServerMessageHandler.currentAction = new ActionMessage(ActionType.FireCannon, ActorState.getShipList(controller.cPlayer).get(ActorState.currentSelectionShip).ship.getUniqueId(), (int)ActorState.currentTile.getX(), (int)ActorState.currentTile.getY());
+					ServerMessageHandler.hasChanged = true; 
 					chatBox.setText(""); 
 				}
 				else
@@ -500,7 +502,7 @@ public class GameScreenUiController
 			}
 			else
 			{
-				serverMessage.setText("Nothing to report, all is well!"); 
+				serverMessage.setText("Nothing to report all is well!"); 
 			}
 			
 			// Set the buttons 

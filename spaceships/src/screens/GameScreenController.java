@@ -39,21 +39,13 @@ public class GameScreenController implements InputProcessor
 	private int CURRENT_SELECTION = -1; 							// The currently selected ship
 	private boolean debugMode = false; 								// Whether we are debugging or not. 
 	public PlayerNumber cPlayer; 
-	private PlayerNumber otherPlayer; 
+	//private PlayerNumber otherPlayer; 
 	/**
 	 * Constructor for GameScreenController. 
 	 */
 	public GameScreenController(PlayerNumber currentPlayer)
 	{
 		this.cPlayer = currentPlayer; 
-		if(currentPlayer == PlayerNumber.PlayerOne)
-		{
-			otherPlayer = PlayerNumber.PlayerTwo;
-		}
-		else
-		{
-			otherPlayer = PlayerNumber.PlayerOne;
-		}
 		
 		// Initialize Camera. 
 		initCamera(); 
@@ -113,7 +105,24 @@ public class GameScreenController implements InputProcessor
 	 */
 	private void updateVisibility() 
 	{
-		
+		if(cPlayer == PlayerNumber.PlayerOne)
+		{
+			for(ShipActor s : ActorState.getShipList(PlayerNumber.PlayerTwo))
+			{
+				s.drawAsNonCurrent(); 
+			}
+		}
+		else if(cPlayer == PlayerNumber.PlayerTwo)
+		{
+			for(ShipActor s : ActorState.getShipList(PlayerNumber.PlayerOne))
+			{
+				s.drawAsNonCurrent(); 
+			}
+		}
+		else
+		{
+			System.out.println("ERROR"); 
+		}
 	}
 
 
@@ -159,11 +168,6 @@ public class GameScreenController implements InputProcessor
 				ship.drawAsNonCurrent(); 
 				ship.setCurrentShip(false);
 			}
-		}
-		
-		for(ShipActor ship : ActorState.getShipList(otherPlayer))
-		{
-			ship.drawAsNonCurrent(); 
 		}
 	}
 	
