@@ -52,7 +52,6 @@ public class TCPClient implements Runnable {
 					// Send the message
 					if (inputLine.ready()) {		
 						output.println(inputLine.readLine().trim());
-						System.out.println("I'm here inputLine.ready");
 						output.flush();
 					}
 //					System.out.println(ServerMessageHandler.currentAction);
