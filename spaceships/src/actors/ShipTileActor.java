@@ -84,8 +84,9 @@ public class ShipTileActor extends Image
 		if(orientation == OrientationType.East)
 		{
 			Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
-			pixmap.setColor(0/255f, 45/255f, 75/255f, 1f);
-			pixmap.fillTriangle(0, 0, 0, 32, 32, 32/2); 
+			pixmap.setColor(66/255f, 133/255f, 244/255f, 0.7f);
+			pixmap.fill(); 
+			//pixmap.fillTriangle(0, 0, 0, 32, 32, 32/2); 
 			Texture newTexture = new Texture(pixmap);
 			pixmap.dispose(); 
 			return newTexture;
@@ -93,8 +94,8 @@ public class ShipTileActor extends Image
 		else if(orientation == OrientationType.West)
 		{
 			Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
-			pixmap.setColor(0/255f, 45/255f, 75/255f, 1f);
-			pixmap.fillTriangle(0, 32/2, 32, 0, 32, 32);
+			pixmap.setColor(66/255f, 133/255f, 244/255f, 0.7f);
+			pixmap.fill(); 
 			Texture newTexture = new Texture(pixmap);
 			pixmap.dispose(); 
 			return newTexture;
@@ -102,8 +103,8 @@ public class ShipTileActor extends Image
 		else if(orientation == OrientationType.North)
 		{
 			Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
-			pixmap.setColor(0/255f, 45/255f, 75/255f, 1f);
-			pixmap.fillTriangle(0, 32, 32, 32, 32/2, 0);
+			pixmap.setColor(66/255f, 133/255f, 244/255f, 0.7f);
+			pixmap.fill(); 
 			Texture newTexture = new Texture(pixmap);
 			pixmap.dispose(); 
 			return newTexture;
@@ -111,8 +112,8 @@ public class ShipTileActor extends Image
 		else if(orientation ==  OrientationType.South)
 		{
 			Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
-			pixmap.setColor(0/255f, 45/255f, 75/255f, 1f);
-			pixmap.fillTriangle(0, 0, 32/2, 32, 32, 0);
+			pixmap.setColor(66/255f, 133/255f, 244/255f, 0.7f);
+			pixmap.fill(); 
 			Texture newTexture = new Texture(pixmap);
 			pixmap.dispose(); 
 			return newTexture;
@@ -134,8 +135,8 @@ public class ShipTileActor extends Image
 		if(orientation == OrientationType.East)
 		{
 			Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
-			pixmap.setColor(0, 0, 200/255f, 1f);
-			pixmap.fillTriangle(0, 0, 0, 32, 32, 32/2); 
+			pixmap.setColor(0, 0, 200/255f, 0.5f);
+			pixmap.fill(); 
 			Texture newTexture = new Texture(pixmap);
 			pixmap.dispose(); 
 			return newTexture;
@@ -143,8 +144,8 @@ public class ShipTileActor extends Image
 		else if(orientation == OrientationType.West)
 		{
 			Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
-			pixmap.setColor(0, 0, 200/255f, 1f);
-			pixmap.fillTriangle(0, 32/2, 32, 0, 32, 32); 
+			pixmap.setColor(0, 0, 200/255f, 0.5f);
+			pixmap.fill(); 
 			Texture newTexture = new Texture(pixmap);
 			pixmap.dispose(); 
 			return newTexture;
@@ -152,8 +153,8 @@ public class ShipTileActor extends Image
 		else if(orientation == OrientationType.North)
 		{
 			Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
-			pixmap.setColor(0, 0, 200/255f, 1f);
-			pixmap.fillTriangle(0, 32, 32, 32, 32/2, 0);
+			pixmap.setColor(0, 0, 200/255f, 0.5f);
+			pixmap.fill(); 
 			Texture newTexture = new Texture(pixmap);
 			pixmap.dispose(); 
 			return newTexture;
@@ -161,8 +162,8 @@ public class ShipTileActor extends Image
 		else if(orientation ==  OrientationType.South)
 		{
 			Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
-			pixmap.setColor(0, 0, 200/255f, 1f);
-			pixmap.fillTriangle(0, 0, 32/2, 32, 32, 0);
+			pixmap.setColor(0, 0, 200/255f, 0.5f);
+			pixmap.fill(); 
 			Texture newTexture = new Texture(pixmap);
 			pixmap.dispose(); 
 			return newTexture;
@@ -182,7 +183,7 @@ public class ShipTileActor extends Image
 	{
 		Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
 		// Draw a cyan-colored border around square
-		pixmap.setColor(0/255f, 45/255f, 75/255f, 1f);
+		pixmap.setColor(66/255f, 133/255f, 244/255f, 1f);
 		pixmap.fill(); 
 		Texture newTexture = new Texture(pixmap);
 		pixmap.dispose(); 
@@ -264,8 +265,8 @@ public class ShipTileActor extends Image
 		if(orientation == OrientationType.East)
 		{
 			Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
-			pixmap.setColor(255/255f, 255/255f, 255/255f, 1f);
-			pixmap.fillTriangle(0, 0, 0, 32, 32, 32/2); 
+			pixmap.setColor(255/255f, 255/255f, 255/255f, 0.7f);
+			pixmap.fill(); 
 			Texture newTexture = new Texture(pixmap);
 			pixmap.dispose(); 
 			return newTexture;
@@ -273,8 +274,8 @@ public class ShipTileActor extends Image
 		else if(orientation == OrientationType.West)
 		{
 			Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
-			pixmap.setColor(255/255f, 255/255f, 255/255f, 1f);
-			pixmap.fillTriangle(0, 32/2, 32, 0, 32, 32);
+			pixmap.setColor(255/255f, 255/255f, 255/255f, 0.7f);
+			pixmap.fill(); 
 			Texture newTexture = new Texture(pixmap);
 			pixmap.dispose(); 
 			return newTexture;
@@ -282,8 +283,8 @@ public class ShipTileActor extends Image
 		else if(orientation == OrientationType.North)
 		{
 			Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
-			pixmap.setColor(255/255f, 255/255f, 255/255f, 1f);
-			pixmap.fillTriangle(0, 32, 32, 32, 32/2, 0);
+			pixmap.setColor(255/255f, 255/255f, 255/255f, 0.7f);
+			pixmap.fill(); 
 			Texture newTexture = new Texture(pixmap);
 			pixmap.dispose(); 
 			return newTexture;
@@ -291,8 +292,8 @@ public class ShipTileActor extends Image
 		else if(orientation ==  OrientationType.South)
 		{
 			Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
-			pixmap.setColor(255/255f, 255/255f, 255/255f, 1f);
-			pixmap.fillTriangle(0, 0, 32/2, 32, 32, 0);
+			pixmap.setColor(255/255f, 255/255f, 255/255f, 0.7f);
+			pixmap.fill(); 
 			Texture newTexture = new Texture(pixmap);
 			pixmap.dispose(); 
 			return newTexture;
@@ -350,8 +351,8 @@ public class ShipTileActor extends Image
 		if(orientation == OrientationType.East)
 		{
 			Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
-			pixmap.setColor(128/255f, 128/255f, 128/255f, 1f);
-			pixmap.fillTriangle(0, 0, 0, 32, 32, 32/2); 
+			pixmap.setColor(128/255f, 128/255f, 128/255f, 0.7f);
+			pixmap.fill(); 
 			Texture newTexture = new Texture(pixmap);
 			pixmap.dispose(); 
 			return newTexture;
@@ -359,8 +360,8 @@ public class ShipTileActor extends Image
 		else if(orientation == OrientationType.West)
 		{
 			Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
-			pixmap.setColor(128/255f, 128/255f, 128/255f, 1f);
-			pixmap.fillTriangle(0, 32/2, 32, 0, 32, 32);
+			pixmap.setColor(128/255f, 128/255f, 128/255f, 0.7f);
+			pixmap.fill(); 
 			Texture newTexture = new Texture(pixmap);
 			pixmap.dispose(); 
 			return newTexture;
@@ -368,8 +369,8 @@ public class ShipTileActor extends Image
 		else if(orientation == OrientationType.North)
 		{
 			Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
-			pixmap.setColor(128/255f, 128/255f, 128/255f, 1f);
-			pixmap.fillTriangle(0, 32, 32, 32, 32/2, 0);
+			pixmap.setColor(128/255f, 128/255f, 128/255f, 0.7f);
+			pixmap.fill(); 
 			Texture newTexture = new Texture(pixmap);
 			pixmap.dispose(); 
 			return newTexture;
@@ -377,8 +378,8 @@ public class ShipTileActor extends Image
 		else if(orientation ==  OrientationType.South)
 		{
 			Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
-			pixmap.setColor(128/255f, 128/255f, 128/255f, 1f);
-			pixmap.fillTriangle(0, 0, 32/2, 32, 32, 0);
+			pixmap.setColor(128/255f, 128/255f, 128/255f, 0.7f);
+			pixmap.fill(); 
 			Texture newTexture = new Texture(pixmap);
 			pixmap.dispose(); 
 			return newTexture;
