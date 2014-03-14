@@ -80,15 +80,17 @@ public class TCPClient implements Runnable {
 				} else {
 					System.out.println(responseLine);
 				}
+				
+				// Send the ActionMessage
+				if (ServerMessageHandler.hasChanged) {
+					ActionMessage am = ServerMessageHandler.currentAction;
+					String amString = "@" + ObjectConverter.objectToString(am);
+					output.println(amString);
+					ServerMessageHandler.hasChanged = false;
+				}
+				
 				if (responseLine.indexOf("Goodbye") != -1)
 					break;
-			}
-			// Send the ActionMessage
-			while (ServerMessageHandler.hasChanged) {
-				ActionMessage am = ServerMessageHandler.currentAction;
-				String amString = "@" + ObjectConverter.objectToString(am);
-				output.println(amString);
-				ServerMessageHandler.hasChanged = false;
 			}
 			
 			connectionClosed = true;
