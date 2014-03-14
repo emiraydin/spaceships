@@ -58,9 +58,9 @@ public class TCPClient implements Runnable {
 //					Thread.sleep(1000);
 					// Send the ActionMessage
 					if (ServerMessageHandler.hasChanged) {
-						System.out.println("There is a new ActionMessage!");
+//						System.out.println("There is a new ActionMessage!");
 						ActionMessage am = ServerMessageHandler.currentAction;
-						System.out.println(am.toString());
+//						System.out.println(am.toString());
 						String amString = "@" + ObjectConverter.objectToString(am);
 						output.println(amString);
 						ServerMessageHandler.hasChanged = false;
@@ -89,11 +89,11 @@ public class TCPClient implements Runnable {
 					NewTurnMessage received = (NewTurnMessage) ObjectConverter.stringtoObject(responseLine.substring(1));
 					// Process the NewTurnMessage
 					ServerMessageHandler.executeNewTurnMessage(received);
-					System.out.println(GameState.getAllSpaceThings().size()); 
-					System.out.println(received.toString());
+//					System.out.println(GameState.getAllSpaceThings().size()); 
+//					System.out.println(received.toString());
 				} else if (responseLine.startsWith("//connected")) {
 					canStart = true;
-					System.out.println("Connected and matched!");
+//					System.out.println("Connected and matched!");
 				} else {
 					System.out.println(responseLine);
 				}
