@@ -187,7 +187,7 @@ public abstract class AbstractShip extends SpaceThing {
 		for (int i = 0 ; i < length; i++){
 			count += (sectionHealth[i] > 0 ? 1 : 0);
 		}
-		return count/length*speed;
+		return (int)(((double)count/length)*speed);
 	}
 	
 	public void setMaxSpeed(int speed) { 

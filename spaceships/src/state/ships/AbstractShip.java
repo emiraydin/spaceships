@@ -160,7 +160,11 @@ public abstract class AbstractShip extends SpaceThing
 		return 0;
 	}	
 	public int getSpeed() {
-		return this.speed;
+		int count = 0;
+		for (int i = 0 ; i < length; i++){
+			count += (sectionHealth[i] > 0 ? 1 : 0);
+		}
+		return (int)(((double)count/length)*speed);
 	}	
 	public int getLength() {
 		return this.length;
