@@ -47,7 +47,7 @@ public class RadarBoatShip extends AbstractShip {
 	
 	@Override
 	public List<Point> getObstaclesInTurnZone(ActionType direction) { 
-		if(direction == ActionType.TurnLeft || direction == ActionType.Turn180Right) { 
+		if(direction == ActionType.TurnLeft || direction == ActionType.TurnRight) { 
 			return getObstaclesIn90DegreeTurnZone(this.getX(), this.getY(), this.getOrientation(), direction, true);
 		}
 		else if(direction == ActionType.Turn180Left || direction == ActionType.Turn180Right) { 
