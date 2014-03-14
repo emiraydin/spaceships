@@ -30,6 +30,11 @@ public class GameState
 	}
 	
 	/**
+	 * The current player ID
+	 */
+	private static int currentPlayerID; 
+	
+	/**
 	 * Get a space thing by its id.
 	 * @param id
 	 * @return
@@ -156,6 +161,16 @@ public class GameState
 	 */
 	public static void setSonarVisibleTiles(boolean[][] sonarVisibleTiles) {
 		GameState.sonarVisibleTiles = sonarVisibleTiles;
+	}
+
+	public static void setPlayerId(int playerID)
+	{
+		currentPlayerID = playerID; 
+	}
+	
+	public static int getPlayerId()
+	{
+		return currentPlayerID; 
 	}
 
 

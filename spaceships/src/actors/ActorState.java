@@ -275,7 +275,7 @@ public class ActorState
 				ShipActor ship = new ShipActor(object.getX(), object.getY(), (AbstractShip) object, object.getOwner()); 
 				if(object.getOwner() == PlayerNumber.PlayerOne)
 				{
-					playerOneShipList.add(ship); 
+					playerOneShipList.add(ship);
 					addFleetTile(ship); 
 				}
 				else

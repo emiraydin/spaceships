@@ -41,7 +41,7 @@ public class ActionValidator
 			int maxBack = currentShip.getX() + 1; 
 			int maxHeight = currentShip.getY(); 
 			int minHeight = currentShip.getY(); 
-			if(!(x <= maxFront && x >= maxBack && y == maxHeight))
+			if(!(x >= maxFront && x <= maxBack && y == maxHeight))
 			{
 				return false; 
 			}

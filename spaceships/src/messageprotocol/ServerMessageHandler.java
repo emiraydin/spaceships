@@ -44,7 +44,10 @@ public class ServerMessageHandler {
 			}
 			if (turn.getSonarVisibleTiles() != null) {
 				GameState.setSonarVisibleTiles(turn.getSonarVisibleTiles());			
-			}			
+			}
+			
+			GameState.setPlayerId(turn.getPlayerID()); 
+			
 		} else {
 			// We need to let the player know that their turn wasn't a success somehow...
 		}

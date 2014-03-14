@@ -1,5 +1,6 @@
 package screens;
 
+import state.GameState;
 import util.TCPClient;
 
 import com.badlogic.gdx.Gdx;
@@ -64,7 +65,7 @@ public class GameScreen implements Screen
 	{
 		while(true)
 		{
-			if(TCPClient.canStart == false)
+			if(TCPClient.canStart == false && GameState.getAllSpaceThings().keySet().size() < 50)
 			{
 				try
 				{
@@ -83,7 +84,15 @@ public class GameScreen implements Screen
 		
 		
 		// Create and Initialize GameScreenController. 
-		controller = new GameScreenController(PlayerNumber.PlayerTwo);
+		if(GameState.getPlayerId() == 0)
+		{
+			controller = new GameScreenController(PlayerNumber.PlayerOne);
+		}
+		else
+		{
+			controller = new GameScreenController(PlayerNumber.PlayerTwo); 
+		}
+		
 		
 		// All the UI Stuff. 
 		uiController = new GameScreenUiController(controller); 
