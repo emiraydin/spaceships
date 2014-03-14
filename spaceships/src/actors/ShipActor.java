@@ -16,7 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
  */
 public class ShipActor extends Group 
 {
-	private ShipTileActor[] tiles;									// The array of Tile Objects this ship occupies. 
+	public ShipTileActor[] tiles;									// The array of Tile Objects this ship occupies. 
 	public AbstractShip ship; 									// The Model Ship that represents the current state. 
 	private boolean isCurrent = false; 							// Is this ship currently being selected? 
 	private OrientationType orientation; 						// The heading the ship is facing.

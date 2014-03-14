@@ -16,7 +16,7 @@ public class DestroyerShip extends AbstractShip
 	 */
 	public DestroyerShip(int id, PlayerNumber owner)
 	{
-		super(id, SpaceThingType.DestroyerShip, owner, 4, ArmourType.Normal, 8, 9, 12, 0);
+		super(id, SpaceThingType.DestroyerShip, owner, 4, ArmourType.Normal, 8, 9, 12, -4);
 
 		this.addWeapon(new Cannon());
 		this.addWeapon(new TorpedoLauncher());
