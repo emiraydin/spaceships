@@ -47,6 +47,7 @@ public class ServerMessageHandler {
 			}
 			
 			GameState.setPlayerId(turn.getPlayerID()); 
+			GameState.setResponseString(turn.getResponseString()); 
 			
 		} else {
 			// We need to let the player know that their turn wasn't a success somehow...

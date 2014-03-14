@@ -1,14 +1,9 @@
 package screens;
 
 import gameLogic.ActionValidator;
-
-import common.GameConstants.*;
 import gameLogic.Constants;
-
-import state.GameState;
 import state.ships.AbstractShip;
 import state.ships.TorpedoShip;
-
 import actors.ActorState;
 import actors.AsteroidActor;
 import actors.BackgroundActor;
@@ -17,14 +12,13 @@ import actors.ShipActor;
 import actors.ShipTileActor;
 import actors.TileActor;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import common.GameConstants.OrientationType;
+import common.GameConstants.PlayerNumber;
 
 /**
  * This class handles all the game logic changes in the Game Screen. 
@@ -45,13 +39,21 @@ public class GameScreenController implements InputProcessor
 	private int CURRENT_SELECTION = -1; 							// The currently selected ship
 	private boolean debugMode = false; 								// Whether we are debugging or not. 
 	public PlayerNumber cPlayer; 
-	
+	private PlayerNumber otherPlayer; 
 	/**
 	 * Constructor for GameScreenController. 
 	 */
 	public GameScreenController(PlayerNumber currentPlayer)
 	{
 		this.cPlayer = currentPlayer; 
+		if(currentPlayer == PlayerNumber.PlayerOne)
+		{
+			otherPlayer = PlayerNumber.PlayerTwo;
+		}
+		else
+		{
+			otherPlayer = PlayerNumber.PlayerOne;
+		}
 		
 		// Initialize Camera. 
 		initCamera(); 

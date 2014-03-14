@@ -34,6 +34,8 @@ public class GameState
 	 */
 	private static int currentPlayerID; 
 	
+	private static String responseString = ""; 
+	
 	/**
 	 * Get a space thing by its id.
 	 * @param id
@@ -171,6 +173,16 @@ public class GameState
 	public static int getPlayerId()
 	{
 		return currentPlayerID; 
+	}
+
+	public static void setResponseString(String r)
+	{
+		responseString = r;
+	}
+	
+	public static String getResponseString()
+	{
+		return responseString; 
 	}
 
 

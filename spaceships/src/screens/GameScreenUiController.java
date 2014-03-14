@@ -4,6 +4,7 @@ import gameLogic.ActionValidator;
 import gameLogic.Descriptions;
 import messageprotocol.ActionMessage;
 import messageprotocol.ServerMessageHandler;
+import state.GameState;
 import state.ships.AbstractShip;
 import state.ships.CruiserShip;
 import state.ships.DestroyerShip;
@@ -492,6 +493,15 @@ public class GameScreenUiController
 		{
 			ShipActor ship = ActorState.getShipList((controller.cPlayer)).get(ActorState.currentSelectionShip); 
 			AbstractShip aShip = ship.ship; 
+			
+			if(!(GameState.getResponseString() == null))
+			{
+				serverMessage.setText(GameState.getResponseString());
+			}
+			else
+			{
+				serverMessage.setText("Nothing to report, all is well!"); 
+			}
 			
 			// Set the buttons 
 			moveShip.setVisible(true); 
