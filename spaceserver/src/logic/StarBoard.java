@@ -49,10 +49,10 @@ public class StarBoard {
 					map[x][y+i] = ship;
 					break;
 				case East:
-					map[x+1][y] = ship;
+					map[x+i][y] = ship;
 					break;
 				case West:
-					map[x-1][y] = ship;
+					map[x-i][y] = ship;
 					break;
 			}
 		}
@@ -76,10 +76,10 @@ public class StarBoard {
 							map[ship.getX()][ship.getY()+i] = null;
 							break;
 						case East:
-							map[ship.getX()+1][ship.getY()] = null;
+							map[ship.getX()+i][ship.getY()] = null;
 							break;
 						case West:
-							map[ship.getX()-1][ship.getY()] = null;
+							map[ship.getX()-i][ship.getY()] = null;
 							break;
 					}
 				}
