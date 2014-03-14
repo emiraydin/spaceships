@@ -67,7 +67,7 @@ public class GameHandler {
 	}
 	
 	public NewTurnMessage[] doAction(ActionMessage aMessage, int playerID){
-		responder.startMessage(aMessage);
+		responder.startMessage(aMessage, playerID);
 		doAction(aMessage.getAction(), aMessage.getSpaceThingId(), 
 				playerID, aMessage.getDestX(), aMessage.getDestY());
 		return new NewTurnMessage[]{responder.getResponse(0), responder.getResponse(1)};

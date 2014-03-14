@@ -18,6 +18,7 @@ public class MessageResponder {
 	ActionMessage aMessage;
 	boolean success;
 	String response;
+	int responseTo;				// for failed messages
 	
 	/**
 	 * 
@@ -32,10 +33,11 @@ public class MessageResponder {
 	 * Call this method at the beginning of every turn.
 	 * @param aMessage Action Message of the move
 	 */
-	public void startMessage(ActionMessage aMessage){
+	public void startMessage(ActionMessage aMessage, int responseTo){
 		success = true;
 		this.aMessage = aMessage;
 		response = null;
+		this.responseTo = responseTo;
 	}
 	
 	/**
@@ -45,12 +47,12 @@ public class MessageResponder {
 	 */
 	public NewTurnMessage getResponse(int playerID){
 		if (!success){
-			return new NewTurnMessage(aMessage, success, response, null, null, null, playerID);
+			return new NewTurnMessage(aMessage, success, response, null, null, null, playerID, responseTo);
 		}
 		FleetCommander fc = handler.getFleetCommander(playerID);
 		
 		return new NewTurnMessage(aMessage, success, response, createStateMessages(),
-				convertVisibility(fc.getRadarVisibility()), convertVisibility(fc.getSonarVisibility()), playerID);
+				convertVisibility(fc.getRadarVisibility()), convertVisibility(fc.getSonarVisibility()), playerID, responseTo);
 	}
 	
 	/**

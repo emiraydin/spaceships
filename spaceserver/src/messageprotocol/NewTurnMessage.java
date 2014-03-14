@@ -37,6 +37,7 @@ public class NewTurnMessage implements Serializable
 	boolean[][] radarVisibleTiles;
 	boolean[][] sonarVisibleTiles;
 	int playerID;
+	int responseTo;			// for failed messages
 
 	/**
 	 * 
@@ -54,7 +55,8 @@ public class NewTurnMessage implements Serializable
 			LinkedList<GameStateMessage> state,
 			boolean[][] radarVisibleTiles,
 			boolean[][]	sonarVisibleTiles,
-			int pid
+			int pid,
+			int responseTo
 					) {
 		
 		this.action = action;
@@ -72,6 +74,7 @@ public class NewTurnMessage implements Serializable
 		this.sonarVisibleTiles = sonarVisibleTiles;
 		
 		this.playerID = pid;
+		this.responseTo = responseTo;
 	}
 	
 	public ActionMessage getAction() {
@@ -224,6 +227,10 @@ public class NewTurnMessage implements Serializable
 	
 	public String getResponseString() { 
 		return this.response;
+	}
+	
+	public int responseTo() { 
+		return this.responseTo;
 	}
 	
 }
