@@ -70,13 +70,13 @@ public class Cannon extends AbstractWeapon {
 		switch(owner.getOrientation()) { 
 		case East: 
 			minX = ownerX + cannonLengthOffset;
-			maxX = minX + cannonLength;
+			maxX = minX + cannonLength - 1;
 			minY = ownerY - cannonWidth/2;
 			maxY = ownerY + cannonWidth/2;
 			break;
 		case West:
-			minX = ownerX - cannonLengthOffset;
-			maxX = minX - cannonLength;
+			maxX = ownerX - cannonLengthOffset;
+			minX = maxX - cannonLength + 1;
 			minY = ownerY - cannonWidth/2;
 			maxY = ownerY + cannonWidth/2;
 			break;
@@ -84,13 +84,13 @@ public class Cannon extends AbstractWeapon {
 			minX = ownerX - cannonWidth/2;
 			maxX = ownerX + cannonWidth/2;
 			minY = ownerY + cannonLengthOffset;
-			maxY = minY + cannonLength;
+			maxY = minY + cannonLength - 1;
 			break;
 		case South: 
 			minX = ownerX - cannonWidth/2;
 			maxX = ownerX + cannonWidth/2;
 			maxY = ownerY - cannonLengthOffset;
-			minY = maxY - cannonLength;
+			minY = maxY - cannonLength + 1;
 			break;
 		}
 		
