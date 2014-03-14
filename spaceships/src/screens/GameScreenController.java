@@ -692,7 +692,7 @@ public class GameScreenController implements InputProcessor
 			int shipFront = xPos + length - 1; 
 			
 			// Draw the movement range. 
-			for(int i = xPos - 1; i < shipFront + speed; i++)
+			for(int i = xPos - 1; i < xPos + speed; i++)
 			{
 				if( i >= shipBack && i <= shipFront)
 				{
@@ -717,7 +717,7 @@ public class GameScreenController implements InputProcessor
 			int shipFront = xPos - length - 1; 
 			
 			// Draw the movement range. 
-			for(int i = xPos + 1; i > shipFront - speed; i--)
+			for(int i = xPos + 1; i > xPos - speed; i--)
 			{
 				if(i <= shipBack && i >= shipFront)
 				{
@@ -742,7 +742,7 @@ public class GameScreenController implements InputProcessor
 			int shipFront = yPos + length - 1; 
 			
 			// Draw the movement range. 
-			for(int k = yPos - 1; k < shipFront + speed; k++)
+			for(int k = yPos - 1; k < yPos + speed; k++)
 			{
 				shipBack = yPos; 
 				if(k >= shipBack && k <= shipFront)
@@ -768,7 +768,7 @@ public class GameScreenController implements InputProcessor
 			shipBack = yPos; 
 			
 			// Draw the movement range. 
-			for(int k = shipBack + 1; k > shipFront - speed; k--)
+			for(int k = shipBack + 1; k > yPos - speed; k--)
 			{
 				if(k <= shipBack && k >= shipFront)
 				{

@@ -222,4 +222,8 @@ public class NewTurnMessage implements Serializable
 		return this.playerID;
 	}
 	
+	public String getResponseString() { 
+		return this.response;
+	}
+	
 }

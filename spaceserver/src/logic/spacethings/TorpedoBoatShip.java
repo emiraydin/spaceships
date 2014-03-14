@@ -19,7 +19,7 @@ public class TorpedoBoatShip extends AbstractShip {
 		super(x, y, oType, owner, gameBoard);
 		
 		this.length = 3;
-		this.speed = 9;
+		this.setMaxSpeed(9);
 		
 		initializeHealth(this.length, false);
 		

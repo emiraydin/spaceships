@@ -17,7 +17,7 @@ public class DestroyerShip extends AbstractShip {
 	public DestroyerShip(int x, int y, OrientationType oType, FleetCommander owner, StarBoard gameBoard){
 		super(x, y, oType, owner, gameBoard);
 		
-		this.speed = 8;
+		this.setMaxSpeed(8);
 		this.length = 4;
 		
 		initializeHealth(this.length, false);

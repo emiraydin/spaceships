@@ -18,7 +18,7 @@ public class RadarBoatShip extends AbstractShip {
 		
 		this.length = 3;
 		// by default, speed is 3
-		this.speed = 3;
+		this.setMaxSpeed(3);
 		
 		initializeHealth(this.length, false);
 		
@@ -36,12 +36,12 @@ public class RadarBoatShip extends AbstractShip {
 	}
 	
 	public void turnOnLongRadar() { 
-		speed = 0;
+		this.setMaxSpeed(0);
 		radarVisibilityLength = 12;
 	}
 	
 	public void turnOffLongRadar() { 
-		speed = 3;
+		this.setMaxSpeed(3);
 		radarVisibilityLength = 6;
 	}
 	
