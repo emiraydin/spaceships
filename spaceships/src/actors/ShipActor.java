@@ -55,12 +55,12 @@ public class ShipActor extends Group
 				// Set the head of the ship
 				if(i == tiles.length - 1)
 				{
-					tiles[i] = new ShipTileActor(startX, startY, orientation); 
+					tiles[i] = new ShipTileActor(startX, startY, orientation, owner); 
 					tiles[i].setIsHead(true); 
 				}
 				else
 				{
-					tiles[i] = new ShipTileActor(startX, startY);
+					tiles[i] = new ShipTileActor(startX, startY, owner);
 				}
 				startX ++; 
 				addActor(tiles[i]);
@@ -73,12 +73,12 @@ public class ShipActor extends Group
 				// Set the head of the ship
 				if(i == tiles.length - 1)
 				{
-					tiles[i] = new ShipTileActor(startX, startY, orientation); 
+					tiles[i] = new ShipTileActor(startX, startY, orientation, owner); 
 					tiles[i].setIsHead(true); 
 				}
 				else
 				{
-					tiles[i] = new ShipTileActor(startX, startY);
+					tiles[i] = new ShipTileActor(startX, startY, owner);
 				}
 				startX --; 
 				addActor(tiles[i]);

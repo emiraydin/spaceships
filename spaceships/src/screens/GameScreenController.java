@@ -205,7 +205,51 @@ public class GameScreenController implements InputProcessor
 		// Update all the ships Based on location. 
 		// Update the ships orientation. 
 		// if there was something to update then just return. 
-		for(ShipActor currentShip : ActorState.getShipList(cPlayer))
+		for(ShipActor currentShip : ActorState.getShipList(PlayerNumber.PlayerOne))
+		{
+			// Draw the section health as destroyed if it is. 
+			for(int i = 0; i < currentShip.ship.getSectionHealth().length; i++)
+			{
+				if(currentShip.ship.getSectionHealth()[i] <= 0)
+				{
+					currentShip.drawDestroyedSection(i); 
+				}
+			}
+			
+			// If the entire ship is destroyed, draw remove from screen. 
+			int count = currentShip.ship.getLength(); 
+			for(int i : currentShip.ship.getSectionHealth())
+			{
+				if(i <= 0) count --; 
+			}
+			
+			if(currentShip.getOrientation() != currentShip.ship.getOrientation())
+			{
+				currentShip.setOrientation(currentShip.ship.getOrientation()); 
+				return; 
+			}
+			
+			// Moving forward or backward. 
+			if(currentShip.getX() < (float) currentShip.ship.getX())
+			{
+				currentShip.moveBy(delta, 0);
+			}
+			else if(currentShip.getX() > (float) currentShip.ship.getX())
+			{
+				currentShip.moveBy(-delta, 0);
+			}
+			if(currentShip.getY() < (float) currentShip.ship.getY())
+			{
+				currentShip.moveBy(0, delta);
+			}
+			else if(currentShip.getY() > (float) currentShip.ship.getY())
+			{
+				currentShip.moveBy(0, -delta);
+			}
+
+		}
+		
+		for(ShipActor currentShip : ActorState.getShipList(PlayerNumber.PlayerTwo))
 		{
 			// Draw the section health as destroyed if it is. 
 			for(int i = 0; i < currentShip.ship.getSectionHealth().length; i++)

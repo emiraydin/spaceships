@@ -34,9 +34,17 @@ public class ShipTileActor extends Image
 	 * @param x : The 'X' location of the tile. 
 	 * @param y : The 'Y' location of the tile. 
 	 */
-	public ShipTileActor(int x, int y) 
+	public ShipTileActor(int x, int y, PlayerNumber owner) 
 	{
-		SPRITE = new Sprite(generateUnselectedShipTexturePlayerOne());
+		if(owner == PlayerNumber.PlayerOne)
+		{
+			SPRITE = new Sprite(generateUnselectedShipTexturePlayerOne());
+		}
+		else
+		{
+			SPRITE = new Sprite(generateUnselectedShipTexturePlayerTwo()); 
+		}
+
 		setPosition(x,y);
 		setWidth(1);
 		setHeight(1);
@@ -48,10 +56,18 @@ public class ShipTileActor extends Image
 	 * @param startY : The 'y' location of the head of the ship. 
 	 * @param orientation : The direction in which we need to draw the head. 
 	 */
-	public ShipTileActor(int startX, int startY, OrientationType orientation)
+	public ShipTileActor(int startX, int startY, OrientationType orientation, PlayerNumber owner)
 	{
 		this.orientation = orientation; 
-		SPRITE = new Sprite(generateUnselectedHeadPlayerOne(orientation)); 
+		if(owner == PlayerNumber.PlayerOne)
+		{
+			SPRITE = new Sprite(generateUnselectedHeadPlayerOne(orientation)); 
+		}
+		else
+		{
+			SPRITE = new Sprite(generateUnselectedHeadPlayerTwo(orientation)); 
+		}
+		
 		setPosition(startX, startY); 
 		setWidth(1); 
 		setHeight(1); 
