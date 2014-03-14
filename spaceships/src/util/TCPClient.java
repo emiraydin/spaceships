@@ -48,8 +48,24 @@ public class TCPClient implements Runnable {
 			try {
 				// Create new thread to read from the server
 				new Thread(new TCPClient()).start();
-				while (!connectionClosed)
-					output.println(inputLine.readLine().trim());
+				while (!connectionClosed) {
+					// Send the message
+					if (inputLine.ready()) {		
+						output.println(inputLine.readLine().trim());
+					}
+//					System.out.println(ServerMessageHandler.currentAction);
+//					Thread.sleep(1000);
+					// Send the ActionMessage
+					if (ServerMessageHandler.hasChanged) {
+						System.out.println("There is a new ActionMessage!");
+						ActionMessage am = ServerMessageHandler.currentAction;
+						System.out.println(am.toString());
+						String amString = "@" + ObjectConverter.objectToString(am);
+						output.println(amString);
+						ServerMessageHandler.hasChanged = false;
+					}
+
+				}
 				// Close streams and sockets
 				output.close();
 				input.close();
@@ -76,17 +92,9 @@ public class TCPClient implements Runnable {
 					System.out.println(received.toString());
 				} else if (responseLine.startsWith("//connected")) {
 					canStart = true;
-					System.out.println("isConnectedAndMatched:");
+					System.out.println("Connected and matched!");
 				} else {
 					System.out.println(responseLine);
-				}
-				
-				// Send the ActionMessage
-				if (ServerMessageHandler.hasChanged) {
-					ActionMessage am = ServerMessageHandler.currentAction;
-					String amString = "@" + ObjectConverter.objectToString(am);
-					output.println(amString);
-					ServerMessageHandler.hasChanged = false;
 				}
 				
 				if (responseLine.indexOf("Goodbye") != -1)

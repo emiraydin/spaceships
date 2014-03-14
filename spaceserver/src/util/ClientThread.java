@@ -145,18 +145,21 @@ public class ClientThread extends Thread {
 
 				} else if (line.startsWith("@")) {
 					// This is where we process game messages
+					System.out.println("I'm player #" + this.playerID + " and I got an ActionMessage!");
 					synchronized(this) {
 						if (this.currentGame != null && this.currentGame.checkWin() == GameConstants.WinState.Playing) {
-
 							// Receive ActionMessage
 							ActionMessage received = (ActionMessage) ObjectConverter.stringtoObject(line.substring(1));
 							NewTurnMessage[] messages = this.currentGame.doAction(received, this.playerID);
-							String messageToPlayer0 = ObjectConverter.objectToString(messages[0]);
-							String messageToPlayer1 = ObjectConverter.objectToString(messages[1]);
+							
+							String messageToPlayer0 = "@" + ObjectConverter.objectToString(messages[0]);
+							String messageToPlayer1 = "@" + ObjectConverter.objectToString(messages[1]);
 							// Pass the NewTurnMessages to both clients
 							this.output.println(messageToPlayer0);
 							if (this.matchedThread != null) {
 								this.matchedThread.output.println(messageToPlayer1);
+								System.out.println("Message to player 2: " + messageToPlayer1);
+
 							}
 
 

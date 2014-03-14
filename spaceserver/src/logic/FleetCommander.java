@@ -192,6 +192,7 @@ public class FleetCommander {
 	 * Check if the move can be performed by the ship (checks speed, heading, bounds)
 	 */
 	private static boolean validateMove(AbstractShip ship, int x, int y){
+		System.out.println(ship); 
 		//// Basic Validation ////
 		if(!StarBoard.inBounds(x, y)) {
 			// tail out of bounds
