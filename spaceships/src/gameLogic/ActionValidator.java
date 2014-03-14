@@ -38,11 +38,12 @@ public class ActionValidator
 		
 		if(orientation == OrientationType.West)
 		{
-			int maxFront = currentShip.getX() - currentShip.getLength() + 2 - currentShip.getSpeed();
+			int maxFront = currentShip.getX() - currentShip.getSpeed(); 
 			int maxBack = currentShip.getX() + 1; 
-			int maxHeight = currentShip.getY(); 
-			int minHeight = currentShip.getY(); 
-			if(!(x >= maxFront && x <= maxBack && y == maxHeight))
+			int maxHeight = currentShip.getY() + 1; 
+			int minHeight = currentShip.getY() - 1; 
+			
+			if(!(x >= maxFront && x <= maxBack && y <= maxHeight && y >= minHeight))
 			{
 				return false; 
 			}
@@ -50,23 +51,26 @@ public class ActionValidator
 		
 		if(orientation == OrientationType.North)
 		{
-			int maxUp = currentShip.getY() + currentShip.getLength() - 2 + currentShip.getSpeed(); 
-			int maxDown = currentShip.getY() - 1; 
-			int maxSide = currentShip.getX(); 
+			int maxFront = currentShip.getY() + currentShip.getSpeed(); 
+			int maxBack = currentShip.getY() - 1; 
+			int maxSide = currentShip.getX() + 1;
+			int minSide = currentShip.getX() - 1;
 			
-			if(!(y <= maxUp && y >= maxDown && x == maxSide))
+			if(!(y <= maxFront && y >= maxBack && x >= minSide && x <= maxSide))
 			{
 				return false; 
 			}
+
 		}
 		
 		if(orientation == OrientationType.South)
 		{
-			int maxUp = currentShip.getY() - currentShip.getLength() + 2 + currentShip.getSpeed(); 
-			int maxDown = currentShip.getY() + 1; 
-			int maxSide = currentShip.getX(); 
+			int maxFront = currentShip.getY() - currentShip.getSpeed(); 
+			int maxBack = currentShip.getY() + 1; 
+			int maxSide = currentShip.getX() + 1;
+			int minSide = currentShip.getX() - 1;
 			
-			if(!(y >= maxUp && y <= maxDown && x == maxSide))
+			if(!(y >= maxFront && y <= maxBack && x >= minSide && x <= maxSide))
 			{
 				return false; 
 			}

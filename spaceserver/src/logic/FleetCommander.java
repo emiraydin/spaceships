@@ -117,7 +117,7 @@ public class FleetCommander {
 			incrementVisibility(ship);
 			return spacesMoved;
 		}
-		setActionResponse("Ships cannot go out of bounds");
+		//setActionResponse("Ships cannot go out of bounds");
 		return 0;
 	}
 	
@@ -191,12 +191,18 @@ public class FleetCommander {
 	/**
 	 * Check if the move can be performed by the ship (checks speed, heading, bounds)
 	 */
-	private static boolean validateMove(AbstractShip ship, int x, int y){
+	private boolean validateMove(AbstractShip ship, int x, int y){
 		int shipX = ship.getX();
 		int shipY = ship.getY();
 		
 		// not diagonal
 		if(shipX - x != 0 && shipY - y != 0) { 
+			setActionResponse("Ships cannot move diagonaly");
+			return false;
+		}
+		// can't be out of bounds
+		if(!StarBoard.inBounds(x, y)) { 
+			setActionResponse("Ships cannot go out of bounds");
 			return false;
 		}
 		
@@ -204,139 +210,94 @@ public class FleetCommander {
 		case East:
 			// backwards too far
 			if(x < shipX - 1) { 
+				setActionResponse("Ships can only move back 1 space at a time");
 				return false;
 			}
-			// up/down too far
-			else if(y > shipY + 1 || y < shipY - 1) { 
+			// sideways too far
+			if(y > shipY + 1 || y < shipY - 1) {
+				setActionResponse("Ships can only move sideways 1 space at a time");
 				return false;
 			}
-			else if(x > shipX + ship.getSpeed()) { 
+			// moving faster than speed allows
+			if(x > shipX + ship.getSpeed()) { 
+				setActionResponse("Ship cannot move that fast");
+				return false;
+			}
+			// head goes out of bounds
+			if(!StarBoard.inBounds(x + ship.getLength() - 1, shipY)) { 
+				setActionResponse("Ships cannot go out of bounds");
 				return false;
 			}
 			break;
 		case West: 
+			// backwards too far
+			if(x > shipX + 1) { 
+				setActionResponse("Ships can only move back 1 space at a time");
+				return false;
+			}
+			// sideways too far
+			if(y > shipY + 1 || y < shipY - 1) {
+				setActionResponse("Ships can only move sideways 1 space at a time");
+				return false;
+			}
+			// moving faster than speed allows
+			if(x < shipX - ship.getSpeed()) { 
+				setActionResponse("Ship cannot move that fast");
+				return false;
+			}
+			// head goes out of bounds
+			if(!StarBoard.inBounds(x - ship.getLength() + 1, shipY)) { 
+				setActionResponse("Ships cannot go out of bounds");
+				return false;
+			}
 			break;
 		case North:
+			// backwards too far
+			if(y < shipY - 1) { 
+				setActionResponse("Ships can only move back 1 space at a time");
+				return false;
+			}
+			// sideways too far
+			if(x > shipX + 1 || x < shipX - 1) { 
+				setActionResponse("Ships can only move sideways 1 space at a time");
+				return false;
+			}
+			// moving faster than speed allows
+			if(y > shipY + ship.getSpeed()) { 
+				setActionResponse("Ship cannot move that fast");
+				return false;
+			}
+			// head goes out of bounds
+			if(!StarBoard.inBounds(shipX, shipY + ship.getLength() - 1)) { 
+				setActionResponse("Ships cannot go out of bounds");
+				return false;
+			}
 			break;
 		case South:
+			// backwards too far
+			if(y > shipY + 1) { 
+				setActionResponse("Ships can only move back 1 space at a time");
+				return false;
+			}
+			// sideways too far
+			if(x > shipX + 1 || x < shipX - 1) { 
+				setActionResponse("Ships can only move sideways 1 space at a time");
+				return false;
+			}
+			// moving faster than speed allows
+			if(y < shipX - ship.getSpeed()) { 
+				setActionResponse("Ship cannot move that fast");
+				return false;
+			}
+			// head goes out of bounds
+			if(!StarBoard.inBounds(shipX, shipY - ship.getLength() + 1)) { 
+				setActionResponse("Ships cannot go out of bounds");
+				return false;
+			}
 			break;
 		}
 			
-		return true;	
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-		
-		
-		//		System.out.println(ship); 
-//		//// Basic Validation ////
-//		if(!StarBoard.inBounds(x, y)) {
-//			// tail out of bounds
-//			return false;
-//		} else if ((x - ship.getX()) != 0 && (y - ship.getY()) != 0){
-//			// Can't move diagonally
-//			return false;
-//		} else if (x == ship.getX() && y == ship.getY()){
-//			// Ship didn't move
-//			return false;
-//		} 
-////		else if (Math.abs((x - ship.getX()) + (y - ship.getY())) == 1){
-////			// A ship can always move one square in each direction
-////			return true;
-////		}
-//		
-//		int speed = ship.getSpeed();
-//		int length = ship.getLength();
-//		// THESE FOLLOW NEW ORIGIN CONVENTION
-//		switch (ship.getOrientation()){
-//		case East:
-//			if(x != ship.getX()) { 
-//				if (x < ship.getX() - 1){
-//					return false;
-//				} else if(!StarBoard.inBounds(x+length-1, y)) { 
-//					return false;
-//				} else if (x > ship.getX() + speed){
-//					return false;
-//				} 
-//			} else {
-//				if(Math.abs(y - ship.getY()) != 1) { 
-//					return false;
-//				}
-//				else if(StarBoard.inBounds(x, y)) { 
-//					return false;
-//				}
-//			}
-//			return true;
-//		case South:
-//			if(y != ship.getY()) { 
-//				if (y > ship.getY() + 1){
-//					return false;
-//				} else if(!StarBoard.inBounds(x, y-length+1)) { 
-//					return false;
-//				} else if (y < ship.getY() - speed){
-//					return false;
-//				} 
-//			} else { 
-//				if(Math.abs(x - ship.getX()) != 1) { 
-//					return false;
-//				} else if(!StarBoard.inBounds(x, y)) { 
-//					return false;
-//				}
-//			}
-//			return true;
-//		case North:
-//			if(y != ship.getY()) { 
-//				if (y < ship.getY() - 1){
-//					return false;
-//				} else if(!StarBoard.inBounds(x, y+length-1)) { 
-//					return false;
-//				} else if (y > ship.getY() + speed){
-//					return false;
-//				} 
-//			} else { 
-//				if(Math.abs(x - ship.getX()) != 1) { 
-//					return false;
-//				} else if(!StarBoard.inBounds(x, y)) { 
-//					return false;
-//				}
-//			}
-//			return true;
-//		case West:
-//			if(x != ship.getX()) { 
-//				if (x > ship.getX() + 1){
-//					return false;
-//				} else if(!StarBoard.inBounds(x-length+1, y)) { 
-//					return false;
-//				} else if (x < ship.getX() - speed){
-//					return false;
-//				} 
-//			} else {
-//				if(Math.abs(y - ship.getY()) != 1) { 
-//					return false;
-//				}
-//				else if(StarBoard.inBounds(x, y)) { 
-//					return false;
-//				}
-//			}
-//			return true;
-//		}
-//		return false;
+		return true;			
 	}
 	
 	/**
