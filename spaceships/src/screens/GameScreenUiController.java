@@ -12,6 +12,7 @@ import state.ships.RadarBoatShip;
 import state.ships.TorpedoShip;
 import actors.ActorState;
 import actors.ShipActor;
+import actors.TileActor;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -200,7 +201,7 @@ public class GameScreenUiController
 		button.addListener(new ClickListener()
 		{
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
-			{
+			{				
 				if(ActorState.currentSelectionShip != -1
 						&& ActorState.currentTile != null
 						&& ActionValidator.validateMove((int)ActorState.currentTile.getX(), (int)ActorState.currentTile.getY()))
