@@ -578,7 +578,7 @@ public class GameScreenUiController
 			else if(aShip instanceof MineLayerShip)
 			{
 				currentShip.setText(Descriptions.LAYAR_TITLE);
-				description.setText(Descriptions.LAYAR_TITLE);
+				description.setText(Descriptions.LAYER);
 			}
 			else if(aShip instanceof RadarBoatShip)
 			{
