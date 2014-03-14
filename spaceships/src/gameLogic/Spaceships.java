@@ -38,7 +38,7 @@ public class Spaceships extends Game implements ApplicationListener
 		
 		// Set the log to Debug Level Logs. 
 		Gdx.app.setLogLevel(Application.LOG_DEBUG); 
-		Gdx.app.log(TAG, "Starting new Instance");
+//		Gdx.app.log(TAG, "Starting new Instance");
 		
 		// Set the Screen to the Splash Screen
 		this.setScreen(new GameScreen());
