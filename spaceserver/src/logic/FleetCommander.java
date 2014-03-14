@@ -285,7 +285,7 @@ public class FleetCommander {
 				return false;
 			}
 			// moving faster than speed allows
-			if(y < shipX - ship.getSpeed()) { 
+			if(y < shipY - ship.getSpeed()) { 
 				setActionResponse("Ship cannot move that fast");
 				return false;
 			}
