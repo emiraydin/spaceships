@@ -34,7 +34,7 @@ public class TCPClient implements Runnable {
 		try {
 			clientSocket = new Socket(Properties.HOST_NAME, Properties.PORT_NUMBER);
 			inputLine = new BufferedReader(new InputStreamReader(System.in));
-			output = new PrintStream(clientSocket.getOutputStream());
+			output = new PrintStream(clientSocket.getOutputStream(), true);
 			input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 		} catch (UnknownHostException e) {
 			System.err.println("Unknown host: " + Properties.HOST_NAME);
@@ -52,6 +52,8 @@ public class TCPClient implements Runnable {
 					// Send the message
 					if (inputLine.ready()) {		
 						output.println(inputLine.readLine().trim());
+						System.out.println("I'm here inputLine.ready");
+						output.flush();
 					}
 //					System.out.println(ServerMessageHandler.currentAction);
 //					Thread.sleep(1000);

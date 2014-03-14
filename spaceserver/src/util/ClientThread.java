@@ -94,8 +94,8 @@ public class ClientThread extends Thread {
 							this.setPrompted(true);
 							output.println("Waiting for " + matchUser + " to respond...");
 							this.matchedThread.output.println(clientName + " wants to play with you. Enter Y to accept, anything else to reject.");
+							this.matchedThread.output.flush();
 							String otherUserInput = this.matchedThread.input.readLine().trim();
-
 							// Check if the other user confirms the match
 							if (otherUserInput.startsWith("Y")) {
 								this.matchName = matchUser;
