@@ -223,7 +223,7 @@ public class NewTurnMessage implements Serializable
 	}
 	
 	public String getResponseString() { 
-		return this.getResponseString();
+		return this.response;
 	}
 	
 }
