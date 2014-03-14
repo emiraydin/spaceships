@@ -291,7 +291,8 @@ public class GameScreenUiController
 			{
 				if(ActorState.currentSelectionShip != -1)
 				{
-					ActorState.getShipList((controller.cPlayer)).get(ActorState.currentSelectionShip).ship.setOrientation(OrientationType.West); 
+					ServerMessageHandler.currentAction = new ActionMessage(ActionType.TurnLeft, ActorState.getShipList(controller.cPlayer).get(ActorState.currentSelectionShip).ship.getUniqueId(), -1, -1); 
+					ServerMessageHandler.hasChanged = true; 
 					chatBox.setText(""); 
 				}
 				return false; 
@@ -316,7 +317,8 @@ public class GameScreenUiController
 			{
 				if(ActorState.currentSelectionShip != -1)
 				{
-					ActorState.getShipList((controller.cPlayer)).get(ActorState.currentSelectionShip).ship.setOrientation(OrientationType.North); 
+					ServerMessageHandler.currentAction = new ActionMessage(ActionType.TurnRight, ActorState.getShipList(controller.cPlayer).get(ActorState.currentSelectionShip).ship.getUniqueId(), -1, -1); 
+					ServerMessageHandler.hasChanged = true;  
 					chatBox.setText(""); 
 				}
 				return false; 

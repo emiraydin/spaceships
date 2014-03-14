@@ -772,7 +772,7 @@ public class GameScreenController implements InputProcessor
 			{
 				if(k <= shipBack && k >= shipFront)
 				{
-					for(int i = yPos - 1; i <= yPos + 1; i++)
+					for(int i = xPos - 1; i <= xPos + 1; i++)
 					{
 						if((i >= 0 && i < ActorState.boardWidth) && (k >= 0 && k <= ActorState.boardHeight))
 						{
