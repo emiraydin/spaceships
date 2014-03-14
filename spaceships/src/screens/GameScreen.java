@@ -87,10 +87,12 @@ public class GameScreen implements Screen
 		if(GameState.getPlayerId() == 0)
 		{
 			controller = new GameScreenController(PlayerNumber.PlayerOne);
+			System.out.println("I am player One!"); 
 		}
 		else
 		{
-			controller = new GameScreenController(PlayerNumber.PlayerTwo); 
+			controller = new GameScreenController(PlayerNumber.PlayerTwo);
+			System.out.println("I am player Two!"); 
 		}
 		
 		
