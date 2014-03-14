@@ -578,15 +578,17 @@ public class GameScreenUiController
 			else if(aShip instanceof MineLayerShip)
 			{
 				currentShip.setText(Descriptions.LAYAR_TITLE);
-				description.setText("Select a ship fool!");
+				description.setText(Descriptions.LAYAR_TITLE);
 			}
 			else if(aShip instanceof RadarBoatShip)
 			{
 				currentShip.setText(Descriptions.RADAR_TITLE);
+				description.setText(Descriptions.RADAR); 
 			}
 			else if(aShip instanceof TorpedoShip)
 			{
 				currentShip.setText(Descriptions.TORPEDO_TITLE);
+				description.setText(Descriptions.TORPEDO); 
 			}
 			else
 			{
