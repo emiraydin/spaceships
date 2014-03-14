@@ -160,6 +160,11 @@ public class GameScreenController implements InputProcessor
 				ship.setCurrentShip(false);
 			}
 		}
+		
+		for(ShipActor ship : ActorState.getShipList(otherPlayer))
+		{
+			ship.drawAsNonCurrent(); 
+		}
 	}
 	
 
