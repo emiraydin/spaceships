@@ -348,7 +348,8 @@ public class GameScreenUiController
 			{
 				if(ActorState.currentSelectionShip != -1)
 				{
-					//ActorState.shipList.get(ActorState.currentSelectionShip).ship.setOrientation(OrientationType.South); 
+					ServerMessageHandler.currentAction = new ActionMessage(ActionType.Turn180Left, ActorState.getShipList(controller.cPlayer).get(ActorState.currentSelectionShip).ship.getUniqueId(), -1, -1); 
+					ServerMessageHandler.hasChanged = true; 
 					chatBox.setText(""); 
 				}
 				return false; 
