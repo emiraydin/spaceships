@@ -15,7 +15,7 @@ import common.GameConstants.SpaceThingType;
 import common.GameConstants.WeaponType;
 
 public abstract class AbstractShip extends SpaceThing {
-	protected int speed;
+	private int speed;
 	protected int length;
 	protected int[] sectionHealth;
 	protected OrientationType orientation;
@@ -189,6 +189,10 @@ public abstract class AbstractShip extends SpaceThing {
 		}
 		
 		return (int) Math.ceil((length/(float) count)*speed);
+	}
+	
+	public void setMaxSpeed(int speed) { 
+		this.speed = speed;
 	}
 
 	public int getLength() {

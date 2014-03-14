@@ -18,7 +18,7 @@ public class CruiserShip extends AbstractShip {
 		super(x, y, oType, owner, gameBoard);
 		
 		this.length = 5;
-		this.speed = 10;
+		this.setMaxSpeed(10);
 		
 		initializeHealth(this.length, true);
 		
