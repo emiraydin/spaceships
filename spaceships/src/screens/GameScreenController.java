@@ -38,7 +38,7 @@ public class GameScreenController implements InputProcessor
 	public Stage STAGE; 											// The Stage. 
 	private int CURRENT_SELECTION = -1; 							// The currently selected ship
 	private boolean debugMode = false; 								// Whether we are debugging or not. 
-	public PlayerNumber cPlayer; 
+	public final PlayerNumber cPlayer; 
 	//private PlayerNumber otherPlayer; 
 	/**
 	 * Constructor for GameScreenController. 
