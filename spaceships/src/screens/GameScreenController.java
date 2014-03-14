@@ -43,7 +43,7 @@ public class GameScreenController implements InputProcessor
 	public Stage STAGE; 											// The Stage. 
 	private int CURRENT_SELECTION = -1; 							// The currently selected ship
 	private boolean debugMode = false; 								// Whether we are debugging or not. 
-	public PlayerNumber cPlayer; 
+	public final PlayerNumber cPlayer; 
 	//private PlayerNumber otherPlayer; 
 	/**
 	 * Constructor for GameScreenController. 
@@ -120,7 +120,6 @@ public class GameScreenController implements InputProcessor
 			{
 				int xLoc = (int) Math.round(((ShipTileActor) tile).getX());
 				int yLoc = (int) Math.round(((ShipTileActor) tile).getY());
-				System.out.println(xLoc + " " + yLoc); 
 				if(radar[xLoc][yLoc] == false)
 				{
 					tile.setVisible(false); 
@@ -513,177 +512,227 @@ public class GameScreenController implements InputProcessor
 	 */
 	public void drawCannonRange(ShipActor actorShip, AbstractShip modelShip) 
 	{
-		// Get the actor and model ships, and draw their appropriate rectangles. 
-		int length = modelShip.getLength(); 
-		int speed = modelShip.getSpeed(); 
-		int cannonLength = modelShip.getCannonLength(); 
-		int cannonWidth = modelShip.getCannonWidth(); 
-		int xPos = modelShip.getX(); 
-		int yPos = modelShip.getY(); 
-		OrientationType orientation = modelShip.getOrientation(); 
-		int shipBack = xPos; 
+		int ownerX = modelShip.getX();
+		int ownerY = modelShip.getY();
+		int cannonWidth = modelShip.getCannonWidth();
+		int cannonLength = modelShip.getCannonLength();
+		int cannonLengthOffset = modelShip.getCannonLengthOffset();
 		
-		// The drawing is different depending on the orientation. 
-		if(orientation == OrientationType.East)
+		int minX = -1;
+		int maxX = -1;
+		int minY = -1;
+		int maxY = -1;
+		// UPDATED TO NEW ORIGIN SYSTEM 
+		switch(modelShip.getOrientation()) { 
+		case East: 
+			minX = ownerX + cannonLengthOffset;
+			maxX = minX + cannonLength - 1;
+			minY = ownerY - cannonWidth/2;
+			maxY = ownerY + cannonWidth/2;
+			break;
+		case West:
+			maxX = ownerX - cannonLengthOffset;
+			minX = maxX - cannonLength + 1;
+			minY = ownerY - cannonWidth/2;
+			maxY = ownerY + cannonWidth/2;
+			break;
+		case North: 
+			minX = ownerX - cannonWidth/2;
+			maxX = ownerX + cannonWidth/2;
+			minY = ownerY + cannonLengthOffset;
+			maxY = minY + cannonLength - 1;
+			break;
+		case South: 
+			minX = ownerX - cannonWidth/2;
+			maxX = ownerX + cannonWidth/2;
+			maxY = ownerY - cannonLengthOffset;
+			minY = maxY - cannonLength + 1;
+			break;
+		} 
+		
+		for(int i = minX; i <= maxX; i++)
 		{
-			if(modelShip instanceof TorpedoShip)
+			for(int k = minY; k <= maxY; k++)
 			{
-				for(int i = xPos; i <= cannonLength; i++)
+				if((i >= 0 && i < ActorState.boardWidth) && (k >= 0 && k <= ActorState.boardHeight))
 				{
-					for(int k = yPos - 2; k <= yPos + 2; k++)
-					{
-						if((i >= 0 && i < ActorState.boardWidth) && (k >= 0 && k <= ActorState.boardHeight))
-						{
-							ActorState.boardTiles[i][k].drawAsRed(); 
-						}
-					}
-				}
-			}
-			else
-			{
-				// Get the front of the ship. 
-				int shipFront = xPos + length - 1; 
-				
-				// Get the boundaries
-				int middleTile = (shipBack + shipFront) / 2; 
-				int xStart = middleTile - cannonLength / 2; 
-				int xEnd = xStart + cannonLength; 
-				int yStart = yPos - (cannonWidth / 2); 
-				int yEnd = yStart + cannonWidth; 
-								
-				for(int i = xStart; i < xEnd; i++)
-				{
-					for(int k = yStart; k < yEnd; k++)
-					{
-						if((i >= 0 && i < ActorState.boardWidth) && (k >= 0 && k <= ActorState.boardHeight))
-						{
-							ActorState.boardTiles[i][k].drawAsRed(); 
-						}
-					}
+					ActorState.boardTiles[i][k].drawAsRed();
 				}
 			}
 		}
 		
-		if(orientation == OrientationType.West)
-		{
-			if(modelShip instanceof TorpedoShip)
-			{
-				for(int i = xPos; i >= xPos - cannonLength; i--)
-				{
-					for(int k = yPos - 2; k <= yPos + 2; k++)
-					{
-						if((i >= 0 && i < ActorState.boardWidth) && (k >= 0 && k <= ActorState.boardHeight))
-						{
-							ActorState.boardTiles[i][k].drawAsRed(); 
-						}
-					}
-				}
-			}
-			else
-			{
-				// Get the front of the ship. 
-				int shipFront = xPos - length + 1; 
-				
-				// Get the boundaries
-				int middleTile = (shipBack + shipFront) / 2; 
-				int xStart = middleTile + cannonLength / 2; 
-				int xEnd = xStart - cannonLength; 
-				int yStart = yPos - (cannonWidth / 2); 
-				int yEnd = yStart + cannonWidth; 
-								
-				for(int i = xStart; i > xEnd; i--)
-				{
-					for(int k = yStart; k < yEnd; k++)
-					{
-						if((i >= 0 && i < ActorState.boardWidth) && (k >= 0 && k <= ActorState.boardHeight))
-						{
-							ActorState.boardTiles[i][k].drawAsRed(); 
-						}
-					}
-				}
-			}
-		}
 		
-		if(orientation == OrientationType.North)
-		{
-			if(modelShip instanceof TorpedoShip)
-			{
-				for(int i = yPos; i <= yPos + cannonLength; i++)
-				{
-					for(int k = xPos - 2; k <= xPos + 2; k++)
-					{
-						if((i >= 0 && i < ActorState.boardWidth) && (k >= 0 && k <= ActorState.boardHeight))
-						{
-							ActorState.boardTiles[k][i].drawAsRed(); 
-						}
-					}
-				}
-			}
-			else
-			{
-				// Get the front of the ship. 
-				int shipFront = yPos + length - 1; 
-				shipBack = yPos; 
-				
-				// Get the boundaries
-				int middleTile = (shipBack + shipFront) / 2; 
-				int yStart = middleTile - cannonLength / 2; 
-				int yEnd = yStart + cannonLength; 
-				int xStart = xPos - (cannonWidth / 2); 
-				int xEnd = xStart + cannonWidth; 
-								
-				for(int i = xStart; i < xEnd; i++)
-				{
-					for(int k = yStart; k < yEnd; k++)
-					{
-						if((i >= 0 && i < ActorState.boardWidth) && (k >= 0 && k <= ActorState.boardHeight))
-						{
-							ActorState.boardTiles[i][k].drawAsRed(); 
-						}
-					}
-				}
-			}
-		}
-		
-		if(orientation == OrientationType.South)
-		{
-			if(modelShip instanceof TorpedoShip)
-			{
-				for(int i = yPos; i >= yPos - cannonLength; i--)
-				{
-					for(int k = xPos - 2; k <= xPos + 2; k++)
-					{
-						if((i >= 0 && i < ActorState.boardWidth) && (k >= 0 && k <= ActorState.boardHeight))
-						{
-							ActorState.boardTiles[k][i].drawAsRed(); 
-						}
-					}
-				}
-			}
-			else
-			{
-				// Get the front of the ship. 
-				int shipFront = yPos - length + 1; 
-				
-				// Get the boundaries
-				int middleTile = (shipBack + shipFront) / 2; 
-				int yStart = middleTile + cannonLength / 2; 
-				int yEnd = yStart - cannonLength; 
-				int xStart = xPos - (cannonWidth / 2); 
-				int xEnd = xStart + cannonWidth; 
-								
-				for(int i = xStart; i < xEnd; i++)
-				{
-					for(int k = yStart; k > yEnd; k--)
-					{
-						if((i >= 0 && i < ActorState.boardWidth) && (k >= 0 && k <= ActorState.boardHeight))
-						{
-							ActorState.boardTiles[i][k].drawAsRed(); 
-						}
-					}
-				}
-			}
-		}
+//		// Get the actor and model ships, and draw their appropriate rectangles. 
+//		int length = modelShip.getLength(); 
+//		int speed = modelShip.getSpeed(); 
+//		int cannonLength = modelShip.getCannonLength(); 
+//		int cannonWidth = modelShip.getCannonWidth(); 
+//		int xPos = modelShip.getX(); 
+//		int yPos = modelShip.getY(); 
+//		OrientationType orientation = modelShip.getOrientation(); 
+//		int shipBack = xPos; 
+//		
+//		// The drawing is different depending on the orientation. 
+//		if(orientation == OrientationType.East)
+//		{
+//			if(modelShip instanceof TorpedoShip)
+//			{
+//				for(int i = xPos; i <= cannonLength; i++)
+//				{
+//					for(int k = yPos - 2; k <= yPos + 2; k++)
+//					{
+//						if((i >= 0 && i < ActorState.boardWidth) && (k >= 0 && k <= ActorState.boardHeight))
+//						{
+//							ActorState.boardTiles[i][k].drawAsRed(); 
+//						}
+//					}
+//				}
+//			}
+//			else
+//			{
+//				// Get the front of the ship. 
+//				int shipFront = xPos + length - 1; 
+//				
+//				// Get the boundaries
+//				int middleTile = (shipBack + shipFront) / 2; 
+//				int xStart = middleTile - cannonLength / 2; 
+//				int xEnd = xStart + cannonLength; 
+//				int yStart = yPos - (cannonWidth / 2); 
+//				int yEnd = yStart + cannonWidth; 
+//								
+//				for(int i = xStart; i < xEnd; i++)
+//				{
+//					for(int k = yStart; k < yEnd; k++)
+//					{
+//						if((i >= 0 && i < ActorState.boardWidth) && (k >= 0 && k <= ActorState.boardHeight))
+//						{
+//							ActorState.boardTiles[i][k].drawAsRed(); 
+//						}
+//					}
+//				}
+//			}
+//		}
+//		
+//		if(orientation == OrientationType.West)
+//		{
+//			if(modelShip instanceof TorpedoShip)
+//			{
+//				for(int i = xPos; i >= xPos - cannonLength; i--)
+//				{
+//					for(int k = yPos - 2; k <= yPos + 2; k++)
+//					{
+//						if((i >= 0 && i < ActorState.boardWidth) && (k >= 0 && k <= ActorState.boardHeight))
+//						{
+//							ActorState.boardTiles[i][k].drawAsRed(); 
+//						}
+//					}
+//				}
+//			}
+//			else
+//			{
+//				// Get the front of the ship. 
+//				int shipFront = xPos - length + 1; 
+//				
+//				// Get the boundaries
+//				int middleTile = (shipBack + shipFront) / 2; 
+//				int xStart = middleTile + cannonLength / 2; 
+//				int xEnd = xStart - cannonLength; 
+//				int yStart = yPos - (cannonWidth / 2); 
+//				int yEnd = yStart + cannonWidth; 
+//								
+//				for(int i = xStart; i > xEnd; i--)
+//				{
+//					for(int k = yStart; k < yEnd; k++)
+//					{
+//						if((i >= 0 && i < ActorState.boardWidth) && (k >= 0 && k <= ActorState.boardHeight))
+//						{
+//							ActorState.boardTiles[i][k].drawAsRed(); 
+//						}
+//					}
+//				}
+//			}
+//		}
+//		
+//		if(orientation == OrientationType.North)
+//		{
+//			if(modelShip instanceof TorpedoShip)
+//			{
+//				for(int i = yPos; i <= yPos + cannonLength; i++)
+//				{
+//					for(int k = xPos - 2; k <= xPos + 2; k++)
+//					{
+//						if((i >= 0 && i < ActorState.boardWidth) && (k >= 0 && k <= ActorState.boardHeight))
+//						{
+//							ActorState.boardTiles[k][i].drawAsRed(); 
+//						}
+//					}
+//				}
+//			}
+//			else
+//			{
+//				// Get the front of the ship. 
+//				int shipFront = yPos + length - 1; 
+//				shipBack = yPos; 
+//				
+//				// Get the boundaries
+//				int middleTile = (shipBack + shipFront) / 2; 
+//				int yStart = middleTile - cannonLength / 2; 
+//				int yEnd = yStart + cannonLength; 
+//				int xStart = xPos - (cannonWidth / 2); 
+//				int xEnd = xStart + cannonWidth; 
+//								
+//				for(int i = xStart; i < xEnd; i++)
+//				{
+//					for(int k = yStart; k < yEnd; k++)
+//					{
+//						if((i >= 0 && i < ActorState.boardWidth) && (k >= 0 && k <= ActorState.boardHeight))
+//						{
+//							ActorState.boardTiles[i][k].drawAsRed(); 
+//						}
+//					}
+//				}
+//			}
+//		}
+//		
+//		if(orientation == OrientationType.South)
+//		{
+//			if(modelShip instanceof TorpedoShip)
+//			{
+//				for(int i = yPos; i >= yPos - cannonLength; i--)
+//				{
+//					for(int k = xPos - 2; k <= xPos + 2; k++)
+//					{
+//						if((i >= 0 && i < ActorState.boardWidth) && (k >= 0 && k <= ActorState.boardHeight))
+//						{
+//							ActorState.boardTiles[k][i].drawAsRed(); 
+//						}
+//					}
+//				}
+//			}
+//			else
+//			{
+//				// Get the front of the ship. 
+//				int shipFront = yPos - length + 1; 
+//				
+//				// Get the boundaries
+//				int middleTile = (shipBack + shipFront) / 2; 
+//				int yStart = middleTile + cannonLength / 2; 
+//				int yEnd = yStart - cannonLength; 
+//				int xStart = xPos - (cannonWidth / 2); 
+//				int xEnd = xStart + cannonWidth; 
+//								
+//				for(int i = xStart; i < xEnd; i++)
+//				{
+//					for(int k = yStart; k > yEnd; k--)
+//					{
+//						if((i >= 0 && i < ActorState.boardWidth) && (k >= 0 && k <= ActorState.boardHeight))
+//						{
+//							ActorState.boardTiles[i][k].drawAsRed(); 
+//						}
+//					}
+//				}
+//			}
+//		}
 	}
 
 
@@ -711,9 +760,9 @@ public class GameScreenController implements InputProcessor
 			int shipFront = xPos + length - 1; 
 			
 			// Draw the movement range. 
-			for(int i = xPos - 1; i < xPos + speed; i++)
+			for(int i = xPos - 1; i <= xPos + speed; i++)
 			{
-				if( i >= shipBack && i <= shipFront)
+				if( i == xPos)
 				{
 					for(int k = yPos - 1; k <= yPos + 1; k++)
 					{
@@ -736,9 +785,9 @@ public class GameScreenController implements InputProcessor
 			int shipFront = xPos - length - 1; 
 			
 			// Draw the movement range. 
-			for(int i = xPos + 1; i > xPos - speed; i--)
+			for(int i = xPos + 1; i >= xPos - speed; i--)
 			{
-				if(i <= shipBack && i >= shipFront)
+				if(i == xPos)
 				{
 					for(int k = yPos - 1; k <= yPos + 1; k++)
 					{
@@ -761,10 +810,10 @@ public class GameScreenController implements InputProcessor
 			int shipFront = yPos + length - 1; 
 			
 			// Draw the movement range. 
-			for(int k = yPos - 1; k < yPos + speed; k++)
+			for(int k = yPos - 1; k <= yPos + speed; k++)
 			{
 				shipBack = yPos; 
-				if(k >= shipBack && k <= shipFront)
+				if(k == yPos)
 				{
 					for(int i = xPos - 1; i <= xPos + 1; i++)
 					{
@@ -787,9 +836,9 @@ public class GameScreenController implements InputProcessor
 			shipBack = yPos; 
 			
 			// Draw the movement range. 
-			for(int k = shipBack + 1; k > yPos - speed; k--)
+			for(int k = shipBack + 1; k >= yPos - speed; k--)
 			{
-				if(k <= shipBack && k >= shipFront)
+				if(k == yPos)
 				{
 					for(int i = xPos - 1; i <= xPos + 1; i++)
 					{
