@@ -1,3 +1,7 @@
 *.class
 
 /bin
+
+/spaceships-desktop
+
+/spaceships-android
