@@ -89,10 +89,14 @@ public class GameScreen implements Screen
 			controller = new GameScreenController(PlayerNumber.PlayerOne);
 			System.out.println("I am player One!"); 
 		}
-		else
+		else if(GameState.getPlayerId() == 1)
 		{
 			controller = new GameScreenController(PlayerNumber.PlayerTwo);
 			System.out.println("I am player Two!"); 
+		}
+		else
+		{
+			System.out.println("ERROR The Player Numbers are bugging out. Try restarting the server!");
 		}
 		
 		

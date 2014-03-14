@@ -191,16 +191,6 @@ public class GameScreenController implements InputProcessor
 	 */
 	private void updateMovementAndFireAndHealth(float delta) 
 	{
-		if(Gdx.input.isKeyPressed(Keys.R))
-		{
-			AbstractShip ship = ActorState.getShipList(cPlayer).get(0).ship; 
-			int[] r = new int[ship.getLength()];
-			//ship.updateProperties(ship.getX(), ship.getY(), ship.getOrientation(), r); 
-			System.out.println(ActorState.getShipList(cPlayer).get(0).ship.getSectionHealth()[0]); 
-			//ActorState.shipList.get(0).setVisible(false); 
-			//ActorState.shipList.removeFirst();
-			
-		}
 		
 		// Update all the ships Based on location. 
 		// Update the ships orientation. 
