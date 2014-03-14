@@ -218,7 +218,8 @@ public class NewTurnMessage implements Serializable
 		this.turnSuccess = turnSuccess;
 	}
 	
-	
-
+	public int getPlayerID() {
+		return this.playerID;
+	}
 	
 }
