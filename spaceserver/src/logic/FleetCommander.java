@@ -43,7 +43,7 @@ public class FleetCommander {
 	
 	public void addShip(AbstractShip ship){
 		ships.add(ship);
-		board.setSpaceThing(ship, ship.getX(), ship.getY());
+		board.setSpaceThing(ship);
 		incrementVisibility(ship);
 	}
 	
@@ -113,7 +113,7 @@ public class FleetCommander {
 				spacesMoved++;
 			}
 			// might not have gone the full in case of a collision
-			board.setSpaceThing(ship, ship.getX(), ship.getY());
+			board.setSpaceThing(ship);
 			incrementVisibility(ship);
 			return spacesMoved;
 		}
@@ -451,7 +451,7 @@ public class FleetCommander {
 			decrementVisibility(ship);
 			board.clearSpaceThing(ship);
 			updateShipLocationAfterTurn(ship, direction);
-			board.setSpaceThing(ship, ship.getX(), ship.getY());
+			board.setSpaceThing(ship);
 			incrementVisibility(ship);			
 		} 
 		// if obstacles in the way, no relocation

@@ -26,7 +26,7 @@ public class MineLayer extends AbstractWeapon {
 			MineLayerShip ship = (MineLayerShip)owner;
 			Mine mine = ship.removeMine();
 			mine.setLocation(x, y);
-			ship.getGameBoard().setSpaceThing(mine, x, y);
+			ship.getGameBoard().setSpaceThing(mine);
 			return true;
 		}
 		return false;

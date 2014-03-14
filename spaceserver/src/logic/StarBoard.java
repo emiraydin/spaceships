@@ -27,7 +27,9 @@ public class StarBoard {
 			return null;
 		}
 	}
-	public void setSpaceThing(SpaceThing sThing, int x, int y){
+	public void setSpaceThing(SpaceThing sThing){
+		int x = sThing.getX();
+		int y = sThing.getY();
 		if (inBounds(x, y)){
 			if (map[x][y] != null){
 				System.out.println("Warning: overriding spacething!");
@@ -38,7 +40,9 @@ public class StarBoard {
 		}
 	}
 	
-	public void setSpaceThing(AbstractShip ship, int x, int y){
+	public void setSpaceThing(AbstractShip ship){
+		int x = ship.getX();
+		int y = ship.getY();
 		for (int i = 0; i < ship.getLength(); i++){
 			//UPDATED FOR NEW ORIENTATION
 			switch (ship.getOrientation()){
@@ -98,7 +102,7 @@ public class StarBoard {
 			int randY = 3 + (int) (Math.random() * ((27 - 3) + 1));
 			
 			if(getSpaceThing(randX, randY) == null){
-				setSpaceThing(new Asteroid(randX, randY, this), randX, randY);
+				setSpaceThing(new Asteroid(randX, randY, this));
 				players[0].incrementRadarVisibility(randX, randY);
 				players[1].incrementRadarVisibility(randX, randY);
 				count++; 
