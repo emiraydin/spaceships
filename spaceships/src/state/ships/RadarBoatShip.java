@@ -17,7 +17,7 @@ public class RadarBoatShip extends AbstractShip
 	 */
 	public RadarBoatShip(int id, PlayerNumber owner)
 	{
-		super(id, SpaceThingType.RadarBoatShip, owner, 3, ArmourType.Normal, 3, 3, 5, 0);
+		super(id, SpaceThingType.RadarBoatShip, owner, 3, ArmourType.Normal, 3, 3, 5, -1);
 		
 		this.addWeapon(new Cannon());
 	}
