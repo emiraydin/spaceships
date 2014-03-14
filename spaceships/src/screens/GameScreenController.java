@@ -2,6 +2,10 @@ package screens;
 
 import gameLogic.ActionValidator;
 import gameLogic.Constants;
+
+import java.util.LinkedList;
+
+import state.GameState;
 import state.ships.AbstractShip;
 import state.ships.TorpedoShip;
 import actors.ActorState;
@@ -15,6 +19,7 @@ import actors.TileActor;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import common.GameConstants.OrientationType;
@@ -38,7 +43,7 @@ public class GameScreenController implements InputProcessor
 	public Stage STAGE; 											// The Stage. 
 	private int CURRENT_SELECTION = -1; 							// The currently selected ship
 	private boolean debugMode = false; 								// Whether we are debugging or not. 
-	public final PlayerNumber cPlayer; 
+	public PlayerNumber cPlayer; 
 	//private PlayerNumber otherPlayer; 
 	/**
 	 * Constructor for GameScreenController. 
@@ -66,7 +71,6 @@ public class GameScreenController implements InputProcessor
 	 * Game Logic Updates
 	 *******************************************************************************/
 	
-
 
 	/**
 	 * The basic update.
@@ -105,23 +109,27 @@ public class GameScreenController implements InputProcessor
 	 */
 	private void updateVisibility() 
 	{
-		if(cPlayer == PlayerNumber.PlayerOne)
+		// Rest the ShipTile Actors to null 
+		ShipTileActor[][] oponentLocation = ActorState.getOtherFleetArray(cPlayer); 
+		LinkedList<ShipActor> oponentShips = ActorState.getOtherFleet(cPlayer);
+		boolean[][] radar = GameState.getRadarVisibleTiles(); 
+		
+		for(ShipActor aShip : oponentShips)
 		{
-			for(ShipActor s : ActorState.getShipList(PlayerNumber.PlayerTwo))
+			for(ShipTileActor tile : aShip.tiles)
 			{
-				s.drawAsNonCurrent(); 
+				int xLoc = (int) Math.round(((ShipTileActor) tile).getX());
+				int yLoc = (int) Math.round(((ShipTileActor) tile).getY());
+				System.out.println(xLoc + " " + yLoc); 
+				if(radar[xLoc][yLoc] == false)
+				{
+					tile.setVisible(false); 
+				}
+				else
+				{
+					tile.setVisible(true); 
+				}
 			}
-		}
-		else if(cPlayer == PlayerNumber.PlayerTwo)
-		{
-			for(ShipActor s : ActorState.getShipList(PlayerNumber.PlayerOne))
-			{
-				s.drawAsNonCurrent(); 
-			}
-		}
-		else
-		{
-			System.out.println("ERROR"); 
 		}
 	}
 

@@ -270,6 +270,8 @@ public class GameScreenUiController
 			{
 				if(ActorState.currentSelectionShip != -1)
 				{
+//					ServerMessageHandler.currentAction = new ActionMessage(ActionType.FireTorpedo, ActorState.getShipList(controller.cPlayer).get(ActorState.currentSelectionShip).ship.getUniqueId(), (int)ActorState.currentTile.getX(), (int)ActorState.currentTile.getY());
+//					ServerMessageHandler.hasChanged = true; 
 					chatBox.setText(""); 
 				}
 				return false; 

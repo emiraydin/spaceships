@@ -47,8 +47,8 @@ public class ActorState
 	public static TileActor 	currentTile; 
 
 	
-	private static LinkedList<ShipActor> playerOneShipList = new LinkedList<ShipActor>(); 
-	private static LinkedList<ShipActor> playerTwoShipList = new LinkedList<ShipActor>(); 
+	public static LinkedList<ShipActor> playerOneShipList = new LinkedList<ShipActor>(); 
+	public static LinkedList<ShipActor> playerTwoShipList = new LinkedList<ShipActor>(); 
 	
 	/*
 	 * Variables respecting Singleton
@@ -325,4 +325,35 @@ public class ActorState
 		}
 	}
 
+	public static ShipTileActor[][] getOtherFleetArray(PlayerNumber n)
+	{
+		if(n == PlayerNumber.PlayerOne)
+		{
+			return playerTwoFleet; 
+		}
+		else if(n == PlayerNumber.PlayerTwo)
+		{
+			return playerOneFleet; 
+		}
+		else
+		{
+			return null; 
+		}
+	}
+	
+	public static LinkedList<ShipActor> getOtherFleet(PlayerNumber n)
+	{
+		if(n == PlayerNumber.PlayerOne)
+		{
+			return playerTwoShipList; 
+		}
+		else if(n == PlayerNumber.PlayerTwo)
+		{
+			return playerOneShipList; 
+		}
+		else
+		{
+			return null; 
+		}
+	}
 }
