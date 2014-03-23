@@ -40,7 +40,7 @@ public class TestGameState
 		radarVisibleTiles = new boolean[5][5];
 		sonarVisibleTiles = new boolean[5][5];
 		
-		message = new NewTurnMessage(action, true, null, null, radarVisibleTiles, sonarVisibleTiles, 0);
+		message = new NewTurnMessage(action, true, null, null, radarVisibleTiles, sonarVisibleTiles, 0, 0);
 		
 		message.addStateMessage(new GameStateMessage(
 				0,
@@ -55,7 +55,7 @@ public class TestGameState
 		newHealth = new int[2];
 		newHealth[0] = 1;
 		newHealth[1] = 2;
-		message2 = new NewTurnMessage(null, true, null, null, null, radarVisibleTiles, 0);
+		message2 = new NewTurnMessage(null, true, null, null, null, radarVisibleTiles, 0, 0);
 		message2.addStateMessage(new GameStateMessage(
 				0,
 				PlayerNumber.PlayerOne,
