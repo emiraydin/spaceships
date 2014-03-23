@@ -15,6 +15,11 @@ import messageprotocol.*;
 public class NewTurnMessage implements Serializable
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 9172096966349741980L;
+	
+	/**
 	 * Whatever action has taken place this turn.
 	 */
 	ActionMessage action;
@@ -31,12 +36,14 @@ public class NewTurnMessage implements Serializable
 	 */
 	boolean[][] radarVisibleTiles;
 	boolean[][] sonarVisibleTiles;
-	int testNumber; //removethis
+	int playerID;
+	int responseTo;			// for failed messages
+
 	/**
-	 * Construct the NewTurnMessage.
-	 * The params are all references, so watch out...
 	 * 
 	 * @param action
+	 * @param turnSuccess
+	 * @param response
 	 * @param state
 	 * @param radarVisibleTiles
 	 * @param sonarVisibleTiles
@@ -47,7 +54,9 @@ public class NewTurnMessage implements Serializable
 			String response,
 			LinkedList<GameStateMessage> state,
 			boolean[][] radarVisibleTiles,
-			boolean[][]	sonarVisibleTiles
+			boolean[][]	sonarVisibleTiles,
+			int pid,
+			int responseTo
 					) {
 		
 		this.action = action;
@@ -64,8 +73,8 @@ public class NewTurnMessage implements Serializable
 		this.radarVisibleTiles = radarVisibleTiles;
 		this.sonarVisibleTiles = sonarVisibleTiles;
 		
-		this.testNumber = 33; //removethis
-		
+		this.playerID = pid;
+		this.responseTo = responseTo;
 	}
 	
 	public ActionMessage getAction() {
@@ -108,30 +117,67 @@ public class NewTurnMessage implements Serializable
 	public void addStateMessage(GameStateMessage input) {
 		this.state.addLast(input);
 	}
-	
-	/*
-	 * I auto-generated toString(), hashCode(), and equals() in Eclipse...
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
 	 */
-	
 	@Override
 	public String toString() {
+		String radVis = null;
+		if(radarVisibleTiles != null) { 
+			radVis = "[";
+			for(boolean[] b : radarVisibleTiles) { 
+				radVis += "[";
+				for(int i = 0; i < b.length-1; i++) {
+					radVis += b[i] + ", ";
+				}
+				radVis += b[b.length-1];
+				radVis += "]";
+			}
+			radVis += "]";
+		} 
+ 				
+		String sonVis = null;
+		if(sonarVisibleTiles != null) { 
+			for(boolean[] b : sonarVisibleTiles) { 
+				sonVis += "[";
+				for(int i = 0; i < b.length-1; i++) { 
+					sonVis += b[i] + ", ";
+				}
+				sonVis += b[b.length - 1];
+				sonVis += "]";
+			}
+			sonVis += "]";
+		}
+		
 		return "NewTurnMessage [action=" + action + ", state=" + state
-				+ ", radarVisibleTiles=" + Arrays.toString(radarVisibleTiles)
-				+ ", sonarVisibleTiles=" + Arrays.toString(sonarVisibleTiles)
-				+ "]";
+				+ ", turnSuccess=" + turnSuccess + ", response=" + response
+				+ ", radarVisibleTiles=" + radVis
+				+ ", sonarVisibleTiles=" + sonVis
+				+ ", playerID=" + playerID + "]";
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((action == null) ? 0 : action.hashCode());
 		result = prime * result + Arrays.hashCode(radarVisibleTiles);
+		result = prime * result
+				+ ((response == null) ? 0 : response.hashCode());
 		result = prime * result + Arrays.hashCode(sonarVisibleTiles);
 		result = prime * result + ((state == null) ? 0 : state.hashCode());
+		result = prime * result + playerID;
+		result = prime * result + (turnSuccess ? 1231 : 1237);
 		return result;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -148,6 +194,11 @@ public class NewTurnMessage implements Serializable
 			return false;
 		if (!Arrays.deepEquals(radarVisibleTiles, other.radarVisibleTiles))
 			return false;
+		if (response == null) {
+			if (other.response != null)
+				return false;
+		} else if (!response.equals(other.response))
+			return false;
 		if (!Arrays.deepEquals(sonarVisibleTiles, other.sonarVisibleTiles))
 			return false;
 		if (state == null) {
@@ -155,10 +206,31 @@ public class NewTurnMessage implements Serializable
 				return false;
 		} else if (!state.equals(other.state))
 			return false;
+		if (playerID != other.playerID)
+			return false;
+		if (turnSuccess != other.turnSuccess)
+			return false;
 		return true;
 	}
 	
-	
+	public boolean isTurnSuccess() {
+		return turnSuccess;
+	}
 
+	public void setTurnSuccess(boolean turnSuccess) {
+		this.turnSuccess = turnSuccess;
+	}
+	
+	public int getPlayerID() {
+		return this.playerID;
+	}
+	
+	public String getResponseString() { 
+		return this.response;
+	}
+	
+	public int responseTo() { 
+		return this.responseTo;
+	}
 	
 }

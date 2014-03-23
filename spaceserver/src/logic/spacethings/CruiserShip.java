@@ -18,7 +18,7 @@ public class CruiserShip extends AbstractShip {
 		super(x, y, oType, owner, gameBoard);
 		
 		this.length = 5;
-		this.speed = 10;
+		this.setMaxSpeed(10);
 		
 		initializeHealth(this.length, true);
 		
@@ -107,24 +107,28 @@ public class CruiserShip extends AbstractShip {
 					return null;
 				}
 			}
+			break;
 		case West:
 			for(int i = 1; i < this.length; i++) { 
 				if(!this.addObstacleToList(x-i, y, obstacles)) { 
 					return null;
 				}
 			}
+			break;
 		case North:
 			for(int i = 1; i < this.length; i++) { 
 				if(!this.addObstacleToList(x, y+i, obstacles)) { 
 					return null;
 				}
 			}
+			break;
 		case South:
 			for(int i = 1; i < this.length; i++) { 
 				if(!this.addObstacleToList(x, y-i, obstacles)) { 
 					return null;
 				}
 			}
+			break;
 		}
 		
 		return obstacles;

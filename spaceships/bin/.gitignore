@@ -1,11 +1,10 @@
 /Spaceships.gwt.xml
-/actors
-/common
+/util
+/screens
 /gameLogic
+/actors
 /messageprotocol
 /playerLogic
-/screens
 /state
 /tests
-/util
 /view

@@ -1,8 +1,10 @@
 package screens;
 
-import gameLogic.Constants.OrientationType;
 import gameLogic.ActionValidator;
 import gameLogic.Descriptions;
+import messageprotocol.ActionMessage;
+import messageprotocol.ServerMessageHandler;
+import state.GameState;
 import state.ships.AbstractShip;
 import state.ships.CruiserShip;
 import state.ships.DestroyerShip;
@@ -11,6 +13,7 @@ import state.ships.RadarBoatShip;
 import state.ships.TorpedoShip;
 import actors.ActorState;
 import actors.ShipActor;
+import actors.TileActor;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -32,6 +35,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import common.GameConstants.ActionType;
+import common.GameConstants.OrientationType;
 
 /**
  * Handles everything on the UI side of things. 
@@ -197,13 +202,13 @@ public class GameScreenUiController
 		button.addListener(new ClickListener()
 		{
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
-			{
+			{				
 				if(ActorState.currentSelectionShip != -1
 						&& ActorState.currentTile != null
 						&& ActionValidator.validateMove((int)ActorState.currentTile.getX(), (int)ActorState.currentTile.getY()))
 				{
-					ActorState.shipList.get(ActorState.currentSelectionShip).ship.setX((int)ActorState.currentTile.getX()); 
-					ActorState.shipList.get(ActorState.currentSelectionShip).ship.setY((int)ActorState.currentTile.getY()); 
+					ServerMessageHandler.currentAction = new ActionMessage(ActionType.Move, ActorState.getShipList(controller.cPlayer).get(ActorState.currentSelectionShip).ship.getUniqueId(), (int)ActorState.currentTile.getX(), (int)ActorState.currentTile.getY());
+					ServerMessageHandler.hasChanged = true; 
 					chatBox.setText(""); 
 				}
 				else
@@ -235,6 +240,8 @@ public class GameScreenUiController
 						&& ActorState.currentTile != null
 						&& ActionValidator.validateShot((int)ActorState.currentTile.getX(),(int)ActorState.currentTile.getY()))
 				{
+					ServerMessageHandler.currentAction = new ActionMessage(ActionType.FireCannon, ActorState.getShipList(controller.cPlayer).get(ActorState.currentSelectionShip).ship.getUniqueId(), (int)ActorState.currentTile.getX(), (int)ActorState.currentTile.getY());
+					ServerMessageHandler.hasChanged = true; 
 					chatBox.setText(""); 
 				}
 				else
@@ -263,6 +270,8 @@ public class GameScreenUiController
 			{
 				if(ActorState.currentSelectionShip != -1)
 				{
+//					ServerMessageHandler.currentAction = new ActionMessage(ActionType.FireTorpedo, ActorState.getShipList(controller.cPlayer).get(ActorState.currentSelectionShip).ship.getUniqueId(), (int)ActorState.currentTile.getX(), (int)ActorState.currentTile.getY());
+//					ServerMessageHandler.hasChanged = true; 
 					chatBox.setText(""); 
 				}
 				return false; 
@@ -287,7 +296,8 @@ public class GameScreenUiController
 			{
 				if(ActorState.currentSelectionShip != -1)
 				{
-					ActorState.shipList.get(ActorState.currentSelectionShip).ship.setOrientation(OrientationType.West); 
+					ServerMessageHandler.currentAction = new ActionMessage(ActionType.TurnLeft, ActorState.getShipList(controller.cPlayer).get(ActorState.currentSelectionShip).ship.getUniqueId(), -1, -1); 
+					ServerMessageHandler.hasChanged = true; 
 					chatBox.setText(""); 
 				}
 				return false; 
@@ -312,7 +322,8 @@ public class GameScreenUiController
 			{
 				if(ActorState.currentSelectionShip != -1)
 				{
-					ActorState.shipList.get(ActorState.currentSelectionShip).ship.setOrientation(OrientationType.North); 
+					ServerMessageHandler.currentAction = new ActionMessage(ActionType.TurnRight, ActorState.getShipList(controller.cPlayer).get(ActorState.currentSelectionShip).ship.getUniqueId(), -1, -1); 
+					ServerMessageHandler.hasChanged = true;  
 					chatBox.setText(""); 
 				}
 				return false; 
@@ -484,8 +495,17 @@ public class GameScreenUiController
 	{
 		if(ActorState.currentSelectionShip != -1)
 		{
-			ShipActor ship = ActorState.shipList.get(ActorState.currentSelectionShip); 
+			ShipActor ship = ActorState.getShipList((controller.cPlayer)).get(ActorState.currentSelectionShip); 
 			AbstractShip aShip = ship.ship; 
+			
+			if(!(GameState.getResponseString() == null))
+			{
+				serverMessage.setText(GameState.getResponseString());
+			}
+			else
+			{
+				serverMessage.setText("Nothing to report all is well!"); 
+			}
 			
 			// Set the buttons 
 			moveShip.setVisible(true); 
@@ -516,16 +536,15 @@ public class GameScreenUiController
 			
 			speed.setText("Speed: "+ aShip.getSpeed());
 			
-			int healthCount = aShip.getLength(); 
-			for(int i = 0; i < aShip.getLength(); i++)
+			int[] healthCount = aShip.getSectionHealth(); 
+			String healthText = ""; 
+			for(int i : healthCount)
 			{
-				if(aShip.getSectionHealth()[i] < 2)
-				{
-					healthCount --; 
-				}
+				healthText += (" "+ i); 
 			}
 			
-			health.setText("Health: " + healthCount);
+			
+			health.setText("Health: " + healthText);
 			String arsenalText = "Arsenal : ";
 			
 			for(int i = 0; i < aShip.getWeapons().size(); i++)

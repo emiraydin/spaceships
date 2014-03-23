@@ -7,6 +7,10 @@ public class PlayerOfflineMessage implements Message {
 	
 	private final String userName;  
 	
+	/**
+	 * 
+	 * @param userName
+	 */
 	public PlayerOfflineMessage(String userName) { 
 		this.userName = userName;
 	}

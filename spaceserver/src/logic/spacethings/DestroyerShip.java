@@ -17,7 +17,7 @@ public class DestroyerShip extends AbstractShip {
 	public DestroyerShip(int x, int y, OrientationType oType, FleetCommander owner, StarBoard gameBoard){
 		super(x, y, oType, owner, gameBoard);
 		
-		this.speed = 8;
+		this.setMaxSpeed(8);
 		this.length = 4;
 		
 		initializeHealth(this.length, false);
@@ -102,24 +102,28 @@ public class DestroyerShip extends AbstractShip {
 					return null;
 				}
 			}
+			break;
 		case West:
 			for(int i = 1; i < this.length; i++) { 
 				if(!this.addObstacleToList(x-i, y, obstacles)) { 
 					return null;
 				}
 			}
+			break;
 		case North:
 			for(int i = 1; i < this.length; i++) { 
 				if(!this.addObstacleToList(x, y+i, obstacles)) { 
 					return null;
 				}
 			}
+			break;
 		case South:
 			for(int i = 1; i < this.length; i++) { 
 				if(!this.addObstacleToList(x, y-i, obstacles)) { 
 					return null;
 				}
 			}
+			break;
 		}
 		
 		return obstacles;

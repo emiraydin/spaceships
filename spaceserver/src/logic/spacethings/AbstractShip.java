@@ -15,7 +15,7 @@ import common.GameConstants.SpaceThingType;
 import common.GameConstants.WeaponType;
 
 public abstract class AbstractShip extends SpaceThing {
-	protected int speed;
+	private int speed;
 	protected int length;
 	protected int[] sectionHealth;
 	protected OrientationType orientation;
@@ -29,7 +29,6 @@ public abstract class AbstractShip extends SpaceThing {
 	
 	@Override
 	public GameStateMessage genGameStateMessage() {
-		//TODO: finish
 		return new GameStateMessage(getID(), getOwner().getPlayer(), getShipType(), 
 				getX(), getY(), orientation, sectionHealth);
 	}
@@ -54,21 +53,25 @@ public abstract class AbstractShip extends SpaceThing {
 				coords[i][0] = x;
 				coords[i][1] = y - i;
 			}
+			break;
 		case North:
 			for (int i = 0; i < length; i++){
 				coords[i][0] = x;
 				coords[i][1] = y + i;
 			}
+			break;
 		case East:
 			for (int i = 0; i < length; i++){
 				coords[i][0] = x + i;
 				coords[i][1] = y;
 			}
+			break;
 		case West:
 			for (int i = 0; i < length; i++){
 				coords[i][0] = x - i;
 				coords[i][1] = y;
 			}
+			break;
 		}
 		
 		return coords;
@@ -184,8 +187,11 @@ public abstract class AbstractShip extends SpaceThing {
 		for (int i = 0 ; i < length; i++){
 			count += (sectionHealth[i] > 0 ? 1 : 0);
 		}
-		
-		return (int) Math.ceil((length/(float) count)*speed);
+		return (int)(((double)count/length)*speed);
+	}
+	
+	public void setMaxSpeed(int speed) { 
+		this.speed = speed;
 	}
 
 	public int getLength() {

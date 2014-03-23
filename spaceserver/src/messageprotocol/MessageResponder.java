@@ -18,7 +18,12 @@ public class MessageResponder {
 	ActionMessage aMessage;
 	boolean success;
 	String response;
+	int responseTo;				// for failed messages
 	
+	/**
+	 * 
+	 * @param handler
+	 */
 	public MessageResponder(GameHandler handler) {
 		this.handler = handler;
 		this.board = handler.getBoard();
@@ -28,10 +33,11 @@ public class MessageResponder {
 	 * Call this method at the beginning of every turn.
 	 * @param aMessage Action Message of the move
 	 */
-	public void startMessage(ActionMessage aMessage){
-		success = false;
+	public void startMessage(ActionMessage aMessage, int responseTo){
+		success = true;
 		this.aMessage = aMessage;
 		response = null;
+		this.responseTo = responseTo;
 	}
 	
 	/**
@@ -41,12 +47,12 @@ public class MessageResponder {
 	 */
 	public NewTurnMessage getResponse(int playerID){
 		if (!success){
-			return new NewTurnMessage(aMessage, success, response, null, null, null);
+			return new NewTurnMessage(aMessage, success, response, null, null, null, playerID, responseTo);
 		}
 		FleetCommander fc = handler.getFleetCommander(playerID);
 		
 		return new NewTurnMessage(aMessage, success, response, createStateMessages(),
-				convertVisibility(fc.getRadarVisibility()), convertVisibility(fc.getSonarVisibility()));
+				convertVisibility(fc.getRadarVisibility()), convertVisibility(fc.getSonarVisibility()), playerID, responseTo);
 	}
 	
 	/**
@@ -76,7 +82,7 @@ public class MessageResponder {
 						MineLayerShip mShip = (MineLayerShip) thing;
 						if(mShip.hasMines()){
 							for (Mine m : mShip.getMines()){
-								states.put(thing.getID(), m.genGameStateMessage());
+								states.put(m.getID(), m.genGameStateMessage());
 							}
 						}
 					}

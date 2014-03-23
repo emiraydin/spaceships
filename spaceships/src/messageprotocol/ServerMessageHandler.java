@@ -2,6 +2,8 @@ package messageprotocol;
 
 import java.lang.reflect.Method;
 
+import common.GameConstants.PlayerNumber;
+
 import state.GameState;
 import state.SpaceThing;
 
@@ -44,11 +46,26 @@ public class ServerMessageHandler {
 			}
 			if (turn.getSonarVisibleTiles() != null) {
 				GameState.setSonarVisibleTiles(turn.getSonarVisibleTiles());			
-			}			
+			}
+			
+			GameState.setPlayerId(turn.getPlayerID()); 
+			GameState.setResponseString(turn.getResponseString()); 
+			
 		} else {
+
 			// We need to let the player know that their turn wasn't a success somehow...
+			if(turn.responseTo() == GameState.getPlayerId()) { 
+				GameState.setResponseString(turn.getResponseString());
+
+			int player = turn.getPlayerID(); 
+			if(player == GameState.getPlayerId())
+			{
+				GameState.setResponseString(turn.getResponseString()); 
+
+			}
 		}
 	}
+}
 	
 	/**
 	 * Execute an action message.  This usually corresponds to some animation

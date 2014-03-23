@@ -2,9 +2,8 @@ package state.ships;
 
 import state.weapons.Cannon;
 import state.weapons.TorpedoLauncher;
-import gameLogic.Constants.ArmourType;
-import gameLogic.Constants.PlayerNumber;
-import gameLogic.Constants.SpaceThingType;
+
+import common.GameConstants.*;
 
 /**
  * The Class for the Torpedo Ship type vessel. 

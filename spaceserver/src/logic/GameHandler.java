@@ -31,35 +31,34 @@ public class GameHandler {
 		players = new FleetCommander[2];
 		players[0] = new FleetCommander(0, board, this);
 		players[1] = new FleetCommander(1, board, this);
-		board.generateAsteroids();
+		board.generateAsteroids(players);
 		for (int playerId = 0; playerId <= 1; playerId++){
 			for (int basenum = 0; basenum < 10; basenum++){
-				board.setSpaceThing(new BaseTile(playerId*29, basenum+15, players[playerId], board),
-						playerId*29, basenum+15);
+				board.setSpaceThing(new BaseTile(playerId*29, basenum+10, players[playerId], board));
 			}
 		}
 		
-		board.setSpaceThing(new CruiserShip(1, 15, OrientationType.East, players[0], board), 1, 15);
-		board.setSpaceThing(new CruiserShip(1, 16, OrientationType.East, players[0], board), 1, 16);
-		board.setSpaceThing(new DestroyerShip(1, 17, OrientationType.East, players[0], board), 1, 17);
-		board.setSpaceThing(new DestroyerShip(1, 18, OrientationType.East, players[0], board), 1, 18);
-		board.setSpaceThing(new DestroyerShip(1, 19, OrientationType.East, players[0], board), 1, 19);
-		board.setSpaceThing(new TorpedoBoatShip(1, 20, OrientationType.East, players[0], board), 1, 20);
-		board.setSpaceThing(new TorpedoBoatShip(1, 21, OrientationType.East, players[0], board), 1, 21);
-		board.setSpaceThing(new MineLayerShip(1, 22, OrientationType.East, players[0], board), 1, 22);
-		board.setSpaceThing(new MineLayerShip(1, 23, OrientationType.East, players[0], board), 1, 23);
-		board.setSpaceThing(new RadarBoatShip(1, 24, OrientationType.East, players[0], board), 1, 24);
+		players[0].addShip(new CruiserShip(1, 10, OrientationType.East, players[0], board));
+		players[0].addShip(new CruiserShip(1, 11, OrientationType.East, players[0], board));
+		players[0].addShip(new DestroyerShip(1, 12, OrientationType.East, players[0], board));
+		players[0].addShip(new DestroyerShip(1, 13, OrientationType.East, players[0], board));
+		players[0].addShip(new DestroyerShip(1, 14, OrientationType.East, players[0], board));
+		players[0].addShip(new TorpedoBoatShip(1, 15, OrientationType.East, players[0], board));
+		players[0].addShip(new TorpedoBoatShip(1, 16, OrientationType.East, players[0], board));
+		players[0].addShip(new MineLayerShip(1, 17, OrientationType.East, players[0], board));
+		players[0].addShip(new MineLayerShip(1, 18, OrientationType.East, players[0], board));
+		players[0].addShip(new RadarBoatShip(1, 19, OrientationType.East, players[0], board));
 
-		board.setSpaceThing(new CruiserShip(28, 15, OrientationType.West, players[1], board), 28, 15);
-		board.setSpaceThing(new CruiserShip(28, 16, OrientationType.West, players[1], board), 28, 16);
-		board.setSpaceThing(new DestroyerShip(28, 17, OrientationType.West, players[1], board), 28, 17);
-		board.setSpaceThing(new DestroyerShip(28, 18, OrientationType.West, players[1], board), 28, 18);
-		board.setSpaceThing(new DestroyerShip(28, 19, OrientationType.West, players[1], board), 28, 19);
-		board.setSpaceThing(new TorpedoBoatShip(28, 21, OrientationType.West, players[1], board), 28, 20);
-		board.setSpaceThing(new TorpedoBoatShip(28, 228, OrientationType.West, players[1], board), 28, 21);
-		board.setSpaceThing(new MineLayerShip(28, 22, OrientationType.West, players[1], board), 28, 22);
-		board.setSpaceThing(new MineLayerShip(28, 23, OrientationType.West, players[1], board), 28, 23);
-		board.setSpaceThing(new RadarBoatShip(28, 24, OrientationType.West, players[1], board), 28, 24);
+		players[1].addShip(new CruiserShip(28, 10, OrientationType.West, players[1], board));
+		players[1].addShip(new CruiserShip(28, 11, OrientationType.West, players[1], board));
+		players[1].addShip(new DestroyerShip(28, 12, OrientationType.West, players[1], board));
+		players[1].addShip(new DestroyerShip(28, 13, OrientationType.West, players[1], board));
+		players[1].addShip(new DestroyerShip(28, 14, OrientationType.West, players[1], board));
+		players[1].addShip(new TorpedoBoatShip(28, 15, OrientationType.West, players[1], board));
+		players[1].addShip(new TorpedoBoatShip(28, 16, OrientationType.West, players[1], board));
+		players[1].addShip(new MineLayerShip(28, 17, OrientationType.West, players[1], board));
+		players[1].addShip(new MineLayerShip(28, 18, OrientationType.West, players[1], board));
+		players[1].addShip(new RadarBoatShip(28, 19, OrientationType.West, players[1], board));
 
 	}
 	
@@ -68,7 +67,7 @@ public class GameHandler {
 	}
 	
 	public NewTurnMessage[] doAction(ActionMessage aMessage, int playerID){
-		responder.startMessage(aMessage);
+		responder.startMessage(aMessage, playerID);
 		doAction(aMessage.getAction(), aMessage.getSpaceThingId(), 
 				playerID, aMessage.getDestX(), aMessage.getDestY());
 		return new NewTurnMessage[]{responder.getResponse(0), responder.getResponse(1)};

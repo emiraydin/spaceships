@@ -62,6 +62,7 @@ public class TorpedoLauncher extends AbstractWeapon {
 					return true;
 				}
 			}
+			break;
 		case West:
 			torpedoLauncherX = shipX - shipLength + 1;
 			torpedoY = shipY;
@@ -76,6 +77,7 @@ public class TorpedoLauncher extends AbstractWeapon {
 				}
 				
 			}
+			break;
 		case North:
 			torpedoX = shipX;
 			torpedoLauncherY = shipY + shipLength - 1;
@@ -89,6 +91,7 @@ public class TorpedoLauncher extends AbstractWeapon {
 					return true;
 				}
 			}
+			break;
 		case South:
 			torpedoX = shipX;
 			torpedoLauncherY = shipY - shipLength + 1;
@@ -102,9 +105,11 @@ public class TorpedoLauncher extends AbstractWeapon {
 					return true;
 				}
 			}
+			break;
 		}
 		// If method got here, the torpedo either went out of bounds or hit its max range before it hit any obstacles
-		this.owner.getOwner().setActionResponse("Torpedo fired and missed");
+		// vague game rules - I think cannons that don't hit anything are signaled to both players but not torpedoes
+		//	this.owner.getOwner().setActionResponse("Torpedo fired and missed");
 		return true;
 	}
 	

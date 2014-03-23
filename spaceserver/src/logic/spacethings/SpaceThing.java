@@ -11,10 +11,14 @@ public abstract class SpaceThing {
 	private StarBoard gameBoard;
 	
 	public SpaceThing(int x, int y, FleetCommander owner, StarBoard gameBoard){
-		this.x = x;
-		this.y = y;
+		this.setX(x);
+		this.setY(y);
+		this.setOwner(owner);
+		
+		//this.x = x;
+		//this.y = y;
 		this.gameBoard = gameBoard;
-		this.owner = owner;
+		//this.owner = owner;
 		this.id = gameBoard.nextID();
 	}
 	

@@ -8,6 +8,9 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
+import screens.GameScreen;
+import state.GameState;
+
 import messageprotocol.ActionMessage;
 import messageprotocol.NewTurnMessage;
 import messageprotocol.ServerMessageHandler;
@@ -21,8 +24,9 @@ public class TCPClient implements Runnable {
 
 	private static BufferedReader inputLine = null;
 	private static boolean connectionClosed = false;
-
-	public static void main(String[] args) {
+	public static boolean canStart;
+	
+	public static void start() {
 
 		System.out.println("Client is now running on " + Properties.HOST_NAME + " port " + Properties.PORT_NUMBER);
 
@@ -30,12 +34,12 @@ public class TCPClient implements Runnable {
 		try {
 			clientSocket = new Socket(Properties.HOST_NAME, Properties.PORT_NUMBER);
 			inputLine = new BufferedReader(new InputStreamReader(System.in));
-			output = new PrintStream(clientSocket.getOutputStream());
+			output = new PrintStream(clientSocket.getOutputStream(), true);
 			input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 		} catch (UnknownHostException e) {
 			System.err.println("Unknown host: " + Properties.HOST_NAME);
 		} catch (IOException e) {
-			System.err.println("I/O connection to " + Properties.HOST_NAME + "cannot be established!");
+			System.err.println("I/O connection to " + Properties.HOST_NAME + " cannot be established!");
 		}
 
 		// Write the data to the recently opened socket, given everything is set up
@@ -44,8 +48,26 @@ public class TCPClient implements Runnable {
 			try {
 				// Create new thread to read from the server
 				new Thread(new TCPClient()).start();
-				while (!connectionClosed)
-					output.println(inputLine.readLine().trim());
+				while (!connectionClosed) {
+					// Send the message
+					if (inputLine.ready()) {		
+						output.println(inputLine.readLine().trim());
+						System.out.println("I'm here inputLine.ready");
+						output.flush();
+					}
+//					System.out.println(ServerMessageHandler.currentAction);
+//					Thread.sleep(1000);
+					// Send the ActionMessage
+					if (ServerMessageHandler.hasChanged) {
+						System.out.println("There is a new ActionMessage!");
+						ActionMessage am = ServerMessageHandler.currentAction;
+						System.out.println(am.toString());
+						String amString = "@" + ObjectConverter.objectToString(am);
+						output.println(amString);
+						ServerMessageHandler.hasChanged = false;
+					}
+
+				}
 				// Close streams and sockets
 				output.close();
 				input.close();
@@ -67,20 +89,18 @@ public class TCPClient implements Runnable {
 				if (responseLine.startsWith("@")) {
 					NewTurnMessage received = (NewTurnMessage) ObjectConverter.stringtoObject(responseLine.substring(1));
 					// Process the NewTurnMessage
-//					ServerMessageHandler.executeNewTurnMessage(received);
+					ServerMessageHandler.executeNewTurnMessage(received);
+					System.out.println(GameState.getAllSpaceThings().size()); 
 					System.out.println(received.toString());
+				} else if (responseLine.startsWith("//connected")) {
+					canStart = true;
+					System.out.println("Connected and matched!");
 				} else {
 					System.out.println(responseLine);
 				}
+				
 				if (responseLine.indexOf("Goodbye") != -1)
 					break;
-			}
-			// Send the ActionMessage
-			while (ServerMessageHandler.hasChanged) {
-				ActionMessage am = ServerMessageHandler.currentAction;
-				String amString = "@" + ObjectConverter.objectToString(am);
-				output.println(amString);
-				ServerMessageHandler.hasChanged = false;
 			}
 			
 			connectionClosed = true;

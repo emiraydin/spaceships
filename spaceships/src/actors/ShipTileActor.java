@@ -1,8 +1,8 @@
 package actors;
 
+import common.GameConstants.OrientationType;
+import common.GameConstants.*;
 import gameLogic.Constants;
-import gameLogic.Constants.OrientationType;
-import gameLogic.Constants.PlayerNumber;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -34,9 +34,17 @@ public class ShipTileActor extends Image
 	 * @param x : The 'X' location of the tile. 
 	 * @param y : The 'Y' location of the tile. 
 	 */
-	public ShipTileActor(int x, int y) 
+	public ShipTileActor(int x, int y, PlayerNumber owner) 
 	{
-		SPRITE = new Sprite(generateUnselectedShipTexturePlayerOne());
+		if(owner == PlayerNumber.PlayerOne)
+		{
+			SPRITE = new Sprite(generateUnselectedShipTexturePlayerOne());
+		}
+		else
+		{
+			SPRITE = new Sprite(generateUnselectedShipTexturePlayerTwo()); 
+		}
+
 		setPosition(x,y);
 		setWidth(1);
 		setHeight(1);
@@ -48,10 +56,18 @@ public class ShipTileActor extends Image
 	 * @param startY : The 'y' location of the head of the ship. 
 	 * @param orientation : The direction in which we need to draw the head. 
 	 */
-	public ShipTileActor(int startX, int startY, OrientationType orientation)
+	public ShipTileActor(int startX, int startY, OrientationType orientation, PlayerNumber owner)
 	{
 		this.orientation = orientation; 
-		SPRITE = new Sprite(generateUnselectedHeadPlayerOne(orientation)); 
+		if(owner == PlayerNumber.PlayerOne)
+		{
+			SPRITE = new Sprite(generateUnselectedHeadPlayerOne(orientation)); 
+		}
+		else
+		{
+			SPRITE = new Sprite(generateUnselectedHeadPlayerTwo(orientation)); 
+		}
+		
 		setPosition(startX, startY); 
 		setWidth(1); 
 		setHeight(1); 
@@ -71,6 +87,7 @@ public class ShipTileActor extends Image
 			pixmap.setColor(0/255f, 45/255f, 75/255f, 1f);
 			pixmap.fillTriangle(0, 0, 0, 32, 32, 32/2); 
 			Texture newTexture = new Texture(pixmap);
+			pixmap.dispose(); 
 			return newTexture;
 		}
 		else if(orientation == OrientationType.West)
@@ -79,6 +96,7 @@ public class ShipTileActor extends Image
 			pixmap.setColor(0/255f, 45/255f, 75/255f, 1f);
 			pixmap.fillTriangle(0, 32/2, 32, 0, 32, 32);
 			Texture newTexture = new Texture(pixmap);
+			pixmap.dispose(); 
 			return newTexture;
 		}
 		else if(orientation == OrientationType.North)
@@ -87,6 +105,7 @@ public class ShipTileActor extends Image
 			pixmap.setColor(0/255f, 45/255f, 75/255f, 1f);
 			pixmap.fillTriangle(0, 32, 32, 32, 32/2, 0);
 			Texture newTexture = new Texture(pixmap);
+			pixmap.dispose(); 
 			return newTexture;
 		}
 		else if(orientation ==  OrientationType.South)
@@ -94,9 +113,8 @@ public class ShipTileActor extends Image
 			Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
 			pixmap.setColor(0/255f, 45/255f, 75/255f, 1f);
 			pixmap.fillTriangle(0, 0, 32/2, 32, 32, 0);
-			
-			
 			Texture newTexture = new Texture(pixmap);
+			pixmap.dispose(); 
 			return newTexture;
 		}
 		else
@@ -119,6 +137,7 @@ public class ShipTileActor extends Image
 			pixmap.setColor(0, 0, 200/255f, 1f);
 			pixmap.fillTriangle(0, 0, 0, 32, 32, 32/2); 
 			Texture newTexture = new Texture(pixmap);
+			pixmap.dispose(); 
 			return newTexture;
 		}
 		else if(orientation == OrientationType.West)
@@ -127,6 +146,7 @@ public class ShipTileActor extends Image
 			pixmap.setColor(0, 0, 200/255f, 1f);
 			pixmap.fillTriangle(0, 32/2, 32, 0, 32, 32); 
 			Texture newTexture = new Texture(pixmap);
+			pixmap.dispose(); 
 			return newTexture;
 		}
 		else if(orientation == OrientationType.North)
@@ -135,6 +155,7 @@ public class ShipTileActor extends Image
 			pixmap.setColor(0, 0, 200/255f, 1f);
 			pixmap.fillTriangle(0, 32, 32, 32, 32/2, 0);
 			Texture newTexture = new Texture(pixmap);
+			pixmap.dispose(); 
 			return newTexture;
 		}
 		else if(orientation ==  OrientationType.South)
@@ -143,6 +164,7 @@ public class ShipTileActor extends Image
 			pixmap.setColor(0, 0, 200/255f, 1f);
 			pixmap.fillTriangle(0, 0, 32/2, 32, 32, 0);
 			Texture newTexture = new Texture(pixmap);
+			pixmap.dispose(); 
 			return newTexture;
 		}
 		else
@@ -163,7 +185,7 @@ public class ShipTileActor extends Image
 		pixmap.setColor(0/255f, 45/255f, 75/255f, 1f);
 		pixmap.fill(); 
 		Texture newTexture = new Texture(pixmap);
-		
+		pixmap.dispose(); 
 		return newTexture;
 	}
 	
@@ -177,7 +199,7 @@ public class ShipTileActor extends Image
 		pixmap.setColor(0, 0, 200/255f, 1f);
 		pixmap.fill(); 
 		Texture newTexture = new Texture(pixmap);
-		
+		pixmap.dispose(); 
 		return newTexture;
 	}
 
@@ -228,14 +250,57 @@ public class ShipTileActor extends Image
 	
 	private Texture generateUnselectedShipTexturePlayerTwo()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
+		// Draw a cyan-colored border around square
+		pixmap.setColor(255/255f, 255/255f, 255/255f, 1f);
+		pixmap.fill(); 
+		Texture newTexture = new Texture(pixmap);
+		pixmap.dispose(); 
+		return newTexture;
 	}
 
 	private Texture generateUnselectedHeadPlayerTwo(OrientationType orientation2)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		if(orientation == OrientationType.East)
+		{
+			Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
+			pixmap.setColor(255/255f, 255/255f, 255/255f, 1f);
+			pixmap.fillTriangle(0, 0, 0, 32, 32, 32/2); 
+			Texture newTexture = new Texture(pixmap);
+			pixmap.dispose(); 
+			return newTexture;
+		}
+		else if(orientation == OrientationType.West)
+		{
+			Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
+			pixmap.setColor(255/255f, 255/255f, 255/255f, 1f);
+			pixmap.fillTriangle(0, 32/2, 32, 0, 32, 32);
+			Texture newTexture = new Texture(pixmap);
+			pixmap.dispose(); 
+			return newTexture;
+		}
+		else if(orientation == OrientationType.North)
+		{
+			Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
+			pixmap.setColor(255/255f, 255/255f, 255/255f, 1f);
+			pixmap.fillTriangle(0, 32, 32, 32, 32/2, 0);
+			Texture newTexture = new Texture(pixmap);
+			pixmap.dispose(); 
+			return newTexture;
+		}
+		else if(orientation ==  OrientationType.South)
+		{
+			Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
+			pixmap.setColor(255/255f, 255/255f, 255/255f, 1f);
+			pixmap.fillTriangle(0, 0, 32/2, 32, 32, 0);
+			Texture newTexture = new Texture(pixmap);
+			pixmap.dispose(); 
+			return newTexture;
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 	public void drawAsCurrent(PlayerNumber player)
@@ -256,9 +321,74 @@ public class ShipTileActor extends Image
 			}
 			SPRITE = new Sprite(generateSelectedBodyPlayerOne()); 
 		}
+		if(player == PlayerNumber.PlayerTwo)
+		{
+
+			if(isHead)
+			{
+				SPRITE = new Sprite(generateSelectedHeadPlayerTwo(orientation)); 
+				return; 
+			}
+			SPRITE = new Sprite(generateSelectedBodyPlayerTwo()); 
+		}
 		
 	}
 	
+	private Texture generateSelectedBodyPlayerTwo()
+	{
+		Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
+		// Draw a cyan-colored border around square
+		pixmap.setColor(128/255f, 128/255f, 128/255f, 1f);
+		pixmap.fill(); 
+		Texture newTexture = new Texture(pixmap);
+		pixmap.dispose(); 
+		return newTexture;
+	}
+
+	private Texture generateSelectedHeadPlayerTwo(OrientationType orientation2)
+	{
+		if(orientation == OrientationType.East)
+		{
+			Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
+			pixmap.setColor(128/255f, 128/255f, 128/255f, 1f);
+			pixmap.fillTriangle(0, 0, 0, 32, 32, 32/2); 
+			Texture newTexture = new Texture(pixmap);
+			pixmap.dispose(); 
+			return newTexture;
+		}
+		else if(orientation == OrientationType.West)
+		{
+			Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
+			pixmap.setColor(128/255f, 128/255f, 128/255f, 1f);
+			pixmap.fillTriangle(0, 32/2, 32, 0, 32, 32);
+			Texture newTexture = new Texture(pixmap);
+			pixmap.dispose(); 
+			return newTexture;
+		}
+		else if(orientation == OrientationType.North)
+		{
+			Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
+			pixmap.setColor(128/255f, 128/255f, 128/255f, 1f);
+			pixmap.fillTriangle(0, 32, 32, 32, 32/2, 0);
+			Texture newTexture = new Texture(pixmap);
+			pixmap.dispose(); 
+			return newTexture;
+		}
+		else if(orientation ==  OrientationType.South)
+		{
+			Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
+			pixmap.setColor(128/255f, 128/255f, 128/255f, 1f);
+			pixmap.fillTriangle(0, 0, 32/2, 32, 32, 0);
+			Texture newTexture = new Texture(pixmap);
+			pixmap.dispose(); 
+			return newTexture;
+		}
+		else
+		{
+			return null;
+		}
+	}
+
 	/**
 	 * Sets whether this tile is the head of the ship or not. 
 	 */
@@ -300,6 +430,9 @@ public class ShipTileActor extends Image
 		pixmap.drawLine(0, 0, 32, 32); 
 		pixmap.drawLine(0, 32, 32, 0); 
 		Texture newTexture = new Texture(pixmap);
+		pixmap.dispose(); 
+
+
 		
 		return newTexture;
 	}

@@ -18,7 +18,7 @@ public class RadarBoatShip extends AbstractShip {
 		
 		this.length = 3;
 		// by default, speed is 3
-		this.speed = 3;
+		this.setMaxSpeed(3);
 		
 		initializeHealth(this.length, false);
 		
@@ -36,18 +36,18 @@ public class RadarBoatShip extends AbstractShip {
 	}
 	
 	public void turnOnLongRadar() { 
-		speed = 0;
+		this.setMaxSpeed(0);
 		radarVisibilityLength = 12;
 	}
 	
 	public void turnOffLongRadar() { 
-		speed = 3;
+		this.setMaxSpeed(3);
 		radarVisibilityLength = 6;
 	}
 	
 	@Override
 	public List<Point> getObstaclesInTurnZone(ActionType direction) { 
-		if(direction == ActionType.TurnLeft || direction == ActionType.Turn180Right) { 
+		if(direction == ActionType.TurnLeft || direction == ActionType.TurnRight) { 
 			return getObstaclesIn90DegreeTurnZone(this.getX(), this.getY(), this.getOrientation(), direction, true);
 		}
 		else if(direction == ActionType.Turn180Left || direction == ActionType.Turn180Right) { 
@@ -148,6 +148,7 @@ public class RadarBoatShip extends AbstractShip {
 					}
 				}
 			}
+			break;
 		case West:
 			if(turnDirection == ActionType.TurnLeft) { 
 				// in turn radius

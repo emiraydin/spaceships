@@ -28,7 +28,7 @@ public class MineLayerShip extends AbstractShip {
 		}
 		
 		this.length = 2;
-		this.speed = 6;
+		this.setMaxSpeed(6);
 		
 		initializeHealth(this.length, true);
 		

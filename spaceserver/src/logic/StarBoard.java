@@ -27,7 +27,9 @@ public class StarBoard {
 			return null;
 		}
 	}
-	public void setSpaceThing(SpaceThing sThing, int x, int y){
+	public void setSpaceThing(SpaceThing sThing){
+		int x = sThing.getX();
+		int y = sThing.getY();
 		if (inBounds(x, y)){
 			if (map[x][y] != null){
 				System.out.println("Warning: overriding spacething!");
@@ -38,7 +40,9 @@ public class StarBoard {
 		}
 	}
 	
-	public void setSpaceThing(AbstractShip ship, int x, int y){
+	public void setSpaceThing(AbstractShip ship){
+		int x = ship.getX();
+		int y = ship.getY();
 		for (int i = 0; i < ship.getLength(); i++){
 			//UPDATED FOR NEW ORIENTATION
 			switch (ship.getOrientation()){
@@ -49,10 +53,10 @@ public class StarBoard {
 					map[x][y+i] = ship;
 					break;
 				case East:
-					map[x+1][y] = ship;
+					map[x+i][y] = ship;
 					break;
 				case West:
-					map[x-1][y] = ship;
+					map[x-i][y] = ship;
 					break;
 			}
 		}
@@ -76,10 +80,10 @@ public class StarBoard {
 							map[ship.getX()][ship.getY()+i] = null;
 							break;
 						case East:
-							map[ship.getX()+1][ship.getY()] = null;
+							map[ship.getX()+i][ship.getY()] = null;
 							break;
 						case West:
-							map[ship.getX()-1][ship.getY()] = null;
+							map[ship.getX()-i][ship.getY()] = null;
 							break;
 					}
 				}
@@ -91,14 +95,16 @@ public class StarBoard {
 		}
 	}
 	
-	public void generateAsteroids(){
+	public void generateAsteroids(FleetCommander[] players){
 		int count = 0; 
 		while(count < NUM_ASTEROIDS){
 			int randX = 10 + (int) (Math.random() * ((20 - 10) + 1)); 
 			int randY = 3 + (int) (Math.random() * ((27 - 3) + 1));
 			
 			if(getSpaceThing(randX, randY) == null){
-				setSpaceThing(new Asteroid(randX, randY, this), randX, randY);
+				setSpaceThing(new Asteroid(randX, randY, this));
+				players[0].incrementRadarVisibility(randX, randY);
+				players[1].incrementRadarVisibility(randX, randY);
 				count++; 
 			}
 		}

@@ -52,7 +52,7 @@ public class BackgroundActor extends Image
 	public void draw(Batch batch, float parentAlpha)
 	{
         Color color = getColor();
-        batch.setColor(color.r, color.g, color.b, 0.8f);
+        batch.setColor(color.r, color.g, color.b, 0.9f);
         batch.draw(SPRITE, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
 	}
 }

@@ -10,8 +10,8 @@ public class Constants
 	public static final int PIXEL_HEIGHT = 32; 
 
 	// Width and Height of the Desktop Application 
-	public static int APP_WIDTH = 1280; 
-	public static int APP_HEIGHT = 720; 	
+	public static int APP_WIDTH = 1200; 
+	public static int APP_HEIGHT = 700; 	
 	
 	// Visible Game World Width & Height
 	public static float VIEWPORT_WIDTH = 5.0f;
@@ -23,11 +23,11 @@ public class Constants
 	/*
 	 * Enums
 	 */
-	public static enum OrientationType { North, East, South, West }
-	public static enum WeaponType { Cannon, Torpedo, Mine }
-	public static enum VisibilityType { None, Sonar, Radar, Both}
-	public static enum ActionType { Move, Place, FireCannon, FireTorpedo, DropMine, PickupMine, TurnLeft, TurnRight, Turn180Left, Turn180Right, Repair }
-	public static enum ArmourType { Normal, Heavy }
-	public static enum PlayerNumber { World, PlayerOne, PlayerTwo }
-	public static enum SpaceThingType { CruiserShip, DestroyerShip, MineLayerShip, RadarBoatShip, BaseTile, TorpedoShip, Asteroid, Mine }
+//	public static enum OrientationType { North, East, South, West }
+//	public static enum WeaponType { Cannon, Torpedo, Mine }
+//	public static enum VisibilityType { None, Sonar, Radar, Both}
+//	public static enum ActionType { Move, Place, FireCannon, FireTorpedo, DropMine, PickupMine, TurnLeft, TurnRight, Turn180Left, Turn180Right, Repair }
+//	public static enum ArmourType { Normal, Heavy }
+//	public static enum PlayerNumber { World, PlayerOne, PlayerTwo }
+//	public static enum SpaceThingType { CruiserShip, DestroyerShip, MineLayerShip, RadarBoatShip, BaseTile, TorpedoShip, Asteroid, Mine }
 }

@@ -1,7 +1,7 @@
 package actors;
 
-import gameLogic.Constants.OrientationType;
-import gameLogic.Constants.PlayerNumber;
+import common.GameConstants.*;
+
 import state.ships.AbstractShip;
 
 import com.badlogic.gdx.graphics.Color;
@@ -16,7 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
  */
 public class ShipActor extends Group 
 {
-	private ShipTileActor[] tiles;									// The array of Tile Objects this ship occupies. 
+	public ShipTileActor[] tiles;									// The array of Tile Objects this ship occupies. 
 	public AbstractShip ship; 									// The Model Ship that represents the current state. 
 	private boolean isCurrent = false; 							// Is this ship currently being selected? 
 	private OrientationType orientation; 						// The heading the ship is facing.
@@ -48,22 +48,43 @@ public class ShipActor extends Group
 	private void initShip(int startX, int startY) 
 	{
 		this.orientation = ship.getOrientation(); 
-		
-		for(int i = 0; i < tiles.length; i++)
+		if(orientation == OrientationType.East)
 		{
-			// Set the head of the ship
-			if(i == tiles.length - 1)
+			for(int i = 0; i < tiles.length; i++)
 			{
-				tiles[i] = new ShipTileActor(startX, startY, orientation); 
-				tiles[i].setIsHead(true); 
+				// Set the head of the ship
+				if(i == tiles.length - 1)
+				{
+					tiles[i] = new ShipTileActor(startX, startY, orientation, owner); 
+					tiles[i].setIsHead(true); 
+				}
+				else
+				{
+					tiles[i] = new ShipTileActor(startX, startY, owner);
+				}
+				startX ++; 
+				addActor(tiles[i]);
 			}
-			else
-			{
-				tiles[i] = new ShipTileActor(startX, startY);
-			}
-			startX ++; 
-			addActor(tiles[i]);
 		}
+		else
+		{
+			for(int i = 0; i < tiles.length; i++)
+			{
+				// Set the head of the ship
+				if(i == tiles.length - 1)
+				{
+					tiles[i] = new ShipTileActor(startX, startY, orientation, owner); 
+					tiles[i].setIsHead(true); 
+				}
+				else
+				{
+					tiles[i] = new ShipTileActor(startX, startY, owner);
+				}
+				startX --; 
+				addActor(tiles[i]);
+			}
+		}
+
 		
 
 	}

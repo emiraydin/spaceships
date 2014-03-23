@@ -1,12 +1,11 @@
 package state;
 
-import gameLogic.Constants.*;
-
 import java.util.HashMap;
 import java.util.Set;
 
 import state.ships.*;
 
+import common.GameConstants.*;
 
 public class GameState
 {
@@ -29,6 +28,13 @@ public class GameState
 	public static HashMap<Integer, SpaceThing> getAllSpaceThings() {
 		return things;
 	}
+	
+	/**
+	 * The current player ID
+	 */
+	private static int currentPlayerID; 
+	
+	private static String responseString = ""; 
 	
 	/**
 	 * Get a space thing by its id.
@@ -157,6 +163,26 @@ public class GameState
 	 */
 	public static void setSonarVisibleTiles(boolean[][] sonarVisibleTiles) {
 		GameState.sonarVisibleTiles = sonarVisibleTiles;
+	}
+
+	public static void setPlayerId(int playerID)
+	{
+		currentPlayerID = playerID; 
+	}
+	
+	public static int getPlayerId()
+	{
+		return currentPlayerID; 
+	}
+
+	public static void setResponseString(String r)
+	{
+		responseString = r;
+	}
+	
+	public static String getResponseString()
+	{
+		return responseString; 
 	}
 
 

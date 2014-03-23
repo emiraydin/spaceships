@@ -19,7 +19,7 @@ public class TorpedoBoatShip extends AbstractShip {
 		super(x, y, oType, owner, gameBoard);
 		
 		this.length = 3;
-		this.speed = 9;
+		this.setMaxSpeed(9);
 		
 		initializeHealth(this.length, false);
 		
@@ -38,11 +38,11 @@ public class TorpedoBoatShip extends AbstractShip {
 	}
 	
 	/*
-	 * Identical to RadarBoatShip
+	 * Identical to RadarBoatShip 
 	 */
 	@Override
 	public List<Point> getObstaclesInTurnZone(ActionType direction) { 
-		if(direction == ActionType.TurnLeft || direction == ActionType.Turn180Right) { 
+		if(direction == ActionType.TurnLeft || direction == ActionType.TurnRight) { 
 			return getObstaclesIn90DegreeTurnZone(this.getX(), this.getY(), this.getOrientation(), direction, true);
 		}
 		else if(direction == ActionType.Turn180Left || direction == ActionType.Turn180Right) { 
@@ -133,6 +133,7 @@ public class TorpedoBoatShip extends AbstractShip {
 					}
 				}
 			}
+			break;
 		case West:
 			if(turnDirection == ActionType.TurnLeft) { 
 				// in turn radius

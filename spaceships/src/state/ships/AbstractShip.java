@@ -1,6 +1,6 @@
 package state.ships;
 
-import gameLogic.Constants.*;
+import common.GameConstants.*;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -30,7 +30,7 @@ public abstract class AbstractShip extends SpaceThing
 	// Cannon properties
 	protected int cannonWidth;
 	protected int cannonLength;
-	protected int cannonXOffset;
+	protected int cannonLengthOffset;
 	
 	
 	// Weapons
@@ -77,7 +77,7 @@ public abstract class AbstractShip extends SpaceThing
 		this.speed = speed;
 		this.cannonWidth = cannonWidth;
 		this.cannonLength = cannonLength;
-		this.cannonXOffset = cannonXOffset;
+		this.cannonLengthOffset = cannonXOffset;
 	}
 	
 	
@@ -160,7 +160,11 @@ public abstract class AbstractShip extends SpaceThing
 		return 0;
 	}	
 	public int getSpeed() {
-		return this.speed;
+		int count = 0;
+		for (int i = 0 ; i < length; i++){
+			count += (sectionHealth[i] > 0 ? 1 : 0);
+		}
+		return (int)(((double)count/length)*speed);
 	}	
 	public int getLength() {
 		return this.length;
@@ -171,8 +175,8 @@ public abstract class AbstractShip extends SpaceThing
 	public int getCannonLength() {
 		return this.cannonLength;
 	}	
-	public int getCannonXOffset() {
-		return this.cannonXOffset;
+	public int getCannonLengthOffset() {
+		return this.cannonLengthOffset;
 	}	
 	
 	public LinkedList getWeapons() {
@@ -184,7 +188,7 @@ public abstract class AbstractShip extends SpaceThing
 	public String toString() {
 		return "AbstractShip [speed=" + speed + ", length=" + length + ", armour=" + armour + ", sectionHealth="
 				+ Arrays.toString(sectionHealth) + ", orientation=" + orientation + ", cannonWidth=" + cannonWidth
-				+ ", cannonLength=" + cannonLength + ", cannonXOffset=" + cannonXOffset + ", weapons=" + weapons
+				+ ", cannonLength=" + cannonLength + ", cannonXOffset=" + cannonLengthOffset + ", weapons=" + weapons
 				+ ", uniqueId=" + uniqueId + ", owner=" + owner + ", type=" + type + ", x=" + x + ", y=" + y + "]";
 	}
 
@@ -196,7 +200,7 @@ public abstract class AbstractShip extends SpaceThing
 		result = prime * result + ((armour == null) ? 0 : armour.hashCode());
 		result = prime * result + cannonLength;
 		result = prime * result + cannonWidth;
-		result = prime * result + cannonXOffset;
+		result = prime * result + cannonLengthOffset;
 		result = prime * result + length;
 		result = prime * result + ((orientation == null) ? 0 : orientation.hashCode());
 		result = prime * result + Arrays.hashCode(sectionHealth);
@@ -221,7 +225,7 @@ public abstract class AbstractShip extends SpaceThing
 			return false;
 		if (cannonWidth != other.cannonWidth)
 			return false;
-		if (cannonXOffset != other.cannonXOffset)
+		if (cannonLengthOffset != other.cannonLengthOffset)
 			return false;
 		if (length != other.length)
 			return false;

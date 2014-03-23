@@ -1,6 +1,7 @@
 package gameLogic;
 
 import screens.GameScreen;
+import util.TriggerClient;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationListener;
@@ -20,10 +21,16 @@ public class Spaceships extends Game implements ApplicationListener
 	private SpriteBatch batch;
 	private Texture texture;
 	private Sprite sprite;
+	private TriggerClient data; 
 	
 	// Used for Logging
 	private static final String TAG = Spaceships.class.getSimpleName(); 
 
+	public Spaceships() {
+		data = new TriggerClient(); 
+		new Thread(data).start();
+	}
+	
 	@Override
 	public void create() 
 	{

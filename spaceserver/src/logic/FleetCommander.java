@@ -29,9 +29,10 @@ public class FleetCommander {
 	public FleetCommander(int fcID, StarBoard board, GameHandler handler){
 		super();
 		this.fcID = fcID;
+		this.board = board;
 		sonarVisibility = new int[30][30];
 		radarVisibility = new int[30][30];
-		/* TODO: set initial visibilities
+		/* 
 		 * - your base has short radar range of 1 square
 		 * - enemies base and coral reefs are visible
 		 */
@@ -39,8 +40,10 @@ public class FleetCommander {
 		this.handler = handler;
 	}
 	
+	
 	public void addShip(AbstractShip ship){
 		ships.add(ship);
+		board.setSpaceThing(ship);
 		incrementVisibility(ship);
 	}
 	
@@ -110,11 +113,11 @@ public class FleetCommander {
 				spacesMoved++;
 			}
 			// might not have gone the full in case of a collision
-			board.setSpaceThing(ship, ship.getX(), ship.getY());
+			board.setSpaceThing(ship);
 			incrementVisibility(ship);
 			return spacesMoved;
 		}
-		setActionResponse("Ships cannot go out of bounds");
+		//setActionResponse("Ships cannot go out of bounds");
 		return 0;
 	}
 	
@@ -125,13 +128,13 @@ public class FleetCommander {
 		for (int i = 0; i < ship.getLength(); i++){
 			thing = board.getSpaceThing(coords[i][0], coords[i][1]);
 			if(thing instanceof AbstractShip && thing != ship) { 
-				setActionResponse(String.format("Ship collision at (%d,%d)", x, y));
+				setActionResponse(String.format("Ship collision at (%d,%d)", coords[i][0], coords[i][1]));
 				return true;
 			} else if(thing instanceof BaseTile) { 
-				setActionResponse(String.format("Ship collision with a base at (%d,%d)", x, y));
+				setActionResponse(String.format("Ship collision with a base at (%d,%d)", coords[i][0], coords[i][1]));
 				return true;
 			} else if(thing instanceof Asteroid) { 
-				setActionResponse(String.format("Ship collision with asteroid at (%d,%d)", x, y));
+				setActionResponse(String.format("Ship collision with asteroid at (%d,%d)", coords[i][0], coords[i][1]));
 				return true;
 			}
 		}
@@ -188,97 +191,113 @@ public class FleetCommander {
 	/**
 	 * Check if the move can be performed by the ship (checks speed, heading, bounds)
 	 */
-	private static boolean validateMove(AbstractShip ship, int x, int y){
-		//// Basic Validation ////
-		if(!StarBoard.inBounds(x, y)) {
-			// tail out of bounds
-			return false;
-		} else if ((x - ship.getX()) != 0 && (y - ship.getY()) != 0){
-			// Can't move diagonally
-			return false;
-		} else if (x == ship.getX() && y == ship.getY()){
-			// Ship didn't move
-			return false;
-		} 
-//		else if (Math.abs((x - ship.getX()) + (y - ship.getY())) == 1){
-//			// A ship can always move one square in each direction
-//			return true;
-//		}
+	private boolean validateMove(AbstractShip ship, int x, int y){
+		int shipX = ship.getX();
+		int shipY = ship.getY();
 		
-		int speed = ship.getSpeed();
-		int length = ship.getLength();
-		// THESE FOLLOW NEW ORIGIN CONVENTION
-		switch (ship.getOrientation()){
-		case East:
-			if(x != ship.getX()) { 
-				if (x < ship.getX() - 1){
-					return false;
-				} else if(!StarBoard.inBounds(x+length-1, y)) { 
-					return false;
-				} else if (x > ship.getX() + speed){
-					return false;
-				} 
-			} else {
-				if(Math.abs(y - ship.getY()) != 1) { 
-					return false;
-				}
-				else if(StarBoard.inBounds(x, y)) { 
-					return false;
-				}
-			}
-			return true;
-		case South:
-			if(y != ship.getY()) { 
-				if (y > ship.getY() + 1){
-					return false;
-				} else if(!StarBoard.inBounds(x, y-length+1)) { 
-					return false;
-				} else if (y < ship.getY() - speed){
-					return false;
-				} 
-			} else { 
-				if(Math.abs(x - ship.getX()) != 1) { 
-					return false;
-				} else if(!StarBoard.inBounds(x, y)) { 
-					return false;
-				}
-			}
-		case North:
-			if(y != ship.getY()) { 
-				if (y < ship.getY() - 1){
-					return false;
-				} else if(!StarBoard.inBounds(x, y+length-1)) { 
-					return false;
-				} else if (y > ship.getY() + speed){
-					return false;
-				} 
-			} else { 
-				if(Math.abs(x - ship.getX()) != 1) { 
-					return false;
-				} else if(!StarBoard.inBounds(x, y)) { 
-					return false;
-				}
-			}
-		case West:
-			if(x != ship.getX()) { 
-				if (x > ship.getX() + 1){
-					return false;
-				} else if(!StarBoard.inBounds(x-length+1, y)) { 
-					return false;
-				} else if (x < ship.getX() - speed){
-					return false;
-				} 
-			} else {
-				if(Math.abs(y - ship.getY()) != 1) { 
-					return false;
-				}
-				else if(StarBoard.inBounds(x, y)) { 
-					return false;
-				}
-			}
-			return true;
+		// not diagonal
+		if(shipX - x != 0 && shipY - y != 0) { 
+			setActionResponse("Ships cannot move diagonaly");
+			return false;
 		}
-		return false;
+		// can't be out of bounds
+		if(!StarBoard.inBounds(x, y)) { 
+			setActionResponse("Ships cannot go out of bounds");
+			return false;
+		}
+		
+		switch(ship.getOrientation()) { 
+		case East:
+			// backwards too far
+			if(x < shipX - 1) { 
+				setActionResponse("Ships can only move back 1 space at a time");
+				return false;
+			}
+			// sideways too far
+			if(y > shipY + 1 || y < shipY - 1) {
+				setActionResponse("Ships can only move sideways 1 space at a time");
+				return false;
+			}
+			// moving faster than speed allows
+			if(x > shipX + ship.getSpeed()) { 
+				setActionResponse("Ship cannot move that fast");
+				return false;
+			}
+			// head goes out of bounds
+			if(!StarBoard.inBounds(x + ship.getLength() - 1, shipY)) { 
+				setActionResponse("Ships cannot go out of bounds");
+				return false;
+			}
+			break;
+		case West: 
+			// backwards too far
+			if(x > shipX + 1) { 
+				setActionResponse("Ships can only move back 1 space at a time");
+				return false;
+			}
+			// sideways too far
+			if(y > shipY + 1 || y < shipY - 1) {
+				setActionResponse("Ships can only move sideways 1 space at a time");
+				return false;
+			}
+			// moving faster than speed allows
+			if(x < shipX - ship.getSpeed()) { 
+				setActionResponse("Ship cannot move that fast");
+				return false;
+			}
+			// head goes out of bounds
+			if(!StarBoard.inBounds(x - ship.getLength() + 1, shipY)) { 
+				setActionResponse("Ships cannot go out of bounds");
+				return false;
+			}
+			break;
+		case North:
+			// backwards too far
+			if(y < shipY - 1) { 
+				setActionResponse("Ships can only move back 1 space at a time");
+				return false;
+			}
+			// sideways too far
+			if(x > shipX + 1 || x < shipX - 1) { 
+				setActionResponse("Ships can only move sideways 1 space at a time");
+				return false;
+			}
+			// moving faster than speed allows
+			if(y > shipY + ship.getSpeed()) { 
+				setActionResponse("Ship cannot move that fast");
+				return false;
+			}
+			// head goes out of bounds
+			if(!StarBoard.inBounds(shipX, shipY + ship.getLength() - 1)) { 
+				setActionResponse("Ships cannot go out of bounds");
+				return false;
+			}
+			break;
+		case South:
+			// backwards too far
+			if(y > shipY + 1) { 
+				setActionResponse("Ships can only move back 1 space at a time");
+				return false;
+			}
+			// sideways too far
+			if(x > shipX + 1 || x < shipX - 1) { 
+				setActionResponse("Ships can only move sideways 1 space at a time");
+				return false;
+			}
+			// moving faster than speed allows
+			if(y < shipY - ship.getSpeed()) { 
+				setActionResponse("Ship cannot move that fast");
+				return false;
+			}
+			// head goes out of bounds
+			if(!StarBoard.inBounds(shipX, shipY - ship.getLength() + 1)) { 
+				setActionResponse("Ships cannot go out of bounds");
+				return false;
+			}
+			break;
+		}
+			
+		return true;			
 	}
 	
 	/**
@@ -445,11 +464,19 @@ public class FleetCommander {
 			decrementVisibility(ship);
 			board.clearSpaceThing(ship);
 			updateShipLocationAfterTurn(ship, direction);
-			board.setSpaceThing(ship, ship.getX(), ship.getY());
+			board.setSpaceThing(ship);
 			incrementVisibility(ship);			
 		} 
 		// if obstacles in the way, no relocation
 		return true;
+	}
+	
+	public void incrementRadarVisibility(int x, int y) { 
+		radarVisibility[x][y]++;
+	}
+	
+	public void decrementRadarVisibility(int x, int y) { 
+		radarVisibility[x][y]--;
 	}
 	
 	public void incrementVisibility(AbstractShip ship) { 
@@ -476,13 +503,13 @@ public class FleetCommander {
 		switch(ship.getOrientation()) { 
 		case East: 
 			minX = shipX + radarLengthOffset;
-			maxX = minX + radarLength;
+			maxX = minX + radarLength - 1;
 			minY = shipY - radarWidth/2;
 			maxY = shipY + radarWidth/2;
 			break;
 		case West:
-			minX = shipX - radarLengthOffset;
-			maxX = minX - radarLength;
+			maxX = shipX - radarLengthOffset;
+			minX = maxX - radarLength + 1;
 			minY = shipY - radarWidth/2;
 			maxY = shipY + radarWidth/2;
 			break;
@@ -490,13 +517,13 @@ public class FleetCommander {
 			minX = shipX - radarWidth/2;
 			maxX = shipX + radarWidth/2;
 			maxY = shipY - radarLengthOffset;
-			minY = maxY - radarLength;
+			minY = maxY - radarLength + 1;
 			break;
 		case North: 
 			minX = shipX - radarWidth/2;
 			maxX = shipX + radarWidth/2;
 			minY = shipY + radarLengthOffset;
-			maxY = minY + radarLength;
+			maxY = minY + radarLength - 1;
 			break;
 		}
 		
@@ -507,14 +534,25 @@ public class FleetCommander {
 				}
 			}
 		}
+		// add the ship's sections too!
+		int[][] coords = ship.getShipCoords();
+		for(int[] section : coords) { 
+			int xCoord = section[0];
+			int yCoord = section[1];
+			if(StarBoard.inBounds(xCoord, yCoord)) { 
+				radarVisibility[xCoord][yCoord] = radarVisibility[xCoord][yCoord] + change;
+			}
+		}
 		
 		/* Sonar */
 		if(ship instanceof MineLayerShip) { 
 			/* this should work???
 			 * if you don't change the ship's section's visibility but change
 			 * the surrounding tiles for each section, then you get the ship's sections
-			 * covered for free right?? its 4 am why am i awake */
-			int[][] coords = ship.getShipCoords();
+			 * covered for free right?? its 4 am why am i awake */		
+			// TODO: ship's sections are NOT in sonar because you cant drop mines there
+			// but for the sake of visibility it shouldnt matter? 
+			// also sonar not necessary for demo #yolo
 			for(int[] s : coords) { 
 				changeSonarVisibility(s[0], s[1]-1, change);
 				changeSonarVisibility(s[0], s[1]+1, change);
@@ -581,5 +619,9 @@ public class FleetCommander {
 	
 	public void setActionResponse(String response) { 
 		this.handler.getMessageResponder().setResponseMessage(response);
+	}
+
+	public ArrayList<AbstractShip> getShips() {
+		return ships;
 	}
 }

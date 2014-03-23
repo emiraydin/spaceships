@@ -6,12 +6,8 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-
 import logic.GameHandler;
 import messageprotocol.ActionMessage;
-import messageprotocol.GameStateMessage;
 import messageprotocol.NewTurnMessage;
 import common.GameConstants;
 
@@ -98,30 +94,32 @@ public class ClientThread extends Thread {
 							this.setPrompted(true);
 							output.println("Waiting for " + matchUser + " to respond...");
 							this.matchedThread.output.println(clientName + " wants to play with you. Enter Y to accept, anything else to reject.");
+							this.matchedThread.output.flush();
 							String otherUserInput = this.matchedThread.input.readLine().trim();
-
 							// Check if the other user confirms the match
 							if (otherUserInput.startsWith("Y")) {
 								this.matchName = matchUser;
 								this.matchedThread.setMatchName(this.clientName);
+								this.matchedThread.matchedThread = this;
+								output.println("//connected");
+								this.matchedThread.output.println("//connected");
 								output.println("Accepted! You just matched with " + this.matchName);
 								this.matchedThread.output.println("You just matched with " + this.clientName);
 								this.matchedThread.output.println("You can now type a message to send.");
-
+								
+//								System.out.println("I requested the match and I'm player #" + this.playerID + " and I see it!");
 								// Initialize the game handler
 								this.currentGame = new GameHandler();
 								this.matchedThread.setGameHandler(this.currentGame);
 								this.playerID = 0;
 
-								// Test Sending messages
-//				                ActionMessage testAm = new ActionMessage(GameConstants.ActionType.Place, 15, 0, 2);
-//				                boolean[][] rvTiles = new boolean[5][5];
-//				                for(boolean[] arr : rvTiles){
-//				                    Arrays.fill(arr, true);
-//				                }
-//				                NewTurnMessage testNtm = new NewTurnMessage(testAm, true, "hello", new LinkedList<GameStateMessage>(), rvTiles, rvTiles);
-//				                String result = "@" + ObjectConverter.objectToString(testNtm);
-//				                this.matchedThread.output.println(result);
+								// Trigger a fake ActionMessage to start the game
+				                ActionMessage trigger = new ActionMessage(GameConstants.ActionType.Place, 0, 0, 0);
+				                NewTurnMessage[] replies = this.currentGame.doAction(trigger, this.playerID);
+				                String triggerForP0 = "@" + ObjectConverter.objectToString(replies[0]);
+				                String triggerForP1 = "@" + ObjectConverter.objectToString(replies[1]);
+				                this.output.println(triggerForP0);
+				                this.matchedThread.output.println(triggerForP1);
 
 								break;
 							} 
@@ -145,18 +143,27 @@ public class ClientThread extends Thread {
 
 				} else if (line.startsWith("@")) {
 					// This is where we process game messages
+//					System.out.println("I'm player #" + this.playerID + " my client has just sent an ActionMessage!");
 					synchronized(this) {
 						if (this.currentGame != null && this.currentGame.checkWin() == GameConstants.WinState.Playing) {
-
 							// Receive ActionMessage
 							ActionMessage received = (ActionMessage) ObjectConverter.stringtoObject(line.substring(1));
 							NewTurnMessage[] messages = this.currentGame.doAction(received, this.playerID);
-							String messageToPlayer0 = ObjectConverter.objectToString(messages[0]);
-							String messageToPlayer1 = ObjectConverter.objectToString(messages[1]);
+							
+							String messageToPlayer0 = "@" + ObjectConverter.objectToString(messages[0]);
+							String messageToPlayer1 = "@" + ObjectConverter.objectToString(messages[1]);
+
 							// Pass the NewTurnMessages to both clients
-							this.output.println(messageToPlayer0);
-							if (this.matchedThread != null) {
+							if (this.playerID == 0) {
+								this.output.println(messageToPlayer0);
+							} else {
+								this.output.println(messageToPlayer1);
+							}
+							
+							if (this.playerID == 0 && this.matchedThread != null) {
 								this.matchedThread.output.println(messageToPlayer1);
+							} else {
+								this.matchedThread.output.println(messageToPlayer0);
 							}
 
 
