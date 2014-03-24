@@ -91,6 +91,10 @@ public class GameHandler {
 			if (!players[playerID].useWeapon(WeaponType.Torpedo, shipID, x, y))
 				responder.moveFailed();
 			break;
+		case Explode:
+			if(!players[playerID].useWeapon(WeaponType.Explosives, shipID, x, y))
+				responder.moveFailed();
+			break;
 		case Move:
 			if (players[playerID].moveShip(shipID, x, y) == 0)
 				responder.moveFailed();

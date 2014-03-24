@@ -1,6 +1,8 @@
 package logic;
 
 import logic.spacethings.AbstractShip;
+import logic.spacethings.SpaceThing;
+
 import common.GameConstants.WeaponType;
 
 public class Explosives extends AbstractWeapon {
@@ -25,8 +27,51 @@ public class Explosives extends AbstractWeapon {
 
 	@Override
 	public boolean fire(int x, int y) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean damagedShips = false;
+		String damagedShipsString = "Kamikaze Boat exploded at (" + x + "," + y + ") and damaged ships at: ";
+		
+		//move to desired location
+		FleetCommander fc = this.owner.getOwner();
+		if(fc.moveShip(this.owner.getID(), x, y) > 0) { 
+			// success - moved
+			// damage all surrounding ships
+			for(int i = x-1; i <= x+1; i++) { 
+				for(int j = y-1; j <= y+1; j++) { 
+					if(StarBoard.inBounds(i, j)) { 
+						SpaceThing spaceThing = fc.getHandler().getBoard().getSpaceThing(i, j);
+						if(spaceThing instanceof AbstractShip && spaceThing != this.owner) { 
+							// add ship damage to message
+							if(damagedShips) { 
+								damagedShipsString += ", ";
+							}
+							damagedShipsString += "(" + i + "," + j + ")";
+							damagedShips = true;
+							
+							// actually do damage
+							AbstractShip obstacleShip = (AbstractShip)spaceThing;
+							obstacleShip.decrementSectionHealth(damage, obstacleShip.getSectionAt(i, j));
+						}					
+					}
+				}
+			}
+			
+			// boat disappears in explosion
+			fc.removeShip(this.owner);
+			
+			if(damagedShips) { 
+				fc.setActionResponse(damagedShipsString);
+				return true;
+			}
+			else { 
+				fc.setActionResponse(String.format("Kamikaze Boat exploded at (%d,%d) and damaged no ships", x, y));
+				return true;
+			}
+		}
+		else { 
+			// could not move there
+			fc.setActionResponse("Ship could not move to that location");
+			return false;
+		}
 	}
 
 }

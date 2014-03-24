@@ -7,6 +7,7 @@ import java.util.List;
 import logic.spacethings.AbstractShip;
 import logic.spacethings.Asteroid;
 import logic.spacethings.BaseTile;
+import logic.spacethings.KamikazeBoatShip;
 import logic.spacethings.Mine;
 import logic.spacethings.MineLayerShip;
 import logic.spacethings.RadarBoatShip;
@@ -47,6 +48,12 @@ public class FleetCommander {
 		incrementVisibility(ship);
 	}
 	
+	public void removeShip(AbstractShip ship) { 
+		decrementVisibility(ship);
+		ships.remove(ship);
+		board.clearSpaceThing(ship);
+	}
+	
 	public int[][] getSonarVisibility() {
 		return sonarVisibility;
 	}
@@ -79,7 +86,13 @@ public class FleetCommander {
 	 * @return Number of spaces moved by ship
 	 */
 	public int moveShip(int shipID, int x, int y){
-		AbstractShip ship = getShip(shipID);		
+		AbstractShip ship = getShip(shipID);	
+		
+		// Kamikaze boat is the only one that is different...
+		if(ship instanceof KamikazeBoatShip) { 
+			return moveKamikazeBoatShip(ship, x, y);
+		}
+		
 		if (validateMove(ship, x, y)){
 			decrementVisibility(ship);
 			board.clearSpaceThing(ship);
@@ -117,8 +130,40 @@ public class FleetCommander {
 			incrementVisibility(ship);
 			return spacesMoved;
 		}
-		//setActionResponse("Ships cannot go out of bounds");
 		return 0;
+	}
+	
+	/**
+	 * Handles movement for the Kamikaze boat ship
+	 * NOTE: the kamikaze boat is different so validation etc must be done here, including all messages
+	 * @param ship
+	 * @return 
+	 */
+	private int moveKamikazeBoatShip(AbstractShip ship, int x, int y) { 
+		if(!(ship instanceof KamikazeBoatShip)) { 
+			return 0;
+		}
+		
+		// TODO:
+		if(!StarBoard.inBounds(x, y)) { 
+			setActionResponse("Ships cannot go out of bounds");
+			return 0;
+		}
+		
+		if(x < ship.getX() - 2 || x > ship.getX() + 2 || y > ship.getY() + 2 || y < ship.getY() - 2) { 
+			setActionResponse("Ship cannot move that fast");
+			return 0;
+		}
+		
+		decrementVisibility(ship);
+		board.clearSpaceThing(ship);
+		
+		//TODO: move
+		
+		board.setSpaceThing(ship);
+		incrementVisibility(ship);	
+		
+		return 1;
 	}
 	
 	// Return true if having a ship at this position would incur a collision. (or out of bounds)
@@ -190,6 +235,7 @@ public class FleetCommander {
 	
 	/**
 	 * Check if the move can be performed by the ship (checks speed, heading, bounds)
+	 * Handles ALL messages back to client regarding move
 	 */
 	private boolean validateMove(AbstractShip ship, int x, int y){
 		int shipX = ship.getX();

@@ -62,6 +62,10 @@ public class StarBoard {
 		}
 	}
 	
+	/*
+	 * This should be called carefully!
+	 * If the ship is being removed from the game, use FleetCommander.removeShip()!
+	 */
 	public void clearSpaceThing(AbstractShip ship) { 
 		clearSpaceThing(ship.getX(), ship.getY());
 	}

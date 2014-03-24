@@ -156,6 +156,11 @@ public abstract class AbstractShip extends SpaceThing {
 	
 	public void decrementSectionHealth(int amount, int section){
 		sectionHealth[section] -= amount;
+		
+		// check if dead
+		if(isDead()) { 
+			this.getOwner().removeShip(this);
+		}
 	}
 	
 	public boolean isSectionDamaged(int section) { 
