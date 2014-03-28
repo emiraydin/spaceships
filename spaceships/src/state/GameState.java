@@ -20,6 +20,11 @@ public class GameState
 	private static boolean[][] radarVisibleTiles;
 	private static boolean[][] sonarVisibleTiles;
 	
+	/**
+	 * The parents of all the mines!
+	 */
+	private static HashMap<Integer,Integer> mineParents = new HashMap<Integer,Integer>();
+	
 	
 	/**
 	 * Get the entire State
@@ -186,8 +191,24 @@ public class GameState
 	}
 
 
-	
+	/**
+	 * Get the parent ship of a specific mine.
+	 * 
+	 * @param mineId id of mine
+	 * @return
+	 */
+	public static int getMineParent(int mineId) {
+		return mineParents.get(mineId);
+	}
 
+	/**
+	 * Replace the mineParents hashmap with a new one.
+	 * 
+	 * @param newMap
+	 */
+	public static void replaceMineParentsMap(HashMap<Integer,Integer> newMap) {
+		mineParents = newMap;
+	}
 
 	
 	

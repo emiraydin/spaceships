@@ -2,6 +2,7 @@ package messageprotocol;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 import messageprotocol.*;
@@ -36,6 +37,9 @@ public class NewTurnMessage implements Serializable
 	 */
 	boolean[][] radarVisibleTiles;
 	boolean[][] sonarVisibleTiles;
+	
+	HashMap<Integer,Integer> mineParents;
+	
 	int playerID;
 	int responseTo;			// for failed messages
 
@@ -75,6 +79,8 @@ public class NewTurnMessage implements Serializable
 		
 		this.playerID = pid;
 		this.responseTo = responseTo;
+		
+		this.mineParents = new HashMap<Integer, Integer>();
 	}
 	
 	public ActionMessage getAction() {
@@ -118,43 +124,67 @@ public class NewTurnMessage implements Serializable
 		this.state.addLast(input);
 	}
 
+	
+	public boolean isTurnSuccess() {
+		return turnSuccess;
+	}
+
+	public void setTurnSuccess(boolean turnSuccess) {
+		this.turnSuccess = turnSuccess;
+	}
+	
+	public int getPlayerID() {
+		return this.playerID;
+	}
+	
+	public String getResponseString() { 
+		return this.response;
+	}
+	
+	public int responseTo() { 
+		return this.responseTo;
+	}
+	
+	/**
+	 * Add a mine's parent ship.
+	 * 
+	 * @param mineId id of mine
+	 * @param parentId id of ship
+	 */
+	public void addMineParent(int mineId, int parentId) {
+		this.mineParents.put(mineId, parentId);
+	}
+	
+	/**
+	 * Get the parent ship of a specific mine.
+	 * 
+	 * @param mineId id of mine
+	 * @return
+	 */
+	public int getMineParent(int mineId) {
+		return this.mineParents.get(mineId);
+	}
+	
+	/**
+	 * Get the entire mineParents hashmap.
+	 * 
+	 * @return
+	 */
+	public HashMap<Integer,Integer> getAllMineParents() {
+		return this.mineParents;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		String radVis = null;
-		if(radarVisibleTiles != null) { 
-			radVis = "[";
-			for(boolean[] b : radarVisibleTiles) { 
-				radVis += "[";
-				for(int i = 0; i < b.length-1; i++) {
-					radVis += b[i] + ", ";
-				}
-				radVis += b[b.length-1];
-				radVis += "]";
-			}
-			radVis += "]";
-		} 
- 				
-		String sonVis = null;
-		if(sonarVisibleTiles != null) { 
-			for(boolean[] b : sonarVisibleTiles) { 
-				sonVis += "[";
-				for(int i = 0; i < b.length-1; i++) { 
-					sonVis += b[i] + ", ";
-				}
-				sonVis += b[b.length - 1];
-				sonVis += "]";
-			}
-			sonVis += "]";
-		}
-		
 		return "NewTurnMessage [action=" + action + ", state=" + state
 				+ ", turnSuccess=" + turnSuccess + ", response=" + response
-				+ ", radarVisibleTiles=" + radVis
-				+ ", sonarVisibleTiles=" + sonVis
-				+ ", playerID=" + playerID + "]";
+				+ ", radarVisibleTiles=" + Arrays.toString(radarVisibleTiles)
+				+ ", sonarVisibleTiles=" + Arrays.toString(sonarVisibleTiles)
+				+ ", mineParents=" + mineParents + ", playerID=" + playerID
+				+ ", responseTo=" + responseTo + "]";
 	}
 
 	/* (non-Javadoc)
@@ -165,12 +195,15 @@ public class NewTurnMessage implements Serializable
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((action == null) ? 0 : action.hashCode());
+		result = prime * result
+				+ ((mineParents == null) ? 0 : mineParents.hashCode());
+		result = prime * result + playerID;
 		result = prime * result + Arrays.hashCode(radarVisibleTiles);
 		result = prime * result
 				+ ((response == null) ? 0 : response.hashCode());
+		result = prime * result + responseTo;
 		result = prime * result + Arrays.hashCode(sonarVisibleTiles);
 		result = prime * result + ((state == null) ? 0 : state.hashCode());
-		result = prime * result + playerID;
 		result = prime * result + (turnSuccess ? 1231 : 1237);
 		return result;
 	}
@@ -192,12 +225,21 @@ public class NewTurnMessage implements Serializable
 				return false;
 		} else if (!action.equals(other.action))
 			return false;
+		if (mineParents == null) {
+			if (other.mineParents != null)
+				return false;
+		} else if (!mineParents.equals(other.mineParents))
+			return false;
+		if (playerID != other.playerID)
+			return false;
 		if (!Arrays.deepEquals(radarVisibleTiles, other.radarVisibleTiles))
 			return false;
 		if (response == null) {
 			if (other.response != null)
 				return false;
 		} else if (!response.equals(other.response))
+			return false;
+		if (responseTo != other.responseTo)
 			return false;
 		if (!Arrays.deepEquals(sonarVisibleTiles, other.sonarVisibleTiles))
 			return false;
@@ -206,31 +248,11 @@ public class NewTurnMessage implements Serializable
 				return false;
 		} else if (!state.equals(other.state))
 			return false;
-		if (playerID != other.playerID)
-			return false;
 		if (turnSuccess != other.turnSuccess)
 			return false;
 		return true;
 	}
 	
-	public boolean isTurnSuccess() {
-		return turnSuccess;
-	}
-
-	public void setTurnSuccess(boolean turnSuccess) {
-		this.turnSuccess = turnSuccess;
-	}
 	
-	public int getPlayerID() {
-		return this.playerID;
-	}
-	
-	public String getResponseString() { 
-		return this.response;
-	}
-	
-	public int responseTo() { 
-		return this.responseTo;
-	}
 	
 }
