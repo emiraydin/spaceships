@@ -48,6 +48,9 @@ public abstract class AbstractShip extends SpaceThing {
 	
 	public Point[] getShipCoords(int x, int y){
 		Point[] coords = new Point[length];
+		for (int i = 0; i < length; i++){
+			coords[i] = new Point();
+		}
 		switch (orientation){
 		// ORIENTATION FOLLOWS NEW ORIGIN CONVENTION
 		case South:

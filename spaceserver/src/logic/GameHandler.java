@@ -62,8 +62,9 @@ public class GameHandler {
 
 	}
 	
-	public GameHandler(int gameID){
+	public GameHandler(NewTurnMessage savePlayer1){
 		//TODO: load game
+//		saveGame.g
 	}
 	
 	public NewTurnMessage[] doAction(ActionMessage aMessage, int playerID){
