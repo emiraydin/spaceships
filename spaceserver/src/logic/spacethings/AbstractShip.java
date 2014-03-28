@@ -1,14 +1,16 @@
 package logic.spacethings;
 
 import java.awt.Point;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import logic.AbstractWeapon;
 import logic.FleetCommander;
 import logic.StarBoard;
 import messageprotocol.GameStateMessage;
-
 import common.GameConstants.ActionType;
 import common.GameConstants.OrientationType;
 import common.GameConstants.SpaceThingType;
@@ -40,41 +42,57 @@ public abstract class AbstractShip extends SpaceThing {
 		this.orientation = orientation;
 	}
 	
-	public int[][] getShipCoords(){
+	public Point[] getShipCoords(){
 		return getShipCoords(getX(), getY());
 	}
 	
-	public int[][] getShipCoords(int x, int y){
-		int[][] coords = new int[length][2];
+	public Point[] getShipCoords(int x, int y){
+		Point[] coords = new Point[length];
+		for (int i = 0; i < length; i++){
+			coords[i] = new Point();
+		}
 		switch (orientation){
 		// ORIENTATION FOLLOWS NEW ORIGIN CONVENTION
 		case South:
 			for (int i = 0; i < length; i++){
-				coords[i][0] = x;
-				coords[i][1] = y - i;
+				coords[i].x = x;
+				coords[i].y = y - i;
 			}
 			break;
 		case North:
 			for (int i = 0; i < length; i++){
-				coords[i][0] = x;
-				coords[i][1] = y + i;
+				coords[i].x = x;
+				coords[i].y = y + i;
 			}
 			break;
 		case East:
 			for (int i = 0; i < length; i++){
-				coords[i][0] = x + i;
-				coords[i][1] = y;
+				coords[i].x = x + i;
+				coords[i].y = y;
 			}
 			break;
 		case West:
 			for (int i = 0; i < length; i++){
-				coords[i][0] = x - i;
-				coords[i][1] = y;
+				coords[i].x = x - i;
+				coords[i].y = y;
 			}
 			break;
 		}
 		
 		return coords;
+	}
+	
+	public Point[] getShipSurroundings(int x, int y){
+		Point[] coords = getShipCoords(x, y);
+		Set<Point> surroundings = new HashSet<>();
+		for (Point pt : coords){
+			surroundings.add(pt);
+			surroundings.add(new Point(pt.x+1, pt.y));
+			surroundings.add(new Point(pt.x, pt.y+1));
+			surroundings.add(new Point(pt.x-1, pt.y));
+			surroundings.add(new Point(pt.x, pt.y-1));
+		}
+		return surroundings.toArray(new Point[surroundings.size()]);
 	}
 	
 	
@@ -117,11 +135,11 @@ public abstract class AbstractShip extends SpaceThing {
 			Mine mine = (Mine)spaceThing;
 			
 			// choose random section of ship to be be the square that collides
-			int[][] shipCoords = this.getShipCoords();
+			Point[] shipCoords = this.getShipCoords();
 			// detonate mine
-			Random r = new Random(shipCoords.length);
-			int[] shipLocation = shipCoords[r.nextInt()];
-			mine.detonate(shipLocation[0], shipLocation[1]);
+//			Random r = new Random(shipCoords.length);
+			Point shipLocation = shipCoords[(new Random()).nextInt(shipCoords.length)];
+			mine.detonate(shipLocation.x, shipLocation.y);
 			this.getOwner().setActionResponse(String.format("Mine detonated at (%d,%d)", obstacleX, obstacleY));
 		}
 		else { 

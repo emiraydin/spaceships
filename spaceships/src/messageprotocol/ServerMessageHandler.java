@@ -51,6 +51,9 @@ public class ServerMessageHandler {
 			GameState.setPlayerId(turn.getPlayerID()); 
 			GameState.setResponseString(turn.getResponseString()); 
 			
+			// Set the mine parents in the GameState
+			GameState.replaceMineParentsMap(turn.getAllMineParents());
+			
 		} else {
 
 			// We need to let the player know that their turn wasn't a success somehow...

@@ -11,7 +11,7 @@ public class StarBoard {
 	SpaceThing[][] map;
 	int thingIDCount;
 	
-	public StarBoard(int gameID){
+	public StarBoard(){
 		map = new SpaceThing[BOARD_HEIGHT][BOARD_WIDTH];
 		thingIDCount = 0;
 	}

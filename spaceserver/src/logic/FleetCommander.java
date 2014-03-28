@@ -137,18 +137,18 @@ public class FleetCommander {
 	
 	// Return true if having a ship at this position would incur a collision. (or out of bounds)
 	private boolean handleCollisions(AbstractShip ship, int x, int y){
-		int[][] coords = ship.getShipCoords(x, y);
+		Point[] coords = ship.getShipCoords(x, y);
 		SpaceThing thing;
 		for (int i = 0; i < ship.getLength(); i++){
-			thing = board.getSpaceThing(coords[i][0], coords[i][1]);
+			thing = board.getSpaceThing(coords[i].x, coords[i].y);
 			if(thing instanceof AbstractShip && thing != ship) { 
-				setActionResponse(String.format("Ship collision at (%d,%d)", coords[i][0], coords[i][1]));
+				setActionResponse(String.format("Ship collision at (%d,%d)", coords[i].x, coords[i].y));
 				return true;
 			} else if(thing instanceof BaseTile) { 
-				setActionResponse(String.format("Ship collision with a base at (%d,%d)", coords[i][0], coords[i][1]));
+				setActionResponse(String.format("Ship collision with a base at (%d,%d)", coords[i].x, coords[i].y));
 				return true;
 			} else if(thing instanceof Asteroid) { 
-				setActionResponse(String.format("Ship collision with asteroid at (%d,%d)", coords[i][0], coords[i][1]));
+				setActionResponse(String.format("Ship collision with asteroid at (%d,%d)", coords[i].x, coords[i].y));
 				return true;
 			}
 		}
@@ -165,10 +165,10 @@ public class FleetCommander {
 	 * 		   Note: returns true even if there are undetonated mines (ship is MineLayer)
 	 */
 	public boolean handleMineExplosions(AbstractShip ship, int shipX, int shipY){
-		int[][] coords = ship.getShipCoords(shipX, shipY);
+		Point[] coords = ship.getShipSurroundings(shipX, shipY);
 		for (int i = 0; i < ship.getLength(); i++){
-			int sectionX = coords[i][0];
-			int sectionY = coords[i][1];
+			int sectionX = coords[i].x;
+			int sectionY = coords[i].y;
 			if(board.getSpaceThing(sectionX+1, sectionY) instanceof Mine) { 
 				if(!(ship instanceof MineLayerShip)) { 
 					setActionResponse(String.format("Mine detonated at (%d,%d)", sectionX+1, sectionY));
@@ -550,10 +550,10 @@ public class FleetCommander {
 			}
 		}
 		// add the ship's sections too!
-		int[][] coords = ship.getShipCoords();
-		for(int[] section : coords) { 
-			int xCoord = section[0];
-			int yCoord = section[1];
+		Point[] coords = ship.getShipCoords();
+		for(Point section : coords) { 
+			int xCoord = section.x;
+			int yCoord = section.y;
 			if(StarBoard.inBounds(xCoord, yCoord)) { 
 				radarVisibility[xCoord][yCoord] = radarVisibility[xCoord][yCoord] + change;
 			}
@@ -568,11 +568,11 @@ public class FleetCommander {
 			// TODO: ship's sections are NOT in sonar because you cant drop mines there
 			// but for the sake of visibility it shouldnt matter? 
 			// also sonar not necessary for demo #yolo
-			for(int[] s : coords) { 
-				changeSonarVisibility(s[0], s[1]-1, change);
-				changeSonarVisibility(s[0], s[1]+1, change);
-				changeSonarVisibility(s[0]-1, s[1], change);
-				changeSonarVisibility(s[0]+1, s[1], change);
+			for(Point s : coords) { 
+				changeSonarVisibility(s.x, s.y-1, change);
+				changeSonarVisibility(s.x, s.y+1, change);
+				changeSonarVisibility(s.x-1, s.y, change);
+				changeSonarVisibility(s.x+1, s.y, change);
 			}
 			
 		}	

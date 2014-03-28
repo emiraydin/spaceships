@@ -44,6 +44,10 @@ public abstract class SpaceThing {
 		return id;
 	}
 	
+	public void setID(int id){
+		this.id = id;
+	}
+	
 	public FleetCommander getOwner(){
 		return owner;
 	}
