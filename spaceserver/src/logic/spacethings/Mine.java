@@ -29,14 +29,19 @@ public class Mine extends SpaceThing {
 		if (getGameBoard().getSpaceThing(x, y) instanceof AbstractShip){
 			AbstractShip ship = (AbstractShip) getGameBoard().getSpaceThing(x, y);
 			int section = ship.getSectionAt(x, y);
-			int section2;
-			if (section + 1 < ship.getLength()){
-				section2 = section + 1;
-			} else {
-				section2 = section - 1;
-			}
 			ship.decrementSectionHealth(damage, section);
-			ship.decrementSectionHealth(damage, section2);
+			
+			// catch for kamikaze ship
+			if(ship.getLength() > 1) { 
+				int section2;
+				if (section + 1 < ship.getLength()){
+					section2 = section + 1;
+				} else {
+					section2 = section - 1;
+				}				
+				ship.decrementSectionHealth(damage, section2);
+			}
+			
 		}	
 		
 		// remove mine from game after detonation

@@ -90,7 +90,7 @@ public class FleetCommander {
 		
 		// Kamikaze boat is the only one that is different...
 		if(ship instanceof KamikazeBoatShip) { 
-			return moveKamikazeBoatShip(ship, x, y);
+			return ((KamikazeBoatShip)ship).move(x, y);
 		}
 		
 		if (validateMove(ship, x, y)){
@@ -133,38 +133,7 @@ public class FleetCommander {
 		return 0;
 	}
 	
-	/**
-	 * Handles movement for the Kamikaze boat ship
-	 * NOTE: the kamikaze boat is different so validation etc must be done here, including all messages
-	 * @param ship
-	 * @return 
-	 */
-	private int moveKamikazeBoatShip(AbstractShip ship, int x, int y) { 
-		if(!(ship instanceof KamikazeBoatShip)) { 
-			return 0;
-		}
-		
-		// TODO:
-		if(!StarBoard.inBounds(x, y)) { 
-			setActionResponse("Ships cannot go out of bounds");
-			return 0;
-		}
-		
-		if(x < ship.getX() - 2 || x > ship.getX() + 2 || y > ship.getY() + 2 || y < ship.getY() - 2) { 
-			setActionResponse("Ship cannot move that fast");
-			return 0;
-		}
-		
-		decrementVisibility(ship);
-		board.clearSpaceThing(ship);
-		
-		//TODO: move
-		
-		board.setSpaceThing(ship);
-		incrementVisibility(ship);	
-		
-		return 1;
-	}
+	
 	
 	// Return true if having a ship at this position would incur a collision. (or out of bounds)
 	private boolean handleCollisions(AbstractShip ship, int x, int y){
@@ -195,7 +164,7 @@ public class FleetCommander {
 	 * @return True if there were mines in the vicinity, false otherwise 
 	 * 		   Note: returns true even if there are undetonated mines (ship is MineLayer)
 	 */
-	private boolean handleMineExplosions(AbstractShip ship, int shipX, int shipY){
+	public boolean handleMineExplosions(AbstractShip ship, int shipX, int shipY){
 		int[][] coords = ship.getShipCoords(shipX, shipY);
 		for (int i = 0; i < ship.getLength(); i++){
 			int sectionX = coords[i][0];
