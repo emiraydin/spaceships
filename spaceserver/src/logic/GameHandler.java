@@ -1,16 +1,22 @@
 package logic;
 
+import logic.spacethings.Asteroid;
 import logic.spacethings.BaseTile;
 import logic.spacethings.CruiserShip;
 import logic.spacethings.DestroyerShip;
+import logic.spacethings.KamikazeBoatShip;
 import logic.spacethings.MineLayerShip;
 import logic.spacethings.RadarBoatShip;
+import logic.spacethings.SpaceThing;
 import logic.spacethings.TorpedoBoatShip;
 import messageprotocol.ActionMessage;
+import messageprotocol.GameStateMessage;
 import messageprotocol.MessageResponder;
 import messageprotocol.NewTurnMessage;
+
 import common.GameConstants.ActionType;
 import common.GameConstants.OrientationType;
+import common.GameConstants.PlayerNumber;
 import common.GameConstants.WeaponType;
 import common.GameConstants.WinState;
 
@@ -26,7 +32,7 @@ public class GameHandler {
 	public GameHandler() {
 		// Create new game!
 		gameID = gameIDCount++;
-		board = new StarBoard(0);
+		board = new StarBoard();
 		responder = new MessageResponder(this);
 		players = new FleetCommander[2];
 		players[0] = new FleetCommander(0, board, this);
@@ -62,9 +68,76 @@ public class GameHandler {
 
 	}
 	
-	public GameHandler(NewTurnMessage savePlayer1){
+	public GameHandler(NewTurnMessage savePlayer1, NewTurnMessage savePlayer2){
 		//TODO: load game
-//		saveGame.g
+		board = new StarBoard();
+		responder = new MessageResponder(this);
+		players = new FleetCommander[2];
+		players[0] = new FleetCommander(0, board, this);
+		players[1] = new FleetCommander(1, board, this);
+//		board.generateAsteroids(players);
+		for (int playerId = 0; playerId <= 1; playerId++){
+			for (int basenum = 0; basenum < 10; basenum++){
+				board.setSpaceThing(new BaseTile(playerId*29, basenum+10, players[playerId], board));
+			}
+		}
+		for (GameStateMessage state : savePlayer1.getState()){
+			loadSpaceThing(state);
+		}
+	}
+	
+	private void loadSpaceThing(GameStateMessage state){
+		SpaceThing s = null;
+		FleetCommander owner = null;
+		if (state.getOwner() != null){
+			owner = players[convertPlayerNum(state.getOwner())];
+		}
+		switch (state.getType()){
+		case Asteroid:
+			s = new Asteroid(state.getPosX(), state.getPosY(), board);
+			break;
+		case BaseTile:
+			s = new BaseTile(state.getPosX(), state.getPosY(), owner, board);
+			break;
+		case CruiserShip:
+			s = new CruiserShip(state.getPosX(), state.getPosY(), state.getOrientation(), owner, board);
+			break;
+		case DestroyerShip:
+			s = new DestroyerShip(state.getPosX(), state.getPosY(), state.getOrientation(), owner, board);
+			break;
+		case KamikazeBoatShip:
+			s = new KamikazeBoatShip(state.getPosX(), state.getPosY(), state.getOrientation(), owner, board);
+			break;
+		case MineLayerShip:
+			s = new MineLayerShip(state.getPosX(), state.getPosY(), state.getOrientation(), owner, board);
+			break;
+		case RadarBoatShip:
+			s = new RadarBoatShip(state.getPosX(), state.getPosY(), state.getOrientation(), owner, board);
+			break;
+		case TorpedoShip:
+			s = new TorpedoBoatShip(state.getPosX(), state.getPosY(), state.getOrientation(), owner, board);
+			break;
+		case Mine:
+			//TODO: MINES
+			break;
+		default:
+			break;
+			
+		}
+		s.setID(state.getSpaceThingId());
+		board.setSpaceThing(s);
+	}
+	
+	private int convertPlayerNum(PlayerNumber num){
+		switch (num){
+		case PlayerOne:
+			return 0;
+		case PlayerTwo:
+			return 1;
+		default:
+			return -1;
+		
+		}
 	}
 	
 	public NewTurnMessage[] doAction(ActionMessage aMessage, int playerID){
