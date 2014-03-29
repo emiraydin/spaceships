@@ -51,8 +51,10 @@ public class MessageResponder {
 		}
 		FleetCommander fc = handler.getFleetCommander(playerID);
 		
-		return new NewTurnMessage(aMessage, success, response, createStateMessages(),
+		NewTurnMessage turnMessage = new NewTurnMessage(aMessage, success, response, createStateMessages(),
 				convertVisibility(fc.getRadarVisibility()), convertVisibility(fc.getSonarVisibility()), playerID, responseTo);
+		addMines(turnMessage);
+		return turnMessage;
 	}
 	
 	/**
@@ -83,6 +85,7 @@ public class MessageResponder {
 						if(mShip.hasMines()){
 							for (Mine m : mShip.getMines()){
 								states.put(m.getID(), m.genGameStateMessage());
+								
 							}
 						}
 					}
@@ -90,6 +93,22 @@ public class MessageResponder {
 			}
 		}
 		return new LinkedList<GameStateMessage>(states.values());
+	}
+	
+	private void addMines(NewTurnMessage message){
+		for (int x = 0; x < GameConstants.BOARD_WIDTH; x++){
+			for (int y = 0; y < GameConstants.BOARD_HEIGHT; y++){
+				SpaceThing thing = board.getSpaceThing(x, y);
+				if (thing instanceof MineLayerShip){
+					MineLayerShip mShip = (MineLayerShip) thing;
+					if(mShip.hasMines()){
+						for (Mine m : mShip.getMines()){
+							message.addMineParent(m.getID(), mShip.getID());
+						}
+					}
+				}
+			}
+		}
 	}
 	
 	private static boolean[][] convertVisibility(int[][] visibility){
