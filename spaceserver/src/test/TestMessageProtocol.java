@@ -1,5 +1,6 @@
 package test;
 
+import java.awt.Point;
 import java.util.ArrayList;
 
 import logic.FleetCommander;
@@ -233,9 +234,9 @@ public class TestMessageProtocol {
 		shipId = cruiser.getID();
 		
 		System.out.println("here is where the ship originally is");
-		int[][] coords = cruiser.getShipCoords();
-		for(int[] section : coords) { 
-			System.out.println(section[0] + "," + section[1]);
+		Point[] coords = cruiser.getShipCoords();
+		for(Point section : coords) { 
+			System.out.println(section.x + "," + section.y);
 		}
 		
 		System.out.println("Move forward");
@@ -250,9 +251,9 @@ public class TestMessageProtocol {
 		System.out.println(cruiser.getOrientation());
 		
 		System.out.println("here is where the ship occupies now");
-		int[][] newcoords = cruiser.getShipCoords();
-		for(int[] section : newcoords) { 
-			System.out.println(section[0] + "," + section[1]);
+		Point[] newcoords = cruiser.getShipCoords();
+		for(Point section : newcoords) { 
+			System.out.println(section.x + "," + section.y);
 		}
 		
 		System.out.println("Try to turn right again");
