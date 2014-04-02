@@ -31,7 +31,6 @@ public class BackgroundActor extends Image
 		setWidth(75);
 		setHeight(55); 
 		setPosition(-5,-20);
-		
 	}
 
 	/**
@@ -40,7 +39,6 @@ public class BackgroundActor extends Image
 	private void importBackground() 
 	{
 		Texture texture = new Texture(Gdx.files.internal(location));
-		
 		SPRITE = new Sprite(texture); 
 	}
 	
