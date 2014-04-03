@@ -38,6 +38,10 @@ public class BaseTile extends SpaceThing {
 		this.health = health;
 	}
 	
+	public boolean isDamaged() { 
+		return health <= 0;
+	}
+	
 	public void decrementBaseHealth(int amount) {
 		if (health != 0){
 			this.health = this.health - amount;

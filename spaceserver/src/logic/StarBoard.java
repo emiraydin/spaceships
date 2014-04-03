@@ -62,6 +62,41 @@ public class StarBoard {
 		}
 	}
 	
+	/**
+	 * Checks if a ship can be placed at a location with no overlap with any other spacethings
+	 * @param ship
+	 * @return true if possible, false otherwise
+	 */
+	public boolean validPlaceShipLocation(AbstractShip ship, int x, int y) { 
+		for (int i = 0; i < ship.getLength(); i++){
+			//UPDATED FOR NEW ORIENTATION
+			switch (ship.getOrientation()){
+				case South:
+					if(getSpaceThing(x, y-i) != null) { 
+						return false;
+					}
+					break;
+				case North:
+					if(getSpaceThing(x, y+i) != null) { 
+						return false;
+					}
+					break;
+				case East:
+					if(getSpaceThing(x+i, y) != null) { 
+						return false;
+					}
+					break;
+				case West:
+					if(getSpaceThing(x-i, y) != null) { 
+						return false;
+					}
+					break;
+			}
+		}
+		
+		return true;
+	}
+	
 	/*
 	 * This should be called carefully!
 	 * If the ship is being removed from the game, use FleetCommander.removeShip()!

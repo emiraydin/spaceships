@@ -7,6 +7,8 @@ import java.util.List;
 import logic.spacethings.AbstractShip;
 import logic.spacethings.Asteroid;
 import logic.spacethings.BaseTile;
+import logic.spacethings.CruiserShip;
+import logic.spacethings.DestroyerShip;
 import logic.spacethings.KamikazeBoatShip;
 import logic.spacethings.Mine;
 import logic.spacethings.MineLayerShip;
@@ -41,11 +43,48 @@ public class FleetCommander {
 		this.handler = handler;
 	}
 	
+	/**
+	 * Gives fleet commander all appropriate ships.
+	 * Does not place them on the board, but declares ownership.
+	 */
+	public void createShips(){
+		// these indices dont need to make sense
+		// note: keep x's negative
+		ships.add(new CruiserShip(-50, 10, OrientationType.East, this, board));
+		ships.add(new CruiserShip(-50, 11, OrientationType.East, this, board));
+		ships.add(new DestroyerShip(-50, 12, OrientationType.East, this, board));
+		ships.add(new DestroyerShip(-50, 13, OrientationType.East, this, board));
+		ships.add(new DestroyerShip(-50, 14, OrientationType.East, this, board));
+		ships.add(new TorpedoBoatShip(-50, 15, OrientationType.East, this, board));
+		ships.add(new TorpedoBoatShip(-50, 16, OrientationType.East, this, board));
+		ships.add(new MineLayerShip(-50, 17, OrientationType.East, this, board));
+		ships.add(new MineLayerShip(-50, 18, OrientationType.East, this, board));
+		ships.add(new RadarBoatShip(-50, 19, OrientationType.East, this, board));
+		// TODO: add kamikaze ship
+	}
 	
-	public void addShip(AbstractShip ship){
-		ships.add(ship);
+	/**
+	 * Places a ship at a specific location on the board.
+	 * @param shipID Ship to move
+	 * @param x Location to place at
+	 * @param y Location to place at
+	 * @return Whether placement was valid
+	 */
+	public boolean placeShip(int shipID, int x, int y) { 
+		AbstractShip ship = getShip(shipID);
+		
+		if(board.validPlaceShipLocation(ship, x, y)) { 
+			setActionResponse("Cannot place a ship on top of an obstacle");
+			return false;
+		}
+		
+		// obstacle-free 		
+		ship.setX(x);
+		ship.setY(y);
 		board.setSpaceThing(ship);
 		incrementVisibility(ship);
+		
+		return true;
 	}
 	
 	public void removeShip(AbstractShip ship) { 
@@ -76,6 +115,21 @@ public class FleetCommander {
 	 */
 	public boolean useWeapon(WeaponType wType, int shipID, int x, int y){
 		return getShip(shipID).useWeapon(wType, x, y);
+	}
+	
+	/**
+	 * Tries to repair a given ship.
+	 * @param shipID The ID of the ship to repair.
+	 * @return True of ship was successfully repaired, false otherwise.
+	 */
+	public boolean repairShip(int shipID) { 
+		AbstractShip ship = getShip(shipID);
+		if(ship.repair()) { 
+			return true;
+		}
+		else { 
+			return false;
+		}
 	}
 	
 	/**
@@ -313,18 +367,6 @@ public class FleetCommander {
 		}
 			
 		return true;			
-	}
-	
-	/**
-	 * Move a specified ship to a specified location.
-	 * @param shipID Ship to move
-	 * @param x Location to place at
-	 * @param y Location to place at
-	 * @return Whether placement was valid
-	 */
-	public boolean placeShip(int shipID, int x, int y){
-		//TODO: implement placeShip
-		return false;
 	}
 	
 	public boolean pickupMine(int shipID, int x, int y){
