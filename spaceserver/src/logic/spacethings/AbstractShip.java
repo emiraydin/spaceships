@@ -172,12 +172,19 @@ public abstract class AbstractShip extends SpaceThing {
 		sectionHealth[section] += amount;
 	}
 	
-	public void decrementSectionHealth(int amount, int section){
-		sectionHealth[section] -= amount;
+	public void decrementSectionHealth(int amount, int section){		
+		if(sectionHealth[section] - amount <= 0) { 
+			sectionHealth[section] = 0;
+		}
+		else { 
+			sectionHealth[section] -= amount;
+		}
 		
 		// check if dead
 		if(isDead()) { 
 			this.getOwner().removeShip(this);
+			
+			//TODO: alert both players of ship removal + type
 		}
 	}
 	
@@ -194,6 +201,99 @@ public abstract class AbstractShip extends SpaceThing {
 				return false;
 			}
 		}
+		return true;
+	}
+	
+	/**
+	 * Checks if docked at ANY base tile of its fleet commander
+	 * @return
+	 */
+	protected boolean isDocked() { 
+		StarBoard board = this.getOwner().getHandler().getBoard();
+		Point[] coords = getShipCoords();
+		for(Point coord : coords) { 
+			if(board.getSpaceThing(coord.x-1, coord.y) instanceof BaseTile) { 
+				BaseTile base = (BaseTile)board.getSpaceThing(coord.x-1, coord.y);
+				if(base.getOwner() == this.getOwner()) { 
+					return true;
+				}
+			}
+			if(board.getSpaceThing(coord.x+1, coord.y) instanceof BaseTile) { 
+				BaseTile base = (BaseTile)board.getSpaceThing(coord.x+1, coord.y);
+				if(base.getOwner() == this.getOwner()) { 
+					return true;
+				}
+			}
+			if(board.getSpaceThing(coord.x, coord.y-1) instanceof BaseTile) { 
+				BaseTile base = (BaseTile)board.getSpaceThing(coord.x, coord.y-1);
+				if(base.getOwner() == this.getOwner()) { 
+					return true;
+				}
+			}
+			if(board.getSpaceThing(coord.x, coord.y+1) instanceof BaseTile) { 
+				BaseTile base = (BaseTile)board.getSpaceThing(coord.x, coord.y+1);
+				if(base.getOwner() == this.getOwner()) { 
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Checks if docked at a HEALTHY base tile of its fleet commander
+	 * @return
+	 */
+	protected boolean validRepairLocation() { 
+		StarBoard board = this.getOwner().getHandler().getBoard();
+		Point[] coords = getShipCoords();
+		for(Point coord : coords) { 
+			if(board.getSpaceThing(coord.x-1, coord.y) instanceof BaseTile) { 
+				BaseTile base = (BaseTile)board.getSpaceThing(coord.x-1, coord.y);
+				if(base.getOwner() == this.getOwner() && !base.isDamaged()) { 
+					return true;	
+				}				
+			}
+			if(board.getSpaceThing(coord.x+1, coord.y) instanceof BaseTile) { 
+				BaseTile base = (BaseTile)board.getSpaceThing(coord.x+1, coord.y);
+				if(base.getOwner() == this.getOwner() && !base.isDamaged()) { 
+					return true;	
+				}
+			}
+			if(board.getSpaceThing(coord.x, coord.y-1) instanceof BaseTile) { 
+				BaseTile base = (BaseTile)board.getSpaceThing(coord.x, coord.y-1);
+				if(base.getOwner() == this.getOwner() && !base.isDamaged()) { 
+					return true;	
+				}
+			}
+			if(board.getSpaceThing(coord.x, coord.y+1) instanceof BaseTile) { 
+				BaseTile base = (BaseTile)board.getSpaceThing(coord.x, coord.y+1);
+				if(base.getOwner() == this.getOwner() && !base.isDamaged()) { 
+					return true;	
+				}
+			}
+		}
+		return false;
+		
+	}
+	
+	/**
+	 * If ship is docked at a non-damaged base tile, repairs a square starting from front to back
+	 * @return
+	 */
+	public boolean repair() { 
+		if(!validRepairLocation()) { 
+			this.getOwner().setActionResponse("Ship must be docked prior to repair");
+			return false;
+		}
+		
+		for(int section = length-1; section >=0; section--) { 
+			if(isSectionDamaged(section)) { 
+				incrementSectionHealth(1, section);
+				break;
+			}
+		}
+		
 		return true;
 	}
 	
