@@ -155,7 +155,7 @@ public class GameHandler {
 			if (!players[playerID].pickupMine(shipID, x, y))
 				responder.moveFailed();
 			break;
-		case Place:
+		case PlaceShip:
 			if(!players[playerID].placeShip(shipID, x, y)) { 
 				responder.moveFailed();
 			}

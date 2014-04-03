@@ -114,7 +114,7 @@ public class ClientThread extends Thread {
 								this.playerID = 0;
 
 								// Trigger a fake ActionMessage to start the game
-				                ActionMessage trigger = new ActionMessage(GameConstants.ActionType.Place, 0, 0, 0);
+				                ActionMessage trigger = new ActionMessage(GameConstants.ActionType.Initialize, 0, 0, 0);
 				                NewTurnMessage[] replies = this.currentGame.doAction(trigger, this.playerID);
 				                String triggerForP0 = "@" + ObjectConverter.objectToString(replies[0]);
 				                String triggerForP1 = "@" + ObjectConverter.objectToString(replies[1]);
