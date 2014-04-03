@@ -43,28 +43,8 @@ public class GameHandler {
 			}
 		}
 		
-		players[0].addShip(new CruiserShip(1, 10, OrientationType.East, players[0], board));
-		players[0].addShip(new CruiserShip(1, 11, OrientationType.East, players[0], board));
-		players[0].addShip(new DestroyerShip(1, 12, OrientationType.East, players[0], board));
-		players[0].addShip(new DestroyerShip(1, 13, OrientationType.East, players[0], board));
-		players[0].addShip(new DestroyerShip(1, 14, OrientationType.East, players[0], board));
-		players[0].addShip(new TorpedoBoatShip(1, 15, OrientationType.East, players[0], board));
-		players[0].addShip(new TorpedoBoatShip(1, 16, OrientationType.East, players[0], board));
-		players[0].addShip(new MineLayerShip(1, 17, OrientationType.East, players[0], board));
-		players[0].addShip(new MineLayerShip(1, 18, OrientationType.East, players[0], board));
-		players[0].addShip(new RadarBoatShip(1, 19, OrientationType.East, players[0], board));
-
-		players[1].addShip(new CruiserShip(28, 10, OrientationType.West, players[1], board));
-		players[1].addShip(new CruiserShip(28, 11, OrientationType.West, players[1], board));
-		players[1].addShip(new DestroyerShip(28, 12, OrientationType.West, players[1], board));
-		players[1].addShip(new DestroyerShip(28, 13, OrientationType.West, players[1], board));
-		players[1].addShip(new DestroyerShip(28, 14, OrientationType.West, players[1], board));
-		players[1].addShip(new TorpedoBoatShip(28, 15, OrientationType.West, players[1], board));
-		players[1].addShip(new TorpedoBoatShip(28, 16, OrientationType.West, players[1], board));
-		players[1].addShip(new MineLayerShip(28, 17, OrientationType.West, players[1], board));
-		players[1].addShip(new MineLayerShip(28, 18, OrientationType.West, players[1], board));
-		players[1].addShip(new RadarBoatShip(28, 19, OrientationType.West, players[1], board));
-
+		players[0].createShips();
+		players[1].createShips();
 	}
 	
 	public GameHandler(NewTurnMessage message){
@@ -176,10 +156,13 @@ public class GameHandler {
 				responder.moveFailed();
 			break;
 		case Place:
-			// TODO
+			if(!players[playerID].placeShip(shipID, x, y)) { 
+				responder.moveFailed();
+			}
 			break;
 		case Repair:
-			// TODO
+			if(!players[playerID].repairShip(shipID))
+				responder.moveFailed();
 			break;
 		case Turn180Left:
 		case Turn180Right:
