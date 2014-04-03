@@ -15,6 +15,7 @@ public class StarBoard {
 	SpaceThing[][] map;
 	int thingIDCount;
 	public List<AbstractShip> fuckJava;
+	public int fuckJavaCounter = 2; 
 	
 	public StarBoard(){
 		map = new SpaceThing[BOARD_HEIGHT][BOARD_WIDTH];
