@@ -1,6 +1,6 @@
 package gameLogic;
 
-import screens.GameScreen;
+import screens.MainMenuScreen;
 import util.TriggerClient;
 
 import com.badlogic.gdx.Application;
@@ -41,6 +41,6 @@ public class Spaceships extends Game implements ApplicationListener
 		Gdx.app.log(TAG, "Starting new Instance");
 		
 		// Set the Screen to the Splash Screen
-		this.setScreen(new GameScreen());
+		this.setScreen(new MainMenuScreen(this));
 	}
 }
