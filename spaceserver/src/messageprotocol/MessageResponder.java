@@ -1,11 +1,13 @@
 package messageprotocol;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
 import logic.FleetCommander;
 import logic.GameHandler;
 import logic.StarBoard;
+import logic.spacethings.AbstractShip;
 import logic.spacethings.Mine;
 import logic.spacethings.MineLayerShip;
 import logic.spacethings.SpaceThing;
@@ -92,6 +94,15 @@ public class MessageResponder {
 				}
 			}
 		}
+		
+		// literally just for initialization pls dont touch
+		if(!board.fuckJava.isEmpty()) { 
+			for(AbstractShip ship : board.fuckJava) { 
+				states.put(ship.getID(), ship.genGameStateMessage());
+			}
+			board.fuckJava = new ArrayList();
+		}
+		
 		return new LinkedList<GameStateMessage>(states.values());
 	}
 	

@@ -1,19 +1,25 @@
 package logic;
 
-import logic.spacethings.AbstractShip;
-import logic.spacethings.Asteroid;
-import logic.spacethings.SpaceThing;
 import static common.GameConstants.BOARD_HEIGHT;
 import static common.GameConstants.BOARD_WIDTH;
 import static common.GameConstants.NUM_ASTEROIDS;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import logic.spacethings.AbstractShip;
+import logic.spacethings.Asteroid;
+import logic.spacethings.SpaceThing;
+
 public class StarBoard {
 	SpaceThing[][] map;
 	int thingIDCount;
+	public List<AbstractShip> fuckJava;
 	
 	public StarBoard(){
 		map = new SpaceThing[BOARD_HEIGHT][BOARD_WIDTH];
 		thingIDCount = 0;
+		fuckJava = new ArrayList<AbstractShip>();
 	}
 	
 	public int nextID(){
