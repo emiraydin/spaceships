@@ -5,11 +5,16 @@ import gameLogic.Descriptions;
 
 import java.util.LinkedList;
 
+import messageprotocol.ActionMessage;
+import messageprotocol.ServerMessageHandler;
+
 import state.GameState;
 import state.SpaceThing;
 import state.ships.AbstractShip;
+import actors.ActorState;
 import actors.BackgroundActor;
 import actors.GameSetupTileActor;
+import actors.ShipActor;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -36,6 +41,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+
+import common.GameConstants.ActionType;
 import common.GameConstants.PlayerNumber;
 
 /**
@@ -88,11 +95,6 @@ public class GameSetupScreen implements Screen
 					unplacedShips.add((AbstractShip) thing); 
 				}
 			}
-		}
-		
-		for(AbstractShip s : unplacedShips)
-		{
-			System.out.println(s.getClass() + " " + s.getOwner()); 
 		}
 	}
 	
@@ -294,6 +296,7 @@ public class GameSetupScreen implements Screen
 		{
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
 			{
+				setDefaultShipLocations(); 
 				return false; 
 			}
 			
@@ -415,12 +418,12 @@ public class GameSetupScreen implements Screen
 
 		
 		menuTable.add(header).width(width).height(height * 0.1f).row();
-		menuTable.add(t1).width(width).height(height * 0.1f).row();
-		menuTable.add(t2).width(width).height(height * 0.1f).row();
-		menuTable.add(t3).width(width).height(height * 0.1f).row();
-		menuTable.add(t4).width(width).height(height * 0.1f).row();
-		menuTable.add(t5).width(width).height(height * 0.1f).row();
-		menuTable.add(t6).width(width).height(height * 0.1f).row();
+		menuTable.add(t1).width(width).height(height * 0.05f).row();
+		menuTable.add(t2).width(width).height(height * 0.05f).row();
+		menuTable.add(t3).width(width).height(height * 0.05f).row();
+		menuTable.add(t4).width(width).height(height * 0.05f).row();
+		menuTable.add(t5).width(width).height(height * 0.05f).row();
+		menuTable.add(t6).width(width).height(height * 0.05f).row();
 		menuTable.add(description).width(width).height(height * 0.3f); 
 		
 		uiStage.addActor(menuTable); 
@@ -477,4 +480,49 @@ public class GameSetupScreen implements Screen
 		newTile.drawNotSelectable(); 
 	}
 
+	
+	public void setDefaultShipLocations()
+	{
+		if(currentPlayer == PlayerNumber.PlayerOne)
+		{
+			int x = 1, y = 10; 
+			
+			for(AbstractShip modelShip : unplacedShips)
+			{
+				ShipActor actorShip = new ShipActor(x, y, modelShip, currentPlayer); 
+				ServerMessageHandler.currentAction = new ActionMessage(ActionType.PlaceShip, modelShip.getUniqueId(), x, y); 
+				ServerMessageHandler.hasChanged = true; 
+				try
+				{
+					Thread.sleep(1000);
+				}
+				catch (InterruptedException e)
+				{
+					e.printStackTrace();
+				} 
+				stage.addActor(actorShip); 
+				y++; 
+			}
+		}
+		else
+		{
+			int x = 28, y = 10; 
+			for(AbstractShip modelShip : unplacedShips)
+			{
+				ShipActor actorShip = new ShipActor(x, y, modelShip, currentPlayer); 
+				ServerMessageHandler.currentAction = new ActionMessage(ActionType.PlaceShip, modelShip.getUniqueId(), x, y); 
+				ServerMessageHandler.hasChanged = true; 
+				try
+				{
+					Thread.sleep(1000);
+				}
+				catch (InterruptedException e)
+				{
+					e.printStackTrace();
+				} 
+				stage.addActor(actorShip); 
+				y++; 
+			}
+		}
+	}
 }
