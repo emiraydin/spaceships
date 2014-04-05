@@ -6,9 +6,6 @@ import java.io.InputStreamReader;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-
-import screens.GameScreen;
 import state.GameState;
 
 import messageprotocol.ActionMessage;
@@ -28,18 +25,18 @@ public class TCPClient implements Runnable {
 	
 	public static void start() {
 
-		System.out.println("Client is now running on " + Properties.HOST_NAME + " port " + Properties.PORT_NUMBER);
+		System.out.println("Client is now running on " + Properties.SERVER_HOST + " port " + Properties.PORT_NUMBER);
 
 		// Open a socket on given host name and port number, and initialize input/output streams
 		try {
-			clientSocket = new Socket(Properties.HOST_NAME, Properties.PORT_NUMBER);
+			clientSocket = new Socket(Properties.SERVER_HOST, Properties.PORT_NUMBER);
 			inputLine = new BufferedReader(new InputStreamReader(System.in));
 			output = new PrintStream(clientSocket.getOutputStream(), true);
 			input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 		} catch (UnknownHostException e) {
-			System.err.println("Unknown host: " + Properties.HOST_NAME);
+			System.err.println("Unknown host: " + Properties.SERVER_HOST);
 		} catch (IOException e) {
-			System.err.println("I/O connection to " + Properties.HOST_NAME + " cannot be established!");
+			System.err.println("I/O connection to " + Properties.SERVER_HOST + " cannot be established!");
 		}
 
 		// Write the data to the recently opened socket, given everything is set up
