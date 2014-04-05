@@ -135,7 +135,7 @@ public class GameSetupScreen implements Screen
 		}
 		else
 		{
-			//drawPlayerTwo(); 
+			drawPlayerTwo(); 
 		}
 		
 		setUpMenuTable(); 
@@ -154,6 +154,25 @@ public class GameSetupScreen implements Screen
 				}
 				
 				if(x == 1 && 11 <= y && y <= 19)
+				{
+					gameBoard[x][y].drawSelectable(); 
+				}
+			}
+		}
+	}
+	
+	private void drawPlayerTwo()
+	{
+		for(int x = 0; x < gameBoard.length; x++)
+		{
+			for(int y = 0; y < gameBoard[0].length; y++)
+			{
+				if((x == 29 && y == 10) || (x == 29 && y == 20))
+				{
+					gameBoard[x][y].drawSelectable(); 
+				}
+				
+				if(x == 28 && 11 <= y && y <= 19)
 				{
 					gameBoard[x][y].drawSelectable(); 
 				}
@@ -416,6 +435,18 @@ public class GameSetupScreen implements Screen
 			{
 				int x = (int) currentSelectedTile.getX(), y = (int) currentSelectedTile.getY(); 
 				if(((x == 0 && y == 10 )||(x == 0) && y == 20) || (x == 1 && 11 <= y && y <= 19))
+				{
+					currentSelectedTile.drawSelectable(); 
+				}
+				else
+				{
+					currentSelectedTile.drawStandard(); 
+				}
+			}
+			else
+			{
+				int x = (int) currentSelectedTile.getX(), y = (int) currentSelectedTile.getY(); 
+				if(((x == 29 && y == 10) || (x == 29) && (y == 20) || (x == 28) && (11 <= y && y<= 19)))
 				{
 					currentSelectedTile.drawSelectable(); 
 				}
