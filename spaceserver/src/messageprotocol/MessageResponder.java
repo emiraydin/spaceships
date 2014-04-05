@@ -87,7 +87,6 @@ public class MessageResponder {
 						if(mShip.hasMines()){
 							for (Mine m : mShip.getMines()){
 								states.put(m.getID(), m.genGameStateMessage());
-								
 							}
 						}
 					}

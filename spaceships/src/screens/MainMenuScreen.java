@@ -61,9 +61,6 @@ public class MainMenuScreen implements Screen
 		stage.draw(); 
 		Table.drawDebug(stage); 
 		
-		if(Gdx.input.isKeyPressed(Keys.R)){
-
-		}
 	}
 
 	

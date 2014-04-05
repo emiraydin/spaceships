@@ -22,4 +22,13 @@ public class Descriptions
 	public static final CharSequence LAYAR_TITLE = "Phorycs Class \nLayar"; 
 	public static final CharSequence TORPEDO_TITLE = "Hyrdro Class \nTorpedo"; 
 	
+
+	public static final CharSequence PLACE_INTRO_TEXT = "Welcome, to Asteria: Battle for the Frontier. You are about to engage in a confrontation just outside the belt of Orion. Here, you will prepare your fleet for battle. Intergalactic protocal deems that you are able to place a maxmimum of 11 ships. Moreover, you and your opponent much choose an appropriate battlefield.";
+
+	public static final CharSequence LAYER = ""; 
+
+
+
+
+
 }
