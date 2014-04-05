@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import messageprotocol.ActionMessage;
 import messageprotocol.ServerMessageHandler;
 import state.GameState;
+import state.Mine;
 import state.SpaceThing;
 import state.ships.AbstractShip;
 import state.ships.CruiserShip;
@@ -21,6 +22,7 @@ import actors.ShipActor;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -60,8 +62,9 @@ public class GameSetupScreen implements Screen
 	private OrthographicCamera cam; 
 	private Table menuTable; 						// The Menu That allows the user to select shit (stuff). 
 	private Skin skin; 
-	private Label description; 
+	private Label description, helpText; 
 	private LinkedList<AbstractShip> unplacedShips;
+	private String helpTextString = "Welcome, to Asteria: Battle for the Frontier. \n\n Click J to hide this Dialogue and H to show it again. "; 
 	public GameSetupTileActor currentSelectedTile = null; 
 	public PlayerNumber currentPlayer; 
 	public int cruisers = 0, destroyers = 0, radar = 0, layer = 0, torpedo = 0; 
@@ -133,12 +136,23 @@ public class GameSetupScreen implements Screen
 		Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1); 
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT); 
 		
+		if(Gdx.input.isKeyPressed(Keys.H)){
+			helpText.setVisible(true); 
+		}
+		if(Gdx.input.isKeyPressed(Keys.J))
+		{
+			helpText.setVisible(false); 
+		}
+		
+		advanceScreen(); 
 		
 		cam.update(); 
 		stage.act(delta); 
 		stage.draw(); 
 		uiStage.act(delta); 
 		uiStage.draw(); 
+		
+
 		
 	}
 
@@ -153,6 +167,7 @@ public class GameSetupScreen implements Screen
 	@Override
 	public void show()
 	{
+		// Basic Stuff we need to setup first. 
 		setUpSkin(); 
 		gameBoard = new GameSetupTileActor[30][30]; 
 		stage = new Stage(); 
@@ -176,6 +191,7 @@ public class GameSetupScreen implements Screen
 			}
 		}
 		
+		// Draw the GameBoard Depending on the Player. 
 		if(currentPlayer == PlayerNumber.PlayerOne)
 		{
 			drawPlayerOne();
@@ -185,7 +201,12 @@ public class GameSetupScreen implements Screen
 			drawPlayerTwo(); 
 		}
 		
+		// Draw the Menu Table 
 		setUpMenuTable(); 
+		
+		// Draw the Help Text. 
+		setUpHelpText(); 
+		
 		Gdx.input.setInputProcessor(new InputMultiplexer(stage, uiStage));
 	}
 
@@ -227,7 +248,38 @@ public class GameSetupScreen implements Screen
 		}
 	}
 
+	private void setUpHelpText()
+	{
+		LabelStyle helpTextStyle = new LabelStyle(); 
+		helpTextStyle.background = skin.newDrawable("white", new Color(0,0,0,1f)); 
+		helpTextStyle.font = skin.getFont("default"); 
+		helpTextStyle.fontColor = Color.WHITE; 
+		
+		helpText = new Label(helpTextString, helpTextStyle); 
+		helpText.setWrap(true);
+		helpText.setAlignment(Align.center); 
+		helpText.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		helpText.setPosition(0, 0); 
+		helpText.setVisible(true); 
+		
+		uiStage.addActor(helpText); 
+	}
 
+	private void advanceScreen()
+	{
+		for(int key : GameState.getAllSpaceThings().keySet())
+		{
+			SpaceThing thing = GameState.getAllSpaceThings().get(key); 
+			if((thing.getX() < 0 || thing.getY() < 0) && (!(thing instanceof Mine)))
+			{
+				return; 
+				
+			}
+		}
+		
+		currentGame.setScreen(new GameScreen()); 
+	}
+	
 	@Override
 	public void hide()
 	{
@@ -417,7 +469,7 @@ public class GameSetupScreen implements Screen
 		
 		
 		
-		TextButton t4 = new TextButton("Place RadarBoat",style);
+		TextButton t4 = new TextButton("Place Radar Ship",style);
 		t4.addListener(new ClickListener()
 		{
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
@@ -438,7 +490,7 @@ public class GameSetupScreen implements Screen
 		
 		
 		
-		TextButton t5 = new TextButton("Place TorpedoBoat", style);
+		TextButton t5 = new TextButton("Place Torpedo Ship", style);
 		t5.addListener(new ClickListener()
 		{
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
@@ -459,8 +511,28 @@ public class GameSetupScreen implements Screen
 		
 		
 		
-		TextButton t6 = new TextButton("Place KamikazeBoat",style);
+		TextButton t6 = new TextButton("Advance",style);
 		t6.addListener(new ClickListener()
+		{
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
+			{
+				currentGame.setScreen(new GameScreen()); 
+				return false; 
+			}
+			
+			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
+			{ 
+				description.setText(Descriptions.LAYER); 
+			}
+			
+			public void exit(InputEvent event, float x, float y, int pointer, Actor toActor)
+			{
+				description.setText(Descriptions.PLACE_INTRO_TEXT); 
+			}
+		}); 
+		
+		TextButton t7 = new TextButton("Place Cruiser", style); 
+		t7.addListener(new ClickListener()
 		{
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
 			{
@@ -477,12 +549,11 @@ public class GameSetupScreen implements Screen
 				description.setText(Descriptions.PLACE_INTRO_TEXT); 
 			}
 		}); 
-		
-
 
 		
 		menuTable.add(header).width(width).height(height * 0.1f).row();
 		menuTable.add(t1).width(width).height(height * 0.05f).row();
+		menuTable.add(t7).width(width).height(height * 0.05f).row(); 
 		menuTable.add(t2).width(width).height(height * 0.05f).row();
 		menuTable.add(t3).width(width).height(height * 0.05f).row();
 		menuTable.add(t4).width(width).height(height * 0.05f).row();
