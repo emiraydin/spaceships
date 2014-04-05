@@ -2,10 +2,12 @@ package screens;
 
 import gameLogic.Constants;
 import gameLogic.Descriptions;
+
+import java.util.LinkedList;
+
 import state.GameState;
 import state.SpaceThing;
 import state.ships.AbstractShip;
-import actors.ActorState;
 import actors.BackgroundActor;
 import actors.GameSetupTileActor;
 
@@ -34,6 +36,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import common.GameConstants.PlayerNumber;
 
 /**
  * This is the screen where the players can setup the game. 
@@ -49,20 +52,28 @@ public class GameSetupScreen implements Screen
 	private Table menuTable; 						// The Menu That allows the user to select shit (stuff). 
 	private Skin skin; 
 	private Label description; 
+	private LinkedList<AbstractShip> unplacedShips;
 	public GameSetupTileActor currentSelectedTile = null; 
+	public PlayerNumber currentPlayer; 
+	
 	
 	
 	public GameSetupScreen(Game g)
 	{
 		currentGame = g; 
 		
+		unplacedShips = new LinkedList<AbstractShip>(); 
+		
+		// Just used for Debugging Purposes. 
 		if(GameState.getPlayerId() == 0)
 		{
-			System.out.println("I am PlayerOne"); 
+			System.out.println("I am PlayerOne");
+			currentPlayer = PlayerNumber.PlayerOne; 
 		}
 		else
 		{
 			System.out.println("I am PlayerTwo"); 
+			currentPlayer = PlayerNumber.PlayerTwo; 
 		}
 		
 		
@@ -72,8 +83,16 @@ public class GameSetupScreen implements Screen
 			
 			if(thing instanceof AbstractShip)
 			{	
-				
+				if(thing.getOwner() == currentPlayer)
+				{
+					unplacedShips.add((AbstractShip) thing); 
+				}
 			}
+		}
+		
+		for(AbstractShip s : unplacedShips)
+		{
+			System.out.println(s.getClass() + " " + s.getOwner()); 
 		}
 	}
 	
@@ -101,8 +120,6 @@ public class GameSetupScreen implements Screen
 	}
 
 	
-	
-	
 	@Override
 	public void show()
 	{
@@ -129,7 +146,7 @@ public class GameSetupScreen implements Screen
 			}
 		}
 		
-		if(GameState.getPlayerId() == 0)
+		if(currentPlayer == PlayerNumber.PlayerOne)
 		{
 			drawPlayerOne();
 		}
@@ -180,7 +197,6 @@ public class GameSetupScreen implements Screen
 		}
 	}
 
-	
 
 	@Override
 	public void hide()

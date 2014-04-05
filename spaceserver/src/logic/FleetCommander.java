@@ -58,9 +58,9 @@ public class FleetCommander {
 		ships.add(ship2);
 		board.fuckJava.add(ship2);
 		
-		AbstractShip ship3 = new CruiserShip(-50, 11, OrientationType.East, this, board);
-		ships.add(ship3);
-		board.fuckJava.add(ship3);
+//		AbstractShip ship3 = new CruiserShip(-50, 11, OrientationType.East, this, board);
+//		ships.add(ship3);
+//		board.fuckJava.add(ship3);
 		
 		AbstractShip ship4 = new DestroyerShip(-50, 12, OrientationType.East, this, board);
 		ships.add(ship4);
@@ -107,7 +107,7 @@ public class FleetCommander {
 	public boolean placeShip(int shipID, int x, int y) { 
 		AbstractShip ship = getShip(shipID);
 		
-		if(board.validPlaceShipLocation(ship, x, y)) { 
+		if(!board.validPlaceShipLocation(ship, x, y)) { 
 			setActionResponse("Cannot place a ship on top of an obstacle");
 			return false;
 		}
