@@ -7,11 +7,14 @@ import java.util.LinkedList;
 
 import messageprotocol.ActionMessage;
 import messageprotocol.ServerMessageHandler;
-
 import state.GameState;
 import state.SpaceThing;
 import state.ships.AbstractShip;
-import actors.ActorState;
+import state.ships.CruiserShip;
+import state.ships.DestroyerShip;
+import state.ships.MineLayerShip;
+import state.ships.RadarBoatShip;
+import state.ships.TorpedoShip;
 import actors.BackgroundActor;
 import actors.GameSetupTileActor;
 import actors.ShipActor;
@@ -41,7 +44,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-
 import common.GameConstants.ActionType;
 import common.GameConstants.PlayerNumber;
 
@@ -62,6 +64,7 @@ public class GameSetupScreen implements Screen
 	private LinkedList<AbstractShip> unplacedShips;
 	public GameSetupTileActor currentSelectedTile = null; 
 	public PlayerNumber currentPlayer; 
+	public int cruisers = 0, destroyers = 0, radar = 0, layer = 0, torpedo = 0; 
 	
 	
 	
@@ -93,8 +96,33 @@ public class GameSetupScreen implements Screen
 				if(thing.getOwner() == currentPlayer)
 				{
 					unplacedShips.add((AbstractShip) thing); 
+					if(thing instanceof CruiserShip)
+					{
+						cruisers++; 
+					}
+					else if(thing instanceof DestroyerShip)
+					{
+						destroyers++; 
+					}
+					else if(thing instanceof RadarBoatShip)
+					{
+						radar++; 
+					}
+					else if(thing instanceof TorpedoShip)
+					{
+						torpedo++; 
+					}
+					else if(thing instanceof MineLayerShip)
+					{
+						layer++; 
+					}
+					else
+					{
+						System.out.println(thing); 
+					}
 				}
 			}
+			
 		}
 	}
 	
@@ -316,6 +344,26 @@ public class GameSetupScreen implements Screen
 		{
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
 			{
+				System.out.println("GO"); 
+				if(destroyers > 0)
+				{
+					for(int i = 0; i < unplacedShips.size(); i++)
+					{
+						AbstractShip s = unplacedShips.get(i); 
+						if(s instanceof DestroyerShip)
+						{
+							System.out.println("Destroyers: " + destroyers); 
+							destroyers--; 
+							unplacedShips.remove(i);
+							System.out.println(unplacedShips.size()); 
+							ServerMessageHandler.currentAction = new ActionMessage(ActionType.PlaceShip, s.getUniqueId(),(int)currentSelectedTile.getX(),(int)currentSelectedTile.getY()); 
+							ServerMessageHandler.hasChanged = true; 
+							ShipActor s1 = new ShipActor((int)currentSelectedTile.getX(), (int)currentSelectedTile.getY(), s, currentPlayer);
+							stage.addActor(s1); 
+							return false; 
+						}
+					}
+				}
 				return false; 
 			}
 			
@@ -337,6 +385,22 @@ public class GameSetupScreen implements Screen
 		{
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
 			{
+				if(layer > 0)
+				{
+					for(int i = 0; i < unplacedShips.size(); i++)
+					{
+						AbstractShip s = unplacedShips.get(i); 
+						if(s instanceof DestroyerShip)
+						{
+							unplacedShips.remove(s); 
+							destroyers--; 
+							ServerMessageHandler.currentAction = new ActionMessage(ActionType.PlaceShip, s.getUniqueId(),(int)currentSelectedTile.getX(),(int)currentSelectedTile.getY()); 
+							ServerMessageHandler.hasChanged = true; 
+							ShipActor s1 = new ShipActor((int)currentSelectedTile.getX(), (int)currentSelectedTile.getY(), s, currentPlayer);
+							stage.addActor(s1); 
+						}
+					}
+				}
 				return false; 
 			}
 			
@@ -482,7 +546,7 @@ public class GameSetupScreen implements Screen
 
 	
 	public void setDefaultShipLocations()
-	{
+	{		
 		if(currentPlayer == PlayerNumber.PlayerOne)
 		{
 			int x = 1, y = 10; 
