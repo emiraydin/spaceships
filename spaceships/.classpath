@@ -4,6 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="libs/gdx.jar" sourcepath="libs/gdx-sources.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="C:/Users/emiraydin/Desktop/mysql-connector-java-5.1.29-bin.jar"/>
+	<classpathentry kind="lib" path="libs/mysql-connector-java-5.1.29-bin.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
