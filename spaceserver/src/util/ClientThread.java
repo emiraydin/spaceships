@@ -22,6 +22,7 @@ public class ClientThread extends Thread {
 	private PrintStream output = null;
 	private final ClientThread[] allThreads;
 	private int playerID = 1;
+	private int gameID;
 	private ClientThread matchedThread = null;
 	private int maxPlayersOnServer;
 
@@ -112,7 +113,11 @@ public class ClientThread extends Thread {
 								this.currentGame = new GameHandler();
 								this.matchedThread.setGameHandler(this.currentGame);
 								this.playerID = 0;
-
+								
+								// Set up the database
+//								Database db = new Database();
+//								this.gameID = db.createGame(uid1, uid2, true);
+								
 								// Trigger a fake ActionMessage to start the game
 				                ActionMessage trigger = new ActionMessage(GameConstants.ActionType.Initialize, 0, 0, 0);
 				                NewTurnMessage[] replies = this.currentGame.doAction(trigger, this.playerID);
