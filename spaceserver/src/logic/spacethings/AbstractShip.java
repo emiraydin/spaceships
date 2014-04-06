@@ -278,8 +278,9 @@ public abstract class AbstractShip extends SpaceThing {
 	}
 	
 	/**
-	 * If ship is docked at a non-damaged base tile, repairs a square starting from front to back
-	 * @return
+	 * If ship is docked at a non-damaged base tile, repairs a square starting from front to back.
+	 * Damaged = health of 0. Repairs to original health (either 1 or 2 depending on heavy armour)
+	 * @return true if succeeded (ship docked), false otherwise
 	 */
 	public boolean repair() { 
 		if(!validRepairLocation()) { 
@@ -287,9 +288,14 @@ public abstract class AbstractShip extends SpaceThing {
 			return false;
 		}
 		
+		int repairAmount = 1;
+		if(this instanceof CruiserShip || this instanceof MineLayerShip) { 
+			repairAmount = 2;
+		}
+		
 		for(int section = length-1; section >=0; section--) { 
 			if(isSectionDamaged(section)) { 
-				incrementSectionHealth(1, section);
+				incrementSectionHealth(repairAmount, section);
 				break;
 			}
 		}
