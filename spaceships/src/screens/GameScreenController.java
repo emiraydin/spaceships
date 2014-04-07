@@ -7,11 +7,12 @@ import java.util.LinkedList;
 
 import state.GameState;
 import state.ships.AbstractShip;
-import state.ships.TorpedoShip;
 import actors.ActorState;
 import actors.AsteroidActor;
 import actors.BackgroundActor;
 import actors.BaseTileActor;
+import actors.MineActor;
+import actors.RadarDisplayActor;
 import actors.ShipActor;
 import actors.ShipTileActor;
 import actors.TileActor;
@@ -19,11 +20,9 @@ import actors.TileActor;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-
 import common.GameConstants.OrientationType;
 import common.GameConstants.PlayerNumber;
 
@@ -117,7 +116,10 @@ public class GameScreenController implements InputProcessor
 		// Rest the ShipTile Actors to null 
 		ShipTileActor[][] oponentLocation = ActorState.getOtherFleetArray(cPlayer); 
 		LinkedList<ShipActor> oponentShips = ActorState.getOtherFleet(cPlayer);
+		MineActor[][] playerMines = ActorState.playerOneMineField; 
+		MineActor[][] opponentMines = ActorState.playerTwoMineField; 
 		boolean[][] radar = GameState.getRadarVisibleTiles(); 
+		boolean[][] sonar = GameState.getSonarVisibleTiles(); 
 		
 		for(ShipActor aShip : oponentShips)
 		{
@@ -132,6 +134,24 @@ public class GameScreenController implements InputProcessor
 				else
 				{
 					tile.setVisible(true); 
+				}
+			}
+		}
+		
+		for(RadarDisplayActor r[] : ActorState.radarRange)
+		{
+			for(RadarDisplayActor q : r)
+			{
+				int xLoc = (int) Math.round((q).getX());
+				int yLoc = (int) Math.round((q).getY()); 
+				
+				if(radar[xLoc][yLoc] == false)
+				{
+					q.setVisible(false); 
+				}
+				else
+				{
+					q.setVisible(true); 
 				}
 			}
 		}
@@ -349,6 +369,15 @@ public class GameScreenController implements InputProcessor
 			}
 		}
 		
+		// Create the RadarView
+		for(RadarDisplayActor[] rTile : ActorState.radarRange)
+		{
+			for(RadarDisplayActor tile : rTile)
+			{
+				bg.addActor(tile); 
+			}
+		}
+		
 		// Initialize the Asteroids. 
 		ActorState.initializeAsteroidTiles(); 
 		
@@ -422,6 +451,15 @@ public class GameScreenController implements InputProcessor
 			for(TileActor tile : xArray)
 			{
 				foreground.addActor(tile);
+			}
+		}
+	
+		// Create the RadarView
+		for(RadarDisplayActor[] rTile : ActorState.radarRange)
+		{
+			for(RadarDisplayActor tile : rTile)
+			{
+				background.addActor(tile); 
 			}
 		}
 		

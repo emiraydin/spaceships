@@ -22,6 +22,24 @@ public class Database {
 	private Connection connect = null;
 	private PreparedStatement preparedStatement = null;
 	
+	public static void main(String[] args)
+	{
+		try
+		{
+			Database d = new Database();
+			
+			for(String s : d.showUsers(1))
+			{
+				d.logoutUser(s); 
+			}
+		}
+		catch (ClassNotFoundException | SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+	}
+	
 	public Database() throws ClassNotFoundException, SQLException {
 
 		Class.forName("com.mysql.jdbc.Driver");

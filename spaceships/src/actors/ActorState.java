@@ -39,12 +39,13 @@ public class ActorState
 	public static BaseTileActor[][]  playerTwoBase = new BaseTileActor[boardHeight][boardWidth];; // The opponent players base Tiles.
 	public static ShipTileActor[][] playerOneFleet = new ShipTileActor[boardHeight][boardWidth];	// The current players ship Tiles. 
 	public static ShipTileActor[][] playerTwoFleet = new ShipTileActor[boardHeight][boardWidth]; // The opponent players ship Tiles. 
-	private static MineActor[][] 	playerOneMineField = new MineActor[boardHeight][boardWidth];	// The current players Mine Tiles. 
-	private static MineActor[][] 	playerTwoMineField = new MineActor[boardHeight][boardWidth];	// The opponent players Mine Tiles. 
+	public static MineActor[][] 	playerOneMineField = new MineActor[boardHeight][boardWidth];	// The current players Mine Tiles. 
+	public static MineActor[][] 	playerTwoMineField = new MineActor[boardHeight][boardWidth];	// The opponent players Mine Tiles. 
 	public static AsteroidActor[][]  asteroidField = new AsteroidActor[boardHeight][boardWidth]; 	// The locations of all the asteroids. 
 	public static boolean[][] 	visibility	= new boolean[boardHeight][boardWidth];	   	// The board visibility. 
 	public static int 			currentSelectionShip = -1; 								   	// The currently selected player ship. 
 	public static TileActor 	currentTile; 
+	public static RadarDisplayActor[][] radarRange = new RadarDisplayActor[boardWidth][boardHeight];
 
 	
 	public static LinkedList<ShipActor> playerOneShipList = new LinkedList<ShipActor>(); 
@@ -74,6 +75,7 @@ public class ActorState
 			for(int k = 0; k < boardWidth; k++)
 			{
 				boardTiles[i][k] = new TileActor(i,k); 
+				radarRange[i][k] = new RadarDisplayActor(i,k); 
 			}
 		}
 	}

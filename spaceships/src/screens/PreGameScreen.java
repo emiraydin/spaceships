@@ -146,10 +146,11 @@ public class PreGameScreen implements Screen
 
 	private void resetPlayers()
 	{
+		// Spent 1h trying to do this manually. 
+		// Didn't realize it was already a thing lol. 
 		table.clearChildren(); 
-		
-		//System.out.println(table.getChildren().size); 
-		
+
+		// Pretty much just rebuild the entire GameBoard. 
 		table.add(new PlayerPanel()); 
 		table.row(); 
 		
@@ -158,8 +159,7 @@ public class PreGameScreen implements Screen
 			Database d = new Database();
 			
 			for(String[] s : d.showStats(1))
-			{
-				System.out.println(s[1]); 
+			{ 
 				PlayerPanel p = new PlayerPanel(s[1], s[3], s[4]); 
 				table.add(p).row(); 
 			}
@@ -169,7 +169,6 @@ public class PreGameScreen implements Screen
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
-		
 	}
 
 	private void setUpButtonStyle()
