@@ -57,7 +57,7 @@ public class TorpedoLauncher extends AbstractWeapon {
 					break;
 				}
 				SpaceThing spaceThing = owner.getGameBoard().getSpaceThing(torpedoX, torpedoY);  
-				if(spaceThing != null) { 
+				if(spaceThing != null && spaceThing != owner) { 
 					damageObstacle(spaceThing, torpedoX, torpedoY);
 					return true;
 				}
@@ -71,7 +71,7 @@ public class TorpedoLauncher extends AbstractWeapon {
 					break;
 				}
 				SpaceThing spaceThing = owner.getGameBoard().getSpaceThing(torpedoX, torpedoY);
-				if(spaceThing != null) { 
+				if(spaceThing != null && spaceThing != owner) { 
 					damageObstacle(spaceThing, torpedoX, torpedoY);
 					return true;
 				}
@@ -86,7 +86,7 @@ public class TorpedoLauncher extends AbstractWeapon {
 					break;
 				}
 				SpaceThing spaceThing = owner.getGameBoard().getSpaceThing(torpedoX, torpedoY);
-				if(spaceThing != null) { 
+				if(spaceThing != null && spaceThing != owner) { 
 					damageObstacle(spaceThing, torpedoX, torpedoY);
 					return true;
 				}
@@ -100,7 +100,7 @@ public class TorpedoLauncher extends AbstractWeapon {
 					break;
 				}
 				SpaceThing spaceThing = owner.getGameBoard().getSpaceThing(torpedoX, torpedoY);
-				if(spaceThing != null) { 
+				if(spaceThing != null && spaceThing != owner) { 
 					damageObstacle(spaceThing, torpedoX, torpedoY);
 					return true;
 				}

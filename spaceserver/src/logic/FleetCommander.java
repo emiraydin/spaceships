@@ -156,7 +156,11 @@ public class FleetCommander {
 	 * @return True if the action was performed.  False if attack was invalid.
 	 */
 	public boolean useWeapon(WeaponType wType, int shipID, int x, int y){
-		return getShip(shipID).useWeapon(wType, x, y);
+		AbstractShip ship = getShip(shipID);
+		if (ship == null){
+			System.out.println("Couldn't find shipID " + shipID);
+		}
+		return ship.useWeapon(wType, x, y);
 	}
 	
 	/**
