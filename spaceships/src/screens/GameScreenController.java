@@ -87,23 +87,7 @@ public class GameScreenController implements InputProcessor
 	 * @param delta
 	 */
 	public void update(float delta) 
-	{		
-		
-		if(Gdx.input.isKeyPressed(Keys.M))
-		{
-			AbstractShip aShip = null; 
-			for(ShipActor s : ActorState.getOtherFleet(PlayerNumber.PlayerOne))
-			{
-				if(s.ship instanceof TorpedoShip)
-				{
-					aShip = s.ship; 
-				}
-			}
-			ServerMessageHandler.currentAction = new ActionMessage(ActionType.FireTorpedo, aShip.getUniqueId(), (int)ActorState.currentTile.getX(),(int)ActorState.currentTile.getY());  
-			ServerMessageHandler.hasChanged = true;
-			
-		}
-		
+	{				
 		// If a ship is selected, display the movement and fire range. 
 		updateMovementAndFireAndHealth(delta); 
 		

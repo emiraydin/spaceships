@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.util.Scanner;
 
 import util.Database;
 
@@ -247,11 +248,7 @@ public class MainMenuScreen implements Screen
 					}
 					else
 					{
-						String data = loginUser.getText();
-						System.out.println(data); 
-						InputStream testInput = new ByteArrayInputStream( data.getBytes("UTF-8") );
-						InputStream old = System.in;
-						System.setIn( testInput );
+						
 					}
 				}
 				catch (ClassNotFoundException | SQLException | NoSuchAlgorithmException | UnsupportedEncodingException e)
