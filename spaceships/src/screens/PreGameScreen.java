@@ -1,8 +1,13 @@
 package screens;
 
+import java.sql.SQLException;
+
+import util.Database;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -11,6 +16,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -64,6 +70,11 @@ public class PreGameScreen implements Screen
 		stage.act(delta); 
 		stage.draw(); 
 		Table.drawDebug(stage); 
+		
+		if(Gdx.input.isKeyPressed(Keys.R))
+		{
+			resetPlayers(); 
+		}
 
 	}
 
@@ -99,7 +110,7 @@ public class PreGameScreen implements Screen
 	{
 		// Create the Table. 
 		table = new Table(); 
-		
+		table.top(); // Make everything Align to the Top. 
 		
 		// Create and generate the background. 
 		Pixmap pixmap = new Pixmap((int) width, (int) height, Format.RGBA8888); 
@@ -113,25 +124,52 @@ public class PreGameScreen implements Screen
 		
 		// Create and generate the Scroll Thing. 
 		paneStyle = new ScrollPaneStyle(); 
-		paneStyle.vScroll = skin.newDrawable("white", Color.BLUE); 
-		paneStyle.vScrollKnob = skin.newDrawable("white", Color.RED); 
+		paneStyle.vScroll = skin.newDrawable("white", Color.BLACK); 
+		paneStyle.vScrollKnob = skin.newDrawable("white", new Color(0,1,1,1)); 
 		paneStyle.background = drawable; 
 		pane = new ScrollPane(table,paneStyle); 
 		pane.setSize(width, height); 
 		pane.setPosition(width * 0.15f, height * 0.2f); 
 		
-		// The Header
+		// Loads the currently Logged In Players. 
+		resetPlayers(); 
+		
+//		for(int i = 0; i < 5; i++)
+//		{
+//			table.add(new PlayerPanel("Vikram Sundaram", i, i - 5)); 
+//			table.row(); 
+//		}
+//		
+		// Add the Table to the Stage. 
+		stage.addActor(pane); 
+	}
+
+	private void resetPlayers()
+	{
+		table.clearChildren(); 
+		
+		//System.out.println(table.getChildren().size); 
+		
 		table.add(new PlayerPanel()); 
 		table.row(); 
 		
-		for(int i = 0; i < 20; i++)
+		try
 		{
-			table.add(new PlayerPanel("Vikram Sundaram", i, i - 5)); 
-			table.row(); 
+			Database d = new Database();
+			
+			for(String[] s : d.showStats(1))
+			{
+				System.out.println(s[1]); 
+				PlayerPanel p = new PlayerPanel(s[1], s[3], s[4]); 
+				table.add(p).row(); 
+			}
 		}
+		catch (ClassNotFoundException | SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
 		
-		// Add the Table to the Stage. 
-		stage.addActor(pane); 
 	}
 
 	private void setUpButtonStyle()
@@ -210,12 +248,13 @@ public class PreGameScreen implements Screen
 	 */
 	public class PlayerPanel extends Table
 	{
-		private String name; 
-		private int wins, losses; 
+		private String name, wins, losses; 
 		
 		public PlayerPanel()
 		{
 			setWidth(width); 
+			
+			setBackground(skin.newDrawable("white", new Color(1,0,0,0.2f))); 
 			
 			TextButtonStyle pButton = new TextButtonStyle();  
 			pButton.font = skin.getFont("default");
@@ -225,7 +264,9 @@ public class PreGameScreen implements Screen
 			pLabel.font = skin.getFont("default"); 
 			pLabel.fontColor = Color.RED; 
 		
-			Label b = new Label("Player Name", pLabel);
+			String pad = "   "; 
+			
+			Label b = new Label(pad+"Player Name", pLabel);
 			Label c = new Label("Wins", pLabel);
 			Label d = new Label("Losses", pLabel);
 			Label e = new Label("", pLabel); 
@@ -236,16 +277,15 @@ public class PreGameScreen implements Screen
 			add(e).width(this.getWidth() / 4); 
 			padBottom(10); 
 			
-			
-			
 		}
 		
-		public PlayerPanel(String name, int wins, int losses)
+		public PlayerPanel(String name, String wins, String losses)
 		{
 			this.name = name; 
 			this.wins = wins; 
 			this.losses = losses; 
 			
+			String pad = "   "; 
 			setWidth(width); 
 			
 			TextButtonStyle pButton = new TextButtonStyle();  
@@ -256,9 +296,9 @@ public class PreGameScreen implements Screen
 			pLabel.font = skin.getFont("default"); 
 			pLabel.fontColor = Color.WHITE; 
 		
-			Label b = new Label(name, pLabel);
-			Label c = new Label(wins+"", pLabel);
-			Label d = new Label(losses+"", pLabel);
+			Label b = new Label(pad+name, pLabel);
+			Label c = new Label(wins, pLabel);
+			Label d = new Label(losses, pLabel);
 			TextButton e = new TextButton("Challenge", pButton); 
 			
 			e.addListener(new ClickListener()
@@ -270,13 +310,25 @@ public class PreGameScreen implements Screen
 				}
 			}); 
 			
-			add(b).width(this.getWidth() / 4).padLeft(10f); 
+			add(b).width(this.getWidth() / 4); 
 			add(c).width(this.getWidth() / 4); 
 			add(d).width(this.getWidth() / 4);
 			add(e).width(this.getWidth() / 4); 
+			padBottom(10f); 
 			
-			pad(10f);
-
+			
+			
+			// Define the background
+			Pixmap p = new Pixmap(32,32,Format.RGBA8888); 
+			p.setColor(new Color(0,0,0,0.4f)); 
+			p.fill(); 
+			p.setColor(new Color(0,1,1,1)); 
+			p.drawLine(0, 0, 32, 0); 
+			Texture newTexture = new Texture(p);
+			TextureRegion newTexture2 = new TextureRegion(newTexture); 
+			TextureRegionDrawable drawable = new TextureRegionDrawable(newTexture2);
+			setBackground(drawable); 
+			
 		}
 	}
 }

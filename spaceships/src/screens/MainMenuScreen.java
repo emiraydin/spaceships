@@ -1,8 +1,13 @@
 package screens;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
+
+import util.Database;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
@@ -42,6 +47,7 @@ public class MainMenuScreen implements Screen
 	private TextButtonStyle style; 
 	private Texture backgroundImage; 
 	private TextFieldStyle fStyle; 
+	private TextField loginUser, loginPass, signupUser, signupPass; 
 
 	
 	/**
@@ -213,33 +219,48 @@ public class MainMenuScreen implements Screen
 	{
 		loginTable = new Table(); 
 		setUpTable(loginTable);	
-		
-		
 	
-		TextField textfield = new TextField("", fStyle);
-		textfield.setMessageText("UserName");
-		TextField tf = new TextField("", fStyle); 
-		tf.setMessageText("Password");
-		tf.setPasswordCharacter('*');
-		tf.setPasswordMode(true); 
+		// User Name
+		loginUser = new TextField("", fStyle);
+		loginUser.setMessageText("UserName");
 		
-		tf.setTextFieldListener(new TextFieldListener()
+		// Password 
+		loginPass = new TextField("", fStyle); 
+		loginPass.setMessageText("Password");
+		loginPass.setPasswordCharacter('*');
+		loginPass.setPasswordMode(true); 
+		
+		// Submit Button. 
+		TextButton submit = new TextButton("Submit", style); 
+		submit.addListener(new ClickListener()
 		{
-			@Override
-			public void keyTyped(TextField textField, char c)
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
 			{
-				// Enter Character Apparently. 
-				if(c == 13)
+				try
 				{
-					// TODO: Replace this with a message from the server. 
-					game.setScreen(new PreGameScreen(game)); 
+					Database database = new Database();
+					boolean loginSuccess = database.loginUser(loginUser.getText(), loginPass.getText()); 
+					if(!loginSuccess)
+					{
+						return false; 
+					}
 				}
+				catch (ClassNotFoundException | SQLException | NoSuchAlgorithmException | UnsupportedEncodingException e)
+				{
+					e.printStackTrace();
+				} 
+				
+				
+				// If the check works and we are logged in then go to the PreGameScreen. 
+				game.setScreen(new PreGameScreen(game)); 
+				return false; 
 			}
 		}); 
-
 		
-		loginTable.add(textfield).pad(10f).height(100f).width(200f).center().row();
-		loginTable.add(tf).pad(10f).height(100f).width(200f).center().row();
+		
+		loginTable.add(loginUser).pad(10f).height(100f).width(200f).center().row();
+		loginTable.add(loginPass).pad(10f).height(100f).width(200f).center().row();
+		loginTable.add(submit).pad(10f).height(100f).width(200f).center().row();
 		stage.addActor(loginTable); 
 	}
 	
@@ -248,30 +269,49 @@ public class MainMenuScreen implements Screen
 		signUpTable = new Table(); 
 		setUpTable(signUpTable);	
 		
-		TextField textfield = new TextField("", fStyle);
-		textfield.setMessageText("Enter a Username");
-		TextField tf = new TextField("", fStyle); 
-		tf.setMessageText("Enter a Password");
-		tf.setPasswordCharacter('*');
-		tf.setPasswordMode(true); 
+		// User Name
+		signupUser = new TextField("", fStyle);
+		signupUser.setMessageText("Enter a Username");
 		
-		tf.setTextFieldListener(new TextFieldListener()
+		// Password
+		signupPass = new TextField("", fStyle); 
+		signupPass.setMessageText("Enter a Password");
+		signupPass.setPasswordCharacter('*');
+		signupPass.setPasswordMode(true); 
+		
+		// Submit Button. 
+		TextButton submit = new TextButton("Submit", style);
+		submit.addListener(new ClickListener()
 		{
-			@Override
-			public void keyTyped(TextField textField, char c)
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
 			{
-				// Enter Character Apparently. 
-				if(c == 13)
+				try
 				{
-					// TODO: Replace this with a message from the server. 
-					System.out.println("Submitting"); 
+					Database database = new Database();
+					boolean createSuccess = database.addUser(signupUser.getText(), signupPass.getText()); 
+					if(!createSuccess)
+					{
+						
+						return false; 
+					}
 				}
+				catch (ClassNotFoundException | SQLException | NoSuchAlgorithmException | UnsupportedEncodingException e)
+				{
+					e.printStackTrace();
+				} 
+				
+				// If the check works and we are logged in then go to the PreGameScreen. 
+				game.setScreen(new MainMenuScreen(game)); 
+				return false; 
 			}
 		}); 
+		
 
 		
-		signUpTable.add(textfield).pad(10f).height(100f).width(200f).center().row();
-		signUpTable.add(tf).pad(10f).height(100f).width(200f).center().row();
+		signUpTable.add(signupUser).pad(10f).height(100f).width(200f).center().row();
+		signUpTable.add(signupPass).pad(10f).height(100f).width(200f).center().row();
+		signUpTable.add(submit).pad(10f).height(100f).width(200f).center().row();
+		
 		stage.addActor(signUpTable); 
 	}
 
@@ -288,19 +328,25 @@ public class MainMenuScreen implements Screen
 		Texture newTexture = new Texture(pixmap);
 		TextureRegion newTexture2 = new TextureRegion(newTexture); 
 		TextureRegionDrawable drawable = new TextureRegionDrawable(newTexture2); 
-		
+	
 		// Set t's Background to be the drawable. 
-		t.setBackground(drawable);  
+		t.setBackground(drawable);
+		pixmap.dispose(); 
 }
 
 	private void setUpTextFieldStyle()
 	{
-		fStyle = new TextFieldStyle(); 		
+		fStyle = new TextFieldStyle(); 	
+		
+		// Details regarding the Font. 
 		fStyle.font = skin.getFont("default"); 
-		fStyle.fontColor = Color.WHITE; 
-		fStyle.focusedBackground = skin.newDrawable("white", new Color(0,1,1,0.5f)); 
-		fStyle.background = skin.newDrawable("white", new Color(0,1,1,0.7f)); 
+		fStyle.fontColor = Color.BLACK; 
+		
+		// The Background for the items. 
+		fStyle.focusedBackground = skin.newDrawable("white", new Color(1,1,1,0.5f)); 
+		fStyle.background = skin.newDrawable("white", new Color(1,1,1,0.7f)); 
 		fStyle.background.setLeftWidth(fStyle.background.getLeftWidth() + 10);
+		
 		fStyle.cursor = skin.newDrawable("white", Color.BLACK); 
 	}
 	

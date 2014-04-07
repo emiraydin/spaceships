@@ -22,7 +22,6 @@ public class Database {
 	private Connection connect = null;
 	private PreparedStatement preparedStatement = null;
 	
-	
 	public Database() throws ClassNotFoundException, SQLException {
 
 		Class.forName("com.mysql.jdbc.Driver");

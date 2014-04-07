@@ -144,6 +144,8 @@ public class GameSetupScreen implements Screen
 			helpText.setVisible(false); 
 		}
 		
+		// Checks if both Players have placed their ships and agreed on Asteroids. 
+		// If so, then the Game is Started. 
 		advanceScreen(); 
 		
 		cam.update(); 
@@ -273,11 +275,10 @@ public class GameSetupScreen implements Screen
 			if((thing.getX() < 0 || thing.getY() < 0) && (!(thing instanceof Mine)))
 			{
 				return; 
-				
 			}
 		}
 		
-		currentGame.setScreen(new GameScreen()); 
+		//currentGame.setScreen(new GameScreen()); 
 	}
 	
 	@Override
@@ -371,7 +372,7 @@ public class GameSetupScreen implements Screen
 		style.fontColor = Color.WHITE; 
 		style.over = skin.newDrawable("white", Color.BLUE); 
 		
-		TextButton t1 = new TextButton("Use Default Setting", style); 
+		TextButton t1 = new TextButton("Use Default Settings", style); 
 		t1.addListener(new ClickListener()
 		{
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
