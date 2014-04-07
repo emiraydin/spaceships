@@ -130,6 +130,12 @@ public class GameHandler {
 			responder.moveFailed();
 			return;
 		}
+		
+		if (players[playerID].getShip(shipID) == null){
+			responder.moveFailed();
+			return;
+		}
+		
 		switch (aType){
 		case DropMine:
 			if (!players[playerID].useWeapon(WeaponType.Mine, shipID, x, y))

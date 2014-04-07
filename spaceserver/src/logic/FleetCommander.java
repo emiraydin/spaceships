@@ -3,6 +3,7 @@ package logic;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import logic.spacethings.AbstractShip;
 import logic.spacethings.Asteroid;
@@ -103,6 +104,11 @@ public class FleetCommander {
 		board.unplacedShips.add(ship11);
 		
 		// TODO: add kamikaze ship
+		System.out.println("========= " + fcID + " ===========");
+		for (AbstractShip ship : ships){
+			System.out.println(ship.getID() + " - " + ship.getShipType().name());
+		}
+		System.out.println("==============================");
 	}
 	
 	/**
@@ -157,9 +163,12 @@ public class FleetCommander {
 	 */
 	public boolean useWeapon(WeaponType wType, int shipID, int x, int y){
 		AbstractShip ship = getShip(shipID);
-		if (ship == null){
-			System.out.println("Couldn't find shipID " + shipID);
-		}
+//		if (ship == null){
+//			System.out.println("Couldn't find shipID " + shipID);
+//			for (Map.Entry<Integer, AbstractShip> entry : ships){
+//				
+//			}
+//		}
 		return ship.useWeapon(wType, x, y);
 	}
 	
@@ -692,6 +701,11 @@ public class FleetCommander {
 			if (ship.getID() == shipID){
 				return ship;
 			}
+		}
+		System.out.println("Commander ID: " + fcID);
+		System.out.println("Couldn't find shipID " + shipID);
+		for (AbstractShip ship : ships){
+			System.out.println(ship.getID() + " - " + ship.getShipType().name());
 		}
 		return null;
 	}
