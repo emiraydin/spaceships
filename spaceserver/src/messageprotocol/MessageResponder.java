@@ -95,11 +95,11 @@ public class MessageResponder {
 		}
 		
 		// literally just for initialization pls dont touch
-		if(!(board.fuckJavaCounter == 0)) { 
-			for(AbstractShip ship : board.fuckJava) { 
+		if(!(board.unplacedCounter == 0)) { 
+			for(AbstractShip ship : board.unplacedShips) { 
 				states.put(ship.getID(), ship.genGameStateMessage());
 			}
-			board.fuckJavaCounter--; 
+			board.unplacedCounter--; 
 		}
 		
 		return new LinkedList<GameStateMessage>(states.values());

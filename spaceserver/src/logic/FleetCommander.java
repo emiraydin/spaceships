@@ -60,11 +60,11 @@ public class FleetCommander {
 		// note: keep x's negative
 		AbstractShip ship1 = new CruiserShip(-50, 10, orientation, this, board);
 		ships.add(ship1);
-		board.fuckJava.add(ship1);
+		board.unplacedShips.add(ship1);
 		
 		AbstractShip ship2 = new CruiserShip(-50, 10, orientation, this, board);
 		ships.add(ship2);
-		board.fuckJava.add(ship2);
+		board.unplacedShips.add(ship2);
 		
 //		AbstractShip ship3 = new CruiserShip(-50, 11, orientation, this, board);
 //		ships.add(ship3);
@@ -72,35 +72,35 @@ public class FleetCommander {
 		
 		AbstractShip ship4 = new DestroyerShip(-50, 12, orientation, this, board);
 		ships.add(ship4);
-		board.fuckJava.add(ship4);
+		board.unplacedShips.add(ship4);
 		
 		AbstractShip ship5 = new DestroyerShip(-50, 13, orientation, this, board);
 		ships.add(ship5);
-		board.fuckJava.add(ship5);
+		board.unplacedShips.add(ship5);
 		
 		AbstractShip ship6 = new DestroyerShip(-50, 14, orientation, this, board);
 		ships.add(ship6);
-		board.fuckJava.add(ship6);
+		board.unplacedShips.add(ship6);
 		
 		AbstractShip ship7 = new TorpedoBoatShip(-50, 15, orientation, this, board);
 		ships.add(ship7);
-		board.fuckJava.add(ship7);
+		board.unplacedShips.add(ship7);
 		
 		AbstractShip ship8 = new TorpedoBoatShip(-50, 16, orientation, this, board);
 		ships.add(ship8);
-		board.fuckJava.add(ship8);
+		board.unplacedShips.add(ship8);
 		
 		AbstractShip ship9 = new MineLayerShip(-50, 17, orientation, this, board);
 		ships.add(ship9);
-		board.fuckJava.add(ship9);
+		board.unplacedShips.add(ship9);
 		
 		AbstractShip ship10 = new MineLayerShip(-50, 18, orientation, this, board);
 		ships.add(ship10);
-		board.fuckJava.add(ship10);
+		board.unplacedShips.add(ship10);
 		
 		AbstractShip ship11 = new RadarBoatShip(-50, 19, orientation, this, board);
 		ships.add(ship11);
-		board.fuckJava.add(ship11);
+		board.unplacedShips.add(ship11);
 		
 		// TODO: add kamikaze ship
 	}
