@@ -116,6 +116,9 @@ public class GameState
 			case RadarBoatShip:
 				newShip = new RadarBoatShip(spaceThingId, owner);
 				break;
+			case KamikazeBoatShip:
+				newShip = new KamikazeBoatShip(spaceThingId, owner);
+				break;
 			case TorpedoShip:
 				newShip = new TorpedoShip(spaceThingId, owner);
 				break;
