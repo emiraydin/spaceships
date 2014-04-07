@@ -131,7 +131,8 @@ public class GameHandler {
 			return;
 		}
 		
-		if (players[playerID].getShip(shipID) == null){
+		if (players[playerID].getShip(shipID) == null
+				&& aType != ActionType.Initialize){
 			responder.moveFailed();
 			return;
 		}
