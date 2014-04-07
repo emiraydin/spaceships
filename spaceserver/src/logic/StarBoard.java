@@ -14,13 +14,13 @@ import logic.spacethings.SpaceThing;
 public class StarBoard {
 	SpaceThing[][] map;
 	int thingIDCount;
-	public List<AbstractShip> fuckJava;
-	public int fuckJavaCounter = 2; 
+	public List<AbstractShip> unplacedShips;
+	public int unplacedCounter = 2; 
 	
 	public StarBoard(){
 		map = new SpaceThing[BOARD_HEIGHT][BOARD_WIDTH];
 		thingIDCount = 0;
-		fuckJava = new ArrayList<AbstractShip>();
+		unplacedShips = new ArrayList<AbstractShip>();
 	}
 	
 	public int nextID(){
