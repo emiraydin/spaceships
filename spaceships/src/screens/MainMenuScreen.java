@@ -1,5 +1,7 @@
 package screens;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
@@ -26,7 +28,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldListener;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -243,6 +244,14 @@ public class MainMenuScreen implements Screen
 					if(!loginSuccess)
 					{
 						return false; 
+					}
+					else
+					{
+						String data = loginUser.getText();
+						System.out.println(data); 
+						InputStream testInput = new ByteArrayInputStream( data.getBytes("UTF-8") );
+						InputStream old = System.in;
+						System.setIn( testInput );
 					}
 				}
 				catch (ClassNotFoundException | SQLException | NoSuchAlgorithmException | UnsupportedEncodingException e)

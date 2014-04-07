@@ -5,8 +5,11 @@ import gameLogic.Constants;
 
 import java.util.LinkedList;
 
+import messageprotocol.ActionMessage;
+import messageprotocol.ServerMessageHandler;
 import state.GameState;
 import state.ships.AbstractShip;
+import state.ships.TorpedoShip;
 import actors.ActorState;
 import actors.AsteroidActor;
 import actors.BackgroundActor;
@@ -17,12 +20,14 @@ import actors.ShipActor;
 import actors.ShipTileActor;
 import actors.TileActor;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import common.GameConstants.ActionType;
 import common.GameConstants.OrientationType;
 import common.GameConstants.PlayerNumber;
 
@@ -83,6 +88,22 @@ public class GameScreenController implements InputProcessor
 	 */
 	public void update(float delta) 
 	{		
+		
+		if(Gdx.input.isKeyPressed(Keys.M))
+		{
+			AbstractShip aShip = null; 
+			for(ShipActor s : ActorState.getOtherFleet(PlayerNumber.PlayerOne))
+			{
+				if(s.ship instanceof TorpedoShip)
+				{
+					aShip = s.ship; 
+				}
+			}
+			ServerMessageHandler.currentAction = new ActionMessage(ActionType.FireTorpedo, aShip.getUniqueId(), (int)ActorState.currentTile.getX(),(int)ActorState.currentTile.getY());  
+			ServerMessageHandler.hasChanged = true;
+			
+		}
+		
 		// If a ship is selected, display the movement and fire range. 
 		updateMovementAndFireAndHealth(delta); 
 		

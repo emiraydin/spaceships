@@ -16,7 +16,7 @@ public class MineLayerShip extends AbstractShip
 	/**
 	 * Mines!
 	 */
-	LinkedList<Mine> mines;
+	public LinkedList<Mine> mines;
 	
 //	/**
 //	 * Sonar
