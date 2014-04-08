@@ -247,11 +247,13 @@ public class PreGameScreen implements Screen
 	 */
 	public class PlayerPanel extends Table
 	{
-		private String name, wins, losses; 
+		private final String name; 
+		private String wins, losses; 
 		
 		public PlayerPanel()
 		{
 			setWidth(width); 
+			name = ""; 
 			
 			setBackground(skin.newDrawable("white", new Color(1,0,0,0.2f))); 
 			
@@ -304,6 +306,7 @@ public class PreGameScreen implements Screen
 			{
 				public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
 				{
+					 
 					game.setScreen(new GameSetupScreen(game));
 					return false; 
 				}
