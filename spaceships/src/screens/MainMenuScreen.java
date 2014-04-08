@@ -250,8 +250,8 @@ public class MainMenuScreen implements Screen
 					}
 					else
 					{
-						TCPClient.inputString = loginUser.getText();
-						TCPClient.inputEntered = true;
+					//	TCPClient.inputString = loginUser.getText();
+					//	TCPClient.inputEntered = true;
 					}
 				}
 				catch (ClassNotFoundException | SQLException | NoSuchAlgorithmException | IOException e)

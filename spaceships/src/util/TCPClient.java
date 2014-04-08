@@ -1,7 +1,5 @@
 package util;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.io.PrintStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -20,12 +18,11 @@ public class TCPClient implements Runnable {
 	private static Socket clientSocket = null;
 	private static PrintStream output = null;
 	private static BufferedReader input = null;
-	private static ByteArrayInputStream inputLine = null;
-	public static String inputString = null;
+
+	private static BufferedReader inputLine = null;
 	private static boolean connectionClosed = false;
 	public static boolean canStart;
-	public static boolean inputEntered;
-	
+
 	public static void start() {
 
 		System.out.println("Client is now running on " + Properties.SERVER_HOST + " port " + Properties.PORT_NUMBER);
@@ -33,10 +30,9 @@ public class TCPClient implements Runnable {
 		// Open a socket on given host name and port number, and initialize input/output streams
 		try {
 			clientSocket = new Socket(Properties.SERVER_HOST, Properties.PORT_NUMBER);
-//			inputLine = new ByteArrayInputStream(inputString.getBytes("UTF-8"));
+			inputLine = new BufferedReader(new InputStreamReader(System.in));
 			output = new PrintStream(clientSocket.getOutputStream(), true);
 			input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-			inputEntered = false;
 		} catch (UnknownHostException e) {
 			System.err.println("Unknown host: " + Properties.SERVER_HOST);
 		} catch (IOException e) {
@@ -51,13 +47,12 @@ public class TCPClient implements Runnable {
 				new Thread(new TCPClient()).start();
 				while (!connectionClosed) {
 					// Send the message
-					if (inputEntered) {
-						output.println(inputString);
-						inputEntered = false;
+					if (inputLine.ready()) {		
+						output.println(inputLine.readLine().trim());
+						System.out.println("I'm here inputLine.ready");
 						output.flush();
 					}
-					
-					//	System.out.println(ServerMessageHandler.currentAction);
+//					System.out.println(ServerMessageHandler.currentAction);
 //					Thread.sleep(1000);
 					// Send the ActionMessage
 					if (ServerMessageHandler.hasChanged) {
@@ -81,36 +76,6 @@ public class TCPClient implements Runnable {
 		}
 
 	}
-	
-	private static String getStringFromInputStream(InputStream is) {
-		 
-		BufferedReader br = null;
-		StringBuilder sb = new StringBuilder();
- 
-		String line;
-		try {
- 
-			br = new BufferedReader(new InputStreamReader(is));
-			while ((line = br.readLine()) != null) {
-				sb.append(line);
-			}
- 
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (br != null) {
-				try {
-					br.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
- 
-		return sb.toString();
- 
-	}
-
 
 	// Run the thread that will be created to read from the server
 	public void run() {
@@ -130,11 +95,11 @@ public class TCPClient implements Runnable {
 				} else {
 					System.out.println(responseLine);
 				}
-				
+
 				if (responseLine.indexOf("Goodbye") != -1)
 					break;
 			}
-			
+
 			connectionClosed = true;
 			// Exit the client application
 			System.exit(0);
