@@ -303,7 +303,7 @@ public class ActorState
 			if(object instanceof Mine)
 			{
 				MineActor mine = new MineActor(object.getX(), object.getY(), (Mine)object); 
-				mineField[object.getX()][object.getY()] = mine; 
+				//mineField[object.getX()][object.getY()] = mine; 
 			}
 		}
 		
