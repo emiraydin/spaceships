@@ -136,10 +136,10 @@ public class GameScreenUiController
 		setUpClickListenersForDropMine(dropMine); 
 		dropMine.setVisible(false); 
 		toggleRadar = new TextButton("Toggle\nRadar", tbs); 
-		//setUpClickListenersForToggleRadar(toggleRadar); 
+		setUpClickListenersForToggleRadar(toggleRadar); 
 		toggleRadar.setVisible(false); 
 		explode = new TextButton("Explode", tbs); 
-		//setUpClickListenersForExplode(explode)
+		setUpClickListenersForExplode(explode);
 		explode.setVisible(false); 
 		
 		buttonTable.add(moveShip).pad(10f); 
@@ -148,7 +148,10 @@ public class GameScreenUiController
 		buttonTable.add(turnLeft).pad(10f);
 		buttonTable.add(turnRight).pad(10f);
 		buttonTable.add(turn180).pad(10f); 
-		buttonTable.add(dropMine).pad(10f); 
+		buttonTable.add(dropMine).pad(10f);
+		buttonTable.row(); 
+		buttonTable.add(toggleRadar).pad(10f); 
+		buttonTable.add(explode).pad(10f); 
 		
 		speed = new Label("", typingStyle); 
 		health = new Label("", typingStyle); 
@@ -207,6 +210,74 @@ public class GameScreenUiController
 
 	}
 	
+	private void setUpClickListenersForExplode(TextButton explode2)
+	{
+		explode2.addListener(new ClickListener()
+		{
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
+			{				
+				if(ActorState.currentSelectionShip != -1
+						&& ActorState.currentTile != null)
+				{
+					ServerMessageHandler.currentAction = new ActionMessage(ActionType.Explode, ActorState.getShipList(controller.cPlayer).get(ActorState.currentSelectionShip).ship.getUniqueId(), (int)ActorState.currentTile.getX(), (int)ActorState.currentTile.getY());
+					ServerMessageHandler.hasChanged = true; 
+					chatBox.setText(""); 
+				}
+				else
+				{
+					chatBox.setText("Select a place to explode the ship in range. "); 
+				}
+				return false; 
+			}
+		
+			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
+			{ 
+				currentPlayerAction.setText("Explodes the kamikaze ship");
+			}
+			
+			public void exit(InputEvent event, float x, float y, int pointer, Actor toActor)
+			{
+				currentPlayerAction.setText(""); 
+			}
+		
+		});
+		
+	}
+
+	private void setUpClickListenersForToggleRadar(TextButton toggleRadar2)
+	{
+		toggleRadar2.addListener(new ClickListener()
+		{
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
+			{				
+				if(ActorState.currentSelectionShip != -1)
+						//&& ActorState.currentTile != null)
+				{
+					ServerMessageHandler.currentAction = new ActionMessage(ActionType.ToggleRadar, ActorState.getShipList(controller.cPlayer).get(ActorState.currentSelectionShip).ship.getUniqueId(), (int)ActorState.currentTile.getX(), (int)ActorState.currentTile.getY());
+					ServerMessageHandler.hasChanged = true; 
+					chatBox.setText(""); 
+				}
+				else
+				{
+					//chatBox.setText("That move selection is invalid.\nPlease select a move in range"); 
+				}
+				return false; 
+			}
+		
+			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
+			{ 
+				currentPlayerAction.setText("Toggle the RadarBoat's extended Radar.");
+			}
+			
+			public void exit(InputEvent event, float x, float y, int pointer, Actor toActor)
+			{
+				currentPlayerAction.setText(""); 
+			}
+		
+		});
+		
+	}
+
 	private void setUpClickListenersForDropMine(TextButton button)
 	{
 		button.addListener(new ClickListener()
