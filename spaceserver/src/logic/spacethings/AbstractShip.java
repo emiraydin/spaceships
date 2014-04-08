@@ -1,7 +1,6 @@
 package logic.spacethings;
 
 import java.awt.Point;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
@@ -11,6 +10,7 @@ import logic.AbstractWeapon;
 import logic.FleetCommander;
 import logic.StarBoard;
 import messageprotocol.GameStateMessage;
+
 import common.GameConstants.ActionType;
 import common.GameConstants.OrientationType;
 import common.GameConstants.SpaceThingType;

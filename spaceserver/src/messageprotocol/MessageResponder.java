@@ -1,6 +1,5 @@
 package messageprotocol;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -12,6 +11,7 @@ import logic.spacethings.Mine;
 import logic.spacethings.MineLayerShip;
 import logic.spacethings.RadarBoatShip;
 import logic.spacethings.SpaceThing;
+
 import common.GameConstants;
 
 public class MessageResponder {

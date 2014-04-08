@@ -162,12 +162,6 @@ public class FleetCommander {
 	 */
 	public boolean useWeapon(WeaponType wType, int shipID, int x, int y){
 		AbstractShip ship = getShip(shipID);
-//		if (ship == null){
-//			System.out.println("Couldn't find shipID " + shipID);
-//			for (Map.Entry<Integer, AbstractShip> entry : ships){
-//				
-//			}
-//		}
 		return ship.useWeapon(wType, x, y);
 	}
 	
@@ -442,7 +436,10 @@ public class FleetCommander {
 		AbstractShip ship = getShip(shipID);
 		SpaceThing thing = board.getSpaceThing(x, y);
 		if (ship instanceof MineLayerShip && thing instanceof Mine){
-			return ((MineLayerShip) ship).pickUpMine((Mine) thing);
+			if (((MineLayerShip) ship).pickUpMine((Mine) thing)){
+				setActionResponse(((MineLayerShip) ship).getPrettyMineCount());
+				return true;
+			}
 		}
 		return false;
 	}
