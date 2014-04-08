@@ -105,7 +105,9 @@ public class FleetCommander {
 		
 		System.out.println("========= " + fcID + " ===========");
 		for (AbstractShip ship : ships){
-			System.out.println(ship.getID() + " - " + ship.getShipType().name());
+			System.out.print(ship.getID() + " - " + ship.getShipType().name());
+			System.out.println((ship instanceof RadarBoatShip)?
+					" lre: "+((RadarBoatShip) ship).isLongRadarEnabled():"");
 		}
 		System.out.println("==============================");
 	}
@@ -186,8 +188,10 @@ public class FleetCommander {
 			RadarBoatShip rShip = (RadarBoatShip) ship;
 			decrementVisibility(rShip);
 			if (rShip.isLongRadarEnabled()){
+				setActionResponse("Long-range Radar Enabled.");
 				rShip.turnOffLongRadar();
 			} else {
+				setActionResponse("Long-range Radar Disabled.");
 				rShip.turnOnLongRadar();
 			}
 			incrementVisibility(rShip);
