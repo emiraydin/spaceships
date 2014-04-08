@@ -136,11 +136,12 @@ public abstract class AbstractShip extends SpaceThing {
 			
 			// choose random section of ship to be be the square that collides
 			Point[] shipCoords = this.getShipCoords();
+
 			// detonate mine
-//			Random r = new Random(shipCoords.length);
 			Point shipLocation = shipCoords[(new Random()).nextInt(shipCoords.length)];
-			mine.detonate(shipLocation.x, shipLocation.y);
-			this.getOwner().setActionResponse(String.format("Mine detonated at (%d,%d)", obstacleX, obstacleY));
+			if (mine.detonate(shipLocation.x, shipLocation.y)){
+				this.getOwner().setActionResponse(String.format("Mine detonated at (%d,%d)", obstacleX, obstacleY));
+			}
 		}
 		else { 
 			return false;

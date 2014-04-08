@@ -293,30 +293,34 @@ public class FleetCommander {
 			int sectionY = coords[i].y;
 			if(board.getSpaceThing(sectionX+1, sectionY) instanceof Mine) { 
 				if(!(ship instanceof MineLayerShip)) { 
-					setActionResponse(String.format("Mine detonated at (%d,%d)", sectionX+1, sectionY));
 					Mine mine = (Mine)board.getSpaceThing(sectionX+1, sectionY);
-					mine.detonate(sectionX, sectionY);
+					if (mine.detonate(sectionX, sectionY)){
+						setActionResponse(String.format("Mine detonated at (%d,%d)", sectionX+1, sectionY));						
+					}
 				}
 				return true;				
 			} else if(board.getSpaceThing(sectionX-1, sectionY) instanceof Mine) { 
 				if(!(ship instanceof MineLayerShip)) { 
-					setActionResponse(String.format("Mine detonated at (%d,%d)", sectionX-1, sectionY));
 					Mine mine = (Mine)board.getSpaceThing(sectionX-1, sectionY);
-					mine.detonate(sectionX, sectionY);
+					if (mine.detonate(sectionX, sectionY)){
+						setActionResponse(String.format("Mine detonated at (%d,%d)", sectionX-1, sectionY));
+					}
 				}
 				return true;
 			} else if(board.getSpaceThing(sectionX, sectionY+1) instanceof Mine) { 
 				if(!(ship instanceof MineLayerShip)) { 
-					setActionResponse(String.format("Mine detonated at (%d,%d)", sectionX, sectionY+1));
 					Mine mine = (Mine)board.getSpaceThing(sectionX, sectionY+1);
-					mine.detonate(sectionX, sectionY);
+					if (mine.detonate(sectionX, sectionY)){
+						setActionResponse(String.format("Mine detonated at (%d,%d)", sectionX, sectionY+1));						
+					}
 				}
 				return true;
 			} else if(board.getSpaceThing(sectionX, sectionY-1) instanceof Mine) { 
 				if(!(ship instanceof MineLayerShip)) {
-					setActionResponse(String.format("Mine detonated at (%d,%d)", sectionX, sectionY-1));
 					Mine mine = (Mine)board.getSpaceThing(sectionX, sectionY-1);
-					mine.detonate(sectionX, sectionY);
+					if (mine.detonate(sectionX, sectionY)){
+						setActionResponse(String.format("Mine detonated at (%d,%d)", sectionX, sectionY-1));						
+					}
 				}
 				return true;
 			}
