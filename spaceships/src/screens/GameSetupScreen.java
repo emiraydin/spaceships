@@ -278,7 +278,7 @@ public class GameSetupScreen implements Screen
 			}
 		}
 		
-		//currentGame.setScreen(new GameScreen()); 
+		currentGame.setScreen(new GameScreen()); 
 	}
 	
 	@Override

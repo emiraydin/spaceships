@@ -105,7 +105,9 @@ public class FleetCommander {
 		
 		System.out.println("========= " + fcID + " ===========");
 		for (AbstractShip ship : ships){
-			System.out.println(ship.getID() + " - " + ship.getShipType().name());
+			System.out.print(ship.getID() + " - " + ship.getShipType().name());
+			System.out.println((ship instanceof RadarBoatShip)?
+					" lre: "+((RadarBoatShip) ship).isLongRadarEnabled():"");
 		}
 		System.out.println("==============================");
 	}
@@ -162,12 +164,6 @@ public class FleetCommander {
 	 */
 	public boolean useWeapon(WeaponType wType, int shipID, int x, int y){
 		AbstractShip ship = getShip(shipID);
-//		if (ship == null){
-//			System.out.println("Couldn't find shipID " + shipID);
-//			for (Map.Entry<Integer, AbstractShip> entry : ships){
-//				
-//			}
-//		}
 		return ship.useWeapon(wType, x, y);
 	}
 	
@@ -184,6 +180,24 @@ public class FleetCommander {
 		else { 
 			return false;
 		}
+	}
+	
+	public boolean toggleRadar(int shipID){
+		AbstractShip ship = getShip(shipID);
+		if (ship instanceof RadarBoatShip){
+			RadarBoatShip rShip = (RadarBoatShip) ship;
+			decrementVisibility(rShip);
+			if (rShip.isLongRadarEnabled()){
+				setActionResponse("Long-range Radar Disabled.");
+				rShip.turnOffLongRadar();
+			} else {
+				setActionResponse("Long-range Radar Enabled.");
+				rShip.turnOnLongRadar();
+			}
+			incrementVisibility(rShip);
+		}
+		setActionResponse("This ship doesn't have long-range radar capabilities.");
+		return false;
 	}
 	
 	/**
@@ -279,30 +293,34 @@ public class FleetCommander {
 			int sectionY = coords[i].y;
 			if(board.getSpaceThing(sectionX+1, sectionY) instanceof Mine) { 
 				if(!(ship instanceof MineLayerShip)) { 
-					setActionResponse(String.format("Mine detonated at (%d,%d)", sectionX+1, sectionY));
 					Mine mine = (Mine)board.getSpaceThing(sectionX+1, sectionY);
-					mine.detonate(sectionX, sectionY);
+					if (mine.detonate(sectionX, sectionY)){
+						setActionResponse(String.format("Mine detonated at (%d,%d)", sectionX+1, sectionY));						
+					}
 				}
 				return true;				
 			} else if(board.getSpaceThing(sectionX-1, sectionY) instanceof Mine) { 
 				if(!(ship instanceof MineLayerShip)) { 
-					setActionResponse(String.format("Mine detonated at (%d,%d)", sectionX-1, sectionY));
 					Mine mine = (Mine)board.getSpaceThing(sectionX-1, sectionY);
-					mine.detonate(sectionX, sectionY);
+					if (mine.detonate(sectionX, sectionY)){
+						setActionResponse(String.format("Mine detonated at (%d,%d)", sectionX-1, sectionY));
+					}
 				}
 				return true;
 			} else if(board.getSpaceThing(sectionX, sectionY+1) instanceof Mine) { 
 				if(!(ship instanceof MineLayerShip)) { 
-					setActionResponse(String.format("Mine detonated at (%d,%d)", sectionX, sectionY+1));
 					Mine mine = (Mine)board.getSpaceThing(sectionX, sectionY+1);
-					mine.detonate(sectionX, sectionY);
+					if (mine.detonate(sectionX, sectionY)){
+						setActionResponse(String.format("Mine detonated at (%d,%d)", sectionX, sectionY+1));						
+					}
 				}
 				return true;
 			} else if(board.getSpaceThing(sectionX, sectionY-1) instanceof Mine) { 
 				if(!(ship instanceof MineLayerShip)) {
-					setActionResponse(String.format("Mine detonated at (%d,%d)", sectionX, sectionY-1));
 					Mine mine = (Mine)board.getSpaceThing(sectionX, sectionY-1);
-					mine.detonate(sectionX, sectionY);
+					if (mine.detonate(sectionX, sectionY)){
+						setActionResponse(String.format("Mine detonated at (%d,%d)", sectionX, sectionY-1));						
+					}
 				}
 				return true;
 			}
@@ -317,6 +335,10 @@ public class FleetCommander {
 	private boolean validateMove(AbstractShip ship, int x, int y){
 		int shipX = ship.getX();
 		int shipY = ship.getY();
+		if (ship instanceof RadarBoatShip && ((RadarBoatShip) ship).isLongRadarEnabled()){
+			setActionResponse("Ship cannot move while long-range radar is enabled.");
+			return false;
+		}
 		
 		// not diagonal
 		if(shipX - x != 0 && shipY - y != 0) { 
@@ -343,6 +365,9 @@ public class FleetCommander {
 			}
 			// moving faster than speed allows
 			if(x > shipX + ship.getSpeed()) { 
+				if (ship instanceof RadarBoatShip && ((RadarBoatShip) ship).isLongRadarEnabled()){
+					setActionResponse("Ship cannot move while long-range radar is enabled.");
+				}
 				setActionResponse("Ship cannot move that fast");
 				return false;
 			}
@@ -427,7 +452,10 @@ public class FleetCommander {
 		AbstractShip ship = getShip(shipID);
 		SpaceThing thing = board.getSpaceThing(x, y);
 		if (ship instanceof MineLayerShip && thing instanceof Mine){
-			return ((MineLayerShip) ship).pickUpMine((Mine) thing);
+			if (((MineLayerShip) ship).pickUpMine((Mine) thing)){
+				setActionResponse(((MineLayerShip) ship).getPrettyMineCount());
+				return true;
+			}
 		}
 		return false;
 	}

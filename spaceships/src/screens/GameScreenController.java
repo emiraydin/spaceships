@@ -4,12 +4,11 @@ import gameLogic.ActionValidator;
 import gameLogic.Constants;
 
 import java.util.LinkedList;
+import java.util.Set;
 
-import messageprotocol.ActionMessage;
-import messageprotocol.ServerMessageHandler;
 import state.GameState;
+import state.Mine;
 import state.ships.AbstractShip;
-import state.ships.TorpedoShip;
 import actors.ActorState;
 import actors.AsteroidActor;
 import actors.BackgroundActor;
@@ -27,7 +26,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import common.GameConstants.ActionType;
 import common.GameConstants.OrientationType;
 import common.GameConstants.PlayerNumber;
 
@@ -87,7 +85,8 @@ public class GameScreenController implements InputProcessor
 	 * @param delta
 	 */
 	public void update(float delta) 
-	{				
+	{		
+		
 		// If a ship is selected, display the movement and fire range. 
 		updateMovementAndFireAndHealth(delta); 
 		
@@ -270,21 +269,20 @@ public class GameScreenController implements InputProcessor
 			// Moving forward or backward. 
 			if(currentShip.getX() < (float) currentShip.ship.getX())
 			{
-				currentShip.moveBy(delta, 0);
+				currentShip.moveBy(0.25f, 0);
 			}
 			else if(currentShip.getX() > (float) currentShip.ship.getX())
 			{
-				currentShip.moveBy(-delta, 0);
+				currentShip.moveBy(-0.25f, 0);
 			}
 			if(currentShip.getY() < (float) currentShip.ship.getY())
 			{
-				currentShip.moveBy(0, delta);
+				currentShip.moveBy(0, 0.25f);
 			}
 			else if(currentShip.getY() > (float) currentShip.ship.getY())
 			{
-				currentShip.moveBy(0, -delta);
+				currentShip.moveBy(0, -0.25f);
 			}
-
 		}
 		
 		for(ShipActor currentShip : ActorState.getShipList(PlayerNumber.PlayerTwo))
@@ -312,21 +310,27 @@ public class GameScreenController implements InputProcessor
 			}
 			
 			// Moving forward or backward. 
+			
+			float currentX = currentShip.getX(), stateX = (float) currentShip.ship.getX(); 
+			float currentY = currentShip.getY(), stateY = (float) currentShip.ship.getY(); 
+			
+			
+			
 			if(currentShip.getX() < (float) currentShip.ship.getX())
 			{
-				currentShip.moveBy(delta, 0);
+				currentShip.moveBy(0.25f, 0);
 			}
 			else if(currentShip.getX() > (float) currentShip.ship.getX())
 			{
-				currentShip.moveBy(-delta, 0);
+				currentShip.moveBy(-0.25f, 0);
 			}
 			if(currentShip.getY() < (float) currentShip.ship.getY())
 			{
-				currentShip.moveBy(0, delta);
+				currentShip.moveBy(0, 0.25f);
 			}
 			else if(currentShip.getY() > (float) currentShip.ship.getY())
 			{
-				currentShip.moveBy(0, -delta);
+				currentShip.moveBy(0, -0.25f);
 			}
 
 		}

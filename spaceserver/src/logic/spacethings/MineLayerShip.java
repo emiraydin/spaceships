@@ -260,4 +260,14 @@ public class MineLayerShip extends AbstractShip {
 		
 	}
 	
+	public String getPrettyMineCount(){
+		if (mines.size() == 0){
+			return "This ship has no mines remaining.";
+		} else if (mines.size() == 1){
+			return "This ship has " + mines.size() + "mine remaining.";
+		} else {
+			return "This ship has " + mines.size() + "mines remaining.";
+		}
+	}
+	
 }

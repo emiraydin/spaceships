@@ -30,7 +30,7 @@ public class Mine extends SpaceThing {
 			AbstractShip ship = (AbstractShip) getGameBoard().getSpaceThing(x, y);
 			int section = ship.getSectionAt(x, y);
 			ship.decrementSectionHealth(damage, section);
-			
+ 			
 			// catch for kamikaze ship
 			if(ship.getLength() > 1) { 
 				int section2;

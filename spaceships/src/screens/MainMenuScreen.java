@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 import util.Database;
+import util.TCPClient;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -248,7 +249,8 @@ public class MainMenuScreen implements Screen
 					}
 					else
 					{
-						
+//						TCPClient.inputString = loginUser.getText(); 
+//						System.out.println("String Changed to: " + TCPClient.inputString); 
 					}
 				}
 				catch (ClassNotFoundException | SQLException | NoSuchAlgorithmException | UnsupportedEncodingException e)

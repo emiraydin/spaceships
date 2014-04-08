@@ -23,7 +23,7 @@ public class GameState
 	/**
 	 * The parents of all the mines!
 	 */
-	private static HashMap<Integer,Integer> mineParents = new HashMap<Integer,Integer>();
+	public static HashMap<Integer,Integer> mineParents = new HashMap<Integer,Integer>();
 	
 	
 	/**
@@ -92,6 +92,7 @@ public class GameState
 				things.put(spaceThingId, asteroid);
 				return;
 			case Mine:
+				System.out.println("new mine in the hood"); 
 				Mine mine = new Mine(spaceThingId, owner);
 				mine.setX(posX);
 				mine.setY(posY);
@@ -115,6 +116,9 @@ public class GameState
 				break;
 			case RadarBoatShip:
 				newShip = new RadarBoatShip(spaceThingId, owner);
+				break;
+			case KamikazeBoatShip:
+				newShip = new KamikazeBoatShip(spaceThingId, owner);
 				break;
 			case TorpedoShip:
 				newShip = new TorpedoShip(spaceThingId, owner);

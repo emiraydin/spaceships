@@ -11,7 +11,6 @@ public class MineLayer extends AbstractWeapon {
 	
 	public MineLayer(AbstractShip owner) { 
 		super(owner);
-		// ???
 		damage = -1;
 	}
 	
@@ -25,9 +24,12 @@ public class MineLayer extends AbstractWeapon {
 		if(inRange(x, y)) { 
 			MineLayerShip ship = (MineLayerShip)owner;
 			Mine mine = ship.removeMine();
-			mine.setLocation(x, y);
-			ship.getGameBoard().setSpaceThing(mine);
-			return true;
+			owner.getOwner().setActionResponse(ship.getPrettyMineCount());
+			if (mine != null){
+				mine.setLocation(x, y);
+				ship.getGameBoard().setSpaceThing(mine);
+				return true;
+			}
 		}
 		return false;
 		

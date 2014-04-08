@@ -18,12 +18,6 @@ public class MineLayerShip extends AbstractShip
 	 */
 	public LinkedList<Mine> mines;
 	
-//	/**
-//	 * Sonar
-//	 */
-//	protected int sonarVisibilityWidth;
-//	protected int sonarVisibilityHeight;
-//	
 	
 	/**
 	 * Default constructor. 
@@ -39,13 +33,6 @@ public class MineLayerShip extends AbstractShip
 		this.addWeapon(new Cannon());
 		this.addWeapon(new MineLayer());
 	}
-	
-//	public int getSonarVisibilityWidth() {
-//		return this.sonarVisibilityWidth;
-//	}	
-//	public int getSonarVisibilityHeight() {
-//		return this.sonarVisibilityHeight;
-//	}	
 	
 	/**
 	 * Add a mine.

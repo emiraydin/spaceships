@@ -1,6 +1,5 @@
 package messageprotocol;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -10,6 +9,7 @@ import logic.StarBoard;
 import logic.spacethings.AbstractShip;
 import logic.spacethings.Mine;
 import logic.spacethings.MineLayerShip;
+import logic.spacethings.RadarBoatShip;
 import logic.spacethings.SpaceThing;
 
 import common.GameConstants;
@@ -55,7 +55,7 @@ public class MessageResponder {
 		
 		NewTurnMessage turnMessage = new NewTurnMessage(aMessage, success, response, createStateMessages(),
 				convertVisibility(fc.getRadarVisibility()), convertVisibility(fc.getSonarVisibility()), playerID, responseTo);
-		addMines(turnMessage);
+		addMinesAndLR(turnMessage);
 		return turnMessage;
 	}
 	
@@ -105,7 +105,8 @@ public class MessageResponder {
 		return new LinkedList<GameStateMessage>(states.values());
 	}
 	
-	private void addMines(NewTurnMessage message){
+	private void addMinesAndLR(NewTurnMessage message){
+		LinkedList<Integer> lreShips = new LinkedList<>();
 		for (int x = 0; x < GameConstants.BOARD_WIDTH; x++){
 			for (int y = 0; y < GameConstants.BOARD_HEIGHT; y++){
 				SpaceThing thing = board.getSpaceThing(x, y);
@@ -115,6 +116,10 @@ public class MessageResponder {
 						for (Mine m : mShip.getMines()){
 							message.addMineParent(m.getID(), mShip.getID());
 						}
+					}
+				} else if (thing instanceof RadarBoatShip){
+					if(((RadarBoatShip) thing).isLongRadarEnabled()){
+						lreShips.add(thing.getID());
 					}
 				}
 			}

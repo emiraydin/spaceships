@@ -22,7 +22,7 @@ public class TCPClient implements Runnable {
 	private static BufferedReader inputLine = null;
 	private static boolean connectionClosed = false;
 	public static boolean canStart;
-	
+
 	public static void start() {
 
 		System.out.println("Client is now running on " + Properties.SERVER_HOST + " port " + Properties.PORT_NUMBER);
@@ -95,11 +95,11 @@ public class TCPClient implements Runnable {
 				} else {
 					System.out.println(responseLine);
 				}
-				
+
 				if (responseLine.indexOf("Goodbye") != -1)
 					break;
 			}
-			
+
 			connectionClosed = true;
 			// Exit the client application
 			System.exit(0);
