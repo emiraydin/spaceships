@@ -1,6 +1,7 @@
 package actors;
 
 import gameLogic.Constants;
+import state.Mine;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -24,13 +25,16 @@ public class MineActor extends Image
 		// Sprite that is drawn on Screen
 		private Sprite SPRITE;  
 		
-		public MineActor(int x, int y)
+		public Mine mine; 
+		
+		public MineActor(int x, int y,  Mine mine)
 		{
 			Texture texture = generateStandardTile(); 
 			SPRITE = new Sprite(texture);
 			setPosition(x,y);
 			setWidth(1);
 			setHeight(1);
+			this.mine = mine; 
 		}
 		
 		private Texture generateStandardTile()

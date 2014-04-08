@@ -4,10 +4,10 @@ import gameLogic.ActionValidator;
 import gameLogic.Constants;
 
 import java.util.LinkedList;
-import java.util.Set;
 
 import state.GameState;
 import state.Mine;
+import state.SpaceThing;
 import state.ships.AbstractShip;
 import actors.ActorState;
 import actors.AsteroidActor;
@@ -19,7 +19,6 @@ import actors.ShipActor;
 import actors.ShipTileActor;
 import actors.TileActor;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -120,8 +119,6 @@ public class GameScreenController implements InputProcessor
 		// Rest the ShipTile Actors to null 
 		ShipTileActor[][] oponentLocation = ActorState.getOtherFleetArray(cPlayer); 
 		LinkedList<ShipActor> oponentShips = ActorState.getOtherFleet(cPlayer);
-		MineActor[][] playerMines = ActorState.playerOneMineField; 
-		MineActor[][] opponentMines = ActorState.playerTwoMineField; 
 		boolean[][] radar = GameState.getRadarVisibleTiles(); 
 		boolean[][] sonar = GameState.getSonarVisibleTiles(); 
 		
@@ -157,6 +154,15 @@ public class GameScreenController implements InputProcessor
 				{
 					q.setVisible(true); 
 				}
+			}
+		}
+		
+		for(int n : GameState.getAllSpaceThings().keySet())
+		{
+			SpaceThing s = GameState.getAllSpaceThings().get(n); 
+			if(s instanceof Mine)
+			{
+				System.out.println(s.getX() +" "+s.getY()); 
 			}
 		}
 	}
