@@ -45,6 +45,10 @@ public class RadarBoatShip extends AbstractShip {
 		radarVisibilityLength = 6;
 	}
 	
+	public boolean isLongRadarEnabled(){
+		return (radarVisibilityLength == 12);
+	}
+	
 	@Override
 	public List<Point> getObstaclesInTurnZone(ActionType direction) { 
 		if(direction == ActionType.TurnLeft || direction == ActionType.TurnRight) { 

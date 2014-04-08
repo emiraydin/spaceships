@@ -186,6 +186,21 @@ public class FleetCommander {
 		}
 	}
 	
+	public boolean toggleRadar(int shipID){
+		AbstractShip ship = getShip(shipID);
+		if (ship instanceof RadarBoatShip){
+			RadarBoatShip rShip = (RadarBoatShip) ship;
+			decrementVisibility(rShip);
+			if (rShip.isLongRadarEnabled()){
+				rShip.turnOffLongRadar();
+			} else {
+				rShip.turnOnLongRadar();
+			}
+			incrementVisibility(rShip);
+		}
+		return false;
+	}
+	
 	/**
 	 * Move a specified ship to a specified location.
 	 * @param shipID Ship to move

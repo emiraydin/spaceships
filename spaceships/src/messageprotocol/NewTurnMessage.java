@@ -5,8 +5,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import messageprotocol.*;
-
 /**
  * 
  * This message is sent from the Server to the Client at the beginning of a turn.
@@ -37,6 +35,7 @@ public class NewTurnMessage implements Serializable
 	 */
 	boolean[][] radarVisibleTiles;
 	boolean[][] sonarVisibleTiles;
+	LinkedList<Integer> longRadarEnabledShips;
 	
 	HashMap<Integer,Integer> mineParents;
 	
@@ -90,6 +89,10 @@ public class NewTurnMessage implements Serializable
 	public void setAction(ActionMessage action) {
 		this.action = action;
 	}
+	
+	public void setLongRadarEnabledShips(LinkedList<Integer> lreShips){
+		this.longRadarEnabledShips = lreShips;
+	}
 
 	public LinkedList<GameStateMessage> getState() {
 		return state;
@@ -139,6 +142,10 @@ public class NewTurnMessage implements Serializable
 	
 	public String getResponseString() { 
 		return this.response;
+	}
+	
+	public LinkedList<Integer> getLongRadarEnabledShips(){
+		return this.longRadarEnabledShips;
 	}
 	
 	public int responseTo() { 

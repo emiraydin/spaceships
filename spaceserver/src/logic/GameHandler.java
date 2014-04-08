@@ -86,6 +86,9 @@ public class GameHandler {
 			break;
 		case RadarBoatShip:
 			s = new RadarBoatShip(state.getPosX(), state.getPosY(), state.getOrientation(), owner, board);
+			if (message.getLongRadarEnabledShips().contains(state.getSpaceThingId())){
+				((RadarBoatShip) s).turnOnLongRadar();
+			}
 			break;
 		case TorpedoShip:
 			s = new TorpedoBoatShip(state.getPosX(), state.getPosY(), state.getOrientation(), owner, board);
@@ -169,6 +172,10 @@ public class GameHandler {
 			break;
 		case Repair:
 			if(!players[playerID].repairShip(shipID))
+				responder.moveFailed();
+			break;
+		case ToggleRadar:
+			if(!players[playerID].toggleRadar(shipID))
 				responder.moveFailed();
 			break;
 		case Turn180Left:
