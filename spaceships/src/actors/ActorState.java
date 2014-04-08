@@ -40,7 +40,7 @@ public class ActorState
 	public static BaseTileActor[][]  playerTwoBase = new BaseTileActor[boardHeight][boardWidth];; // The opponent players base Tiles.
 	public static ShipTileActor[][] playerOneFleet = new ShipTileActor[boardHeight][boardWidth];	// The current players ship Tiles. 
 	public static ShipTileActor[][] playerTwoFleet = new ShipTileActor[boardHeight][boardWidth]; // The opponent players ship Tiles. 
-	public static MineActor[][]			mineField 	   = new MineActor[boardHeight][boardWidth]; 
+	public static LinkedList<MineActor> mineList		   = new LinkedList<MineActor>();  
 	public static AsteroidActor[][]  asteroidField = new AsteroidActor[boardHeight][boardWidth]; 	// The locations of all the asteroids. 
 	public static boolean[][] 	visibility	= new boolean[boardHeight][boardWidth];	   	// The board visibility. 
 	public static int 			currentSelectionShip = -1; 								   	// The currently selected player ship. 
@@ -303,7 +303,8 @@ public class ActorState
 			if(object instanceof Mine)
 			{
 				MineActor mine = new MineActor(object.getX(), object.getY(), (Mine)object); 
-				//mineField[object.getX()][object.getY()] = mine; 
+				mineList.add(mine); 
+				mine.setVisible(false); 
 			}
 		}
 		

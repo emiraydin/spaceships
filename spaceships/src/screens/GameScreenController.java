@@ -157,12 +157,16 @@ public class GameScreenController implements InputProcessor
 			}
 		}
 		
-		for(int n : GameState.getAllSpaceThings().keySet())
+		for(MineActor m : ActorState.mineList)
 		{
-			SpaceThing s = GameState.getAllSpaceThings().get(n); 
-			if(s instanceof Mine)
+			if(m.mine.getX() == -1 || m.mine.getY() == -1)
 			{
-				System.out.println(s.getX() +" "+s.getY()); 
+				m.setVisible(false); 
+			}
+			else
+			{
+				m.setPosition(m.mine.getX(), m.mine.getY()); 
+				m.setVisible(true); 
 			}
 		}
 	}
@@ -521,7 +525,11 @@ public class GameScreenController implements InputProcessor
 			}
 		}
 		
-		
+		// Initialize the Mines
+		for(MineActor m : ActorState.mineList)
+		{
+			background.addActor(m); 
+		}
 		
 		
 		STAGE.addActor(backdrop); 
