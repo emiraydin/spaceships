@@ -188,14 +188,15 @@ public class FleetCommander {
 			RadarBoatShip rShip = (RadarBoatShip) ship;
 			decrementVisibility(rShip);
 			if (rShip.isLongRadarEnabled()){
-				setActionResponse("Long-range Radar Enabled.");
+				setActionResponse("Long-range Radar Disabled.");
 				rShip.turnOffLongRadar();
 			} else {
-				setActionResponse("Long-range Radar Disabled.");
+				setActionResponse("Long-range Radar Enabled.");
 				rShip.turnOnLongRadar();
 			}
 			incrementVisibility(rShip);
 		}
+		setActionResponse("This ship doesn't have long-range radar capabilities.");
 		return false;
 	}
 	
@@ -330,6 +331,10 @@ public class FleetCommander {
 	private boolean validateMove(AbstractShip ship, int x, int y){
 		int shipX = ship.getX();
 		int shipY = ship.getY();
+		if (ship instanceof RadarBoatShip && ((RadarBoatShip) ship).isLongRadarEnabled()){
+			setActionResponse("Ship cannot move while long-range radar is enabled.");
+			return false;
+		}
 		
 		// not diagonal
 		if(shipX - x != 0 && shipY - y != 0) { 
@@ -356,6 +361,9 @@ public class FleetCommander {
 			}
 			// moving faster than speed allows
 			if(x > shipX + ship.getSpeed()) { 
+				if (ship instanceof RadarBoatShip && ((RadarBoatShip) ship).isLongRadarEnabled()){
+					setActionResponse("Ship cannot move while long-range radar is enabled.");
+				}
 				setActionResponse("Ship cannot move that fast");
 				return false;
 			}
