@@ -32,7 +32,7 @@ public class Explosives extends AbstractWeapon {
 		
 		//move to desired location
 		FleetCommander fc = this.owner.getOwner();
-		if(fc.moveShip(this.owner.getID(), x, y) > 0) { 
+		if(fc.moveShip(this.owner.getID(), x, y) >= 0) { 
 			// success - moved
 			// damage all surrounding ships
 			for(int i = x-1; i <= x+1; i++) { 

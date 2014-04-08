@@ -82,12 +82,12 @@ public class KamikazeBoatShip extends AbstractShip {
 		
 		if(!StarBoard.inBounds(x, y)) { 
 			this.getOwner().setActionResponse("Ships cannot go out of bounds");
-			return 0;
+			return -1;
 		}
 		
 		if(x < shipX - 2 || x > shipX + 2 || y > shipY + 2 || y < shipY - 2) { 
 			this.getOwner().setActionResponse("Ship cannot move that fast");
-			return 0;
+			return -1;
 		}
 		
 		/* Need to find an obstacle-free manhattan path from point A to point B */
@@ -154,7 +154,7 @@ public class KamikazeBoatShip extends AbstractShip {
 		
 		// target not reachable
 		this.getOwner().setActionResponse("That move is not valid");
-		return 0;
+		return -1;
 	}
 
 	
