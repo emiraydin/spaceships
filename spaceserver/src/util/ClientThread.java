@@ -56,7 +56,7 @@ public class ClientThread extends Thread {
 			}
 			
 			// New client enters the game
-			output.println("Welcome " + userName + this.uID + "!\nType /exit to quit game.");
+			output.println("Welcome " + userName + " with ID " + this.uID + "!\nType /exit to quit game.");
 
 			ArrayList<String> onlinePlayers = new ArrayList<String>();
 

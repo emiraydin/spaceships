@@ -32,15 +32,7 @@ public class Database {
 		connect.setAutoCommit(false);
 
 	}
-	
-	public static void main(String[] args) throws SQLException, ClassNotFoundException {
 		
-		Database db = new Database();
-		
-		System.out.println(db.getUID("dd"));
-		
-	}
-	
 	/**
 	 * Adds a new user to the database.
 	 * @param username
