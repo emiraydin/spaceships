@@ -90,6 +90,11 @@ public class KamikazeBoatShip extends AbstractShip {
 			return -1;
 		}
 		
+		if(shipX == x && shipY == y) { 
+			// no need to move
+			return 0;
+		}
+		
 		/* Need to find an obstacle-free manhattan path from point A to point B */
 		
 		// create graph
@@ -121,10 +126,13 @@ public class KamikazeBoatShip extends AbstractShip {
 			// reachable! get path.
 			List<Point> path = new ArrayList<>();
 			path.add(target.getCoords());
-			GridNode current = target.getParent();
-			while(current != root) { 
-				path.add(current.getCoords());
+			GridNode current = target;
+			while(current.parent != null) { 
 				current = current.getParent();
+				path.add(current.getCoords());
+				if(current == root) { 
+					break;
+				}			
 			}
 			Collections.reverse(path);
 			
