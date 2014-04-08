@@ -45,6 +45,8 @@ public class Mine extends SpaceThing {
 		}	
 		
 		// remove mine from game after detonation
+		this.setX(-2);
+		this.setY(-2);
 		this.getGameBoard().clearSpaceThing(this.getX(), this.getY());	
 		return true;
 	}
