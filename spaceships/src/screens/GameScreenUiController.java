@@ -145,11 +145,12 @@ public class GameScreenUiController
 		buttonTable.add(moveShip).pad(10f); 
 		buttonTable.add(fireCannon).pad(10f); 
 		buttonTable.add(fireTorpedo).pad(10f);
+		buttonTable.row(); 
 		buttonTable.add(turnLeft).pad(10f);
 		buttonTable.add(turnRight).pad(10f);
 		buttonTable.add(turn180).pad(10f); 
-		buttonTable.add(dropMine).pad(10f);
 		buttonTable.row(); 
+		buttonTable.add(dropMine).pad(10f);
 		buttonTable.add(toggleRadar).pad(10f); 
 		buttonTable.add(explode).pad(10f); 
 		
@@ -209,7 +210,7 @@ public class GameScreenUiController
 		uiStage.addActor(rootTable);
 
 	}
-	
+
 	private void setUpClickListenersForExplode(TextButton explode2)
 	{
 		explode2.addListener(new ClickListener()
@@ -243,7 +244,6 @@ public class GameScreenUiController
 		});
 		
 	}
-
 	private void setUpClickListenersForToggleRadar(TextButton toggleRadar2)
 	{
 		toggleRadar2.addListener(new ClickListener()
@@ -277,7 +277,6 @@ public class GameScreenUiController
 		});
 		
 	}
-
 	private void setUpClickListenersForDropMine(TextButton button)
 	{
 		button.addListener(new ClickListener()
@@ -312,7 +311,6 @@ public class GameScreenUiController
 		});
 		
 	}
-
 	private void setUpClickListnersForMove(TextButton button)
 	{
 		button.addListener(new ClickListener()
@@ -635,6 +633,7 @@ public class GameScreenUiController
 			explode.setVisible(true); 
 			
 			
+			// Firing torpedoes. 
 			if(aShip instanceof TorpedoShip || aShip instanceof DestroyerShip)
 			{
 				fireTorpedo.setDisabled(false);  
@@ -643,28 +642,36 @@ public class GameScreenUiController
 			{
 				fireTorpedo.setDisabled(true); 
 			}
+			
+			// Turning 180*
 			if(aShip instanceof RadarBoatShip || aShip instanceof TorpedoShip)
 			{
 				turn180.setDisabled(false); 
-				if(Gdx.input.isKeyPressed(Keys.K)) 
-				{
-					System.out.println("RADAR ON BITCH" + aShip.getUniqueId()); 
-					ServerMessageHandler.currentAction = new ActionMessage(ActionType.ToggleRadar, aShip.getUniqueId(), aShip.getX(),aShip.getY()); 
-					ServerMessageHandler.hasChanged = true; 
-				}
-			}
-			if(aShip instanceof KamikazeBoatShip)
-			{
-				if(Gdx.input.isKeyPressed(Keys.K))
-				{
-					System.out.println("BLAST OFF"); 
-					ServerMessageHandler.currentAction = new ActionMessage(ActionType.Explode, aShip.getUniqueId(), aShip.getX(), aShip.getY()); 
-					ServerMessageHandler.hasChanged = true; 
-				}
+
 			}
 			else
 			{
 				turn180.setDisabled(true); 
+			}
+			
+			// Exploding K-Ships
+			if(aShip instanceof KamikazeBoatShip)
+			{
+				explode.setDisabled(false); 
+			}
+			else
+			{
+				explode.setDisabled(true); 
+			}
+			
+			// Toggling Radar. 
+			if(aShip instanceof RadarBoatShip)
+			{
+				toggleRadar.setDisabled(false); 
+			}
+			else
+			{
+				toggleRadar.setDisabled(true); 
 			}
 			
 			String type = aShip.getClass().getSimpleName();
