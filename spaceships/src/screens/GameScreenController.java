@@ -312,21 +312,28 @@ public class GameScreenController implements InputProcessor
 			}
 			
 			// Moving forward or backward. 
+			float speed = 10f; 
+			
+			float currentX = currentShip.getX(), stateX = (float) currentShip.ship.getX(); 
+			float currentY = currentShip.getY(), stateY = (float) currentShip.ship.getY(); 
+			
+			
+			
 			if(currentShip.getX() < (float) currentShip.ship.getX())
 			{
-				currentShip.moveBy(delta, 0);
+				currentShip.moveBy(0.25f, 0);
 			}
 			else if(currentShip.getX() > (float) currentShip.ship.getX())
 			{
-				currentShip.moveBy(-delta, 0);
+				currentShip.moveBy(-0.25f, 0);
 			}
 			if(currentShip.getY() < (float) currentShip.ship.getY())
 			{
-				currentShip.moveBy(0, delta);
+				currentShip.moveBy(0, 0.25f);
 			}
 			else if(currentShip.getY() > (float) currentShip.ship.getY())
 			{
-				currentShip.moveBy(0, -delta);
+				currentShip.moveBy(0, -0.25f);
 			}
 
 		}

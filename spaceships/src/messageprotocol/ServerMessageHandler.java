@@ -121,7 +121,7 @@ public class ServerMessageHandler {
 			}
 		}
 		catch (Exception e)	{
-			throw new Exception("Could not update GameState for thing: " + state.getSpaceThingId());
+			throw new Exception("Could not update GameState for thing: " + state.getSpaceThingId() + " "+ state);
 		}		
 	}
 }
