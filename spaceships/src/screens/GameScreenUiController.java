@@ -56,7 +56,7 @@ public class GameScreenUiController
 	
 	// Ship Table Variables.
 	Label currentShip, description, speed, health, arsenal; 
-	TextButton moveShip, fireCannon, fireTorpedo, turnLeft, turnRight,turn180,dropMine; 
+	TextButton moveShip, fireCannon, fireTorpedo, turnLeft, turnRight,turn180,dropMine, toggleRadar, explode; 
 	
 	// Other Table Variables
 	Label currentPlayerAction, serverMessage, chatBox; 
@@ -135,6 +135,12 @@ public class GameScreenUiController
 		dropMine = new TextButton("Drop\nMine",tbs);
 		setUpClickListenersForDropMine(dropMine); 
 		dropMine.setVisible(false); 
+		toggleRadar = new TextButton("Toggle\nRadar", tbs); 
+		//setUpClickListenersForToggleRadar(toggleRadar); 
+		toggleRadar.setVisible(false); 
+		explode = new TextButton("Explode", tbs); 
+		//setUpClickListenersForExplode(explode)
+		explode.setVisible(false); 
 		
 		buttonTable.add(moveShip).pad(10f); 
 		buttonTable.add(fireCannon).pad(10f); 
@@ -554,6 +560,8 @@ public class GameScreenUiController
 			turnRight.setVisible(true); 
 			turn180.setVisible(true); 
 			dropMine.setVisible(true); 
+			toggleRadar.setVisible(true); 
+			explode.setVisible(true); 
 			
 			
 			if(aShip instanceof TorpedoShip || aShip instanceof DestroyerShip)
@@ -576,11 +584,11 @@ public class GameScreenUiController
 			}
 			if(aShip instanceof KamikazeBoatShip)
 			{
-				System.out.println("BURRN BABY BURRN " + aShip.getUniqueId()); 
 				if(Gdx.input.isKeyPressed(Keys.K))
 				{
 					System.out.println("BLAST OFF"); 
 					ServerMessageHandler.currentAction = new ActionMessage(ActionType.Explode, aShip.getUniqueId(), aShip.getX(), aShip.getY()); 
+					ServerMessageHandler.hasChanged = true; 
 				}
 			}
 			else
