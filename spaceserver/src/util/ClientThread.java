@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import logic.GameHandler;
 import messageprotocol.ActionMessage;
@@ -23,17 +22,14 @@ public class ClientThread extends Thread {
 	private PrintStream output = null;
 	private final ClientThread[] allThreads;
 	private int playerID = 1;
-	private int uID = -1;
 	private int gameID;
 	private ClientThread matchedThread = null;
 	private int maxPlayersOnServer;
-	private Database db;
 
-	public ClientThread(Socket clientSocket, ClientThread[] threads) throws ClassNotFoundException, SQLException {
+	public ClientThread(Socket clientSocket, ClientThread[] threads) {
 		this.clientSocket = clientSocket;
 		this.allThreads = threads;
 		maxPlayersOnServer = threads.length;
-		this.db = new Database();
 	}
 
 	public void run() {
@@ -49,14 +45,8 @@ public class ClientThread extends Thread {
 			output.println("Enter your user name: ");
 			userName = input.readLine().trim();
 
-			int uid = db.getUID(userName);
-
-			if (uid > 0) {
-				this.uID = uid;
-			}
-			
 			// New client enters the game
-			output.println("Welcome " + userName + " with ID " + this.uID + "!\nType /exit to quit game.");
+			output.println("Welcome " + userName + "!\nType /exit to quit game.");
 
 			ArrayList<String> onlinePlayers = new ArrayList<String>();
 
@@ -117,16 +107,17 @@ public class ClientThread extends Thread {
 								output.println("Accepted! You just matched with " + this.matchName);
 								this.matchedThread.output.println("You just matched with " + this.clientName);
 								this.matchedThread.output.println("You can now type a message to send.");
-								
+
 //								System.out.println("I requested the match and I'm player #" + this.playerID + " and I see it!");
 								// Initialize the game handler
 								this.currentGame = new GameHandler();
 								this.matchedThread.setGameHandler(this.currentGame);
 								this.playerID = 0;
-								
+
 								// Set up the database
-								this.gameID = db.createGame(this.uID, this.matchedThread.uID, true);
-								
+//								Database db = new Database();
+//								this.gameID = db.createGame(uid1, uid2, true);
+
 								// Trigger a fake ActionMessage to start the game
 				                ActionMessage trigger = new ActionMessage(GameConstants.ActionType.Initialize, 0, 0, 0);
 				                NewTurnMessage[] replies = this.currentGame.doAction(trigger, this.playerID);
@@ -163,7 +154,7 @@ public class ClientThread extends Thread {
 							// Receive ActionMessage
 							ActionMessage received = (ActionMessage) ObjectConverter.stringtoObject(line.substring(1));
 							NewTurnMessage[] messages = this.currentGame.doAction(received, this.playerID);
-							
+
 							String messageToPlayer0 = "@" + ObjectConverter.objectToString(messages[0]);
 							String messageToPlayer1 = "@" + ObjectConverter.objectToString(messages[1]);
 
@@ -173,7 +164,7 @@ public class ClientThread extends Thread {
 							} else {
 								this.output.println(messageToPlayer1);
 							}
-							
+
 							if (this.playerID == 0 && this.matchedThread != null) {
 								this.matchedThread.output.println(messageToPlayer1);
 							} else {
@@ -228,7 +219,7 @@ public class ClientThread extends Thread {
 			output.close();
 			clientSocket.close();
 
-		} catch (IOException | ClassNotFoundException | SQLException e) {
+		} catch (IOException | ClassNotFoundException e) {
 			System.out.println(e);
 		}
 
