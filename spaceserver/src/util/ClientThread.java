@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import logic.GameHandler;
 import messageprotocol.ActionMessage;
@@ -22,14 +23,17 @@ public class ClientThread extends Thread {
 	private PrintStream output = null;
 	private final ClientThread[] allThreads;
 	private int playerID = 1;
+	private int uID = -1;
 	private int gameID;
 	private ClientThread matchedThread = null;
 	private int maxPlayersOnServer;
+	private Database db;
 
-	public ClientThread(Socket clientSocket, ClientThread[] threads) {
+	public ClientThread(Socket clientSocket, ClientThread[] threads) throws ClassNotFoundException, SQLException {
 		this.clientSocket = clientSocket;
 		this.allThreads = threads;
 		maxPlayersOnServer = threads.length;
+		this.db = new Database();
 	}
 
 	public void run() {
@@ -45,8 +49,14 @@ public class ClientThread extends Thread {
 			output.println("Enter your user name: ");
 			userName = input.readLine().trim();
 
+			int uid = db.getUID(userName);
+
+			if (uid > 0) {
+				this.uID = uid;
+			}
+			
 			// New client enters the game
-			output.println("Welcome " + userName + "!\nType /exit to quit game.");
+			output.println("Welcome " + userName + this.uID + "!\nType /exit to quit game.");
 
 			ArrayList<String> onlinePlayers = new ArrayList<String>();
 
@@ -115,8 +125,7 @@ public class ClientThread extends Thread {
 								this.playerID = 0;
 								
 								// Set up the database
-//								Database db = new Database();
-//								this.gameID = db.createGame(uid1, uid2, true);
+								this.gameID = db.createGame(this.uID, this.matchedThread.uID, true);
 								
 								// Trigger a fake ActionMessage to start the game
 				                ActionMessage trigger = new ActionMessage(GameConstants.ActionType.Initialize, 0, 0, 0);
@@ -219,7 +228,7 @@ public class ClientThread extends Thread {
 			output.close();
 			clientSocket.close();
 
-		} catch (IOException | ClassNotFoundException e) {
+		} catch (IOException | ClassNotFoundException | SQLException e) {
 			System.out.println(e);
 		}
 

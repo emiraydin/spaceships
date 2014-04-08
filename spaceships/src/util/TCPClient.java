@@ -2,6 +2,9 @@ package util;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
 import java.io.PrintStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -20,11 +23,11 @@ public class TCPClient implements Runnable {
 	private static Socket clientSocket = null;
 	private static PrintStream output = null;
 	private static BufferedReader input = null;
-
 	private static ByteArrayInputStream inputLine = null;
 	public static String inputString = null;
 	private static boolean connectionClosed = false;
 	public static boolean canStart;
+	public static boolean inputEntered;
 	
 	public static void start() {
 
@@ -33,9 +36,10 @@ public class TCPClient implements Runnable {
 		// Open a socket on given host name and port number, and initialize input/output streams
 		try {
 			clientSocket = new Socket(Properties.SERVER_HOST, Properties.PORT_NUMBER);
-			inputLine = new ByteArrayInputStream(inputString.getBytes("UTF-8"));
+//			inputLine = new ByteArrayInputStream(inputString.getBytes("UTF-8"));
 			output = new PrintStream(clientSocket.getOutputStream(), true);
 			input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+			inputEntered = false;
 		} catch (UnknownHostException e) {
 			System.err.println("Unknown host: " + Properties.SERVER_HOST);
 		} catch (IOException e) {
@@ -50,12 +54,13 @@ public class TCPClient implements Runnable {
 				new Thread(new TCPClient()).start();
 				while (!connectionClosed) {
 					// Send the message
-					if (inputLine != null) {		
-						output.println(getStringFromInputStream(inputLine));
-						System.out.println("I'm here inputLine.ready");
+					if (inputEntered) {
+						output.println(inputString);
+						inputEntered = false;
 						output.flush();
 					}
-//					System.out.println(ServerMessageHandler.currentAction);
+					
+					//	System.out.println(ServerMessageHandler.currentAction);
 //					Thread.sleep(1000);
 					// Send the ActionMessage
 					if (ServerMessageHandler.hasChanged) {

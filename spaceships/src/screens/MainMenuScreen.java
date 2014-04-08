@@ -1,6 +1,7 @@
 package screens;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
@@ -8,6 +9,7 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 import util.Database;
+import util.TCPClient;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -248,10 +250,11 @@ public class MainMenuScreen implements Screen
 					}
 					else
 					{
-						
+						TCPClient.inputString = loginUser.getText();
+						TCPClient.inputEntered = true;
 					}
 				}
-				catch (ClassNotFoundException | SQLException | NoSuchAlgorithmException | UnsupportedEncodingException e)
+				catch (ClassNotFoundException | SQLException | NoSuchAlgorithmException | IOException e)
 				{
 					e.printStackTrace();
 				} 

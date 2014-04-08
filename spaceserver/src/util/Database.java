@@ -33,6 +33,14 @@ public class Database {
 
 	}
 	
+	public static void main(String[] args) throws SQLException, ClassNotFoundException {
+		
+		Database db = new Database();
+		
+		System.out.println(db.getUID("dd"));
+		
+	}
+	
 	/**
 	 * Adds a new user to the database.
 	 * @param username
@@ -110,6 +118,24 @@ public class Database {
 			return false;
 		}
 
+	}
+	
+	public int getUID(String username) throws SQLException {
+		
+		preparedStatement = connect.prepareStatement("SELECT uid FROM users WHERE username=?");
+		preparedStatement.setString(1, username);
+		preparedStatement.executeQuery();
+		ResultSet resultSet = preparedStatement.executeQuery();
+		resultSet.next();
+		
+		Integer result = resultSet.getInt("uid");
+		
+		if (result != null) {
+			return result;
+		} else {
+			return -1;
+		}
+				
 	}
 
 	/**
