@@ -16,15 +16,21 @@ public class StarBoard {
 	int thingIDCount;
 	public List<AbstractShip> unplacedShips;
 	public int unplacedCounter = 2; 
+	public List<AbstractShip> deadShips;
 	
 	public StarBoard(){
 		map = new SpaceThing[BOARD_HEIGHT][BOARD_WIDTH];
 		thingIDCount = 0;
 		unplacedShips = new ArrayList<AbstractShip>();
+		deadShips = new ArrayList<AbstractShip>();
 	}
 	
 	public int nextID(){
 		return thingIDCount++;
+	}
+	
+	public void addToDeadShipList(AbstractShip ship) { 
+		deadShips.add(ship);
 	}
 	
 	public SpaceThing getSpaceThing(int x, int y){
@@ -34,6 +40,7 @@ public class StarBoard {
 			return null;
 		}
 	}
+	
 	public void setSpaceThing(SpaceThing sThing){
 		int x = sThing.getX();
 		int y = sThing.getY();

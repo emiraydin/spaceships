@@ -184,6 +184,7 @@ public abstract class AbstractShip extends SpaceThing {
 		// check if dead
 		if(isDead()) { 
 			this.getOwner().removeShip(this);
+			this.getOwner().getHandler().getBoard().addToDeadShipList(this);	// lol
 			
 			//TODO: alert both players of ship removal + type
 		}

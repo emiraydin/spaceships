@@ -94,6 +94,11 @@ public class MessageResponder {
 			}
 		}
 		
+		// add dead ships that are no longer on the game board
+		for(AbstractShip deadShip : board.deadShips) { 
+			states.put(deadShip.getID(), deadShip.genGameStateMessage());
+		}
+		
 		// literally just for initialization pls dont touch
 		if(!(board.unplacedCounter == 0)) { 
 			for(AbstractShip ship : board.unplacedShips) { 
