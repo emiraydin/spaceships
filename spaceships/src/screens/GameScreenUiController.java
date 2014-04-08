@@ -8,14 +8,15 @@ import state.GameState;
 import state.ships.AbstractShip;
 import state.ships.CruiserShip;
 import state.ships.DestroyerShip;
+import state.ships.KamikazeBoatShip;
 import state.ships.MineLayerShip;
 import state.ships.RadarBoatShip;
 import state.ships.TorpedoShip;
 import actors.ActorState;
 import actors.ShipActor;
-import actors.TileActor;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
@@ -36,7 +37,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import common.GameConstants.ActionType;
-import common.GameConstants.OrientationType;
 
 /**
  * Handles everything on the UI side of things. 
@@ -56,7 +56,7 @@ public class GameScreenUiController
 	
 	// Ship Table Variables.
 	Label currentShip, description, speed, health, arsenal; 
-	TextButton moveShip, fireCannon, fireTorpedo, turnLeft, turnRight,turn180 ; 
+	TextButton moveShip, fireCannon, fireTorpedo, turnLeft, turnRight,turn180,dropMine; 
 	
 	// Other Table Variables
 	Label currentPlayerAction, serverMessage, chatBox; 
@@ -132,6 +132,9 @@ public class GameScreenUiController
 		turn180 = new TextButton("180\nTurn", tbs); 
 		setUpClickListnersForTurn180(turn180); 
 		turn180.setVisible(false); 
+		dropMine = new TextButton("Drop\nMine",tbs);
+		setUpClickListenersForDropMine(dropMine); 
+		dropMine.setVisible(false); 
 		
 		buttonTable.add(moveShip).pad(10f); 
 		buttonTable.add(fireCannon).pad(10f); 
@@ -139,6 +142,7 @@ public class GameScreenUiController
 		buttonTable.add(turnLeft).pad(10f);
 		buttonTable.add(turnRight).pad(10f);
 		buttonTable.add(turn180).pad(10f); 
+		buttonTable.add(dropMine).pad(10f); 
 		
 		speed = new Label("", typingStyle); 
 		health = new Label("", typingStyle); 
@@ -197,6 +201,41 @@ public class GameScreenUiController
 
 	}
 	
+	private void setUpClickListenersForDropMine(TextButton button)
+	{
+		button.addListener(new ClickListener()
+		{
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
+			{				
+				if(ActorState.currentSelectionShip != -1
+						&& ActorState.currentTile != null)
+						//&& ActionValidator.validateMove((int)ActorState.currentTile.getX(), (int)ActorState.currentTile.getY()))
+				{
+					ServerMessageHandler.currentAction = new ActionMessage(ActionType.DropMine, ActorState.getShipList(controller.cPlayer).get(ActorState.currentSelectionShip).ship.getUniqueId(), (int)ActorState.currentTile.getX(), (int)ActorState.currentTile.getY());
+					ServerMessageHandler.hasChanged = true; 
+					chatBox.setText(""); 
+				}
+				else
+				{
+					chatBox.setText("You can't place a mine there\n try again. "); 
+				}
+				return false; 
+			}
+		
+			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
+			{ 
+				currentPlayerAction.setText("Place a Mine in the Selected location. ");
+			}
+			
+			public void exit(InputEvent event, float x, float y, int pointer, Actor toActor)
+			{
+				currentPlayerAction.setText(""); 
+			}
+		
+		});
+		
+	}
+
 	private void setUpClickListnersForMove(TextButton button)
 	{
 		button.addListener(new ClickListener()
@@ -514,6 +553,9 @@ public class GameScreenUiController
 			turnLeft.setVisible(true); 
 			turnRight.setVisible(true); 
 			turn180.setVisible(true); 
+			dropMine.setVisible(true); 
+			
+			
 			if(aShip instanceof TorpedoShip || aShip instanceof DestroyerShip)
 			{
 				fireTorpedo.setDisabled(false);  
@@ -525,6 +567,21 @@ public class GameScreenUiController
 			if(aShip instanceof RadarBoatShip || aShip instanceof TorpedoShip)
 			{
 				turn180.setDisabled(false); 
+				if(Gdx.input.isKeyPressed(Keys.K)) 
+				{
+					System.out.println("RADAR ON BITCH" + aShip.getUniqueId()); 
+					ServerMessageHandler.currentAction = new ActionMessage(ActionType.ToggleRadar, aShip.getUniqueId(), aShip.getX(),aShip.getY()); 
+					ServerMessageHandler.hasChanged = true; 
+				}
+			}
+			if(aShip instanceof KamikazeBoatShip)
+			{
+				System.out.println("BURRN BABY BURRN " + aShip.getUniqueId()); 
+				if(Gdx.input.isKeyPressed(Keys.K))
+				{
+					System.out.println("BLAST OFF"); 
+					ServerMessageHandler.currentAction = new ActionMessage(ActionType.Explode, aShip.getUniqueId(), aShip.getX(), aShip.getY()); 
+				}
 			}
 			else
 			{
