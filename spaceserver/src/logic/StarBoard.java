@@ -17,12 +17,14 @@ public class StarBoard {
 	public List<AbstractShip> unplacedShips;
 	public int unplacedCounter = 2; 
 	public List<AbstractShip> deadShips;
+	public List<Asteroid> asteroids;
 	
 	public StarBoard(){
 		map = new SpaceThing[BOARD_HEIGHT][BOARD_WIDTH];
 		thingIDCount = 0;
 		unplacedShips = new ArrayList<AbstractShip>();
 		deadShips = new ArrayList<AbstractShip>();
+		asteroids = new ArrayList<Asteroid>();
 	}
 	
 	public int nextID(){
@@ -155,12 +157,24 @@ public class StarBoard {
 			int randY = 3 + (int) (Math.random() * ((27 - 3) + 1));
 			
 			if(getSpaceThing(randX, randY) == null){
-				setSpaceThing(new Asteroid(randX, randY, this));
+				Asteroid asteroid = new Asteroid(randX, randY, this);
+				asteroids.add(asteroid);
+				setSpaceThing(asteroid);
 				players[0].incrementRadarVisibility(randX, randY);
 				players[1].incrementRadarVisibility(randX, randY);
 				count++; 
 			}
 		}
+	}
+	
+	public void resetAsteroids(FleetCommander[] players) { 
+		for(Asteroid asteroid : asteroids) { 
+			players[0].decrementRadarVisibility(asteroid.getX(), asteroid.getY());
+			players[1].decrementRadarVisibility(asteroid.getX(), asteroid.getY());
+			clearSpaceThing(asteroid.getX(), asteroid.getY());
+		}
+		asteroids = new ArrayList<Asteroid>();
+		generateAsteroids(players);
 	}
 	
 	public static boolean inBounds(int x, int y){

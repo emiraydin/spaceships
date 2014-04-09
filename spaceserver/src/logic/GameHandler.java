@@ -141,6 +141,9 @@ public class GameHandler {
 		}
 		
 		switch (aType){
+		case ResetAsteroids:
+			board.resetAsteroids(players);
+			break;
 		case DropMine:
 			if (!players[playerID].useWeapon(WeaponType.Mine, shipID, x, y))
 				responder.moveFailed();
