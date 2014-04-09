@@ -377,6 +377,8 @@ public class FleetCommander {
 	 * Handles ALL messages back to client regarding move
 	 */
 	private boolean validateMove(AbstractShip ship, int x, int y){
+		System.out.println("Validating move facing " + ship.getOrientation().toString());
+		
 		int shipX = ship.getX();
 		int shipY = ship.getY();
 		if (ship instanceof RadarBoatShip && ((RadarBoatShip) ship).isLongRadarEnabled()){
@@ -460,7 +462,7 @@ public class FleetCommander {
 				return false;
 			}
 			// head goes out of bounds
-			if(!StarBoard.inBounds(shipX, shipY + ship.getLength() - 1)) { 
+			if(!StarBoard.inBounds(shipX, y + ship.getLength() - 1)) { 
 				setActionResponse("Ships cannot go out of bounds");
 				return false;
 			}
@@ -482,7 +484,7 @@ public class FleetCommander {
 				return false;
 			}
 			// head goes out of bounds
-			if(!StarBoard.inBounds(shipX, shipY - ship.getLength() + 1)) { 
+			if(!StarBoard.inBounds(shipX, y - ship.getLength() + 1)) { 
 				setActionResponse("Ships cannot go out of bounds");
 				return false;
 			}
