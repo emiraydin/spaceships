@@ -1,7 +1,5 @@
 package actors;
 
-import common.GameConstants.*;
-
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -12,11 +10,14 @@ import state.SpaceThing;
 import state.ships.AbstractShip;
 import state.ships.CruiserShip;
 import state.ships.DestroyerShip;
+import state.ships.KamikazeBoatShip;
 import state.ships.MineLayerShip;
 import state.ships.RadarBoatShip;
 import state.ships.TorpedoShip;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import common.GameConstants.OrientationType;
+import common.GameConstants.PlayerNumber;
 
 
 
@@ -274,6 +275,11 @@ public class ActorState
 			
 			if(object instanceof AbstractShip)
 			{
+				if(object instanceof KamikazeBoatShip)
+				{
+					return;
+				}
+				
 				ShipActor ship = new ShipActor(object.getX(), object.getY(), (AbstractShip) object, object.getOwner()); 
 				if(object.getOwner() == PlayerNumber.PlayerOne)
 				{

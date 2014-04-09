@@ -77,6 +77,7 @@ public class GameState
 			OrientationType orientation
 			) throws IllegalArgumentException {
 		
+		System.out.println("Creating spacething");
 		// Switch in the event that it's a basetile, asteroid, or mine
 		switch (type) {
 			case BaseTile:

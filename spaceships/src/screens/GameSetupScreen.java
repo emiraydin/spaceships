@@ -13,6 +13,7 @@ import state.SpaceThing;
 import state.ships.AbstractShip;
 import state.ships.CruiserShip;
 import state.ships.DestroyerShip;
+import state.ships.KamikazeBoatShip;
 import state.ships.MineLayerShip;
 import state.ships.RadarBoatShip;
 import state.ships.TorpedoShip;
@@ -67,7 +68,7 @@ public class GameSetupScreen implements Screen
 	private String helpTextString = "Welcome, to Asteria: Battle for the Frontier. \n\n Click J to hide this Dialogue and H to show it again. "; 
 	public GameSetupTileActor currentSelectedTile = null; 
 	public PlayerNumber currentPlayer; 
-	public int cruisers = 0, destroyers = 0, radar = 0, layer = 0, torpedo = 0; 
+	public int cruisers = 0, destroyers = 0, radar = 0, layer = 0, torpedo = 0, kami = 0; 
 	
 	
 	
@@ -89,44 +90,10 @@ public class GameSetupScreen implements Screen
 			currentPlayer = PlayerNumber.PlayerTwo; 
 		}
 		
+		System.out.println("SIZE OF NUMBERS: " + GameState.getAllSpaceThings().size());
 		
-		for(int key  : GameState.getAllSpaceThings().keySet())
-		{
-			SpaceThing thing = GameState.getAllSpaceThings().get(key) ;
-			
-			if(thing instanceof AbstractShip)
-			{	
-				if(thing.getOwner() == currentPlayer)
-				{
-					unplacedShips.add((AbstractShip) thing); 
-					if(thing instanceof CruiserShip)
-					{
-						cruisers++; 
-					}
-					else if(thing instanceof DestroyerShip)
-					{
-						destroyers++; 
-					}
-					else if(thing instanceof RadarBoatShip)
-					{
-						radar++; 
-					}
-					else if(thing instanceof TorpedoShip)
-					{
-						torpedo++; 
-					}
-					else if(thing instanceof MineLayerShip)
-					{
-						layer++; 
-					}
-					else
-					{
-						System.out.println(thing); 
-					}
-				}
-			}
-			
-		}
+		
+		
 	}
 	
 	@Override
@@ -152,10 +119,7 @@ public class GameSetupScreen implements Screen
 		stage.act(delta); 
 		stage.draw(); 
 		uiStage.act(delta); 
-		uiStage.draw(); 
-		
-
-		
+		uiStage.draw(); 		
 	}
 
 	@Override
@@ -274,6 +238,7 @@ public class GameSetupScreen implements Screen
 			SpaceThing thing = GameState.getAllSpaceThings().get(key); 
 			if((thing.getX() < 0 || thing.getY() < 0) && (!(thing instanceof Mine)))
 			{
+				System.out.println(thing + " "+thing.getUniqueId()); 
 				return; 
 			}
 		}
@@ -619,6 +584,50 @@ public class GameSetupScreen implements Screen
 	
 	public void setDefaultShipLocations()
 	{		
+		for(int key  : GameState.getAllSpaceThings().keySet())
+		{
+			SpaceThing thing = GameState.getAllSpaceThings().get(key) ;
+			
+			if(thing instanceof AbstractShip)
+			{	
+				if(thing.getOwner() == currentPlayer)
+				{
+					unplacedShips.add((AbstractShip) thing); 
+					
+					
+					if(thing instanceof CruiserShip)
+					{
+						cruisers++; 
+					}
+					else if(thing instanceof DestroyerShip)
+					{
+						destroyers++; 
+					}
+					else if(thing instanceof RadarBoatShip)
+					{
+						radar++; 
+					}
+					else if(thing instanceof TorpedoShip)
+					{
+						torpedo++; 
+					}
+					else if(thing instanceof MineLayerShip)
+					{
+						layer++; 
+					}
+					else if(thing instanceof KamikazeBoatShip)
+					{
+						kami++; 
+					}
+					else
+					{
+						System.out.println(thing); 
+					}
+				}
+			}
+			
+			System.out.println("NUMBER OF SHIPS: " + unplacedShips.size());
+		}
 		if(currentPlayer == PlayerNumber.PlayerOne)
 		{
 			int x = 1, y = 10; 
@@ -627,7 +636,7 @@ public class GameSetupScreen implements Screen
 			{
 				ShipActor actorShip = new ShipActor(x, y, modelShip, currentPlayer); 
 				ServerMessageHandler.currentAction = new ActionMessage(ActionType.PlaceShip, modelShip.getUniqueId(), x, y); 
-				ServerMessageHandler.hasChanged = true; 
+				ServerMessageHandler.hasChanged = true; 			
 				try
 				{
 					Thread.sleep(1000);
@@ -636,6 +645,8 @@ public class GameSetupScreen implements Screen
 				{
 					e.printStackTrace();
 				} 
+				
+				
 				stage.addActor(actorShip); 
 				y++; 
 			}
@@ -645,9 +656,12 @@ public class GameSetupScreen implements Screen
 			int x = 28, y = 10; 
 			for(AbstractShip modelShip : unplacedShips)
 			{
+				System.out.println("Here is the Location before: " + modelShip.getX() + " " + modelShip.getY());
+				
 				ShipActor actorShip = new ShipActor(x, y, modelShip, currentPlayer); 
 				ServerMessageHandler.currentAction = new ActionMessage(ActionType.PlaceShip, modelShip.getUniqueId(), x, y); 
 				ServerMessageHandler.hasChanged = true; 
+				
 				try
 				{
 					Thread.sleep(1000);
@@ -655,10 +669,13 @@ public class GameSetupScreen implements Screen
 				catch (InterruptedException e)
 				{
 					e.printStackTrace();
-				} 
+				}
+				System.out.println("Here is it's location: " + GameState.getAllSpaceThings().get((modelShip.getUniqueId())).getX()+" "+ modelShip.getY());
 				stage.addActor(actorShip); 
 				y++; 
 			}
+			ServerMessageHandler.currentAction = new ActionMessage(ActionType.PlaceShip, 68, 28, 9);
+			ServerMessageHandler.hasChanged = true; 
 		}
 	}
 }

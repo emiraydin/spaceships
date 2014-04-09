@@ -21,6 +21,8 @@ public class ServerMessageHandler {
 	 * @param turn
 	 */
 	public static void executeNewTurnMessage(NewTurnMessage turn) {
+		System.out.println("Hello!!!!");
+		
 		// Only do operations if the turn is successful
 		if (turn.isTurnSuccess()) {
 			// First, we execute the action message.  This should do nothing for now...

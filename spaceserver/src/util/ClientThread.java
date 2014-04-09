@@ -76,7 +76,7 @@ public class ClientThread extends Thread {
 				if (onlinePlayers.isEmpty()) {
 					output.println("You are the only online player. Wait for others to join!");
 				} else {
-					output.println("Online players:");
+					output.println("Online players on the server (not database):");
 					for (String p: onlinePlayers)
 						output.println(p);
 				}
@@ -104,39 +104,37 @@ public class ClientThread extends Thread {
 							this.matchedThread.setPrompted(true);
 							this.setPrompted(true);
 							output.println("Waiting for " + matchUser + " to respond...");
-							this.matchedThread.output.println(clientName + " wants to play with you. Enter Y to accept, anything else to reject.");
+							this.matchedThread.output.println(clientName + " wanted to play with you. Setting up now...");
 							this.matchedThread.output.flush();
-							String otherUserInput = this.matchedThread.input.readLine().trim();
 							// Check if the other user confirms the match
-							if (otherUserInput.startsWith("Y")) {
-								this.matchName = matchUser;
-								this.matchedThread.setMatchName(this.clientName);
-								this.matchedThread.matchedThread = this;
-								output.println("//connected");
-								this.matchedThread.output.println("//connected");
-								output.println("Accepted! You just matched with " + this.matchName);
-								this.matchedThread.output.println("You just matched with " + this.clientName);
-								this.matchedThread.output.println("You can now type a message to send.");
-								
-//								System.out.println("I requested the match and I'm player #" + this.playerID + " and I see it!");
-								// Initialize the game handler
-								this.currentGame = new GameHandler();
-								this.matchedThread.setGameHandler(this.currentGame);
-								this.playerID = 0;
-								
-								// Set up the database
-								this.gameID = db.createGame(this.uID, this.matchedThread.uID, true);
-								
-								// Trigger a fake ActionMessage to start the game
-				                ActionMessage trigger = new ActionMessage(GameConstants.ActionType.Initialize, 0, 0, 0);
-				                NewTurnMessage[] replies = this.currentGame.doAction(trigger, this.playerID);
-				                String triggerForP0 = "@" + ObjectConverter.objectToString(replies[0]);
-				                String triggerForP1 = "@" + ObjectConverter.objectToString(replies[1]);
-				                this.output.println(triggerForP0);
-				                this.matchedThread.output.println(triggerForP1);
+							this.setMatchName(matchUser);
+							this.matchedThread.setMatchName(this.clientName);
+							this.matchedThread.matchedThread = this;
+							output.println("//connected");
+							this.matchedThread.output.println("//connected");
+							output.println("Accepted! You just matched with " + this.matchName);
+							this.matchedThread.output.println("You just matched with " + this.clientName);
+							this.matchedThread.output.println("You can now type a message to send.");
+							
+//							System.out.println("I requested the match and I'm player #" + this.playerID + " and I see it!");
+							// Initialize the game handler
+							this.currentGame = new GameHandler();
+							this.matchedThread.setGameHandler(this.currentGame);
+							this.playerID = 0;
+							this.output.println("EMIR OR VIK??");
+							
+							// Set up the database
+							this.gameID = db.createGame(this.uID, this.matchedThread.uID, true);
+							
+							// Trigger a fake ActionMessage to start the game
+			                ActionMessage trigger = new ActionMessage(GameConstants.ActionType.Initialize, 0, 0, 0);
+			                NewTurnMessage[] replies = this.currentGame.doAction(trigger, this.playerID);
+			                String triggerForP0 = "@" + ObjectConverter.objectToString(replies[0]);
+			                String triggerForP1 = "@" + ObjectConverter.objectToString(replies[1]);
+			                this.output.println(triggerForP0);
+			                this.matchedThread.output.println(triggerForP1);
 
-								break;
-							} 
+							break;
 
 						}
 					}
@@ -163,6 +161,8 @@ public class ClientThread extends Thread {
 							// Receive ActionMessage
 							ActionMessage received = (ActionMessage) ObjectConverter.stringtoObject(line.substring(1));
 							NewTurnMessage[] messages = this.currentGame.doAction(received, this.playerID);
+							
+							this.output.println("MY PID IS: " + this.playerID);
 							
 							String messageToPlayer0 = "@" + ObjectConverter.objectToString(messages[0]);
 							String messageToPlayer1 = "@" + ObjectConverter.objectToString(messages[1]);

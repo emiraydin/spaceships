@@ -127,7 +127,8 @@ public class FleetCommander {
 			return false;
 		}
 		
-		// obstacle-free 		
+		// obstacle-free y
+		System.out.println(x + " " + y);
 		ship.setX(x);
 		ship.setY(y);
 		board.setSpaceThing(ship);
