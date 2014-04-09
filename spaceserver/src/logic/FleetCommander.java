@@ -195,6 +195,8 @@ public class FleetCommander {
 				rShip.turnOnLongRadar();
 			}
 			incrementVisibility(rShip);
+			
+			return true;
 		}
 		setActionResponse("This ship doesn't have long-range radar capabilities.");
 		return false;

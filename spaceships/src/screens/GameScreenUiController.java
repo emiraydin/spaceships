@@ -250,8 +250,8 @@ public class GameScreenUiController
 		{
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
 			{				
-				if(ActorState.currentSelectionShip != -1)
-						//&& ActorState.currentTile != null)
+				if(ActorState.currentSelectionShip != -1
+						&& ActorState.currentTile != null)
 				{
 					ServerMessageHandler.currentAction = new ActionMessage(ActionType.ToggleRadar, ActorState.getShipList(controller.cPlayer).get(ActorState.currentSelectionShip).ship.getUniqueId(), (int)ActorState.currentTile.getX(), (int)ActorState.currentTile.getY());
 					ServerMessageHandler.hasChanged = true; 
