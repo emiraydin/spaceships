@@ -55,17 +55,19 @@ public class Explosives extends AbstractWeapon {
 				}
 			}
 			
-			// boat disappears in explosion
-			fc.removeShip(this.owner);
-			
 			if(damagedShips) { 
 				fc.setActionResponse(damagedShipsString);
-				return true;
 			}
 			else { 
 				fc.setActionResponse(String.format("Kamikaze Boat exploded at (%d,%d) and damaged no ships", x, y));
-				return true;
 			}
+			
+			// boat disappears in explosion
+			this.owner.decrementSectionHealth(damage, 0);
+			fc.removeShip(this.owner);
+			
+			return true;
+						
 		}
 		else { 
 			// could not move there
