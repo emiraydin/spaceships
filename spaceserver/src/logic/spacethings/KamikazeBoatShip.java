@@ -107,7 +107,7 @@ public class KamikazeBoatShip extends AbstractShip {
 		bfsQueue.add(root);
 		while(!bfsQueue.isEmpty()) { 
 			GridNode node = bfsQueue.remove();
-			if(node.getCoords().x == x && node.getCoords().y == y) { 
+			if(node.getPosition().x == x && node.getPosition().y == y) { 
 				target = node;
 				break;
 			}
@@ -124,12 +124,12 @@ public class KamikazeBoatShip extends AbstractShip {
 		
 		if(target != null) { 
 			// reachable! get path.
-			List<Point> path = new ArrayList<>();
-			path.add(target.getCoords());
+			List<Position> path = new ArrayList<>();
+			path.add(target.getPosition());
 			GridNode current = target;
 			while(current.parent != null) { 
 				current = current.getParent();
-				path.add(current.getCoords());
+				path.add(current.getPosition());
 				if(current == root) { 
 					break;
 				}			
@@ -137,7 +137,7 @@ public class KamikazeBoatShip extends AbstractShip {
 			Collections.reverse(path);
 			
 			// ensure there are no mines lol
-			for(Point coord : path) { 
+			for(Position coord : path) { 
 				if(this.getOwner().handleMineExplosions(this, coord.x, coord.y)) { 
 					// if there's a mine, the ship dies anyway
 					return path.indexOf(coord);
@@ -164,73 +164,74 @@ public class KamikazeBoatShip extends AbstractShip {
 		this.getOwner().setActionResponse("That move is not valid");
 		return -1;
 	}
+	
+	public boolean inMoveRange(int x, int y) { 
+		int shipX = this.getX();
+		int shipY = this.getY();
+		
+		if(!StarBoard.inBounds(x, y)) { 
+			return false;
+		}
+		if(x < shipX-2 || x > shipX+2 || y < shipY-2 || y > shipY+2) { 
+			return false;
+		}
+		return true;
+	}
 
 	
 	public GridNode constructMovementGraph() { 
 		int x = this.getX();
 		int y = this.getY();
+		StarBoard board = this.getOwner().getHandler().getBoard();
 		
-		HashMap<Point, GridNode> constructedNodes = new HashMap<>();
+		HashMap<Position, GridNode> constructedNodes = new HashMap<>();
 		
-		Point rootCoords = new Point(x, y);
+		Position rootCoords = new Position(x, y);
 		GridNode root = new GridNode(rootCoords);
 		constructedNodes.put(rootCoords, root);
 		
+		// construct all nodes and put into constructedNodes
 		for(int i = x-2; i <= x+2; i++) { 
 			for(int j = y-2; j <= y+2; j++) { 
-				if(!isValidIntermediateMove(i, j)) { 
-					continue;
-				}
-				
-				Point nodeCoords = new Point(i, j);
-				GridNode node = constructedNodes.get(nodeCoords);
-				if(node == null) { 
-					node = new GridNode(nodeCoords);
-					constructedNodes.put(nodeCoords, node);
-				}				
-				
-				// north
-				if(isValidIntermediateMove(i, j+1)) {
-					Point northCoords = new Point(i, j+1);
-					GridNode north = constructedNodes.get(northCoords);
-					if(north == null) { 
-						north = new GridNode(northCoords); 
-						constructedNodes.put(northCoords, north);
+				if(!(j == y && i == x)) { 
+					if(StarBoard.inBounds(i, j)) { 
+						Position coords = new Position(i, j);
+						constructedNodes.put(coords, new GridNode(coords));
 					}
-					node.hasNeighbour(north);
-				}
-				// south
-				if(isValidIntermediateMove(i, j-1)) { 
-					Point southCoords = new Point(j, j-1);
-					GridNode south = constructedNodes.get(southCoords);
-					if(south == null) { 
-						south = new GridNode(southCoords);
-						constructedNodes.put(southCoords, south);
-					}
-					node.hasNeighbour(south);
-				}
-				// east
-				if(isValidIntermediateMove(i+1, j)) { 
-					Point eastCoords = new Point(i+1, j);
-					GridNode east = constructedNodes.get(eastCoords);
-					if(east == null) { 
-						east = new GridNode(eastCoords);
-						constructedNodes.put(eastCoords, east);
-					}
-					node.hasNeighbour(east);
-				}
-				// west
-				if(isValidIntermediateMove(i-1, j)) { 
-					Point westCoords = new Point(i-1, j);
-					GridNode west = constructedNodes.get(westCoords);
-					if(west == null) { 
-						west = new GridNode(westCoords);
-						constructedNodes.put(westCoords, west);
-					}
-					node.hasNeighbour(west);
 				}
 			}
-		}	
+		}
+		
+		// join all neighbours
+		for(Position coords : constructedNodes.keySet()) { 
+//			int diffx = coords.x-x;
+//			int diffy = coords.y-y;
+//			System.out.println("checking " + diffx + "," + diffy);
+			
+			GridNode node = constructedNodes.get(coords);
+			List<Position> neighbours = new ArrayList<Position>();
+			
+			if(constructedNodes.containsKey(new Position(coords.x, coords.y+1))) { 
+				neighbours.add(new Position(coords.x, coords.y+1));
+			}
+			
+			if(constructedNodes.containsKey(new Position(coords.x, coords.y-1))) { 
+				neighbours.add(new Position(coords.x, coords.y-1));
+			}
+			if(constructedNodes.containsKey(new Position(coords.x+1, coords.y))) { 
+				neighbours.add(new Position(coords.x+1, coords.y));
+			}
+			if(constructedNodes.containsKey(new Position(coords.x-1, coords.y))) { 
+				neighbours.add(new Position(coords.x-1, coords.y));
+			}
+			
+			for(Position neighbour : neighbours) { 
+				SpaceThing spaceThing = board.getSpaceThing(neighbour.x, neighbour.y);
+				if(spaceThing == null || spaceThing == this || spaceThing instanceof Mine) { 
+					node.hasNeighbour(constructedNodes.get(new Position(neighbour.x, neighbour.y)));
+				}
+			}
+		}
 		
 		return root;
 	}
@@ -249,12 +250,12 @@ public class KamikazeBoatShip extends AbstractShip {
 	}
 	
 	public class GridNode { 
-		private Point coords;
+		private Position coords;
 		private GridNode parent;
 		private List<GridNode> neighbours;
 		private boolean visited;
 		
-		public GridNode(Point coords) { 
+		public GridNode(Position coords) { 
 			this.coords = coords;
 			parent = null;
 			neighbours = new ArrayList<GridNode>();
@@ -285,9 +286,93 @@ public class KamikazeBoatShip extends AbstractShip {
 			return visited;
 		}	
 		
-		public Point getCoords() { 
+		public Position getPosition() { 
 			return this.coords;
 		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + getOuterType().hashCode();
+			result = prime * result
+					+ ((coords == null) ? 0 : coords.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			GridNode other = (GridNode) obj;
+			if (!getOuterType().equals(other.getOuterType()))
+				return false;
+			if (coords == null) {
+				if (other.coords != null)
+					return false;
+			} else if (!coords.equals(other.coords))
+				return false;
+			return true;
+		}
+
+		private KamikazeBoatShip getOuterType() {
+			return KamikazeBoatShip.this;
+		}
+		
+		
+	}
+	
+	public class Position {
+		public int x;
+		public int y;
+		
+		public Position(int x, int y) { 
+			this.x = x;
+			this.y = y;
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + getOuterType().hashCode();
+			result = prime * result + x;
+			result = prime * result + y;
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			Position other = (Position) obj;
+			if (!getOuterType().equals(other.getOuterType()))
+				return false;
+			if (x != other.x)
+				return false;
+			if (y != other.y)
+				return false;
+			return true;
+		}
+
+		private KamikazeBoatShip getOuterType() {
+			return KamikazeBoatShip.this;
+		}
+
+		
+
+		
+		
+		
+		
 	}
 
 }
