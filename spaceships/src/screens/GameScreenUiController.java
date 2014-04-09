@@ -317,9 +317,23 @@ public class GameScreenUiController
 		{
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
 			{				
-				if(ActorState.currentSelectionShip != -1
-						&& ActorState.currentTile != null
-						&& ActionValidator.validateMove((int)ActorState.currentTile.getX(), (int)ActorState.currentTile.getY()))
+				
+				if(ActorState.currentSelectionShip == -1) return false;
+				if(ActorState.currentTile == null) return false; 
+				
+				ShipActor s = ActorState.getShipList(controller.cPlayer).get(ActorState.currentSelectionShip); 
+				boolean isValid; 
+				
+				if(s.ship instanceof KamikazeBoatShip)
+				{
+					isValid = ActionValidator.validateKamiMove((int)ActorState.currentTile.getX(), (int)ActorState.currentTile.getY()); 
+				}
+				else
+				{
+					isValid = ActionValidator.validateMove((int)ActorState.currentTile.getX(), (int)ActorState.currentTile.getY()); 
+				}
+				
+				if(isValid)
 				{
 					ServerMessageHandler.currentAction = new ActionMessage(ActionType.Move, ActorState.getShipList(controller.cPlayer).get(ActorState.currentSelectionShip).ship.getUniqueId(), (int)ActorState.currentTile.getX(), (int)ActorState.currentTile.getY());
 					ServerMessageHandler.hasChanged = true; 
