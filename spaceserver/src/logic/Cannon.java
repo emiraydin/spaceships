@@ -39,7 +39,8 @@ public class Cannon extends AbstractWeapon {
 			/* If cannon hits a mine */
 			else if(spaceThing instanceof Mine) { 
 				// mine is destroyed without exploding
-				owner.getGameBoard().clearSpaceThing(x, y);
+//				owner.getGameBoard().clearSpaceThing(x, y);
+				((Mine)spaceThing).removeSafely();
 				this.owner.getOwner().setActionResponse(String.format("Cannont hit a mine at (%d,%d)", x, y));
 			}
 			/* If cannon hits a base tile */

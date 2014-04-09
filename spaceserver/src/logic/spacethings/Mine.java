@@ -145,6 +145,7 @@ public class Mine extends SpaceThing {
 	}
 	
 	public void removeSafely() { 
+		this.getGameBoard().detonatedMines.add(this);
 		this.getGameBoard().clearSpaceThing(this.getX(), this.getY());
 		setLocation(-1,-1);
 	}

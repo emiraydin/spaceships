@@ -9,6 +9,7 @@ import java.util.List;
 
 import logic.spacethings.AbstractShip;
 import logic.spacethings.Asteroid;
+import logic.spacethings.Mine;
 import logic.spacethings.SpaceThing;
 
 public class StarBoard {
@@ -17,6 +18,7 @@ public class StarBoard {
 	public List<AbstractShip> unplacedShips;
 	public int unplacedCounter = 2; 
 	public List<AbstractShip> deadShips;
+	public List<Mine> detonatedMines;
 	public List<Asteroid> asteroids;
 	
 	public StarBoard(){
@@ -25,6 +27,7 @@ public class StarBoard {
 		unplacedShips = new ArrayList<AbstractShip>();
 		deadShips = new ArrayList<AbstractShip>();
 		asteroids = new ArrayList<Asteroid>();
+		detonatedMines = new ArrayList<Mine>();
 	}
 	
 	public int nextID(){

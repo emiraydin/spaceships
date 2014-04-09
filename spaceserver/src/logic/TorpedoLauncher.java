@@ -142,7 +142,8 @@ public class TorpedoLauncher extends AbstractWeapon {
 		/* Obstacle is mine */
 		else if(spaceThing instanceof Mine) { 
 			// mine is destroyed without exploding
-			owner.getGameBoard().clearSpaceThing(x, y);
+//			owner.getGameBoard().clearSpaceThing(x, y);
+			((Mine)spaceThing).removeSafely();
 			this.owner.getOwner().setActionResponse(String.format("Torpedo destroyed a mine at (%d,%d)", x, y));
 		}
 		
