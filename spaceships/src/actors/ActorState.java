@@ -297,6 +297,7 @@ public class ActorState
 				{
 					base[object.getX()][object.getY()] = tile; 
 				}
+				
 			}
 			
 			if(object instanceof Mine)

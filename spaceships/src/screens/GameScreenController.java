@@ -190,7 +190,7 @@ public class GameScreenController implements InputProcessor
 		{
 			if(!isDeadShip(actor.ship))
 			{
-				//actor.setVisible(true);
+
 			}
 			else
 			{ 
