@@ -68,7 +68,7 @@ public class GameSetupScreen implements Screen
 	private Skin skin; 
 	private Label description, helpText; 
 	private LinkedList<AbstractShip> unplacedShips;
-	private String helpTextString = "Welcome, to Asteria: Battle for the Frontier. \n\n Click J to hide this Dialogue and H to show it again. "; 
+	private String helpTextString = "Welcome, to Asteria: Battle for the Frontier. \n\n You are about to embark on the battle of a lifetime. \n\n Riches, power, and glory await the victor. \n\n Start by selecting your ships.\n Just click a highlighted tile and select a type.\n Once both players ships are selected, the action will commence. \n\n Select Default ships BEFORE setting other ships to let your \ncouncil build your arsenal.\n\nBeware, if you place ships and then ask the council to help\n they will get offended, and not lot you fight.\n\n Click J to hide this Dialogue and H to show it again. "; 
 	public GameSetupTileActor currentSelectedTile = null; 
 	public PlayerNumber currentPlayer; 
 	public int cruisers = 0, destroyers = 0, radar = 0, layer = 0, torpedo = 0, kami = 0; 
