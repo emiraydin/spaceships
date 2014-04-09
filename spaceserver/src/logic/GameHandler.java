@@ -134,7 +134,7 @@ public class GameHandler {
 			return;
 		}
 		
-		if (aType != ActionType.Initialize 
+		if (aType != ActionType.Initialize && aType != ActionType.ResetAsteroids
 				&& players[playerID].getShip(shipID) == null){
 			responder.moveFailed();
 			return;
