@@ -125,6 +125,7 @@ public class GameHandler {
 		responder.startMessage(aMessage, playerID);
 		doAction(aMessage.getAction(), aMessage.getSpaceThingId(), 
 				playerID, aMessage.getDestX(), aMessage.getDestY());
+		responder.updateGameState(checkWin());
 		return new NewTurnMessage[]{responder.getResponse(0), responder.getResponse(1)};
 	}
 	

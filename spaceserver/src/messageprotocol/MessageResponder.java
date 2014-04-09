@@ -13,6 +13,7 @@ import logic.spacethings.RadarBoatShip;
 import logic.spacethings.SpaceThing;
 
 import common.GameConstants;
+import common.GameConstants.WinState;
 
 public class MessageResponder {
 	StarBoard board;
@@ -21,6 +22,7 @@ public class MessageResponder {
 	boolean success;
 	String response;
 	int responseTo;				// for failed messages
+	WinState winState;
 	
 	/**
 	 * 
@@ -49,12 +51,12 @@ public class MessageResponder {
 	 */
 	public NewTurnMessage getResponse(int playerID){
 		if (!success){
-			return new NewTurnMessage(aMessage, success, response, null, null, null, playerID, responseTo);
+			return new NewTurnMessage(aMessage, success, response, null, null, null, playerID, responseTo, winState);
 		}
 		FleetCommander fc = handler.getFleetCommander(playerID);
 		
 		NewTurnMessage turnMessage = new NewTurnMessage(aMessage, success, response, createStateMessages(),
-				convertVisibility(fc.getRadarVisibility()), convertVisibility(fc.getSonarVisibility()), playerID, responseTo);
+				convertVisibility(fc.getRadarVisibility()), convertVisibility(fc.getSonarVisibility()), playerID, responseTo, winState);
 		addMinesAndLR(turnMessage);
 		return turnMessage;
 	}
@@ -64,6 +66,10 @@ public class MessageResponder {
 	 */
 	public void moveFailed(){
 		success = false;
+	}
+	
+	public void updateGameState(WinState winState) { 
+		this.winState = winState;
 	}
 	
 	/**

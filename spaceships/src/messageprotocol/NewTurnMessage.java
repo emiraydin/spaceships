@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import common.GameConstants.WinState;
+
 /**
  * 
  * This message is sent from the Server to the Client at the beginning of a turn.
@@ -41,6 +43,7 @@ public class NewTurnMessage implements Serializable
 	
 	int playerID;
 	int responseTo;			// for failed messages
+	WinState winState;
 
 	/**
 	 * 
@@ -59,12 +62,14 @@ public class NewTurnMessage implements Serializable
 			boolean[][] radarVisibleTiles,
 			boolean[][]	sonarVisibleTiles,
 			int pid,
-			int responseTo
-					) {
+			int responseTo,
+			WinState winState
+			) {
 		
 		this.action = action;
 		this.turnSuccess = turnSuccess;
 		this.response = response;
+		this.winState = winState;
 		
 		// If the state is null, then make an empty linked list.
 		if (state == null) {
@@ -80,6 +85,10 @@ public class NewTurnMessage implements Serializable
 		this.responseTo = responseTo;
 		
 		this.mineParents = new HashMap<Integer, Integer>();
+	}
+	
+	public WinState getWinState() { 
+		return winState;
 	}
 	
 	public ActionMessage getAction() {
@@ -191,17 +200,19 @@ public class NewTurnMessage implements Serializable
 				+ ", radarVisibleTiles=" + Arrays.toString(radarVisibleTiles)
 				+ ", sonarVisibleTiles=" + Arrays.toString(sonarVisibleTiles)
 				+ ", mineParents=" + mineParents + ", playerID=" + playerID
-				+ ", responseTo=" + responseTo + "]";
+				+ ", responseTo=" + responseTo
+				+ ", winState=" + winState + "]";
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((action == null) ? 0 : action.hashCode());
+		result = prime
+				* result
+				+ ((longRadarEnabledShips == null) ? 0 : longRadarEnabledShips
+						.hashCode());
 		result = prime * result
 				+ ((mineParents == null) ? 0 : mineParents.hashCode());
 		result = prime * result + playerID;
@@ -212,12 +223,11 @@ public class NewTurnMessage implements Serializable
 		result = prime * result + Arrays.hashCode(sonarVisibleTiles);
 		result = prime * result + ((state == null) ? 0 : state.hashCode());
 		result = prime * result + (turnSuccess ? 1231 : 1237);
+		result = prime * result
+				+ ((winState == null) ? 0 : winState.hashCode());
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -231,6 +241,11 @@ public class NewTurnMessage implements Serializable
 			if (other.action != null)
 				return false;
 		} else if (!action.equals(other.action))
+			return false;
+		if (longRadarEnabledShips == null) {
+			if (other.longRadarEnabledShips != null)
+				return false;
+		} else if (!longRadarEnabledShips.equals(other.longRadarEnabledShips))
 			return false;
 		if (mineParents == null) {
 			if (other.mineParents != null)
@@ -257,8 +272,12 @@ public class NewTurnMessage implements Serializable
 			return false;
 		if (turnSuccess != other.turnSuccess)
 			return false;
+		if (winState != other.winState)
+			return false;
 		return true;
 	}
+
+	
 	
 	
 	
