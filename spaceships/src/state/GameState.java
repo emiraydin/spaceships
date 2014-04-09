@@ -5,6 +5,7 @@ import java.util.Set;
 
 import state.ships.*;
 
+import common.GameConstants.WinState;
 import common.GameConstants.*;
 
 public class GameState
@@ -38,6 +39,11 @@ public class GameState
 	 * The current player ID
 	 */
 	private static int currentPlayerID; 
+	
+	/**
+	 * The Win state of the game
+	 */
+	private static WinState currentWinState; 
 	
 	private static String responseString = ""; 
 	
@@ -212,6 +218,17 @@ public class GameState
 	 */
 	public static void replaceMineParentsMap(HashMap<Integer,Integer> newMap) {
 		mineParents = newMap;
+	}
+
+	
+	public static void setWinState(WinState wiState)
+	{
+		currentWinState = wiState; 
+	}
+	
+	public static WinState getWinState()
+	{
+		return currentWinState; 
 	}
 
 	

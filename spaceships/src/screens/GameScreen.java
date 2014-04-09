@@ -3,10 +3,10 @@ package screens;
 import state.GameState;
 import util.TCPClient;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL10;
 import common.GameConstants.PlayerNumber;
 
@@ -25,10 +25,11 @@ public class GameScreen implements Screen
 	private GameScreenRenderer 	 renderer ; 
 	//private FPSLogger fpsLog = new FPSLogger(); 
 	public static boolean canStart = false;
+	private static Game g; 
 	
-	public GameScreen()
+	public GameScreen(Game game)
 	{
-		
+		this.g = game; 
 	}
 	
 	/**
@@ -86,12 +87,12 @@ public class GameScreen implements Screen
 		// Create and Initialize GameScreenController. 
 		if(GameState.getPlayerId() == 0)
 		{
-			controller = new GameScreenController(PlayerNumber.PlayerOne);
+			controller = new GameScreenController(PlayerNumber.PlayerOne, g);
 			System.out.println("I am player One!"); 
 		}
 		else if(GameState.getPlayerId() == 1)
 		{
-			controller = new GameScreenController(PlayerNumber.PlayerTwo);
+			controller = new GameScreenController(PlayerNumber.PlayerTwo, g);
 			System.out.println("I am player Two!"); 
 		}
 		else
