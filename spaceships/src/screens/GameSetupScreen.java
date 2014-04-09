@@ -219,7 +219,7 @@ public class GameSetupScreen implements Screen
 		}
 		if(Gdx.input.isKeyPressed(Keys.L))
 		{
-			currentGame.setScreen(new GameScreen());
+			currentGame.setScreen(new GameScreen(currentGame));
 		}
 		
 		resetAsteroids(); 
