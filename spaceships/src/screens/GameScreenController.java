@@ -318,7 +318,7 @@ public class GameScreenController implements InputProcessor
 				}
 				else
 				{
-					currentShip.drawAsNonCurrent(); 
+					currentShip.drawNonDestroyedSection(i); 
 				}
 			}
 			
@@ -359,7 +359,7 @@ public class GameScreenController implements InputProcessor
 				}
 				else
 				{
-					currentShip.drawNonDestroyedSection(i); 
+					currentShip.drawNonDestroyedSection(i); 	 
 				}
 			}
 			

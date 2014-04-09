@@ -376,7 +376,6 @@ public class GameSetupScreen implements Screen
 		// TODO Auto-generated method stub
 		
 	}
-
 	
 	private void setUpSkin()
 	{
