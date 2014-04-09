@@ -168,13 +168,36 @@ public class StarBoard {
 	}
 	
 	public void resetAsteroids(FleetCommander[] players) { 
+//		for(Asteroid asteroid : asteroids) { 
+//			players[0].decrementRadarVisibility(asteroid.getX(), asteroid.getY());
+//			players[1].decrementRadarVisibility(asteroid.getX(), asteroid.getY());
+//			clearSpaceThing(asteroid.getX(), asteroid.getY());
+//		}
+//		asteroids = new ArrayList<Asteroid>();
+//		generateAsteroids(players);
+		
 		for(Asteroid asteroid : asteroids) { 
 			players[0].decrementRadarVisibility(asteroid.getX(), asteroid.getY());
 			players[1].decrementRadarVisibility(asteroid.getX(), asteroid.getY());
 			clearSpaceThing(asteroid.getX(), asteroid.getY());
+			asteroid.setX(-1);
+			asteroid.setY(-1);
 		}
-		asteroids = new ArrayList<Asteroid>();
-		generateAsteroids(players);
+		
+		int count = 0;
+		while(count < NUM_ASTEROIDS) { 
+			int randX = 10 + (int) (Math.random() * ((20 - 10) + 1)); 
+			int randY = 3 + (int) (Math.random() * ((27 - 3) + 1));
+			
+			if(getSpaceThing(randX, randY) == null) { 
+				asteroids.get(count).setX(randX);
+				asteroids.get(count).setY(randY);
+				setSpaceThing(asteroids.get(count));
+				players[0].incrementRadarVisibility(randX, randY);
+				players[1].incrementRadarVisibility(randX, randY);
+				count++; 
+			}
+		}
 	}
 	
 	public static boolean inBounds(int x, int y){
