@@ -150,19 +150,19 @@ public class GameScreenUiController
 		setUpClickListenersForRepairShip(healShip); 
 		healShip.setVisible(false); 
 		
-		buttonTable.add(moveShip).pad(10f); 
-		buttonTable.add(fireCannon).pad(10f); 
-		buttonTable.add(fireTorpedo).pad(10f);
-		buttonTable.add(turnLeft).pad(10f);
+		buttonTable.add(moveShip);
+		buttonTable.add(turnLeft);
+		buttonTable.add(turnRight);
+		buttonTable.add(turn180);
 		buttonTable.row(); 
-		buttonTable.add(turnRight).pad(10f);
-		buttonTable.add(turn180).pad(10f); 
-		buttonTable.add(dropMine).pad(10f);
-		buttonTable.add(toggleRadar).pad(10f);
+		buttonTable.add(fireCannon); 
+		buttonTable.add(fireTorpedo);
+		buttonTable.add(dropMine);
+		buttonTable.add(explode);
 		buttonTable.row(); 
-		buttonTable.add(explode).pad(10f);
-		buttonTable.add(healShip).pad(10f); 
-		buttonTable.add(pickupMine).pad(10f); 
+		buttonTable.add(toggleRadar);
+		buttonTable.add(healShip); 
+		buttonTable.add(pickupMine); 
 		
 		speed = new Label("", typingStyle); 
 		health = new Label("", typingStyle); 
@@ -721,7 +721,7 @@ public class GameScreenUiController
 		{
 			if(Gdx.input.isKeyPressed(Keys.ENTER))
 			{
-				
+				controller.game.setScreen(new MainMenuScreen(controller.game)); 
 			}
 		}
 		
@@ -734,7 +734,6 @@ public class GameScreenUiController
 			{
 				ServerMessageHandler.currentAction = new ActionMessage(ActionType.Repair, aShip.getUniqueId(), aShip.getX(), aShip.getY()); 
 				ServerMessageHandler.hasChanged = true; 
-				System.out.println("HEALING SHIP"); 
 			}
 			
 			if(!(GameState.getResponseString() == null))
@@ -857,15 +856,22 @@ public class GameScreenUiController
 			else if(aShip instanceof MineLayerShip)
 			{
 				currentShip.setText(Descriptions.LAYAR_TITLE);
-				description.setText("Select a ship fool!");
+				description.setText(Descriptions.LAYER);
 			}
 			else if(aShip instanceof RadarBoatShip)
 			{
 				currentShip.setText(Descriptions.RADAR_TITLE);
+				description.setText(Descriptions.RADAR);
 			}
 			else if(aShip instanceof TorpedoShip)
 			{
 				currentShip.setText(Descriptions.TORPEDO_TITLE);
+				description.setText(Descriptions.TORP);
+			}
+			else if(aShip instanceof KamikazeBoatShip)
+			{
+				currentShip.setText(Descriptions.KAMA_TITLE); 
+				description.setText(Descriptions.KAMA); 
 			}
 			else
 			{

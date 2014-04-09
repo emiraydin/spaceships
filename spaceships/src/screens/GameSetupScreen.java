@@ -470,7 +470,7 @@ public class GameSetupScreen implements Screen
 			
 			public void exit(InputEvent event, float x, float y, int pointer, Actor toActor)
 			{
-				description.setText(Descriptions.PLACE_INTRO_TEXT); 
+				description.setText("Let your council decide where the ships should be placed"); 
 			}
 		}); 
 		
@@ -492,8 +492,7 @@ public class GameSetupScreen implements Screen
 						return false; 
 					}
 				}
-				
-				System.out.println("No more Destroyers"); 
+			
 				return false; 
 			}
 			
@@ -563,13 +562,12 @@ public class GameSetupScreen implements Screen
 					}
 				}
 				
-				System.out.println("No more Radar"); 
 				return false; 
 			}
 			
 			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
 			{ 
-				description.setText(Descriptions.LAYER); 
+				description.setText(Descriptions.RADAR); 
 			}
 			
 			public void exit(InputEvent event, float x, float y, int pointer, Actor toActor)
@@ -604,7 +602,7 @@ public class GameSetupScreen implements Screen
 			
 			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
 			{ 
-				description.setText(Descriptions.LAYER); 
+				description.setText(Descriptions.TORP); 
 			}
 			
 			public void exit(InputEvent event, float x, float y, int pointer, Actor toActor)
@@ -640,7 +638,7 @@ public class GameSetupScreen implements Screen
 			
 			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
 			{ 
-				description.setText(Descriptions.LAYER); 
+				description.setText(Descriptions.KAMA); 
 			}
 			
 			public void exit(InputEvent event, float x, float y, int pointer, Actor toActor)
@@ -674,7 +672,7 @@ public class GameSetupScreen implements Screen
 			
 			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
 			{ 
-				description.setText(Descriptions.LAYER); 
+				description.setText(Descriptions.CRUISER); 
 			}
 			
 			public void exit(InputEvent event, float x, float y, int pointer, Actor toActor)
