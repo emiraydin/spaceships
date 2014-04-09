@@ -28,6 +28,7 @@ public class ShipTileActor extends Image
 	private boolean isDestroyed = false; 		// Is the section currently destroyed. 
 	private OrientationType orientation; 
 	private final int WIDTH = Constants.PIXEL_WIDTH, HEIGHT = Constants.PIXEL_HEIGHT;
+	public boolean torpedo = false;
 
 	/**
 	 * Create a new ship tile at the specified location. 
@@ -234,6 +235,12 @@ public class ShipTileActor extends Image
 				SPRITE = new Sprite(generateUnselectedHeadPlayerOne(orientation)); 
 				return; 
 			}
+			if(torpedo)
+			{
+				
+				SPRITE = new Sprite(generateTorpedoSpritePlayerOne()); 
+				return; 
+			}
 			SPRITE = new Sprite(generateUnselectedShipTexturePlayerOne()); 
 		}
 		else
@@ -243,9 +250,54 @@ public class ShipTileActor extends Image
 				SPRITE = new Sprite(generateUnselectedHeadPlayerTwo(orientation)); 
 				return; 
 			}
+			if(torpedo)
+			{
+				SPRITE = new Sprite(generateTorpedoSpritePlayerTwo());
+				return; 
+			}
 			SPRITE = new Sprite(generateUnselectedShipTexturePlayerTwo()); 
 		}
 		
+	}
+	
+	private Texture generateTorpedoSpritePlayerTwo()
+	{
+		Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
+		pixmap.setColor(Color.WHITE);
+		pixmap.fill(); 
+		pixmap.setColor(Color.BLACK); 
+		pixmap.drawLine(WIDTH / 2, 0, WIDTH / 2, HEIGHT); 
+		return new Texture(pixmap);
+	}
+
+	private Texture generateTorpedoSpritePlayerOne()
+	{
+		Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
+		pixmap.setColor(Color.WHITE);
+		pixmap.fill(); 
+		pixmap.setColor(Color.BLACK); 
+		pixmap.drawLine(WIDTH / 2, 0, WIDTH / 2, HEIGHT); 
+		return new Texture(pixmap);
+	}
+	
+	private Texture generateTorpedoSelectedPlayerOne()
+	{
+		Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
+		pixmap.setColor(Color.WHITE);
+		pixmap.fill(); 
+		pixmap.setColor(Color.BLACK); 
+		pixmap.drawLine(WIDTH / 2, 0, WIDTH / 2, HEIGHT); 
+		return new Texture(pixmap);
+	}
+
+	private Texture generateTorpedoSelectedPlayerTwo()
+	{
+		Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
+		pixmap.setColor(Color.WHITE);
+		pixmap.fill(); 
+		pixmap.setColor(Color.BLACK); 
+		pixmap.drawLine(WIDTH / 2, 0, WIDTH / 2, HEIGHT); 
+		return new Texture(pixmap);
 	}
 	
 	private Texture generateUnselectedShipTexturePlayerTwo()
@@ -319,6 +371,11 @@ public class ShipTileActor extends Image
 				SPRITE = new Sprite(generateSelectedHeadPlayerOne(orientation)); 
 				return; 
 			}
+			if(torpedo)
+			{
+				SPRITE = new Sprite(generateTorpedoSelectedPlayerOne()); 
+				return; 
+			}
 			SPRITE = new Sprite(generateSelectedBodyPlayerOne()); 
 		}
 		if(player == PlayerNumber.PlayerTwo)
@@ -328,6 +385,10 @@ public class ShipTileActor extends Image
 			{
 				SPRITE = new Sprite(generateSelectedHeadPlayerTwo(orientation)); 
 				return; 
+			}
+			if(torpedo)
+			{
+				SPRITE = new Sprite(generateTorpedoSelectedPlayerTwo()); 
 			}
 			SPRITE = new Sprite(generateSelectedBodyPlayerTwo()); 
 		}

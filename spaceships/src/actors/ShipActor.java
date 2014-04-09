@@ -1,12 +1,13 @@
 package actors;
 
-import common.GameConstants.*;
-
 import state.ships.AbstractShip;
+import state.ships.TorpedoShip;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import common.GameConstants.OrientationType;
+import common.GameConstants.PlayerNumber;
 
 /**
  * Actor that aggregates ship tiles. 
@@ -46,7 +47,7 @@ public class ShipActor extends Group
 	 * @param startY
 	 */
 	private void initShip(int startX, int startY) 
-	{
+	{	
 		this.orientation = ship.getOrientation(); 
 		if(orientation == OrientationType.East)
 		{
@@ -83,6 +84,11 @@ public class ShipActor extends Group
 				startX --; 
 				addActor(tiles[i]);
 			}
+		}
+		
+		if(ship instanceof TorpedoShip)
+		{
+			tiles[1].torpedo = true; 
 		}
 
 		

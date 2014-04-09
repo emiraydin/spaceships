@@ -306,7 +306,6 @@ public class GameScreenController implements InputProcessor
 	}
 	
 
-
 	/**
 	 * This method compares the ACTOR ship with the MODEL ship.
 	 * It determines if the two are in the same location, and if not,
