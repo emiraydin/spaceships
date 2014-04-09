@@ -23,9 +23,9 @@ public class MineLayer extends AbstractWeapon {
 	public boolean fire(int x, int y) {
 		if(inRange(x, y)) { 
 			MineLayerShip ship = (MineLayerShip)owner;
-			Mine mine = ship.removeMine();
-			owner.getOwner().setActionResponse(ship.getPrettyMineCount());
+			Mine mine = ship.removeMine();			
 			if (mine != null){
+				owner.getOwner().setActionResponse("A mine was dropped. " +  ship.getPrettyMineCount());
 				mine.setLocation(x, y);
 				ship.getGameBoard().setSpaceThing(mine);
 				return true;

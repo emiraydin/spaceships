@@ -136,15 +136,7 @@ public class KamikazeBoatShip extends AbstractShip {
 			}
 			Collections.reverse(path);
 			
-			// ensure there are no mines lol
-			for(Position coord : path) { 
-				if(this.getOwner().handleMineExplosions(this, coord.x, coord.y)) { 
-					// if there's a mine, the ship dies anyway
-					return path.indexOf(coord);
-				}
-			}
-			
-			// actually successfully moved with no mines
+			// move to final position
 			FleetCommander fc = this.getOwner();
 			StarBoard board = fc.getHandler().getBoard();
 			fc.decrementVisibility(this);
@@ -155,6 +147,15 @@ public class KamikazeBoatShip extends AbstractShip {
 			
 			board.setSpaceThing(this);
 			fc.incrementVisibility(this);	
+			
+			// explode mines at final position
+			this.getOwner().handleMineExplosions(this, x, y);
+//			for(Position coord : path) { 
+//				if(this.getOwner().handleMineExplosions(this, coord.x, coord.y)) { 
+//					// if there's a mine, the ship dies anyway
+//					return path.indexOf(coord);
+//				}
+//			}			
 			
 			// TODO: UPDATE THE MESSAGE WITH PATH
 			return path.size();
