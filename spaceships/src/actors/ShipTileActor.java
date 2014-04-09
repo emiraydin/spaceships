@@ -412,8 +412,59 @@ public class ShipTileActor extends Image
 	{
 		this.SPRITE.getTexture().dispose(); 
 		
-		this.SPRITE = new Sprite(generateDestroyedTexture()); 
-		
+		if(isHead)
+		{
+			this.SPRITE = new Sprite(generateHeadDestroyedTexture(orientation)); 
+		}
+		else
+		{
+			this.SPRITE = new Sprite(generateDestroyedTexture()); 
+		}
+			
+	}
+
+	private Texture generateHeadDestroyedTexture(OrientationType orientation)
+	{
+		if(orientation == OrientationType.East)
+		{
+			Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
+			pixmap.setColor(128/255f, 0/255f, 0/255f, 1f);
+			pixmap.fillTriangle(0, 0, 0, 32, 32, 32/2); 
+			Texture newTexture = new Texture(pixmap);
+			pixmap.dispose(); 
+			return newTexture;
+		}
+		else if(orientation == OrientationType.West)
+		{
+			Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
+			pixmap.setColor(128/255f, 0/255f, 0/255f, 1f);
+			pixmap.fillTriangle(0, 32/2, 32, 0, 32, 32);
+			Texture newTexture = new Texture(pixmap);
+			pixmap.dispose(); 
+			return newTexture;
+		}
+		else if(orientation == OrientationType.North)
+		{
+			Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
+			pixmap.setColor(128/255f, 0/255f, 0/255f, 1f);
+			pixmap.fillTriangle(0, 32, 32, 32, 32/2, 0);
+			Texture newTexture = new Texture(pixmap);
+			pixmap.dispose(); 
+			return newTexture;
+		}
+		else if(orientation ==  OrientationType.South)
+		{
+			Pixmap pixmap = new Pixmap(WIDTH, HEIGHT, Format.RGBA8888);
+			pixmap.setColor(128/255f, 0/255f, 0/255f, 1f);
+			pixmap.fillTriangle(0, 0, 32/2, 32, 32, 0);
+			Texture newTexture = new Texture(pixmap);
+			pixmap.dispose(); 
+			return newTexture;
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 	/**
