@@ -56,7 +56,7 @@ public class GameScreenUiController
 	
 	// Ship Table Variables.
 	Label currentShip, description, speed, health, arsenal; 
-	TextButton moveShip, fireCannon, fireTorpedo, turnLeft, turnRight,turn180,dropMine, toggleRadar, explode; 
+	TextButton moveShip, fireCannon, fireTorpedo, turnLeft, turnRight,turn180, dropMine, toggleRadar, explode, pickupMine, healShip; 
 	
 	// Other Table Variables
 	Label currentPlayerAction, serverMessage, chatBox; 
@@ -141,18 +141,26 @@ public class GameScreenUiController
 		explode = new TextButton("Explode", tbs); 
 		setUpClickListenersForExplode(explode);
 		explode.setVisible(false); 
+		pickupMine = new TextButton("Pickup\nMine", tbs); 
+		setUpClickListenersForPickupMine(pickupMine); 
+		pickupMine.setVisible(false); 
+		healShip = new TextButton("Repair\nShip", tbs); 
+		setUpClickListenersForRepairShip(healShip); 
+		healShip.setVisible(false); 
 		
 		buttonTable.add(moveShip).pad(10f); 
 		buttonTable.add(fireCannon).pad(10f); 
 		buttonTable.add(fireTorpedo).pad(10f);
-		buttonTable.row(); 
 		buttonTable.add(turnLeft).pad(10f);
+		buttonTable.row(); 
 		buttonTable.add(turnRight).pad(10f);
 		buttonTable.add(turn180).pad(10f); 
-		buttonTable.row(); 
 		buttonTable.add(dropMine).pad(10f);
-		buttonTable.add(toggleRadar).pad(10f); 
-		buttonTable.add(explode).pad(10f); 
+		buttonTable.add(toggleRadar).pad(10f);
+		buttonTable.row(); 
+		buttonTable.add(explode).pad(10f);
+		buttonTable.add(healShip).pad(10f); 
+		buttonTable.add(pickupMine).pad(10f); 
 		
 		speed = new Label("", typingStyle); 
 		health = new Label("", typingStyle); 
@@ -209,6 +217,74 @@ public class GameScreenUiController
 		rootTable.add(scroller).padTop(20f).fill().expand();
 		uiStage.addActor(rootTable);
 
+	}
+
+	private void setUpClickListenersForRepairShip(TextButton healShip2)
+	{
+		healShip2.addListener(new ClickListener()
+		{
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
+			{				
+				if(ActorState.currentSelectionShip != -1
+						&& ActorState.currentTile != null)
+				{
+					ServerMessageHandler.currentAction = new ActionMessage(ActionType.Repair, ActorState.getShipList(controller.cPlayer).get(ActorState.currentSelectionShip).ship.getUniqueId(), (int)ActorState.currentTile.getX(), (int)ActorState.currentTile.getY());
+					ServerMessageHandler.hasChanged = true; 
+					chatBox.setText(""); 
+				}
+				else
+				{
+					chatBox.setText("Select a place to explode the ship in range. "); 
+				}
+				return false; 
+			}
+		
+			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
+			{ 
+				currentPlayerAction.setText("Repair the current Ship if docked at base.");
+			}
+			
+			public void exit(InputEvent event, float x, float y, int pointer, Actor toActor)
+			{
+				currentPlayerAction.setText(""); 
+			}
+		
+		});
+		
+	}
+
+	private void setUpClickListenersForPickupMine(TextButton pickupMine2)
+	{
+		pickupMine2.addListener(new ClickListener()
+		{
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
+			{				
+				if(ActorState.currentSelectionShip != -1
+						&& ActorState.currentTile != null)
+				{
+					ServerMessageHandler.currentAction = new ActionMessage(ActionType.PickupMine, ActorState.getShipList(controller.cPlayer).get(ActorState.currentSelectionShip).ship.getUniqueId(), (int)ActorState.currentTile.getX(), (int)ActorState.currentTile.getY());
+					ServerMessageHandler.hasChanged = true; 
+					chatBox.setText(""); 
+				}
+				else
+				{
+					chatBox.setText("Select a mine to pickup in range. "); 
+				}
+				return false; 
+			}
+		
+			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
+			{ 
+				currentPlayerAction.setText("Pickup a current or enemy Mine.");
+			}
+			
+			public void exit(InputEvent event, float x, float y, int pointer, Actor toActor)
+			{
+				currentPlayerAction.setText(""); 
+			}
+		
+		});
+		
 	}
 
 	private void setUpClickListenersForExplode(TextButton explode2)
@@ -652,6 +728,8 @@ public class GameScreenUiController
 			dropMine.setVisible(true); 
 			toggleRadar.setVisible(true); 
 			explode.setVisible(true); 
+			pickupMine.setVisible(true); 
+			healShip.setVisible(true); 
 			
 			
 			// Firing torpedoes. 
@@ -693,6 +771,16 @@ public class GameScreenUiController
 			else
 			{
 				toggleRadar.setDisabled(true); 
+			}
+			
+			// Toggle PickupMine 
+			if(aShip instanceof MineLayerShip)
+			{
+				pickupMine.setDisabled(false); 
+			}
+			else
+			{
+				pickupMine.setDisabled(true); 
 			}
 			
 			String type = aShip.getClass().getSimpleName();
