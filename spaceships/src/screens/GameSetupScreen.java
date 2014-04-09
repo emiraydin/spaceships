@@ -85,9 +85,8 @@ public class GameSetupScreen implements Screen
 		currentGame = g; 
 		asteroids = new AsteroidActor[30][30]; 
 		
+
 		gameBoard = new GameSetupTileActor[30][30]; 
-		
-		
 		
 		// Set the Background First; 
 		stage.addActor(new BackgroundActor()); 
@@ -98,6 +97,7 @@ public class GameSetupScreen implements Screen
 			{
 				gameBoard[i][k] = new GameSetupTileActor(i,k, this); 
 				stage.addActor(gameBoard[i][k]); 
+
 			}
 		}
 		
@@ -158,6 +158,17 @@ public class GameSetupScreen implements Screen
 			}
 		}
 		
+		for(int i = 0; i < 30; i++)
+		{
+			for (int k = 0; k < 30; k++)
+			{
+				asteroids[i][k] = new AsteroidActor(i,k); 
+				asteroids[i][k].setVisible(false); 
+				stage.addActor(asteroids[i][k]); 
+			}
+		}
+		
+		
 		resetAsteroids(); 
 		
 		System.out.println("Cruisers: " + cruisers + " destroyers: "+ destroyers + " radar: " + radar + " Torpedo: " + torpedo + " Layer: " + layer + " kami: "+ kami); 
@@ -207,6 +218,8 @@ public class GameSetupScreen implements Screen
 			helpText.setVisible(false); 
 		}
 		
+		resetAsteroids(); 
+		
 		// Checks if both Players have placed their ships and agreed on Asteroids. 
 		// If so, then the Game is Started. 
 		advanceScreen(); 
@@ -236,10 +249,7 @@ public class GameSetupScreen implements Screen
 			{
 				if(asteroids[i][k]!= null)
 				{ 
-					asteroids[i][k].setVisible(false);
-					asteroids[i][k].remove(); 
-					asteroids[i][k].clear();
-					stage.getRoot().removeActor(asteroids[i][k]); 
+					asteroids[i][k].setVisible(false); 
 				}
 			}
 		}
@@ -249,11 +259,11 @@ public class GameSetupScreen implements Screen
 			
 			if(thing instanceof Asteroid)
 			{
-				AsteroidActor a = new AsteroidActor(thing.getX(), thing.getY()); 
-				asteroids[thing.getX()][thing.getY()] = a; 
-				stage.addActor(a); 
+				asteroids[thing.getX()][thing.getY()].setVisible(true); 
 			}
 		}
+		
+		System.out.println(stage.getActors().size); 
 	}
 	
 	@Override
@@ -687,7 +697,9 @@ public class GameSetupScreen implements Screen
 					e.printStackTrace();
 				} 
 				
-				resetAsteroids();
+				resetAsteroids(); 
+
+				
 				return false; 
 			}
 			
