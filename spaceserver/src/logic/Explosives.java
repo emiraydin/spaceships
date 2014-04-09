@@ -1,6 +1,8 @@
 package logic;
 
 import logic.spacethings.AbstractShip;
+import logic.spacethings.BaseTile;
+import logic.spacethings.Mine;
 import logic.spacethings.SpaceThing;
 
 import common.GameConstants.WeaponType;
@@ -30,11 +32,17 @@ public class Explosives extends AbstractWeapon {
 		boolean damagedShips = false;
 		String damagedShipsString = "Kamikaze Boat exploded at (" + x + "," + y + ") and damaged ships at: ";
 		
+		boolean damagedBase = false;
+		String damagedBaseString = "Damaged base at: ";
+		
+		boolean damagedMine = false;
+		String damagedMineString = "Destroyed mine at: ";
+		
 		//move to desired location
 		FleetCommander fc = this.owner.getOwner();
 		if(fc.moveShip(this.owner.getID(), x, y) >= 0) { 
 			// success - moved
-			// damage all surrounding ships
+			// damage all surrounding ships/bases
 			for(int i = x-1; i <= x+1; i++) { 
 				for(int j = y-1; j <= y+1; j++) { 
 					if(StarBoard.inBounds(i, j)) { 
@@ -50,17 +58,45 @@ public class Explosives extends AbstractWeapon {
 							// actually do damage
 							AbstractShip obstacleShip = (AbstractShip)spaceThing;
 							obstacleShip.decrementSectionHealth(damage, obstacleShip.getSectionAt(i, j));
-						}					
+						}	
+						else if(spaceThing instanceof BaseTile) { 
+							if(damagedBase) { 
+								damagedBaseString += ", ";
+							}
+							damagedBaseString += "(" + i + "," + j + ")";
+							damagedBase = true;
+							
+							// actually do damage
+							BaseTile baseTile = (BaseTile)spaceThing;
+							baseTile.decrementBaseHealth(damage);
+						}
+						else if(spaceThing instanceof Mine) { 
+							if(damagedMine) { 
+								damagedMineString += ", ";
+							}
+							damagedMineString += "(" + i + "," + j + ")";
+							damagedMine = true;
+							
+							((Mine)spaceThing).removeSafely();
+						}
 					}
 				}
 			}
 			
+			String responseString = "";
 			if(damagedShips) { 
-				fc.setActionResponse(damagedShipsString);
+				responseString += damagedShipsString;
+			} else { 
+				responseString += String.format("Kamikaze Boat exploded at (%d,%d) and damaged no ships", x, y);
+			}			
+			if(damagedBase) { 
+				responseString += damagedBaseString;
 			}
-			else { 
-				fc.setActionResponse(String.format("Kamikaze Boat exploded at (%d,%d) and damaged no ships", x, y));
+			if(damagedMine) { 
+				responseString += damagedMineString;
 			}
+			
+			fc.setActionResponse(responseString);
 			
 			// boat disappears in explosion
 			this.owner.decrementSectionHealth(damage, 0);

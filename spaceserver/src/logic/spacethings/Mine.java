@@ -48,9 +48,7 @@ public class Mine extends SpaceThing {
 		}	
 		
 		// remove mine from game after detonation
-		this.getGameBoard().clearSpaceThing(this.getX(), this.getY());	
-		this.setX(-2);
-		this.setY(-2);		
+		removeSafely();	
 		return true;
 	}
 	
@@ -109,16 +107,16 @@ public class Mine extends SpaceThing {
 			else if(spaceThing instanceof Mine) { 
 				Mine mine = (Mine)spaceThing;			
 				// clear the mine safely
-				board.clearSpaceThing(mine.getX(), mine.getY());	
-				mine.setX(-2);
-				mine.setY(-2);				
+				mine.removeSafely();			
+			}
+			else if(spaceThing instanceof BaseTile) { 
+				BaseTile baseTile = (BaseTile)spaceThing;
+				baseTile.decrementBaseHealth(damage);
 			}
 		}
 		
 		// remove mine itself
-		this.getGameBoard().clearSpaceThing(this.getX(), this.getY());
-		this.setX(-2);
-		this.setY(-2);
+		removeSafely();
 		
 		return true;
 	}
@@ -130,6 +128,12 @@ public class Mine extends SpaceThing {
 	public void setLocation(int x, int y) { 
 		this.setX(x);
 		this.setY(y);
+	}
+	
+	public void removeSafely() { 
+		this.getGameBoard().clearSpaceThing(this.getX(), this.getY());
+		this.setX(-2);
+		this.setY(-2);
 	}
 
 	@Override
