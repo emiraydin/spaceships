@@ -137,6 +137,34 @@ public class GameSetupScreen implements Screen
 		System.out.println(unplacedShips.size()); 
 	}
 	
+	public boolean isValidPlaceShipLocation(int x, int y) { 
+		if(currentPlayer == PlayerNumber.PlayerOne) { 
+			if(x == 0) { 
+				if(y == 9 || y == 20) { 
+					return true;
+				}
+			}
+			if(x == 1) { 
+				if(y >= 10 && y <= 19) { 
+					return true;
+				}
+			}
+		}		
+		else if(currentPlayer == PlayerNumber.PlayerTwo) { 
+			if(x == 29) { 
+				if(y == 9 || y == 20) { 
+					return true;
+				}
+			}
+			if(x == 28) { 
+				if(y >= 10 && y <= 19) { 
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
 	@Override
 	public void render(float delta)
 	{
@@ -250,7 +278,7 @@ public class GameSetupScreen implements Screen
 					gameBoard[x][y].drawSelectable(); 
 				}
 				
-				if(x == 28 && 11 <= y && y <= 19)
+				if(x == 28 && 10 <= y && y <= 19)
 				{
 					gameBoard[x][y].drawSelectable(); 
 				}
