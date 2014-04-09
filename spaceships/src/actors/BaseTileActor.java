@@ -94,6 +94,7 @@ public class BaseTileActor extends Image
 
 	public void drawAsDamaged()
 	{
-		//this.SPRITE = //
+		this.SPRITE.getTexture().dispose(); 
+		this.SPRITE = new Sprite(generateDamagedBaseTile()); 
 	}
 }
