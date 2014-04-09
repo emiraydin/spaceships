@@ -28,15 +28,15 @@ public class Explosives extends AbstractWeapon {
 	}
 
 	@Override
-	public boolean fire(int x, int y) {
+	public boolean fire(int x, int y) {		
 		boolean damagedShips = false;
-		String damagedShipsString = "Kamikaze Boat exploded at (" + x + "," + y + ") and damaged ships at: ";
+		String damagedShipsString = " Damaged ships at: ";
 		
 		boolean damagedBase = false;
-		String damagedBaseString = "Damaged base at: ";
+		String damagedBaseString = " Damaged base at: ";
 		
 		boolean damagedMine = false;
-		String damagedMineString = "Destroyed mine at: ";
+		String damagedMineString = " Destroyed mine at: ";
 		
 		//move to desired location
 		FleetCommander fc = this.owner.getOwner();
@@ -83,11 +83,9 @@ public class Explosives extends AbstractWeapon {
 				}
 			}
 			
-			String responseString = "";
+			String responseString = "Kamikaze Boat exploded at (" + x + "," + y + ").";
 			if(damagedShips) { 
 				responseString += damagedShipsString;
-			} else { 
-				responseString += String.format("Kamikaze Boat exploded at (%d,%d) and damaged no ships", x, y);
 			}			
 			if(damagedBase) { 
 				responseString += damagedBaseString;

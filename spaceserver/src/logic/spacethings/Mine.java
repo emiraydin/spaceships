@@ -64,6 +64,8 @@ public class Mine extends SpaceThing {
 			return false;
 		}
 		
+		String responseString = String.format("Mine detonated at (%d,%d)", this.getX(), this.getY());
+		
 		StarBoard board = getGameBoard();
 		int x = this.getX();
 		int y = this.getY();
@@ -82,17 +84,15 @@ public class Mine extends SpaceThing {
 			surroundings.add(new Point(x-1, y));
 		}
 		
-		System.out.println("Mine detonating with #surroundings: " + surroundings.size());
 		for(Point coord : surroundings) { 
 			SpaceThing spaceThing = board.getSpaceThing(coord.x, coord.y);
 			if(spaceThing instanceof AbstractShip) { 
-				AbstractShip ship = (AbstractShip)spaceThing;
+				responseString += " Damaged ship at (" + coord.x + ", " + coord.y + ")";
 				
+				AbstractShip ship = (AbstractShip)spaceThing;			
 				int section = ship.getSectionAt(coord.x, coord.y);
 				ship.decrementSectionHealth(damage, section);
-				System.out.println("Decrementing health of " + ship.getShipType().toString() + " at section " + section);
 	 			
-				// catch for kamikaze ship
 				if(ship.getLength() > 1) { 
 					int section2;
 					if (section + 1 < ship.getLength()){
@@ -101,19 +101,22 @@ public class Mine extends SpaceThing {
 						section2 = section - 1;
 					}				
 					ship.decrementSectionHealth(damage, section2);
-					System.out.println("Decrementing health of " + ship.getShipType().toString() + " at section " + section2);
 				}
 			}
 			else if(spaceThing instanceof Mine) { 
+				responseString += " Destroyed Mine at (" + coord.x + ", " + coord.y + ")";
 				Mine mine = (Mine)spaceThing;			
 				// clear the mine safely
 				mine.removeSafely();			
 			}
 			else if(spaceThing instanceof BaseTile) { 
+				responseString += " Damaged base at (" + coord.x + ", " + coord.y + ")";
 				BaseTile baseTile = (BaseTile)spaceThing;
 				baseTile.decrementBaseHealth(damage);
 			}
 		}
+		
+		this.getOwner().setActionResponse(responseString);
 		
 		// remove mine itself
 		removeSafely();

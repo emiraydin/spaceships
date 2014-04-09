@@ -243,7 +243,7 @@ public class FleetCommander {
 					if(handleCollisions(ship, ship.getX()-1, ship.getY())) { 
 						break;
 					}
-					ship.setX(ship.getX()-1);					
+					ship.setX(ship.getX()-1);	
 				}
 				else if(y > ship.getY()) { 
 					// if ship would be moving onto an obstacle
@@ -261,6 +261,7 @@ public class FleetCommander {
 				}
 				spacesMoved++;
 				board.setSpaceThing(ship);
+				System.out.println("ship now at " + ship.getX() + "," + ship.getY());
 				
 				// move ship and if not a mine layer, detonate any surrounding mines
 				if(!(ship instanceof MineLayerShip) && handleMineExplosions(ship, ship.getX(), ship.getY())) { 
@@ -270,6 +271,7 @@ public class FleetCommander {
 			}
 			
 			incrementVisibility(ship);
+			System.out.println(">>" + spacesMoved);
 			return spacesMoved;
 		}
 		return 0;
@@ -283,6 +285,11 @@ public class FleetCommander {
 		SpaceThing thing;
 		for (int i = 0; i < ship.getLength(); i++){
 			thing = board.getSpaceThing(coords[i].x, coords[i].y);
+			
+			if(thing != null) { 
+				System.out.println("not null");
+			}
+			
 			if(thing instanceof AbstractShip && thing != ship) { 
 				setActionResponse(String.format("Ship collision at (%d,%d)", coords[i].x, coords[i].y));
 				return true;
@@ -301,6 +308,7 @@ public class FleetCommander {
 			}
 			
 		}
+		System.out.println("nothing hit");
 		return false;
 	}
 	
@@ -322,9 +330,7 @@ public class FleetCommander {
 			if(board.getSpaceThing(x, y) instanceof Mine) { 
 				if(!(ship instanceof MineLayerShip)) { 
 					Mine mine = (Mine)board.getSpaceThing(x, y);
-					if(mine.detonate()) { 
-						setActionResponse(String.format("Mine detonated at (%d,%d)", x, y));
-					}
+					if(mine.detonate());
 				}
 				return true;
 			}
@@ -376,9 +382,7 @@ public class FleetCommander {
 	 * Check if the move can be performed by the ship (checks speed, heading, bounds)
 	 * Handles ALL messages back to client regarding move
 	 */
-	private boolean validateMove(AbstractShip ship, int x, int y){
-		System.out.println("Validating move facing " + ship.getOrientation().toString());
-		
+	private boolean validateMove(AbstractShip ship, int x, int y){		
 		int shipX = ship.getX();
 		int shipY = ship.getY();
 		if (ship instanceof RadarBoatShip && ((RadarBoatShip) ship).isLongRadarEnabled()){
