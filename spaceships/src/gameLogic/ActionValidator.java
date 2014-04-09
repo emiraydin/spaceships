@@ -238,4 +238,19 @@ public class ActionValidator
 		}
 		return false;
 	}
+
+	public static boolean validateKamiMove(int x, int y)
+	{
+		int xLoc = currentShip.getX(), yLoc = currentShip.getY();
+		int maxTop = xLoc + 2, maxBottom = xLoc - 2, maxFront = yLoc + 2, maxBack = yLoc - 2; 
+		
+		if(x < maxBottom || x > maxTop || y > maxFront || y < maxBack)
+		{
+			return false; 
+		}
+		else
+		{
+			return true; 
+		}
+	}
 }
