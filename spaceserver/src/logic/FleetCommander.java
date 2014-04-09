@@ -210,45 +210,91 @@ public class FleetCommander {
 	public int moveShip(int shipID, int x, int y){
 		AbstractShip ship = getShip(shipID);	
 		
+		if(ship.getX() == x && ship.getY() == y) { 
+			setActionResponse("Move the ship at least one space");
+			return 0;
+		}
+		
 		// Kamikaze boat is the only one that is different...
 		if(ship instanceof KamikazeBoatShip) { 
 			return ((KamikazeBoatShip)ship).move(x, y);
 		}
 		
 		if (validateMove(ship, x, y)){
+			
 			decrementVisibility(ship);
-			board.clearSpaceThing(ship);
+			
 			int spacesMoved = 0;
 			while (Math.abs((x - ship.getX()) + (y - ship.getY())) > 0){
-				if (x > ship.getX()){
-					if (handleCollisions(ship, ship.getX()+1, ship.getY()) || handleMineExplosions(ship, ship.getX(), ship.getY())){
+				
+				board.clearSpaceThing(ship);
+				
+				if(x > ship.getX()) { 
+					// if ship would be moving onto an obstacle
+					if(handleCollisions(ship, ship.getX()+1, ship.getY())) { 
 						break;
-					} else {
-						ship.setX(ship.getX() + 1);
 					}
-				} else if (x < ship.getX()){
-					if (handleCollisions(ship, ship.getX()-1, ship.getY()) || handleMineExplosions(ship, ship.getX(), ship.getY())){
-						break;
-					} else {
-						ship.setX(ship.getX() - 1);
-					}
-				} else if (y > ship.getY()){
-					if (handleCollisions(ship, ship.getX(), ship.getY()+1) || handleMineExplosions(ship, ship.getX(), ship.getY())){
-						break;
-					} else {
-						ship.setY(ship.getY() + 1);
-					}
-				} else if (y < ship.getY()){
-					if (handleCollisions(ship, ship.getX(), ship.getY()-1) || handleMineExplosions(ship, ship.getX(), ship.getY())){
-						break;
-					} else {
-						ship.setY(ship.getY() - 1);
-					}
+					ship.setX(ship.getX() + 1);					
 				}
+				else if(x < ship.getX()) { 
+					// if ship would be moving onto an obstacle
+					if(handleCollisions(ship, ship.getX()-1, ship.getY())) { 
+						break;
+					}
+					ship.setX(ship.getX()-1);					
+				}
+				else if(y > ship.getY()) { 
+					// if ship would be moving onto an obstacle
+					if(handleCollisions(ship, ship.getX(), ship.getY()+1)) { 
+						break;
+					}	
+					ship.setY(ship.getY()+1);
+				} 
+				else if (y < ship.getY()) { 
+					// if ship would be moving onto an obstacle
+					if(handleCollisions(ship, ship.getX(), ship.getY()-1)) { 
+						break;
+					}
+					ship.setY(ship.getY()-1);
+				}
+				
+				System.out.println(">>> moved ship one space");
+				board.setSpaceThing(ship);
+				
+				// move ship and if not a mine layer, detonate any surrounding mines
+				if(!(ship instanceof MineLayerShip) && handleMineExplosions(ship, ship.getX(), ship.getY())) { 
+					break;
+				}
+							
+				
+//				if (x > ship.getX()){
+//					if (handleCollisions(ship, ship.getX()+1, ship.getY()) || handleMineExplosions(ship, ship.getX(), ship.getY())){
+//						break;
+//					} else {
+//						ship.setX(ship.getX() + 1);
+//					}
+//				} else if (x < ship.getX()){
+//					if (handleCollisions(ship, ship.getX()-1, ship.getY()) || handleMineExplosions(ship, ship.getX(), ship.getY())){
+//						break;
+//					} else {
+//						ship.setX(ship.getX() - 1);
+//					}
+//				} else if (y > ship.getY()){
+//					if (handleCollisions(ship, ship.getX(), ship.getY()+1) || handleMineExplosions(ship, ship.getX(), ship.getY())){
+//						break;
+//					} else {
+//						ship.setY(ship.getY() + 1);
+//					}
+//				} else if (y < ship.getY()){
+//					if (handleCollisions(ship, ship.getX(), ship.getY()-1) || handleMineExplosions(ship, ship.getX(), ship.getY())){
+//						break;
+//					} else {
+//						ship.setY(ship.getY() - 1);
+//					}
+//				}
 				spacesMoved++;
 			}
-			// might not have gone the full in case of a collision
-			board.setSpaceThing(ship);
+			
 			incrementVisibility(ship);
 			return spacesMoved;
 		}
@@ -272,7 +318,14 @@ public class FleetCommander {
 			} else if(thing instanceof Asteroid) { 
 				setActionResponse(String.format("Ship collision with asteroid at (%d,%d)", coords[i].x, coords[i].y));
 				return true;
+			} else if(thing instanceof Mine) { 
+				if(!(ship instanceof MineLayerShip)) { 
+					System.out.println("Something weird happening - ship was next to mine without detonating");
+				}
+				// no action response needed
+				return true;
 			}
+			
 		}
 		return false;
 	}
@@ -287,45 +340,63 @@ public class FleetCommander {
 	 * 		   Note: returns true even if there are undetonated mines (ship is MineLayer)
 	 */
 	public boolean handleMineExplosions(AbstractShip ship, int shipX, int shipY){
-		Point[] coords = ship.getShipSurroundings(shipX, shipY);
-		for (int i = 0; i < ship.getLength(); i++){
-			int sectionX = coords[i].x;
-			int sectionY = coords[i].y;
-			if(board.getSpaceThing(sectionX+1, sectionY) instanceof Mine) { 
+		Point[] surroundings = ship.getShipSurroundings(shipX, shipY);
+		for(Point coords : surroundings) { 
+			int x = coords.x;
+			int y = coords.y;
+			
+			if(board.getSpaceThing(x, y) instanceof Mine) { 
+				System.out.println("Found a mine");
 				if(!(ship instanceof MineLayerShip)) { 
-					Mine mine = (Mine)board.getSpaceThing(sectionX+1, sectionY);
-					if (mine.detonate(sectionX, sectionY)){
-						setActionResponse(String.format("Mine detonated at (%d,%d)", sectionX+1, sectionY));						
-					}
-				}
-				return true;				
-			} else if(board.getSpaceThing(sectionX-1, sectionY) instanceof Mine) { 
-				if(!(ship instanceof MineLayerShip)) { 
-					Mine mine = (Mine)board.getSpaceThing(sectionX-1, sectionY);
-					if (mine.detonate(sectionX, sectionY)){
-						setActionResponse(String.format("Mine detonated at (%d,%d)", sectionX-1, sectionY));
-					}
-				}
-				return true;
-			} else if(board.getSpaceThing(sectionX, sectionY+1) instanceof Mine) { 
-				if(!(ship instanceof MineLayerShip)) { 
-					Mine mine = (Mine)board.getSpaceThing(sectionX, sectionY+1);
-					if (mine.detonate(sectionX, sectionY)){
-						setActionResponse(String.format("Mine detonated at (%d,%d)", sectionX, sectionY+1));						
-					}
-				}
-				return true;
-			} else if(board.getSpaceThing(sectionX, sectionY-1) instanceof Mine) { 
-				if(!(ship instanceof MineLayerShip)) {
-					Mine mine = (Mine)board.getSpaceThing(sectionX, sectionY-1);
-					if (mine.detonate(sectionX, sectionY)){
-						setActionResponse(String.format("Mine detonated at (%d,%d)", sectionX, sectionY-1));						
+					Mine mine = (Mine)board.getSpaceThing(x, y);
+					if(mine.detonate()) { 
+						setActionResponse(String.format("Mine detonated at (%d,%d)", x, y));
 					}
 				}
 				return true;
 			}
-		}	
+		}
 		return false;
+		
+//		Point[] coords = ship.getShipSurroundings(shipX, shipY);
+//		for (int i = 0; i < ship.getLength(); i++){
+//			int sectionX = coords[i].x;
+//			int sectionY = coords[i].y;
+//			if(board.getSpaceThing(sectionX+1, sectionY) instanceof Mine) { 
+//				if(!(ship instanceof MineLayerShip)) { 
+//					Mine mine = (Mine)board.getSpaceThing(sectionX+1, sectionY);
+//					if (mine.detonate(sectionX, sectionY)){
+//						setActionResponse(String.format("Mine detonated at (%d,%d)", sectionX+1, sectionY));						
+//					}
+//				}
+//				return true;				
+//			} else if(board.getSpaceThing(sectionX-1, sectionY) instanceof Mine) { 
+//				if(!(ship instanceof MineLayerShip)) { 
+//					Mine mine = (Mine)board.getSpaceThing(sectionX-1, sectionY);
+//					if (mine.detonate(sectionX, sectionY)){
+//						setActionResponse(String.format("Mine detonated at (%d,%d)", sectionX-1, sectionY));
+//					}
+//				}
+//				return true;
+//			} else if(board.getSpaceThing(sectionX, sectionY+1) instanceof Mine) { 
+//				if(!(ship instanceof MineLayerShip)) { 
+//					Mine mine = (Mine)board.getSpaceThing(sectionX, sectionY+1);
+//					if (mine.detonate(sectionX, sectionY)){
+//						setActionResponse(String.format("Mine detonated at (%d,%d)", sectionX, sectionY+1));						
+//					}
+//				}
+//				return true;
+//			} else if(board.getSpaceThing(sectionX, sectionY-1) instanceof Mine) { 
+//				if(!(ship instanceof MineLayerShip)) {
+//					Mine mine = (Mine)board.getSpaceThing(sectionX, sectionY-1);
+//					if (mine.detonate(sectionX, sectionY)){
+//						setActionResponse(String.format("Mine detonated at (%d,%d)", sectionX, sectionY-1));						
+//					}
+//				}
+//				return true;
+//			}
+//		}	
+//		return false;
 	}
 	
 	/**

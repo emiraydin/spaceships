@@ -82,6 +82,12 @@ public abstract class AbstractShip extends SpaceThing {
 		return coords;
 	}
 	
+	/**
+	 * Gets all the tiles around a ship at a hypothetical position, including the tiles occupied by the ship itself
+	 * @param x
+	 * @param y
+	 * @return 
+	 */
 	public Point[] getShipSurroundings(int x, int y){
 		Point[] coords = getShipCoords(x, y);
 		Set<Point> surroundings = new HashSet<>();
@@ -139,7 +145,7 @@ public abstract class AbstractShip extends SpaceThing {
 
 			// detonate mine
 			Point shipLocation = shipCoords[(new Random()).nextInt(shipCoords.length)];
-			if (mine.detonate(shipLocation.x, shipLocation.y)){
+			if (mine.detonateWhileTurning(shipLocation.x, shipLocation.y)){
 				this.getOwner().setActionResponse(String.format("Mine detonated at (%d,%d)", obstacleX, obstacleY));
 			}
 		}
