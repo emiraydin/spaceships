@@ -18,6 +18,7 @@ import actors.ShipActor;
 import actors.ShipTileActor;
 import actors.TileActor;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -46,12 +47,17 @@ public class GameScreenController implements InputProcessor
 	private int CURRENT_SELECTION = -1; 							// The currently selected ship
 	private boolean debugMode = false; 								// Whether we are debugging or not. 
 	public final PlayerNumber cPlayer; 
+	public final Game game; 
+	
 	//private PlayerNumber otherPlayer; 
 	/**
 	 * Constructor for GameScreenController. 
+	 * @param g 
 	 */
-	public GameScreenController(PlayerNumber currentPlayer)
+	public GameScreenController(PlayerNumber currentPlayer, Game g)
 	{
+		game = g; 
+		
 		this.cPlayer = currentPlayer; 
 		
 		// Initialize Camera. 

@@ -50,6 +50,7 @@ public class ServerMessageHandler {
 			
 			GameState.setPlayerId(turn.getPlayerID()); 
 			GameState.setResponseString(turn.getResponseString()); 
+			GameState.setWinState(turn.winState); 
 			
 			// Set the mine parents in the GameState
 			GameState.replaceMineParentsMap(turn.getAllMineParents());

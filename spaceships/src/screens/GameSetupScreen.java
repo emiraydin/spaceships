@@ -360,7 +360,7 @@ public class GameSetupScreen implements Screen
 				return; 
 			}
 		}
-		currentGame.setScreen(new GameScreen()); 
+		currentGame.setScreen(new GameScreen(currentGame)); 
 	}
 	
 	@Override

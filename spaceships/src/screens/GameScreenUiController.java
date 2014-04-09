@@ -37,6 +37,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import common.GameConstants.ActionType;
+import common.GameConstants.PlayerNumber;
+import common.GameConstants.WinState;
 
 /**
  * Handles everything on the UI side of things. 
@@ -698,6 +700,31 @@ public class GameScreenUiController
 	 */
 	public void update(float delta) 
 	{
+		if(GameState.getWinState() == WinState.Player0 && controller.cPlayer == PlayerNumber.PlayerOne)
+		{
+			serverMessage.setText("You have won the game! Congratulations!\nPress return to go back to the \n main menu"); 
+		}
+		else if(GameState.getWinState() == WinState.Player0 && controller.cPlayer == PlayerNumber.PlayerTwo)
+		{
+			serverMessage.setText("You lose the game! All your ships were destroyed!\nPress return to go back to the\nmain menu"); 
+		}
+		else if(GameState.getWinState() == WinState.Player1 && controller.cPlayer == PlayerNumber.PlayerTwo)
+		{
+			serverMessage.setText("You have won the game! Congratulations!\nPress return to go back to the \n main menu"); 
+		}
+		else if(GameState.getWinState() == WinState.Player1 && controller.cPlayer == PlayerNumber.PlayerOne)
+		{
+			serverMessage.setText("You lose the game! All your ships were destroyed!\nPress return to go back to the\nmain menu"); 
+		}
+		
+		if(GameState.getWinState() == WinState.Player0 || GameState.getWinState() == WinState.Player1)
+		{
+			if(Gdx.input.isKeyPressed(Keys.ENTER))
+			{
+				
+			}
+		}
+		
 		if(ActorState.currentSelectionShip != -1)
 		{
 			ShipActor ship = ActorState.getShipList((controller.cPlayer)).get(ActorState.currentSelectionShip); 
