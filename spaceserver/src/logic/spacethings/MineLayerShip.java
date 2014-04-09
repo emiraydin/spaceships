@@ -56,9 +56,9 @@ public class MineLayerShip extends AbstractShip {
 	public boolean pickUpMine(Mine mine){
 		if(inSonarRange(mine.getX(), mine.getY())) { 
 			mines.add(mine);
-			mine.setLocation(-1, -1);
 			mine.setOwner(this.getOwner());
 			this.getGameBoard().clearSpaceThing(mine.getX(), mine.getY());
+			mine.setLocation(-1, -1);
 			return true;
 		}
 		return false;

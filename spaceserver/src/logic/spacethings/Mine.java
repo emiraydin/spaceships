@@ -146,8 +146,7 @@ public class Mine extends SpaceThing {
 	
 	public void removeSafely() { 
 		this.getGameBoard().clearSpaceThing(this.getX(), this.getY());
-		this.setX(-2);
-		this.setY(-2);
+		setLocation(-1,-1);
 	}
 
 	@Override
