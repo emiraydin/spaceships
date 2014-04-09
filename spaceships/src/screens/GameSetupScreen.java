@@ -13,6 +13,7 @@ import state.SpaceThing;
 import state.ships.AbstractShip;
 import state.ships.CruiserShip;
 import state.ships.DestroyerShip;
+import state.ships.KamikazeBoatShip;
 import state.ships.MineLayerShip;
 import state.ships.RadarBoatShip;
 import state.ships.TorpedoShip;
@@ -67,8 +68,7 @@ public class GameSetupScreen implements Screen
 	private String helpTextString = "Welcome, to Asteria: Battle for the Frontier. \n\n Click J to hide this Dialogue and H to show it again. "; 
 	public GameSetupTileActor currentSelectedTile = null; 
 	public PlayerNumber currentPlayer; 
-	public int cruisers = 0, destroyers = 0, radar = 0, layer = 0, torpedo = 0; 
-	
+	public int cruisers = 0, destroyers = 0, radar = 0, layer = 0, torpedo = 0, kami = 0; 
 	
 	
 	public GameSetupScreen(Game g)
@@ -99,6 +99,7 @@ public class GameSetupScreen implements Screen
 				if(thing.getOwner() == currentPlayer)
 				{
 					unplacedShips.add((AbstractShip) thing); 
+					
 					if(thing instanceof CruiserShip)
 					{
 						cruisers++; 
@@ -119,14 +120,21 @@ public class GameSetupScreen implements Screen
 					{
 						layer++; 
 					}
+					else if(thing instanceof KamikazeBoatShip)
+					{
+						kami++; 
+					}
 					else
 					{
-						System.out.println(thing); 
+						System.out.println("LOOK SOME WEIRD SHIT: " + thing); 
 					}
 				}
 			}
 			
 		}
+		
+		System.out.println("Cruisers: " + cruisers + " destroyers: "+ destroyers + " radar: " + radar + " Torpedo: " + torpedo + " Layer: " + layer + " kami: "+ kami); 
+		System.out.println(unplacedShips.size()); 
 	}
 	
 	@Override
@@ -273,11 +281,10 @@ public class GameSetupScreen implements Screen
 		{
 			SpaceThing thing = GameState.getAllSpaceThings().get(key); 
 			if((thing.getX() < 0 || thing.getY() < 0) && (!(thing instanceof Mine)))
-			{
+			{ 
 				return; 
 			}
 		}
-		
 		currentGame.setScreen(new GameScreen()); 
 	}
 	
@@ -338,6 +345,7 @@ public class GameSetupScreen implements Screen
 	{
 		uiStage = new Stage(); 
 		menuTable = new Table(); 
+		menuTable.top(); // Set things to the top. 
 		
 		// The Basic Properties of the Table. 
 		float width = Gdx.graphics.getWidth() * 0.3f, height = Gdx.graphics.getHeight() * 0.9f; 
@@ -396,27 +404,22 @@ public class GameSetupScreen implements Screen
 		t2.addListener(new ClickListener()
 		{
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
-			{
-				System.out.println("GO"); 
-				if(destroyers > 0)
+			{ 
+				for(int i = 0; i < unplacedShips.size(); i++)
 				{
-					for(int i = 0; i < unplacedShips.size(); i++)
+					AbstractShip s = unplacedShips.get(i); 
+					if(s instanceof DestroyerShip)
 					{
-						AbstractShip s = unplacedShips.get(i); 
-						if(s instanceof DestroyerShip)
-						{
-							System.out.println("Destroyers: " + destroyers); 
-							destroyers--; 
-							unplacedShips.remove(i);
-							System.out.println(unplacedShips.size()); 
-							ServerMessageHandler.currentAction = new ActionMessage(ActionType.PlaceShip, s.getUniqueId(),(int)currentSelectedTile.getX(),(int)currentSelectedTile.getY()); 
-							ServerMessageHandler.hasChanged = true; 
-							ShipActor s1 = new ShipActor((int)currentSelectedTile.getX(), (int)currentSelectedTile.getY(), s, currentPlayer);
-							stage.addActor(s1); 
-							return false; 
-						}
+						unplacedShips.remove(s);
+						ServerMessageHandler.currentAction = new ActionMessage(ActionType.PlaceShip, s.getUniqueId(),(int)currentSelectedTile.getX(),(int)currentSelectedTile.getY()); 
+						ServerMessageHandler.hasChanged = true; 
+						ShipActor s1 = new ShipActor((int)currentSelectedTile.getX(), (int)currentSelectedTile.getY(), s, currentPlayer);
+						stage.addActor(s1); 
+						return false; 
 					}
 				}
+				
+				System.out.println("No more Destroyers"); 
 				return false; 
 			}
 			
@@ -432,28 +435,26 @@ public class GameSetupScreen implements Screen
 		}); 
 		
 		
-		
 		TextButton t3 = new TextButton("Place Mine Layer",style);
 		t3.addListener(new ClickListener()
 		{
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
-			{
-				if(layer > 0)
+			{ 
+				for(int i = 0; i < unplacedShips.size(); i++)
 				{
-					for(int i = 0; i < unplacedShips.size(); i++)
+					AbstractShip s = unplacedShips.get(i); 
+					if(s instanceof MineLayerShip)
 					{
-						AbstractShip s = unplacedShips.get(i); 
-						if(s instanceof DestroyerShip)
-						{
-							unplacedShips.remove(s); 
-							destroyers--; 
-							ServerMessageHandler.currentAction = new ActionMessage(ActionType.PlaceShip, s.getUniqueId(),(int)currentSelectedTile.getX(),(int)currentSelectedTile.getY()); 
-							ServerMessageHandler.hasChanged = true; 
-							ShipActor s1 = new ShipActor((int)currentSelectedTile.getX(), (int)currentSelectedTile.getY(), s, currentPlayer);
-							stage.addActor(s1); 
-						}
+						unplacedShips.remove(s);
+						ServerMessageHandler.currentAction = new ActionMessage(ActionType.PlaceShip, s.getUniqueId(),(int)currentSelectedTile.getX(),(int)currentSelectedTile.getY()); 
+						ServerMessageHandler.hasChanged = true; 
+						ShipActor s1 = new ShipActor((int)currentSelectedTile.getX(), (int)currentSelectedTile.getY(), s, currentPlayer);
+						stage.addActor(s1); 
+						return false; 
 					}
 				}
+				
+				System.out.println("No more Layers"); 
 				return false; 
 			}
 			
@@ -467,14 +468,28 @@ public class GameSetupScreen implements Screen
 				description.setText(Descriptions.PLACE_INTRO_TEXT); 
 			}
 		}); 
-		
 		
 		
 		TextButton t4 = new TextButton("Place Radar Ship",style);
 		t4.addListener(new ClickListener()
 		{
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
-			{
+			{ 
+				for(int i = 0; i < unplacedShips.size(); i++)
+				{
+					AbstractShip s = unplacedShips.get(i); 
+					if(s instanceof RadarBoatShip)
+					{
+						unplacedShips.remove(s);
+						ServerMessageHandler.currentAction = new ActionMessage(ActionType.PlaceShip, s.getUniqueId(),(int)currentSelectedTile.getX(),(int)currentSelectedTile.getY()); 
+						ServerMessageHandler.hasChanged = true; 
+						ShipActor s1 = new ShipActor((int)currentSelectedTile.getX(), (int)currentSelectedTile.getY(), s, currentPlayer);
+						stage.addActor(s1); 
+						return false; 
+					}
+				}
+				
+				System.out.println("No more Radar"); 
 				return false; 
 			}
 			
@@ -488,14 +503,28 @@ public class GameSetupScreen implements Screen
 				description.setText(Descriptions.PLACE_INTRO_TEXT); 
 			}
 		}); 
-		
 		
 		
 		TextButton t5 = new TextButton("Place Torpedo Ship", style);
 		t5.addListener(new ClickListener()
 		{
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
-			{
+			{ 
+				for(int i = 0; i < unplacedShips.size(); i++)
+				{
+					AbstractShip s = unplacedShips.get(i); 
+					if(s instanceof TorpedoShip)
+					{
+						unplacedShips.remove(s);
+						ServerMessageHandler.currentAction = new ActionMessage(ActionType.PlaceShip, s.getUniqueId(),(int)currentSelectedTile.getX(),(int)currentSelectedTile.getY()); 
+						ServerMessageHandler.hasChanged = true; 
+						ShipActor s1 = new ShipActor((int)currentSelectedTile.getX(), (int)currentSelectedTile.getY(), s, currentPlayer);
+						stage.addActor(s1); 
+						return false; 
+					}
+				}
+				
+				System.out.println("No more Torpedo"); 
 				return false; 
 			}
 			
@@ -511,13 +540,27 @@ public class GameSetupScreen implements Screen
 		}); 
 		
 		
-		
-		TextButton t6 = new TextButton("Advance",style);
+		TextButton t6 = new TextButton("Place Kamikaze Ship",style);
 		t6.addListener(new ClickListener()
 		{
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
-			{
-				currentGame.setScreen(new GameScreen()); 
+			{ 
+				for(int i = 0; i < unplacedShips.size(); i++)
+				{
+					AbstractShip s = unplacedShips.get(i); 
+					if(s instanceof KamikazeBoatShip)
+					{
+						unplacedShips.remove(s);
+						ServerMessageHandler.currentAction = new ActionMessage(ActionType.PlaceShip, s.getUniqueId(),(int)currentSelectedTile.getX(),(int)currentSelectedTile.getY()); 
+						ServerMessageHandler.hasChanged = true; 
+						ShipActor s1 = new ShipActor((int)currentSelectedTile.getX(), (int)currentSelectedTile.getY(), s, currentPlayer);
+						System.out.println("I have been placed: "+ s.getUniqueId()); 
+						stage.addActor(s1); 
+						return false; 
+					}
+				}
+				
+				System.out.println("No more Kami"); 
 				return false; 
 			}
 			
@@ -536,7 +579,22 @@ public class GameSetupScreen implements Screen
 		t7.addListener(new ClickListener()
 		{
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
-			{
+			{ 
+				for(int i = 0; i < unplacedShips.size(); i++)
+				{
+					AbstractShip s = unplacedShips.get(i); 
+					if(s instanceof CruiserShip)
+					{
+						unplacedShips.remove(s);
+						ServerMessageHandler.currentAction = new ActionMessage(ActionType.PlaceShip, s.getUniqueId(),(int)currentSelectedTile.getX(),(int)currentSelectedTile.getY()); 
+						ServerMessageHandler.hasChanged = true; 
+						ShipActor s1 = new ShipActor((int)currentSelectedTile.getX(), (int)currentSelectedTile.getY(), s, currentPlayer);
+						stage.addActor(s1); 
+						return false; 
+					}
+				}
+				
+				System.out.println("No more Cruisers"); 
 				return false; 
 			}
 			
@@ -625,7 +683,8 @@ public class GameSetupScreen implements Screen
 			
 			for(AbstractShip modelShip : unplacedShips)
 			{
-				ShipActor actorShip = new ShipActor(x, y, modelShip, currentPlayer); 
+				ShipActor actorShip = new ShipActor(x, y, modelShip, currentPlayer);
+				
 				ServerMessageHandler.currentAction = new ActionMessage(ActionType.PlaceShip, modelShip.getUniqueId(), x, y); 
 				ServerMessageHandler.hasChanged = true; 
 				try
@@ -639,6 +698,8 @@ public class GameSetupScreen implements Screen
 				stage.addActor(actorShip); 
 				y++; 
 			}
+			
+			unplacedShips = new LinkedList<AbstractShip>(); 
 		}
 		else
 		{
@@ -646,6 +707,7 @@ public class GameSetupScreen implements Screen
 			for(AbstractShip modelShip : unplacedShips)
 			{
 				ShipActor actorShip = new ShipActor(x, y, modelShip, currentPlayer); 
+				
 				ServerMessageHandler.currentAction = new ActionMessage(ActionType.PlaceShip, modelShip.getUniqueId(), x, y); 
 				ServerMessageHandler.hasChanged = true; 
 				try
@@ -659,6 +721,7 @@ public class GameSetupScreen implements Screen
 				stage.addActor(actorShip); 
 				y++; 
 			}
+			unplacedShips = new LinkedList<AbstractShip>(); 
 		}
 	}
 }

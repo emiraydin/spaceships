@@ -36,8 +36,7 @@ public class ActorState
 	public static int			boardHeight = 30, boardWidth = 30;						// The gameBoard Height and Width. 	
 	private static int			maxAsteroids = 24; 										// The Maximum number of Asteroids available. 
 	public static TileActor[][] 		boardTiles = new TileActor[boardHeight][boardWidth];		 	// The game Tiles. 
-	public static BaseTileActor[][] 	playerOneBase = new BaseTileActor[boardHeight][boardWidth]; 	// The current players base Tiles. 
-	public static BaseTileActor[][]  playerTwoBase = new BaseTileActor[boardHeight][boardWidth];; // The opponent players base Tiles.
+	public static BaseTileActor[][] 	base = new BaseTileActor[boardHeight][boardWidth]; 	// The current players base Tiles. 
 	public static ShipTileActor[][] playerOneFleet = new ShipTileActor[boardHeight][boardWidth];	// The current players ship Tiles. 
 	public static ShipTileActor[][] playerTwoFleet = new ShipTileActor[boardHeight][boardWidth]; // The opponent players ship Tiles. 
 	public static LinkedList<MineActor> mineList		   = new LinkedList<MineActor>();  
@@ -120,13 +119,13 @@ public class ActorState
 		// Create the current players tiles. 
 		for(int i = 10; i < 20; i++)
 		{
-			playerOneBase[0][i] = new BaseTileActor(0, i, PlayerNumber.PlayerOne);
+			base[0][i] = new BaseTileActor(0, i, PlayerNumber.PlayerOne, null);
 		}
 		
 		// Create the current players tiles. 
 		for(int i = 10; i < 20; i++)
 		{
-			playerOneBase[29][i] = new BaseTileActor(29, i, PlayerNumber.PlayerTwo);
+			base[29][i] = new BaseTileActor(29, i, PlayerNumber.PlayerTwo, null);
 		}
 	}
 	
@@ -289,14 +288,14 @@ public class ActorState
 			
 			if(object instanceof BaseTile)
 			{
-				BaseTileActor tile = new BaseTileActor(object.getX(), object.getY(), object.getOwner()); 
+				BaseTileActor tile = new BaseTileActor(object.getX(), object.getY(), object.getOwner(), (BaseTile) object); 
 				if(object.getOwner() == PlayerNumber.PlayerOne)
 				{
-					playerOneBase[object.getX()][object.getY()] = tile; 
+					base[object.getX()][object.getY()] = tile; 
 				}
 				else
 				{
-					playerTwoBase[object.getX()][object.getY()] = tile; 
+					base[object.getX()][object.getY()] = tile; 
 				}
 			}
 			

@@ -5,9 +5,8 @@ import gameLogic.Constants;
 
 import java.util.LinkedList;
 
+import state.BaseTile;
 import state.GameState;
-import state.Mine;
-import state.SpaceThing;
 import state.ships.AbstractShip;
 import actors.ActorState;
 import actors.AsteroidActor;
@@ -120,6 +119,7 @@ public class GameScreenController implements InputProcessor
 		ShipTileActor[][] oponentLocation = ActorState.getOtherFleetArray(cPlayer); 
 		LinkedList<ShipActor> oponentShips = ActorState.getOtherFleet(cPlayer);
 		LinkedList<ShipActor> playerShips = ActorState.getShipList(cPlayer); 
+		BaseTileActor[][] baseTiles = ActorState.base; 
 		boolean[][] radar = GameState.getRadarVisibleTiles(); 
 		boolean[][] sonar = GameState.getSonarVisibleTiles(); 
 		
@@ -159,9 +159,7 @@ public class GameScreenController implements InputProcessor
 		}
 		
 		for(MineActor m : ActorState.mineList)
-		{
-			//System.out.println(m.mine.getX() + " " + m.mine.getY()); 
-			
+		{	
 			if(m.mine.getX() == -1 || m.mine.getY() == -1 || m.mine.getX() == -2 || m.mine.getY() == -2)
 			{
 				m.setVisible(false); 
@@ -199,33 +197,22 @@ public class GameScreenController implements InputProcessor
 				actor.setVisible(false); 
 			}
 		}
-	
 		
-//		for(ShipActor actor : playerShips)
-//		{
-//			if(isDeadShip(actor.ship))
-//			{
-//				actor.setVisible(false);
-//			}
-//			else
-//			{
-//				actor.setVisible(true); 
-//			}
-//			
-//		}
-//		
-//		for(ShipActor actor : oponentShips)
-//		{
-//			if(isDeadShip(actor.ship))
-//			{
-//				actor.setVisible(false); 
-//			}
-//			else
-//			{
-//				actor.setVisible(true); 
-//			}
-//			
-//		}
+		
+		// Update the Base Visiblity. 
+		for(BaseTileActor p[] : baseTiles)
+		{
+			for(BaseTileActor q : p)
+			{
+				if(q != null)
+				{
+					if(q.base.getSectionHealth()[0] <= 0)
+					{
+						q.drawAsDamaged(); 
+					}
+				}
+			}
+		}
 	}
 
 	private boolean isDeadShip(AbstractShip ship)
@@ -237,7 +224,6 @@ public class GameScreenController implements InputProcessor
 				return false; 
 			}
 		}
-		System.out.println(ship + " is dead "); 
 		return true; 
 	}
 
@@ -481,7 +467,7 @@ public class GameScreenController implements InputProcessor
 		// Initialize the Bases. 
 		ActorState.initializeBaseTiles(); 
 		
-		for(BaseTileActor[] xArray : ActorState.playerOneBase)
+		for(BaseTileActor[] xArray : ActorState.base)
 		{
 			for(BaseTileActor base : xArray)
 			{
@@ -489,13 +475,13 @@ public class GameScreenController implements InputProcessor
 			}
 		}
 		
-		for(BaseTileActor[] xArray : ActorState.playerTwoBase)
-		{
-			for(BaseTileActor base : xArray)
-			{
-				if(base != null) bg.addActor(base);
-			}
-		}
+//		for(BaseTileActor[] xArray : ActorState.playerTwoBase)
+//		{
+//			for(BaseTileActor base : xArray)
+//			{
+//				if(base != null) bg.addActor(base);
+//			}
+//		}
 		
 		// Add the ships. 
 		ActorState.initializeShipDefault(); 
@@ -578,7 +564,7 @@ public class GameScreenController implements InputProcessor
 		}
 		
 		// Initialize the Bases
-		for(BaseTileActor[] xArray : ActorState.playerOneBase)
+		for(BaseTileActor[] xArray : ActorState.base)
 		{
 			for(BaseTileActor base : xArray)
 			{
@@ -586,13 +572,13 @@ public class GameScreenController implements InputProcessor
 			}
 		}
 		
-		for(BaseTileActor[] xArray : ActorState.playerTwoBase)
-		{
-			for(BaseTileActor base : xArray)
-			{
-				if(base != null) background.addActor(base);
-			}
-		}
+//		for(BaseTileActor[] xArray : ActorState.playerTwoBase)
+//		{
+//			for(BaseTileActor base : xArray)
+//			{
+//				if(base != null) background.addActor(base);
+//			}
+//		}
 		
 		// Initialize the Mines
 		for(MineActor m : ActorState.mineList)

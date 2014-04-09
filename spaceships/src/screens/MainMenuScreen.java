@@ -243,7 +243,9 @@ public class MainMenuScreen implements Screen
 				try
 				{
 					Database database = new Database();
+					System.out.println("LOL"); 
 					boolean loginSuccess = database.loginUser(loginUser.getText(), loginPass.getText()); 
+					System.out.println("LOL2"); 
 					if(!loginSuccess)
 					{
 						return false; 
@@ -260,7 +262,8 @@ public class MainMenuScreen implements Screen
 				} 
 				
 				
-				// If the check works and we are logged in then go to the PreGameScreen. 
+				// If the check works and we are logged in then go to the PreGameScreen.
+				System.out.println("TRUE"); 
 				game.setScreen(new PreGameScreen(game)); 
 				return false; 
 			}
