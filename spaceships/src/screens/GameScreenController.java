@@ -119,6 +119,7 @@ public class GameScreenController implements InputProcessor
 		// Rest the ShipTile Actors to null 
 		ShipTileActor[][] oponentLocation = ActorState.getOtherFleetArray(cPlayer); 
 		LinkedList<ShipActor> oponentShips = ActorState.getOtherFleet(cPlayer);
+		LinkedList<ShipActor> playerShips = ActorState.getShipList(cPlayer); 
 		boolean[][] radar = GameState.getRadarVisibleTiles(); 
 		boolean[][] sonar = GameState.getSonarVisibleTiles(); 
 		
@@ -159,7 +160,9 @@ public class GameScreenController implements InputProcessor
 		
 		for(MineActor m : ActorState.mineList)
 		{
-			if(m.mine.getX() == -1 || m.mine.getY() == -1)
+			//System.out.println(m.mine.getX() + " " + m.mine.getY()); 
+			
+			if(m.mine.getX() == -1 || m.mine.getY() == -1 || m.mine.getX() == -2 || m.mine.getY() == -2)
 			{
 				m.setVisible(false); 
 			}
@@ -169,8 +172,74 @@ public class GameScreenController implements InputProcessor
 				m.setVisible(true); 
 			}
 		}
+		
+		//System.out.println("-------------------------");
+		
+		
+		for(ShipActor actor : playerShips)
+		{
+			if(!isDeadShip(actor.ship))
+			{
+				//actor.setVisible(true);
+			}
+			else
+			{ 
+				actor.setVisible(false); 
+			}
+		}
+		
+		for(ShipActor actor : oponentShips)
+		{
+			if(!isDeadShip(actor.ship))
+			{
+				
+			}
+			else
+			{
+				actor.setVisible(false); 
+			}
+		}
+	
+		
+//		for(ShipActor actor : playerShips)
+//		{
+//			if(isDeadShip(actor.ship))
+//			{
+//				actor.setVisible(false);
+//			}
+//			else
+//			{
+//				actor.setVisible(true); 
+//			}
+//			
+//		}
+//		
+//		for(ShipActor actor : oponentShips)
+//		{
+//			if(isDeadShip(actor.ship))
+//			{
+//				actor.setVisible(false); 
+//			}
+//			else
+//			{
+//				actor.setVisible(true); 
+//			}
+//			
+//		}
 	}
 
+	private boolean isDeadShip(AbstractShip ship)
+	{
+		for(int i : ship.getSectionHealth())
+		{
+			if(i > 0)
+			{
+				return false; 
+			}
+		}
+		System.out.println(ship + " is dead "); 
+		return true; 
+	}
 
 	/**
 	 * Confirm the selected move with the server. 
