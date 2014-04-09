@@ -257,42 +257,14 @@ public class FleetCommander {
 					}
 					ship.setY(ship.getY()-1);
 				}
-				
-				System.out.println(">>> moved ship one space");
+				spacesMoved++;
 				board.setSpaceThing(ship);
 				
 				// move ship and if not a mine layer, detonate any surrounding mines
 				if(!(ship instanceof MineLayerShip) && handleMineExplosions(ship, ship.getX(), ship.getY())) { 
 					break;
 				}
-							
 				
-//				if (x > ship.getX()){
-//					if (handleCollisions(ship, ship.getX()+1, ship.getY()) || handleMineExplosions(ship, ship.getX(), ship.getY())){
-//						break;
-//					} else {
-//						ship.setX(ship.getX() + 1);
-//					}
-//				} else if (x < ship.getX()){
-//					if (handleCollisions(ship, ship.getX()-1, ship.getY()) || handleMineExplosions(ship, ship.getX(), ship.getY())){
-//						break;
-//					} else {
-//						ship.setX(ship.getX() - 1);
-//					}
-//				} else if (y > ship.getY()){
-//					if (handleCollisions(ship, ship.getX(), ship.getY()+1) || handleMineExplosions(ship, ship.getX(), ship.getY())){
-//						break;
-//					} else {
-//						ship.setY(ship.getY() + 1);
-//					}
-//				} else if (y < ship.getY()){
-//					if (handleCollisions(ship, ship.getX(), ship.getY()-1) || handleMineExplosions(ship, ship.getX(), ship.getY())){
-//						break;
-//					} else {
-//						ship.setY(ship.getY() - 1);
-//					}
-//				}
-				spacesMoved++;
 			}
 			
 			incrementVisibility(ship);
@@ -346,7 +318,6 @@ public class FleetCommander {
 			int y = coords.y;
 			
 			if(board.getSpaceThing(x, y) instanceof Mine) { 
-				System.out.println("Found a mine");
 				if(!(ship instanceof MineLayerShip)) { 
 					Mine mine = (Mine)board.getSpaceThing(x, y);
 					if(mine.detonate()) { 

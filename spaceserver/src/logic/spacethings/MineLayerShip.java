@@ -73,7 +73,8 @@ public class MineLayerShip extends AbstractShip {
 	 * @return True of in sonar range, false otherwise.
 	 */
 	public boolean inSonarRange(int x, int y) { 
-		// TODO: cant drop a mine directly under a ship
+		// NOTE: doesn't exclude tiles ship is occupying
+		
 		if(!StarBoard.inBounds(x, y)) { 
 			return false;
 		}
