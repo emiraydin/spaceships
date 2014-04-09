@@ -316,14 +316,12 @@ public class GameScreenController implements InputProcessor
 				{
 					currentShip.drawDestroyedSection(i); 
 				}
+				else
+				{
+					currentShip.drawAsNonCurrent(); 
+				}
 			}
 			
-			// If the entire ship is destroyed, draw remove from screen. 
-			int count = currentShip.ship.getLength(); 
-			for(int i : currentShip.ship.getSectionHealth())
-			{
-				if(i <= 0) count --; 
-			}
 			
 			if(currentShip.getOrientation() != currentShip.ship.getOrientation())
 			{
@@ -359,13 +357,10 @@ public class GameScreenController implements InputProcessor
 				{
 					currentShip.drawDestroyedSection(i); 
 				}
-			}
-			
-			// If the entire ship is destroyed, draw remove from screen. 
-			int count = currentShip.ship.getLength(); 
-			for(int i : currentShip.ship.getSectionHealth())
-			{
-				if(i <= 0) count --; 
+				else
+				{
+					currentShip.drawNonDestroyedSection(i); 
+				}
 			}
 			
 			if(currentShip.getOrientation() != currentShip.ship.getOrientation())

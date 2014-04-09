@@ -626,6 +626,13 @@ public class GameScreenUiController
 			ShipActor ship = ActorState.getShipList((controller.cPlayer)).get(ActorState.currentSelectionShip); 
 			AbstractShip aShip = ship.ship; 
 			
+			if(Gdx.input.isKeyPressed(Keys.K))
+			{
+				ServerMessageHandler.currentAction = new ActionMessage(ActionType.Repair, aShip.getUniqueId(), aShip.getX(), aShip.getY()); 
+				ServerMessageHandler.hasChanged = true; 
+				System.out.println("HEALING SHIP"); 
+			}
+			
 			if(!(GameState.getResponseString() == null))
 			{
 				serverMessage.setText(GameState.getResponseString());

@@ -258,4 +258,10 @@ public class ShipActor extends Group
 		}
 	}
 
+
+	public void drawNonDestroyedSection(int i)
+	{
+		tiles[i].drawAsNonCurrent(owner); 
+	}
+
 }

@@ -7,6 +7,7 @@ import java.util.LinkedList;
 
 import messageprotocol.ActionMessage;
 import messageprotocol.ServerMessageHandler;
+import state.Asteroid;
 import state.GameState;
 import state.Mine;
 import state.SpaceThing;
@@ -17,6 +18,7 @@ import state.ships.KamikazeBoatShip;
 import state.ships.MineLayerShip;
 import state.ships.RadarBoatShip;
 import state.ships.TorpedoShip;
+import actors.AsteroidActor;
 import actors.BackgroundActor;
 import actors.GameSetupTileActor;
 import actors.ShipActor;
@@ -59,6 +61,7 @@ public class GameSetupScreen implements Screen
 {
 	private Game currentGame;
 	private GameSetupTileActor[][] gameBoard; 
+	private AsteroidActor[][] asteroids; 
 	private Stage stage, uiStage; 
 	private OrthographicCamera cam; 
 	private Table menuTable; 						// The Menu That allows the user to select shit (stuff). 
@@ -73,7 +76,30 @@ public class GameSetupScreen implements Screen
 	
 	public GameSetupScreen(Game g)
 	{
+		stage = new Stage(); 
+		cam = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_WIDTH); 
+		cam.position.set(23, 15, 0); 
+		cam.zoom = 6; 
+		cam.update(); 
+		stage.setCamera(cam); 
 		currentGame = g; 
+		asteroids = new AsteroidActor[30][30]; 
+		
+		gameBoard = new GameSetupTileActor[30][30]; 
+		
+		
+		
+		// Set the Background First; 
+		stage.addActor(new BackgroundActor()); 
+		
+		for(int i = 0; i < 30; i++)
+		{
+			for(int k = 0; k < 30; k++)
+			{
+				gameBoard[i][k] = new GameSetupTileActor(i,k, this); 
+				stage.addActor(gameBoard[i][k]); 
+			}
+		}
 		
 		unplacedShips = new LinkedList<AbstractShip>(); 
 		
@@ -130,8 +156,9 @@ public class GameSetupScreen implements Screen
 					}
 				}
 			}
-			
 		}
+		
+		resetAsteroids(); 
 		
 		System.out.println("Cruisers: " + cruisers + " destroyers: "+ destroyers + " radar: " + radar + " Torpedo: " + torpedo + " Layer: " + layer + " kami: "+ kami); 
 		System.out.println(unplacedShips.size()); 
@@ -201,33 +228,39 @@ public class GameSetupScreen implements Screen
 		cam.update();
 	}
 
+	private void resetAsteroids()
+	{
+		for(int i = 0; i < 30; i++)
+		{
+			for (int k = 0; k < 30; k++)
+			{
+				if(asteroids[i][k]!= null)
+				{ 
+					asteroids[i][k].setVisible(false);
+					asteroids[i][k].remove(); 
+					asteroids[i][k].clear();
+					stage.getRoot().removeActor(asteroids[i][k]); 
+				}
+			}
+		}
+		for(int q : GameState.getAllSpaceThings().keySet())
+		{
+			SpaceThing thing = GameState.getAllSpaceThings().get(q); 
+			
+			if(thing instanceof Asteroid)
+			{
+				AsteroidActor a = new AsteroidActor(thing.getX(), thing.getY()); 
+				asteroids[thing.getX()][thing.getY()] = a; 
+				stage.addActor(a); 
+			}
+		}
+	}
 	
 	@Override
 	public void show()
 	{
 		// Basic Stuff we need to setup first. 
 		setUpSkin(); 
-		gameBoard = new GameSetupTileActor[30][30]; 
-		stage = new Stage(); 
-		cam = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_WIDTH); 
-		cam.position.set(23, 15, 0); 
-		cam.zoom = 6; 
-		cam.update(); 
-		stage.setCamera(cam); 
-		
-		
-		
-		// Set the Background First; 
-		stage.addActor(new BackgroundActor()); 
-		
-		for(int i = 0; i < 30; i++)
-		{
-			for(int k = 0; k < 30; k++)
-			{
-				gameBoard[i][k] = new GameSetupTileActor(i,k, this); 
-				stage.addActor(gameBoard[i][k]); 
-			}
-		}
 		
 		// Draw the GameBoard Depending on the Player. 
 		if(currentPlayer == PlayerNumber.PlayerOne)
@@ -637,6 +670,38 @@ public class GameSetupScreen implements Screen
 			}
 		}); 
 
+		TextButton t8 = new TextButton("Reset Asteroids", style); 
+		t8.addListener(new ClickListener()
+		{
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
+			{ 
+				ServerMessageHandler.currentAction = new ActionMessage(ActionType.ResetAsteroids, 0, 0, 0); 
+				ServerMessageHandler.hasChanged = true; 
+				
+				try
+				{
+					Thread.sleep(1000);
+				}
+				catch (InterruptedException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} 
+				
+				resetAsteroids();
+				return false; 
+			}
+			
+			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
+			{ 
+				description.setText("Reset the Asteroids. Your partner automatically gets there's changed, so try not to abuse this.");
+			}
+			
+			public void exit(InputEvent event, float x, float y, int pointer, Actor toActor)
+			{
+				description.setText(Descriptions.PLACE_INTRO_TEXT); 
+			}
+		}); 
 		
 		menuTable.add(header).width(width).height(height * 0.1f).row();
 		menuTable.add(t1).width(width).height(height * 0.05f).row();
@@ -646,6 +711,7 @@ public class GameSetupScreen implements Screen
 		menuTable.add(t4).width(width).height(height * 0.05f).row();
 		menuTable.add(t5).width(width).height(height * 0.05f).row();
 		menuTable.add(t6).width(width).height(height * 0.05f).row();
+		menuTable.add(t8).width(width).height(height * 0.05f).row(); 
 		menuTable.add(description).width(width).height(height * 0.3f); 
 		
 		uiStage.addActor(menuTable); 
