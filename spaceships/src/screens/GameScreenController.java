@@ -168,7 +168,19 @@ public class GameScreenController implements InputProcessor
 			{
 				m.setPosition(m.mine.getX(), m.mine.getY()); 
 				m.setVisible(true); 
+				
+				// for all non weird values;
+				if(sonar[(int)m.getX()][(int)m.getY()] == false)
+				{
+					m.setVisible(false); 
+				}
+				else
+				{
+					m.setVisible(true); 
+				}
 			}
+			
+			
 		}
 		
 		//System.out.println("-------------------------");
