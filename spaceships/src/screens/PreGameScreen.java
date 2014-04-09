@@ -2,7 +2,9 @@ package screens;
 
 import java.sql.SQLException;
 
+import state.GameState;
 import util.Database;
+import util.TCPClient;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -280,7 +282,7 @@ public class PreGameScreen implements Screen
 			
 		}
 		
-		public PlayerPanel(String name, String wins, String losses)
+		public PlayerPanel(final String name, String wins, String losses)
 		{
 			this.name = name; 
 			this.wins = wins; 
@@ -306,7 +308,10 @@ public class PreGameScreen implements Screen
 			{
 				public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
 				{
-					
+//					if (!TCPClient.canStart) {
+//					TCPClient.inputString = name;
+//					TCPClient.inputEntered = true;
+//					}
 					game.setScreen(new GameSetupScreen(game));
 					return false; 
 				}

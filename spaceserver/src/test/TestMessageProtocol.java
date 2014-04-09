@@ -69,7 +69,7 @@ public class TestMessageProtocol {
 
 		respond = new MessageResponder(handler);
 		
-		turn = new NewTurnMessage(action, true, "test response", null, radar, sonar, 0, 0);
+		turn = new NewTurnMessage(action, true, "test response", null, radar, sonar, 0, 0, null);
 		turn.addStateMessage(state);
 		
 		created = new PlayerCreatedMessage("Jorg", "elevator");

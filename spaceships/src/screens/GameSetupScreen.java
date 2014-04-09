@@ -217,6 +217,10 @@ public class GameSetupScreen implements Screen
 		{
 			helpText.setVisible(false); 
 		}
+		if(Gdx.input.isKeyPressed(Keys.L))
+		{
+			currentGame.setScreen(new GameScreen());
+		}
 		
 		resetAsteroids(); 
 		

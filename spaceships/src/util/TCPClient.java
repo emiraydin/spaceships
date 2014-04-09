@@ -18,10 +18,12 @@ public class TCPClient implements Runnable {
 	private static Socket clientSocket = null;
 	private static PrintStream output = null;
 	private static BufferedReader input = null;
+	public static String inputString = null;
+	public static boolean inputEntered = false;
 
 	private static BufferedReader inputLine = null;
 	private static boolean connectionClosed = false;
-	public static boolean canStart;
+	public static boolean canStart = false;
 
 	public static void start() {
 
@@ -47,10 +49,17 @@ public class TCPClient implements Runnable {
 				new Thread(new TCPClient()).start();
 				while (!connectionClosed) {
 					// Send the message
-					if (inputLine.ready()) {		
-						output.println(inputLine.readLine().trim());
-						System.out.println("I'm here inputLine.ready");
+					if (inputEntered) {		
+						output.println(inputString);
+						inputEntered = false;
 						output.flush();
+					} else {
+						if (inputLine.ready()) {
+							output.println(inputLine.readLine().trim());
+							System.out.println("Enter once again.");
+							output.flush();
+						}
+						
 					}
 //					System.out.println(ServerMessageHandler.currentAction);
 //					Thread.sleep(1000);

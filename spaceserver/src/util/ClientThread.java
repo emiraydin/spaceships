@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import logic.GameHandler;
 import messageprotocol.ActionMessage;
@@ -23,13 +24,18 @@ public class ClientThread extends Thread {
 	private final ClientThread[] allThreads;
 	private int playerID = 1;
 	private int gameID;
+	private int uID;
 	private ClientThread matchedThread = null;
 	private int maxPlayersOnServer;
+	private boolean loadGame = false;
+	private static int loadGID;
+	private Database db;
 
-	public ClientThread(Socket clientSocket, ClientThread[] threads) {
+	public ClientThread(Socket clientSocket, ClientThread[] threads) throws ClassNotFoundException, SQLException {
 		this.clientSocket = clientSocket;
 		this.allThreads = threads;
 		maxPlayersOnServer = threads.length;
+		db = new Database();
 	}
 
 	public void run() {
@@ -45,6 +51,12 @@ public class ClientThread extends Thread {
 			output.println("Enter your user name: ");
 			userName = input.readLine().trim();
 
+			int uid = db.getUID(userName);
+
+			if (uid > 0) {
+				this.uID = uid;
+			}
+			
 			// New client enters the game
 			output.println("Welcome " + userName + "!\nType /exit to quit game.");
 
@@ -85,7 +97,16 @@ public class ClientThread extends Thread {
 
 					if (matchUser.startsWith("/exit"))
 						break;
-
+					
+//					if (matchUser.startsWith("@load-")) {
+//						
+//						loadGID = Integer.parseInt(matchUser.split("-")[1]);	
+//						loadGame = true;
+//						break;
+//					}
+					
+//					if (!loadGame) {
+					
 					// Check if the user exists and prompt to match if so
 					for (int i = 0; i < maxPlayersOnServer; i++) {
 						ClientThread current = allThreads[i];
@@ -131,6 +152,17 @@ public class ClientThread extends Thread {
 
 						}
 					}
+					
+//					} // if loadGame
+//					else
+//					{
+//						NewTurnMessage ntm = db.getHistory(loadGID, uID);
+//						String triggerForP0 = "@" + ObjectConverter.objectToString(ntm);
+//		                this.output.println(triggerForP0);
+//		                System.out.println("Game " + loadGID + " loaded");
+//						break;
+//					}
+					
 
 				} // end of match loop
 
@@ -219,7 +251,7 @@ public class ClientThread extends Thread {
 			output.close();
 			clientSocket.close();
 
-		} catch (IOException | ClassNotFoundException e) {
+		} catch (IOException | ClassNotFoundException | SQLException e) {
 			System.out.println(e);
 		}
 
