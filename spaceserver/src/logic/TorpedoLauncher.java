@@ -131,7 +131,13 @@ public class TorpedoLauncher extends AbstractWeapon {
 				}
 			}	
 			
-			this.owner.getOwner().setActionResponse(String.format("Torpedo damaged a ship at (%d,%d)", x, y));
+			if(ship.isDead()) { 
+				this.owner.getOwner().setActionResponse(String.format("Torpedo damaged and sunk a " + ship.getShipType() + " at (%d,%d)", x, y));
+			}
+			else { 
+				this.owner.getOwner().setActionResponse(String.format("Torpedo damaged a ship at (%d,%d)", x, y));
+			}
+			
 		}		
 		/* Obstacle is mine */
 		else if(spaceThing instanceof Mine) { 

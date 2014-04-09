@@ -29,7 +29,12 @@ public class Cannon extends AbstractWeapon {
 				AbstractShip ship = (AbstractShip)spaceThing;
 				int sectionIndex = ship.getSectionAt(x, y);
 				ship.decrementSectionHealth(damage, sectionIndex);
-				this.owner.getOwner().setActionResponse(String.format("Cannon hit a ship at (%d,%d)", x, y));
+				if(ship.isDead()) { 
+					this.owner.getOwner().setActionResponse(String.format("Cannon hit a and sunk a " + ship.getShipType() + " at (%d,%d)", x, y));
+				}
+				else { 
+					this.owner.getOwner().setActionResponse(String.format("Cannon hit a ship at (%d,%d)", x, y));
+				}				
 			}
 			/* If cannon hits a mine */
 			else if(spaceThing instanceof Mine) { 

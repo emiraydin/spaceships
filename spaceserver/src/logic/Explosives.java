@@ -38,6 +38,9 @@ public class Explosives extends AbstractWeapon {
 		boolean damagedMine = false;
 		String damagedMineString = " Destroyed mine at: ";
 		
+		boolean sunkShip = false;
+		String sunkShipString = "";
+		
 		//move to desired location
 		FleetCommander fc = this.owner.getOwner();
 		if(fc.moveShip(this.owner.getID(), x, y) >= 0) { 
@@ -58,6 +61,10 @@ public class Explosives extends AbstractWeapon {
 							// actually do damage
 							AbstractShip obstacleShip = (AbstractShip)spaceThing;
 							obstacleShip.decrementSectionHealth(damage, obstacleShip.getSectionAt(i, j));
+							if(obstacleShip.isDead()) { 
+								sunkShipString += " " + obstacleShip.getShipType() + " sunk!";
+								sunkShip = true;
+							}
 						}	
 						else if(spaceThing instanceof BaseTile) { 
 							if(damagedBase) { 
@@ -92,6 +99,9 @@ public class Explosives extends AbstractWeapon {
 			}
 			if(damagedMine) { 
 				responseString += damagedMineString;
+			}
+			if(sunkShip) { 
+				responseString += sunkShipString;
 			}
 			
 			fc.setActionResponse(responseString);

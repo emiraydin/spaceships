@@ -33,6 +33,12 @@ public class Mine extends SpaceThing {
 			AbstractShip ship = (AbstractShip) getGameBoard().getSpaceThing(x, y);
 			int section = ship.getSectionAt(x, y);
 			ship.decrementSectionHealth(damage, section);
+			if(ship.isDead()) { 
+				this.getOwner().setActionResponse(String.format("Mine detonated at (%d,%d) and sunk a " + ship.getShipType(), x, y));
+			}
+			else { 
+				this.getOwner().setActionResponse(String.format("Mine detonated at (%d,%d)", x, y));
+			}
  			
 			// catch for kamikaze ship
 			if(ship.getLength() > 1) { 
@@ -87,8 +93,6 @@ public class Mine extends SpaceThing {
 		for(Point coord : surroundings) { 
 			SpaceThing spaceThing = board.getSpaceThing(coord.x, coord.y);
 			if(spaceThing instanceof AbstractShip) { 
-				responseString += " Damaged ship at (" + coord.x + ", " + coord.y + ")";
-				
 				AbstractShip ship = (AbstractShip)spaceThing;			
 				int section = ship.getSectionAt(coord.x, coord.y);
 				ship.decrementSectionHealth(damage, section);
@@ -101,6 +105,13 @@ public class Mine extends SpaceThing {
 						section2 = section - 1;
 					}				
 					ship.decrementSectionHealth(damage, section2);
+				}
+				
+				if(ship.isDead()) { 
+					responseString += " Damaged and sunk " + ship.getShipType() + " at (" + coord.x + ", " + coord.y + ")";
+				}
+				else { 
+					responseString += " Damaged ship at (" + coord.x + ", " + coord.y + ")";
 				}
 			}
 			else if(spaceThing instanceof Mine) { 

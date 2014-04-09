@@ -145,9 +145,8 @@ public abstract class AbstractShip extends SpaceThing {
 
 			// detonate mine
 			Point shipLocation = shipCoords[(new Random()).nextInt(shipCoords.length)];
-			if (mine.detonateWhileTurning(shipLocation.x, shipLocation.y)){
-				this.getOwner().setActionResponse(String.format("Mine detonated at (%d,%d)", obstacleX, obstacleY));
-			}
+			// deals with messages
+			mine.detonateWhileTurning(shipLocation.x, shipLocation.y);
 		}
 		else { 
 			return false;
