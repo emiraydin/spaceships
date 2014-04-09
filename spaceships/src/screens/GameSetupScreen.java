@@ -226,12 +226,12 @@ public class GameSetupScreen implements Screen
 		{
 			for(int y = 0; y < gameBoard[0].length; y++)
 			{
-				if((x == 0 && y == 10 )||(x == 0) && y == 20)
+				if((x == 0 && y == 9 )||(x == 0) && y == 20)
 				{
 					gameBoard[x][y].drawSelectable(); 
 				}
 				
-				if(x == 1 && 11 <= y && y <= 19)
+				if(x == 1 && 10 <= y && y <= 19)
 				{
 					gameBoard[x][y].drawSelectable(); 
 				}
@@ -245,7 +245,7 @@ public class GameSetupScreen implements Screen
 		{
 			for(int y = 0; y < gameBoard[0].length; y++)
 			{
-				if((x == 29 && y == 10) || (x == 29 && y == 20))
+				if((x == 29 && y == 9) || (x == 29 && y == 20))
 				{
 					gameBoard[x][y].drawSelectable(); 
 				}
